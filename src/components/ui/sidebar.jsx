@@ -250,8 +250,7 @@ const SidebarTrigger = React.forwardRef(
         radius="full"
         variant="light"
         isIconOnly
-        onPress={(event) => {
-          onClick?.(event);
+        onPress={() => {
           toggleSidebar();
         }}
         {...props}
