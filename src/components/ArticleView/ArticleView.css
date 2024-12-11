@@ -1,0 +1,63 @@
+.article-content {
+  @apply break-words;
+}
+
+.article-content * {
+  @apply max-w-full;
+}
+
+.article-content li,
+p {
+  @apply !my-4
+}
+
+/* 文章标题链接样式 */
+.article-title a {
+  @apply text-foreground font-medium no-underline
+}
+
+/* 文章内容链接样式 */
+.article-content a {
+  @apply border-b-[1px] border-dotted border-primary no-underline    transition-colors text-primary
+}
+
+/*code 相关样式 - 表格 */
+.article-content td {
+  @apply text-content2-foreground text-sm
+}
+
+/*code 相关样式 */
+.article-content code {
+  @apply bg-content2 rounded-lg text-content2-foreground text-sm p-0.5 font-mono
+}
+
+/*code 相关样式 */
+.article-content figure {
+  @apply my-4
+}
+
+/*code 相关样式 */
+.article-content pre {
+  @apply bg-content2 rounded-lg overflow-auto p-3 leading-tight
+}
+
+iframe {
+  @apply aspect-video !border-none rounded-lg h-auto w-full
+}
+
+blockquote {
+  @apply !not-italic
+}
+
+figcaption {
+  @apply !italic
+}
+
+/* Plyr 自定义样式 */
+/*:root {*/
+/*  --plyr-color-main: hsl(var(--primary));*/
+/*}*/
+
+.plyr {
+  @apply rounded-lg border shadow-lg border-divider
+}
