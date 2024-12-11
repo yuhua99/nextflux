@@ -17,7 +17,7 @@ const SyncButton = () => {
 
   return (
     <Button
-      onClick={handleForceSync}
+      onPress={handleForceSync}
       isDisabled={$isSyncing || !$isOnline}
       isLoading={$isSyncing}
       size="sm"

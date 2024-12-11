@@ -59,7 +59,7 @@ export default function ActionButtons() {
           <Tooltip content="关闭">
             <Button
               content="关闭"
-              onClick={handleClose}
+              onPress={handleClose}
               size="sm"
               radius="full"
               variant="light"
@@ -72,7 +72,7 @@ export default function ActionButtons() {
           <Divider orientation="vertical" className="h-6" />
           <Tooltip content="上一篇">
             <Button
-              onClick={handlePrevious}
+              onPress={handlePrevious}
               className="hidden sm:flex"
               isDisabled={currentIndex <= 0}
               size="sm"
@@ -86,7 +86,7 @@ export default function ActionButtons() {
           </Tooltip>
           <Tooltip content="下一篇">
             <Button
-              onClick={handleNext}
+              onPress={handleNext}
               className="hidden sm:flex"
               isDisabled={currentIndex >= $articles.length - 1}
               size="sm"
@@ -106,7 +106,7 @@ export default function ActionButtons() {
             }
           >
             <Button
-              onClick={(e) => handleMarkStatus($activeArticle, e)}
+              onPress={(e) => handleMarkStatus($activeArticle, e)}
               size="sm"
               radius="full"
               variant="light"
@@ -130,7 +130,7 @@ export default function ActionButtons() {
               radius="full"
               variant="light"
               isIconOnly
-              onClick={(e) => handleToggleStar($activeArticle, e)}
+              onPress={(e) => handleToggleStar($activeArticle, e)}
             >
               <Star
                 className={`size-4 ${$activeArticle?.starred ? "fill-current" : ""}`}
