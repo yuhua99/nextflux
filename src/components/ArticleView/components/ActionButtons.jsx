@@ -106,7 +106,7 @@ export default function ActionButtons() {
             }
           >
             <Button
-              onPress={(e) => handleMarkStatus($activeArticle, e)}
+              onPress={() => handleMarkStatus($activeArticle)}
               size="sm"
               radius="full"
               variant="light"
@@ -130,7 +130,7 @@ export default function ActionButtons() {
               radius="full"
               variant="light"
               isIconOnly
-              onPress={(e) => handleToggleStar($activeArticle, e)}
+              onPress={() => handleToggleStar($activeArticle)}
             >
               <Star
                 className={`size-4 ${$activeArticle?.starred ? "fill-current" : ""}`}

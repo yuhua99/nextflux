@@ -4,10 +4,7 @@ import {
 } from "../stores/articlesStore.js";
 
 // 处理文章状态更新
-export const handleMarkStatus = async (article, e) => {
-  if (e) {
-    e.stopPropagation();
-  }
+export const handleMarkStatus = async (article) => {
   try {
     await updateArticleStatus(article);
   } catch (err) {
@@ -16,10 +13,7 @@ export const handleMarkStatus = async (article, e) => {
 };
 
 // 处理文章星标状态更新
-export const handleToggleStar = async (article, e) => {
-  if (e) {
-    e.stopPropagation();
-  }
+export const handleToggleStar = async (article) => {
   try {
     await updateArticleStarred(article);
   } catch (err) {
