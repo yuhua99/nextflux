@@ -6,7 +6,6 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  useDraggable,
 } from "@nextui-org/react";
 import { resetSettings, settingsModalOpen } from "@/stores/settingsStore.js";
 import { useStore } from "@nanostores/react";
@@ -17,13 +16,10 @@ import { X } from "lucide-react";
 
 export default function App() {
   const isOpen = useStore(settingsModalOpen);
-  const targetRef = React.useRef(null);
-  const { moveProps } = useDraggable({ targetRef, isDisabled: !isOpen });
 
   return (
     <>
       <Modal
-        ref={targetRef}
         isOpen={isOpen}
         radius="md"
         scrollBehavior="inside"
@@ -40,7 +36,7 @@ export default function App() {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader {...moveProps}>
+              <ModalHeader>
                 <span>设置</span>
                 <Button
                   size="sm"
