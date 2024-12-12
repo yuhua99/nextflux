@@ -56,7 +56,7 @@ body {
   }
 
   .article-list-footer {
-    padding-bottom: env(safe-area-inset-bottom) !important;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 8px) !important;
   }
 
   .article-list-content {
