@@ -55,7 +55,7 @@ export default function ArticleListContent({ articles }) {
                 <Button
                   variant="flat"
                   className="w-full text-content2-foreground"
-                  onClick={() => setCurrentPage(currentPage + 1)}
+                  onPress={() => setCurrentPage(currentPage + 1)}
                 >
                   加载更多
                 </Button>

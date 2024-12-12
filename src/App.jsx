@@ -6,6 +6,7 @@ import FeedListSidebar from "@/components/FeedList/FeedListSidebar.jsx";
 import { authState } from "@/stores/authStore.js";
 import { startAutoSync } from "@/stores/syncStore.js";
 import { initTheme } from "@/stores/themeStore.js";
+import Settings from "@/components/Settings/Settings.jsx";
 
 function App() {
   useEffect(() => {
@@ -25,6 +26,7 @@ function App() {
       <SidebarInset>
         <Outlet />
       </SidebarInset>
+      <Settings />
     </SidebarProvider>
   );
 }

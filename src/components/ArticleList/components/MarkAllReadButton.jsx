@@ -36,7 +36,7 @@ export default function MarkAllReadButton() {
           <CircleCheck className="size-4" />
         </Button>
       </DropdownTrigger>
-      <DropdownMenu aria-label="标记为已读">
+      <DropdownMenu aria-label="标记为已读" variant="flat">
         <DropdownItem
           key="markAsRead"
           className="text-danger"

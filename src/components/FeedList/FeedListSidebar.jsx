@@ -16,6 +16,7 @@ import ArticlesGroup from "@/components/FeedList/components/ArticlesGroup.jsx";
 import FeedsGroup from "@/components/FeedList/components/FeedsGroup.jsx";
 import SyncButton from "@/components/FeedList/components/SyncButton.jsx";
 import { ScrollShadow } from "@nextui-org/react";
+import ProfileButton from "@/components/FeedList/components/ProfileButton.jsx";
 
 const FeedListSidebar = () => {
   const $lastSync = useStore(lastSync);
@@ -41,6 +42,7 @@ const FeedListSidebar = () => {
                 </span>
               </div>
               <SyncButton />
+              <ProfileButton />
             </div>
           </SidebarMenuItem>
         </SidebarMenu>
