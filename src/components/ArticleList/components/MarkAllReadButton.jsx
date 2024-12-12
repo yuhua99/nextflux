@@ -36,19 +36,21 @@ export default function MarkAllReadButton() {
           <CircleCheck className="size-4" />
         </Button>
       </DropdownTrigger>
-      <DropdownMenu
-        aria-label="标记为已读"
-        onClick={() => {
-          if (feedId) {
-            handleMarkAllRead("feed");
-          } else if (categoryId) {
-            handleMarkAllRead("category");
-          } else {
-            handleMarkAllRead();
-          }
-        }}
-      >
-        <DropdownItem key="markAsRead" className="text-danger" color="danger">
+      <DropdownMenu aria-label="标记为已读">
+        <DropdownItem
+          key="markAsRead"
+          className="text-danger"
+          color="danger"
+          onPress={() => {
+            if (feedId) {
+              handleMarkAllRead("feed");
+            } else if (categoryId) {
+              handleMarkAllRead("category");
+            } else {
+              handleMarkAllRead();
+            }
+          }}
+        >
           {feedId
             ? "标记当前订阅源为已读"
             : categoryId

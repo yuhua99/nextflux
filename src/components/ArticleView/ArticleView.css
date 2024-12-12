@@ -1,5 +1,6 @@
 .article-content {
   @apply break-words;
+  word-break: break-word;
 }
 
 .article-content * {

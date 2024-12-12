@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { getReferrerPolicy } from "@/lib/utils";
+import { Image } from "@nextui-org/react";
+import { cn } from "@/lib/utils.js";
 
 export default function ArticleCardCover({ imageUrl }) {
   const [error, setError] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [loading, setLoading] = useState(true);
   const imgRef = useRef(null);
 
   useEffect(() => {
@@ -41,8 +43,8 @@ export default function ArticleCardCover({ imageUrl }) {
 
   // if (error) {
   //   return (
-  //     <div className="w-full aspect-video bg-muted rounded-lg flex items-center justify-center shadow">
-  //       <div className="flex flex-col items-center gap-2 text-muted-foreground">
+  //     <div className="w-full aspect-video bg-content3 rounded-lg flex items-center justify-center shadow-small">
+  //       <div className="flex flex-col items-center gap-2 text-content3-foreground">
   //         <ImageOff className="size-5" />
   //       </div>
   //     </div>
@@ -52,19 +54,23 @@ export default function ArticleCardCover({ imageUrl }) {
   return (
     <div
       ref={imgRef}
-      className="card-image-wide aspect-video bg-muted rounded-lg shadow-small w-full mt-1 overflow-hidden"
+      className={cn(
+        "card-image-wide aspect-video bg-content3 rounded-lg shadow-small w-full mt-1 overflow-hidden",
+        loading && "!animate-pulse",
+      )}
     >
       {isVisible && (
-        <img
-          className="w-full h-full object-cover transition-opacity duration-300 ease-in-out opacity-0 animate-in fade-in-0"
-          src={imageUrl}
+        <Image
+          ref={imgRef}
           alt=""
-          referrerPolicy={getReferrerPolicy(imageUrl)}
-          loading="lazy"
+          src={imageUrl}
+          onLoad={() => setLoading(false)}
           onError={() => setError(true)}
-          onLoad={(e) => {
-            e.target.classList.remove("opacity-0");
-            e.target.classList.add("opacity-100");
+          radius="none"
+          loading="lazy"
+          removeWrapper
+          classNames={{
+            img: "object-cover w-full aspect-video",
           }}
         />
       )}

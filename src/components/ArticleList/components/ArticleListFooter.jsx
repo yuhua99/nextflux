@@ -13,7 +13,7 @@ export default function ArticleListFooter() {
         variant="solid"
         radius="full"
         classNames={{
-          tabList: "bg-background/80 backdrop-blur-sm",
+          tabList: "bg-default-100/90 backdrop-blur-md",
         }}
         selectedKey={$filter}
         onSelectionChange={(value) => {

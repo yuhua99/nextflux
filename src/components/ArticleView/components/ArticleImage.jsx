@@ -16,20 +16,26 @@ export default function ArticleImage({ imgNode }) {
     if (imgRef.current) {
       const imgRect = imgRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
-      
+
       const scrollContainer = imgRef.current.closest(
-        "[data-radix-scroll-area-viewport]"
+        "[data-radix-scroll-area-viewport]",
       );
-      
+
       if (scrollContainer) {
-        const actionButtons = document.querySelector('.action-buttons');
+        const actionButtons = document.querySelector(".action-buttons");
         if (actionButtons) {
           const actionButtonsRect = actionButtons.getBoundingClientRect();
           const actionButtonsHeight = actionButtonsRect.bottom;
-          
-          if (imgRect.top < actionButtonsHeight || imgRect.bottom > viewportHeight) {
-            const scrollTop = scrollContainer.scrollTop + imgRect.top - (actionButtonsHeight + 10);
-            
+
+          if (
+            imgRect.top < actionButtonsHeight ||
+            imgRect.bottom > viewportHeight
+          ) {
+            const scrollTop =
+              scrollContainer.scrollTop +
+              imgRect.top -
+              (actionButtonsHeight + 10);
+
             scrollContainer.scrollTo({
               top: scrollTop,
               behavior: "smooth",
@@ -42,8 +48,8 @@ export default function ArticleImage({ imgNode }) {
 
   if (error) {
     return (
-      <div className="w-full h-full min-h-[200px] bg-muted flex items-center justify-center">
-        <div className="flex flex-col items-center gap-2 text-muted-foreground">
+      <div className="w-full h-full min-h-[200px] bg-content2 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-2 text-content2-foreground">
           <ImageOff className="size-5" />
           <span className="text-sm">图片加载失败</span>
         </div>

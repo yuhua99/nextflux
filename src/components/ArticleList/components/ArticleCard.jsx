@@ -50,7 +50,7 @@ export default function ArticleCard({ article }) {
                   {article.feed?.title}
                 </span>
                 {article.author && (
-                  <span className="card-author text-content3-foreground font-normal text-xs truncate">
+                  <span className="card-author text-content3-foreground font-normal text-xs line-clamp-1">
                     {article.author}
                   </span>
                 )}
