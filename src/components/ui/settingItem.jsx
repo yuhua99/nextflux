@@ -14,6 +14,8 @@ import {
 
 import { ChevronsUpDown } from "lucide-react";
 
+const bgColor = "dark:bg-content1 bg-background";
+
 export const ItemWrapper = ({ title, children }) => {
   return (
     <div className="settings-group">
@@ -35,7 +37,7 @@ export const SliderItem = ({
   step,
 }) => {
   return (
-    <div className="grid gap-2 bg-background dark:bg-content1/80 p-2">
+    <div className={`grid gap-2 ${bgColor} p-2`}>
       <div className="text-xs text-content2-foreground">{label}</div>
       <div className="flex items-center gap-2">
         {icon}
@@ -64,7 +66,9 @@ export const SliderItem = ({
 
 export const SwitchItem = ({ label, icon, settingName, settingValue }) => {
   return (
-    <div className="flex justify-between items-center gap-2 bg-background dark:bg-content1/80 px-2 py-2.5">
+    <div
+      className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-2.5`}
+    >
       <div className="flex items-center gap-2">
         {icon}
         <div className="text-sm text-foreground">{label}</div>
@@ -79,7 +83,7 @@ export const SwitchItem = ({ label, icon, settingName, settingValue }) => {
 
 export function SelItem({ label, icon, settingName, settingValue, options }) {
   return (
-    <div className="flex justify-between items-center gap-2 bg-background dark:bg-content1/80 p-2">
+    <div className={`flex justify-between items-center gap-2 ${bgColor} p-2`}>
       <div className="flex items-center gap-2">
         {icon}
         <div className="text-sm text-foreground">{label}</div>
@@ -119,7 +123,9 @@ export function SelItem({ label, icon, settingName, settingValue, options }) {
 
 export function GroupItem({ label, icon, settingName, settingValue, options }) {
   return (
-    <div className="flex justify-between items-center gap-2 bg-background dark:bg-content1/80 px-2 py-1.5">
+    <div
+      className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-1.5`}
+    >
       <div className="flex items-center gap-2">
         {icon}
         <div className="text-sm text-foreground">{label}</div>

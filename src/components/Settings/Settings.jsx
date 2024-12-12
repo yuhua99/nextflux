@@ -25,11 +25,11 @@ export default function App() {
         scrollBehavior="inside"
         onOpenChange={(value) => settingsModalOpen.set(value)}
         classNames={{
-          base: "max-h-[80vh] bg-transparent overflow-hidden",
+          base: "max-h-[80vh] overflow-hidden bg-content2 dark:bg-background dark:border border-divider",
           header:
-            "bg-background border-b border-divider p-3 flex items-center justify-between",
+            "border-b border-divider p-3 flex items-center justify-between",
           footer: "hidden",
-          body: "modal-body p-0 !block bg-background/80 backdrop-blur-lg",
+          body: "modal-body p-0 !block",
           closeButton: "hidden",
         }}
       >
