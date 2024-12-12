@@ -125,7 +125,7 @@ const ArticleView = () => {
       <ScrollArea
         ref={scrollAreaRef}
         type="auto"
-        className="article-scroll-area h-full bg-background rounded-none sm:rounded-lg shadow-none sm:shadow-medium"
+        className="article-scroll-area h-full bg-background rounded-none sm:rounded-lg shadow-none sm:shadow-small"
       >
         <ActionButtons articleId={$activeArticle?.id} />
         <div
