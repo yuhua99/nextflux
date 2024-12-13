@@ -5,7 +5,7 @@ import { formatPublishDate } from "@/lib/format";
 import ArticleCardCover from "./ArticleCardCover.jsx";
 import { handleMarkStatus } from "@/handlers/articleHandlers.js";
 import { useMemo } from "react";
-
+import { cleanTitle } from "@/lib/utils";
 export default function ArticleCard({ article }) {
   const navigate = useNavigate();
   const { articleId } = useParams();
@@ -77,7 +77,7 @@ export default function ArticleCard({ article }) {
                 : "text-foreground",
             )}
           >
-            {article.title}
+            {cleanTitle(article.title)}
           </h3>
         </div>
 

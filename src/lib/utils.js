@@ -54,3 +54,18 @@ export function getFontSizeClass(fontSize) {
     return "prose-2xl"; // 24px
   }
 }
+
+// 清理标题中的HTML标签
+export function cleanTitle(title) {
+  if (!title) return '';
+  
+  // 创建临时DOM元素
+  const div = document.createElement('div');
+  div.innerHTML = title;
+  
+  // 获取纯文本内容
+  const cleanText = div.textContent || div.innerText || '';
+  
+  // 替换多余的空白字符
+  return cleanText.replace(/\s+/g, ' ').trim();
+}

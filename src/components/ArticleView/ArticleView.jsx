@@ -17,6 +17,7 @@ import { settingsState } from "@/stores/settingsStore";
 import { AnimatePresence, motion } from "framer-motion";
 import MediaPlayer from "@/components/ArticleView/components/MediaPlayer.jsx";
 import AudioPlayer from "@/components/ArticleView/components/AudioPlayer.jsx";
+import { cleanTitle } from "@/lib/utils";
 
 const ArticleView = () => {
   const { articleId } = useParams();
@@ -158,13 +159,13 @@ const ArticleView = () => {
                   {$activeArticle?.feed?.title}
                 </div>
                 <h1
-                  className="font-bold my-2 hover:cursor-pointer"
+                  className="font-bold my-2 hover:cursor-pointer leading-tight"
                   style={{
                     fontSize: `${titleFontSize * fontSize}px`,
                   }}
                   onClick={() => window.open($activeArticle?.url, "_blank")}
                 >
-                  {$activeArticle?.title}
+                  {cleanTitle($activeArticle?.title)}
                 </h1>
                 <div className="text-muted-foreground text-sm">
                   <time dateTime={$activeArticle?.published_at}>
