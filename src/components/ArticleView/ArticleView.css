@@ -54,10 +54,10 @@ figcaption {
   @apply !italic
 }
 
-/* Plyr 自定义样式 */
-/*:root {*/
-/*  --plyr-color-main: hsl(var(--primary));*/
-/*}*/
+/*Plyr 自定义样式*/
+:root {
+  --plyr-color-main: hsl(var(--nextui-primary));
+}
 
 .plyr {
   @apply rounded-lg border shadow-lg border-divider
