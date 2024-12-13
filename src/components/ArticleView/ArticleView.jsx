@@ -10,14 +10,13 @@ import { generateReadableDate } from "@/lib/format.js";
 import { activeArticle, filteredArticles } from "@/stores/articlesStore.js";
 import { Chip, Divider } from "@nextui-org/react";
 import EmptyPlaceholder from "@/components/ArticleList/components/EmptyPlaceholder";
-import { cn, getFontSizeClass } from "@/lib/utils";
+import { cleanTitle, cn, getFontSizeClass } from "@/lib/utils";
 import ArticleImage from "@/components/ArticleView/components/ArticleImage.jsx";
 import parse from "html-react-parser";
 import { settingsState } from "@/stores/settingsStore";
 import { AnimatePresence, motion } from "framer-motion";
 import MediaPlayer from "@/components/ArticleView/components/MediaPlayer.jsx";
 import AudioPlayer from "@/components/ArticleView/components/AudioPlayer.jsx";
-import { cleanTitle } from "@/lib/utils";
 
 const ArticleView = () => {
   const { articleId } = useParams();
@@ -155,7 +154,7 @@ const ArticleView = () => {
                 className="article-header"
                 style={{ textAlign: titleAlignType }}
               >
-                <div className="text-muted-foreground text-sm">
+                <div className="text-content4-foreground text-sm">
                   {$activeArticle?.feed?.title}
                 </div>
                 <h1
@@ -167,7 +166,7 @@ const ArticleView = () => {
                 >
                   {cleanTitle($activeArticle?.title)}
                 </h1>
-                <div className="text-muted-foreground text-sm">
+                <div className="text-content4-foreground text-sm">
                   <time dateTime={$activeArticle?.published_at}>
                     {generateReadableDate($activeArticle?.published_at)}
                   </time>

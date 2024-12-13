@@ -60,5 +60,5 @@ figcaption {
 }
 
 .plyr {
-  @apply rounded-lg border shadow-lg border-divider
+  @apply rounded-lg shadow-medium
 }

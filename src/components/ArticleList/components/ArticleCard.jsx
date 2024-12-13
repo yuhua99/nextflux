@@ -1,11 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { Star } from "lucide-react";
-import { cn, extractFirstImage } from "@/lib/utils";
+import { cleanTitle, cn, extractFirstImage } from "@/lib/utils";
 import { formatPublishDate } from "@/lib/format";
 import ArticleCardCover from "./ArticleCardCover.jsx";
 import { handleMarkStatus } from "@/handlers/articleHandlers.js";
 import { useMemo } from "react";
-import { cleanTitle } from "@/lib/utils";
+
 export default function ArticleCard({ article }) {
   const navigate = useNavigate();
   const { articleId } = useParams();
@@ -30,7 +30,7 @@ export default function ArticleCard({ article }) {
         "cursor-pointer select-none overflow-hidden p-2 rounded-lg",
         "relative transform-gpu transition-colors duration-200",
         "bg-transparent contain-content",
-        "hover:bg-default-200",
+        "hover:bg-background",
         parseInt(articleId) === article.id && "bg-background shadow-small",
       )}
       data-article-id={article.id}
@@ -46,14 +46,9 @@ export default function ArticleCard({ article }) {
           <div className="card-meta flex items-start justify-between gap-1 mb-1">
             <div className="card-source flex items-center flex-1 gap-1 min-w-0">
               <div className="card-source-content flex flex-col min-w-0">
-                <span className="card-source-title text-content2-foreground font-bold text-xs">
+                <span className="card-source-title text-content2-foreground font-bold text-xs line-clamp-1">
                   {article.feed?.title}
                 </span>
-                {article.author && (
-                  <span className="card-author text-content3-foreground font-normal text-xs line-clamp-1">
-                    {article.author}
-                  </span>
-                )}
               </div>
             </div>
             <div className="card-time-wrapper flex items-center gap-1 text-xs text-content3-foreground">

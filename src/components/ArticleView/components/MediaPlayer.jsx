@@ -14,7 +14,7 @@ export default function MediaPlayer({ src, type }) {
     // 在界面中显示调试信息
     // if (playerRef.current) {
     //   const debugInfo = document.createElement('div');
-    //   debugInfo.className = 'text-xs text-muted-foreground mt-2 text-center';
+    //   debugInfo.className = 'text-xs text-content2-foreground mt-2 text-center';
     //   debugInfo.innerHTML = `
     //     <div>UserAgent: ${userAgent}</div>
     //     <div>是否为 iOS 设备: ${isIOSDevice}</div>
