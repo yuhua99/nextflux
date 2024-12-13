@@ -87,10 +87,12 @@ async function syncEntries() {
     oneDayAgo.setHours(oneDayAgo.getHours() - 24);
 
     if (!lastSyncTime) {
-      // 首次同步,获取所有文章
+      // 首次同步,获取所有非星标文章
       const feeds = await storage.getFeeds();
       for (const feed of feeds) {
-        const entries = await minifluxAPI.getFeedEntries(feed.id);
+        const entries = await minifluxAPI.getFeedEntries(feed.id, {
+          starred: false,
+        });
         await storage.addArticles(
           entries.map((entry) => ({
             id: entry.id,
@@ -107,6 +109,23 @@ async function syncEntries() {
           })),
         );
       }
+      // 获取星标文章
+      const starredEntries = await minifluxAPI.getAllStarredEntries();
+      await storage.addArticles(
+        starredEntries.map((entry) => ({
+          id: entry.id,
+          feedId: entry.feed.id,
+          title: entry.title,
+          author: entry.author,
+          url: entry.url,
+          content: entry.content,
+          status: entry.status,
+          starred: entry.starred,
+          published_at: entry.published_at,
+          created_at: entry.created_at,
+          enclosures: entry.enclosures || [],
+        })),
+      );
     } else {
       // 增量同步
       // 1. 获取变更的文章

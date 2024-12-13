@@ -44,12 +44,12 @@ class miniFluxAPI {
   }
 
   // 获取指定订阅源的文章
-  async getFeedEntries(feedId) {
+  async getFeedEntries(feedId, params = {}) {
     try {
       const response = await this.client.get(
         "/v1/feeds/" + feedId + "/entries",
         {
-          params: { direction: "desc", limit: 50 },
+          params: { direction: "desc", limit: 50, ...params },
         },
       );
       return response.data.entries;
@@ -141,6 +141,22 @@ class miniFluxAPI {
       await this.client.put(endpoint);
     } catch (error) {
       console.error("标记全部已读失败:", error);
+      throw error;
+    }
+  }
+
+  async getAllStarredEntries() {
+    try {
+      const response = await this.client.get("/v1/entries", {
+        params: {
+          starred: true,
+          direction: "desc",
+          limit: 0, // 不限制数量
+        },
+      });
+      return response.data.entries;
+    } catch (error) {
+      console.error("获取星标文章失败:", error);
       throw error;
     }
   }
