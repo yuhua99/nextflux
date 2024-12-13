@@ -53,7 +53,7 @@ export default function ActionButtons() {
   };
 
   return (
-    <div className="action-buttons border-b border-divider absolute top-0 left-0 right-0 bg-background/80 backdrop-blur-sm w-full px-3 py-2.5 z-[100]">
+    <div className="action-buttons border-b border-divider absolute top-0 left-0 right-0 bg-background/80 backdrop-blur-lg w-full px-3 py-2.5 z-[100]">
       <div className="flex items-center space-between">
         <div className="flex items-center gap-3">
           <Tooltip content="关闭">

@@ -34,7 +34,7 @@ export default function ArticleListHeader() {
   };
 
   return (
-    <div className="article-list-header absolute top-0 bg-content2/80 backdrop-blur-sm w-full px-3">
+    <div className="article-list-header absolute top-0 bg-content2/80 backdrop-blur-lg w-full px-3">
       <div className="flex items-center gap-2">
         <SidebarTrigger className="my-2.5" />
         <h1 className="text-sm font-medium truncate">{getTitleText()}</h1>
