@@ -15,6 +15,7 @@ import { Button, Divider, Tooltip } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "@nanostores/react";
 import { activeArticle, filteredArticles } from "@/stores/articlesStore";
+import Confetti from "@/components/ui/Confetti";
 
 export default function ActionButtons() {
   const navigate = useNavigate();
@@ -151,7 +152,9 @@ export default function ActionButtons() {
               variant="light"
               isIconOnly
               onPress={() => handleToggleStar($activeArticle)}
+              className="relative"
             >
+              <Confetti active={$activeArticle?.starred} />
               <Star
                 className={`size-4 ${$activeArticle?.starred ? "fill-current" : ""}`}
               />
