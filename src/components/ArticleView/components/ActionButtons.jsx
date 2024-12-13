@@ -4,6 +4,7 @@ import {
   CircleDot,
   Forward,
   Reply,
+  Share,
   Star,
 } from "lucide-react";
 import {
@@ -49,6 +50,25 @@ export default function ActionButtons() {
       if (nextArticle.status !== "read") {
         await handleMarkStatus(nextArticle);
       }
+    }
+  };
+
+  // 处理分享按钮点击
+  const handleShare = async () => {
+    if (!$activeArticle) return;
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: $activeArticle.title,
+          url: $activeArticle.url,
+        });
+      } else {
+        // 如果不支持原生分享,则复制链接到剪贴板
+        await navigator.clipboard.writeText($activeArticle.url);
+      }
+    } catch (error) {
+      console.error("分享失败:", error);
     }
   };
 
@@ -138,6 +158,18 @@ export default function ActionButtons() {
               <span className="sr-only">
                 {$activeArticle?.starred ? "取消收藏" : "收藏"}
               </span>
+            </Button>
+          </Tooltip>
+          <Tooltip content="分享">
+            <Button
+              size="sm"
+              radius="full"
+              variant="light"
+              isIconOnly
+              onPress={handleShare}
+            >
+              <Share className="size-4" />
+              <span className="sr-only">分享</span>
             </Button>
           </Tooltip>
         </div>
