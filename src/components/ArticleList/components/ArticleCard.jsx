@@ -5,7 +5,6 @@ import { formatPublishDate } from "@/lib/format";
 import ArticleCardCover from "./ArticleCardCover.jsx";
 import { handleMarkStatus } from "@/handlers/articleHandlers.js";
 import { useMemo } from "react";
-import { Button } from "@nextui-org/react";
 
 export default function ArticleCard({ article }) {
   const navigate = useNavigate();
@@ -26,21 +25,21 @@ export default function ArticleCard({ article }) {
   };
 
   return (
-    <Button
-      data-article-id={article.id}
-      onPress={() => handleArticleClick(article)}
-      color="default"
+    <div
       className={cn(
-        "w-full h-auto p-2",
-        parseInt(articleId) === article.id && "bg-background shadow-small"
+        "cursor-pointer select-none overflow-hidden p-2 rounded-lg",
+        "relative transform-gpu transition-colors duration-200",
+        "bg-transparent contain-content",
+        "hover:bg-background",
+        parseInt(articleId) === article.id && "bg-background shadow-small",
       )}
-      radius="sm"
-      variant="light"
+      data-article-id={article.id}
+      onClick={() => handleArticleClick(article)}
     >
       <div
         className={cn(
-          "card-content flex flex-col gap-1 w-full",
-          article.status === "read" && "opacity-50"
+          "card-content flex flex-col gap-1",
+          article.status === "read" && "opacity-50",
         )}
       >
         <div className="card-header">
@@ -67,10 +66,10 @@ export default function ArticleCard({ article }) {
 
           <h3
             className={cn(
-              "card-title text-base font-bold line-clamp-2 text-wrap break-words text-left",
+              "card-title text-base font-bold line-clamp-2 text-wrap break-words",
               article.status === "read"
                 ? "text-content2-foreground"
-                : "text-foreground"
+                : "text-foreground",
             )}
           >
             {cleanTitle(article.title)}
@@ -79,6 +78,6 @@ export default function ArticleCard({ article }) {
 
         <ArticleCardCover imageUrl={imageUrl} />
       </div>
-    </Button>
+    </div>
   );
 }
