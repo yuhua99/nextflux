@@ -72,7 +72,7 @@ body {
     padding-top: calc(env(safe-area-inset-top) + 80px) !important;
   }
 
-  .customize-form {
-    padding-bottom: calc(env(safe-area-inset-bottom) + 16px) !important;
+  .settings-modal {
+    margin-bottom: env(safe-area-inset-bottom) !important;
   }
 }
