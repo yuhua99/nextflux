@@ -4,7 +4,7 @@ import { cleanTitle, cn, extractFirstImage } from "@/lib/utils";
 import { formatPublishDate } from "@/lib/format";
 import ArticleCardCover from "./ArticleCardCover.jsx";
 import { handleMarkStatus } from "@/handlers/articleHandlers.js";
-import { useMemo, useRef, useEffect } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useStore } from "@nanostores/react";
 import { settingsState } from "@/stores/settingsStore";
 
@@ -24,23 +24,27 @@ export default function ArticleCard({ article }) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          // 当文章进入视口
+          const cardRect = entry.boundingClientRect;
+          const rootRect = entry.rootBounds;
+
+          // 当文章进入视口时记录状态
           if (entry.isIntersecting) {
             hasBeenVisible.current = true;
-          } 
-          // 当文章完全离开视口且之前已经显示过
-          else if (hasBeenVisible.current && entry.intersectionRatio === 0) {
+          }
+          // 只有当卡片完全在视口顶部以上,且之前显示过时才标记已读
+          else if (hasBeenVisible.current && cardRect.bottom < rootRect.top) {
+            // console.log(cardRect.bottom, rootRect.top, '标记已读');
             handleMarkStatus(article);
             observer.unobserve(entry.target);
           }
         });
       },
       {
-        // 设置阈值为0,表示完全离开视口时触发
-        threshold: 0,
         // 设置根元素为滚动容器
         root: document.querySelector("[data-radix-scroll-area-viewport]"),
-      }
+        // 设置阈值为0,表示完全离开视口时触发
+        threshold: 0,
+      },
     );
 
     if (cardRef.current) {
