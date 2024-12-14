@@ -4,13 +4,55 @@ import { cleanTitle, cn, extractFirstImage } from "@/lib/utils";
 import { formatPublishDate } from "@/lib/format";
 import ArticleCardCover from "./ArticleCardCover.jsx";
 import { handleMarkStatus } from "@/handlers/articleHandlers.js";
-import { useMemo } from "react";
+import { useMemo, useRef, useEffect } from "react";
+import { useStore } from "@nanostores/react";
+import { settingsState } from "@/stores/settingsStore";
 
 export default function ArticleCard({ article }) {
   const navigate = useNavigate();
   const { articleId } = useParams();
+  const cardRef = useRef(null);
+  const { markAsReadOnScroll } = useStore(settingsState);
+  const hasBeenVisible = useRef(false);
 
   const imageUrl = useMemo(() => extractFirstImage(article), [article]);
+
+  useEffect(() => {
+    // 如果文章已读或未启用滚动标记已读,则不需要观察
+    if (article.status === "read" || !markAsReadOnScroll) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // 当文章进入视口
+          if (entry.isIntersecting) {
+            hasBeenVisible.current = true;
+          } 
+          // 当文章完全离开视口且之前已经显示过
+          else if (hasBeenVisible.current && entry.intersectionRatio === 0) {
+            handleMarkStatus(article);
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        // 设置阈值为0,表示完全离开视口时触发
+        threshold: 0,
+        // 设置根元素为滚动容器
+        root: document.querySelector("[data-radix-scroll-area-viewport]"),
+      }
+    );
+
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current);
+      }
+    };
+  }, [article, markAsReadOnScroll]);
 
   const handleArticleClick = async (article) => {
     const basePath = window.location.pathname.split("/article/")[0];
@@ -26,6 +68,7 @@ export default function ArticleCard({ article }) {
 
   return (
     <div
+      ref={cardRef}
       className={cn(
         "cursor-pointer select-none overflow-hidden p-2 rounded-lg",
         "relative transform-gpu transition-colors duration-200",

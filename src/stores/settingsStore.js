@@ -14,6 +14,7 @@ const defaultValue = {
   useGrayIcon: false,
   sortDirection: "desc", // asc, desc
   showHiddenFeeds: false,
+  markAsReadOnScroll: true,
 };
 
 export const settingsState = persistentAtom("settings", defaultValue, {

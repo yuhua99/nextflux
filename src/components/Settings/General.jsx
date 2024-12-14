@@ -1,14 +1,16 @@
 import { settingsState } from "@/stores/settingsStore";
-import { ClockArrowDown, ClockArrowUp, Eye } from "lucide-react";
+import { CircleCheck, ClockArrowDown, ClockArrowUp, Eye } from "lucide-react";
 import { useStore } from "@nanostores/react";
 import {
   ItemWrapper,
   SelItem,
   SwitchItem,
 } from "@/components/ui/settingItem.jsx";
+import { Divider } from "@nextui-org/react";
 
 export default function General() {
-  const { sortDirection, showHiddenFeeds } = useStore(settingsState);
+  const { sortDirection, showHiddenFeeds, markAsReadOnScroll } =
+    useStore(settingsState);
 
   return (
     <>
@@ -36,6 +38,13 @@ export default function General() {
             { value: "desc", label: "新文章优先" },
             { value: "asc", label: "旧文章优先" },
           ]}
+        />
+        <Divider />
+        <SwitchItem
+          label="滚动标记为已读"
+          icon={<CircleCheck className="shrink-0 size-4 text-default-500" />}
+          settingName="markAsReadOnScroll"
+          settingValue={markAsReadOnScroll}
         />
       </ItemWrapper>
     </>
