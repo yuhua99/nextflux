@@ -1,11 +1,11 @@
 import { PhotoView } from "react-photo-view";
 import { useRef, useState } from "react";
 import { ImageOff } from "lucide-react";
-import { cn, getReferrerPolicy } from "@/lib/utils";
+import { getReferrerPolicy } from "@/lib/utils";
+import { Image } from "@nextui-org/react";
 
 export default function ArticleImage({ imgNode }) {
   const [error, setError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
   const imgRef = useRef(null);
 
   const { src, alt = "" } = imgNode.attribs;
@@ -58,29 +58,21 @@ export default function ArticleImage({ imgNode }) {
   }
 
   return (
-    <span
-      className={cn(
-        "w-fit h-fit flex items-center justify-center my-0 mx-auto",
-        isLoading && "bg-content2",
-      )}
-    >
-      <PhotoView key={src} src={src}>
-        <img
-          ref={imgRef}
-          className="max-w-full h-auto object-cover bg-transparent transition-opacity duration-300 ease-in-out opacity-0 animate-in fade-in-0 mx-auto my-0"
-          src={src}
-          alt={alt}
-          loading="lazy"
-          referrerPolicy={getReferrerPolicy(src)}
-          onError={() => setError(true)}
-          onClick={handleImageClick}
-          onLoad={(e) => {
-            setIsLoading(false);
-            e.target.classList.remove("opacity-0");
-            e.target.classList.add("opacity-100");
-          }}
-        />
-      </PhotoView>
-    </span>
+    <PhotoView key={src} src={src}>
+      <Image
+        ref={imgRef}
+        className="!max-w-[calc(100%+40px)] h-auto object-cover -mx-5 my-0"
+        classNames={{
+          wrapper: "mx-auto",
+        }}
+        radius="none"
+        src={src}
+        alt={alt}
+        loading="lazy"
+        referrerPolicy={getReferrerPolicy(src)}
+        onError={() => setError(true)}
+        onClick={handleImageClick}
+      />
+    </PhotoView>
   );
 }

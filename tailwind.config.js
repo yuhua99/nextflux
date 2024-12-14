@@ -39,7 +39,7 @@ export default {
         },
         pulse: {
           "0%, 100%": { backgroundColor: "hsl(var(--nextui-content2))" },
-          "50%": { backgroundColor: "hsl(var(--nextui-content3))" },
+          "50%": { backgroundColor: "hsl(var(--nextui-content4))" },
         },
       },
       animation: {
