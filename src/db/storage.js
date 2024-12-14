@@ -108,12 +108,12 @@ class Storage {
   }
 
   // 存储上次同步时间
-  async setLastSyncTime(time) {
+  setLastSyncTime(time) {
     localStorage.setItem("lastSyncTime", time.toISOString());
   }
 
   // 获取上次同步时间
-  async getLastSyncTime() {
+  getLastSyncTime() {
     const time = localStorage.getItem("lastSyncTime");
     return time ? new Date(time) : null;
   }

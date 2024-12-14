@@ -1,5 +1,5 @@
 import { persistentAtom } from "@nanostores/persistent";
-import { stopAutoSync } from "./syncStore";
+import { lastSync, stopAutoSync } from "./syncStore";
 import { feeds } from "./feedsStore";
 import { filter, filteredArticles } from "./articlesStore";
 
@@ -60,6 +60,7 @@ export async function logout() {
     feeds.set([]);
     filteredArticles.set([]);
     filter.set("all");
+    lastSync.set(null);
     // ... 重置其他状态
 
     // 异步清理存储

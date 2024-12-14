@@ -6,28 +6,12 @@ import storage from "../db/storage";
 export const isOnline = atom(navigator.onLine);
 // 同步状态
 export const isSyncing = atom(false);
-// 最后同步时间
 export const lastSync = atom(null);
 // 错误信息
 export const error = atom(null);
 
 // 全局定时器变量
 let syncInterval = null;
-
-// 异步初始化最近同步时间
-async function initLastSync() {
-  try {
-    const time = await storage.getLastSyncTime();
-    lastSync.set(time);
-  } catch (err) {
-    console.error("初始化同步时间失败:", err);
-  }
-}
-
-// 在浏览器环境下执行初始化
-if (typeof window !== "undefined") {
-  initLastSync();
-}
 
 // 监听在线状态
 if (typeof window !== "undefined") {
@@ -81,7 +65,7 @@ async function syncFeeds() {
 // 从miniflux同步文章并保存到数据库
 async function syncEntries() {
   try {
-    const lastSyncTime = await storage.getLastSyncTime();
+    const lastSyncTime = storage.getLastSyncTime();
     // 计算24小时前的时间戳
     const oneDayAgo = new Date(lastSyncTime);
     oneDayAgo.setHours(oneDayAgo.getHours() - 24);
@@ -182,6 +166,7 @@ export async function sync() {
   // 设置同步状态为正在同步
   isSyncing.set(true);
   error.set(null);
+  console.log("执行同步");
 
   try {
     // 同步订阅源并保存到数据库
@@ -189,7 +174,9 @@ export async function sync() {
     // 同步文章并保存到数据库
     await syncEntries();
     // 设置最后同步时间
-    lastSync.set(new Date());
+    const now = new Date();
+    storage.setLastSyncTime(now);
+    lastSync.set(now);
   } catch (err) {
     error.set(err);
   } finally {
@@ -228,11 +215,10 @@ export function stopAutoSync() {
 async function performSync() {
   if (isOnline.get() && !isSyncing.get()) {
     try {
-      const lastSyncTime = await storage.getLastSyncTime();
+      const lastSyncTime = storage.getLastSyncTime();
       const now = new Date();
       if (!lastSyncTime || now - lastSyncTime > 5 * 60 * 1000) {
         await sync();
-        await storage.setLastSyncTime(now);
       }
     } catch (error) {
       console.error("自动同步失败:", error);
@@ -245,8 +231,6 @@ export async function forceSync() {
   if (isOnline.get() && !isSyncing.get()) {
     try {
       await sync();
-      const now = new Date();
-      await storage.setLastSyncTime(now);
     } catch (error) {
       console.error("强制同步失败:", error);
     }
