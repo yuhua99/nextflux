@@ -11,7 +11,7 @@ import { useStore } from "@nanostores/react";
 import General from "@/components/Settings/General.jsx";
 import Appearance from "@/components/Settings/Appearance.jsx";
 import Readability from "@/components/Settings/Readability.jsx";
-import { X } from "lucide-react";
+import { Cog, X } from "lucide-react";
 
 export default function App() {
   const isOpen = useStore(settingsModalOpen);
@@ -36,7 +36,10 @@ export default function App() {
           {(onClose) => (
             <>
               <ModalHeader>
-                <span>设置</span>
+                <div className="flex items-center gap-2">
+                  <Cog className="size-4" />
+                  <span className="text-base font-medium">设置</span>
+                </div>
                 <Button
                   size="sm"
                   radius="full"
@@ -44,7 +47,7 @@ export default function App() {
                   isIconOnly
                   onPress={() => settingsModalOpen.set(false)}
                 >
-                  <X className="size-3" />
+                  <X className="size-4" />
                 </Button>
               </ModalHeader>
               <ModalBody>

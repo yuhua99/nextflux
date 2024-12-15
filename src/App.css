@@ -73,6 +73,6 @@ body {
   }
 
   .settings-modal {
-    margin-bottom: env(safe-area-inset-bottom) !important;
+    margin-bottom: calc(env(safe-area-inset-bottom) + 8px) !important;
   }
 }
