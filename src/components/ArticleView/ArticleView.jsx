@@ -154,7 +154,7 @@ const ArticleView = () => {
                 className="article-header"
                 style={{ textAlign: titleAlignType }}
               >
-                <div className="text-content4-foreground text-sm">
+                <div className="text-default-500 text-sm">
                   {$activeArticle?.feed?.title}
                 </div>
                 <h1
@@ -166,7 +166,7 @@ const ArticleView = () => {
                 >
                   {cleanTitle($activeArticle?.title)}
                 </h1>
-                <div className="text-content4-foreground text-sm">
+                <div className="text-default-500 text-sm">
                   <time dateTime={$activeArticle?.published_at}>
                     {generateReadableDate($activeArticle?.published_at)}
                   </time>

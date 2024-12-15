@@ -9,7 +9,11 @@ import { useStore } from "@nanostores/react";
 const ArticleItem = memo(({ article, isLast, index }) => (
   <li key={index}>
     <ArticleCard article={article} />
-    {!isLast && <Divider className="my-2" />}
+    {!isLast && (
+      <div className="mx-1 my-2">
+        <Divider />
+      </div>
+    )}
   </li>
 ));
 ArticleItem.displayName = "ArticleItem";

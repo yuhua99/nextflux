@@ -9,14 +9,14 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { BookOpenText } from "lucide-react";
+import { Image, ScrollShadow } from "@nextui-org/react";
 import { formatLastSync } from "@/lib/format";
 import { settingsState } from "@/stores/settingsStore.js";
 import ArticlesGroup from "@/components/FeedList/components/ArticlesGroup.jsx";
 import FeedsGroup from "@/components/FeedList/components/FeedsGroup.jsx";
 import SyncButton from "@/components/FeedList/components/SyncButton.jsx";
-import { ScrollShadow } from "@nextui-org/react";
 import ProfileButton from "@/components/FeedList/components/ProfileButton.jsx";
+import logo from "@/assets/logo.png";
 
 const FeedListSidebar = () => {
   const $lastSync = useStore(lastSync);
@@ -32,12 +32,14 @@ const FeedListSidebar = () => {
         <SidebarMenu>
           <SidebarMenuItem>
             <div className="flex items-center gap-2">
-              <div className="flex aspect-square size-9 items-center justify-center rounded-full bg-primary text-primary-foreground">
-                <BookOpenText className="size-4" />
-              </div>
+              <Image
+                src={logo}
+                alt="logo"
+                className="size-8 rounded shadow-small"
+              />
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">ReactFlux</span>
-                <span className="truncate text-xs text-content2-foreground">
+                <span className="truncate text-xs text-default-500">
                   {$isSyncing ? "同步中..." : formatLastSync($lastSync)}
                 </span>
               </div>
