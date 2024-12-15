@@ -17,11 +17,17 @@ import FeedsGroup from "@/components/FeedList/components/FeedsGroup.jsx";
 import SyncButton from "@/components/FeedList/components/SyncButton.jsx";
 import ProfileButton from "@/components/FeedList/components/ProfileButton.jsx";
 import logo from "@/assets/logo.png";
+import storage from "@/db/storage.js";
 
 const FeedListSidebar = () => {
   const $lastSync = useStore(lastSync);
   const $isSyncing = useStore(isSyncing);
   const { showHiddenFeeds } = useStore(settingsState);
+
+  useEffect(() => {
+    lastSync.set(storage.getLastSyncTime());
+  }, []);
+
   useEffect(() => {
     loadFeeds();
   }, [$lastSync, showHiddenFeeds]);
@@ -32,11 +38,7 @@ const FeedListSidebar = () => {
         <SidebarMenu>
           <SidebarMenuItem>
             <div className="flex items-center gap-2">
-              <Image
-                src={logo}
-                alt="logo"
-                className="size-8 rounded shadow-small"
-              />
+              <Image src={logo} alt="logo" className="size-8 rounded" />
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">ReactFlux</span>
                 <span className="truncate text-xs text-default-500">
