@@ -65,7 +65,12 @@ export default function VideoPlayer({ videoTitle, src, provider }) {
     provider === "youtube" ? `https://www.youtube.com/embed/${videoId}` : src;
   return (
     <div className="mb-4">
-      <MediaPlayer className="rounded-lg shadow-medium" src={videoSrc} title={videoTitle} crossOrigin>
+      <MediaPlayer
+        className="rounded-lg shadow-medium overflow-hidden"
+        src={videoSrc}
+        title={videoTitle}
+        crossOrigin
+      >
         <MediaProvider />
         <PlyrLayout
           icons={plyrLayoutIcons}

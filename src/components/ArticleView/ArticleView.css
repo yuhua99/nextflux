@@ -58,3 +58,7 @@ figcaption {
 :root {
   --plyr-color-main: hsl(var(--nextui-primary));
 }
+
+iframe.vds-youtube[data-no-controls] {
+  height: auto !important;
+}
