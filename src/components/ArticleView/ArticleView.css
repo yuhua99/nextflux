@@ -3,7 +3,7 @@
   word-break: break-word;
 }
 
-.article-content * {
+.article-content *:not(.plyr__tooltip) {
   @apply max-w-full;
 }
 
@@ -57,8 +57,4 @@ figcaption {
 /*Plyr 自定义样式*/
 :root {
   --plyr-color-main: hsl(var(--nextui-primary));
-}
-
-.plyr {
-  @apply rounded-lg shadow-medium
 }

@@ -15,8 +15,8 @@ import ArticleImage from "@/components/ArticleView/components/ArticleImage.jsx";
 import parse from "html-react-parser";
 import { settingsState } from "@/stores/settingsStore";
 import { AnimatePresence, motion } from "framer-motion";
-import MediaPlayer from "@/components/ArticleView/components/MediaPlayer.jsx";
 import AudioPlayer from "@/components/ArticleView/components/AudioPlayer.jsx";
+import VideoPlayer from "@/components/ArticleView/components/VideoPlayer.jsx";
 
 const ArticleView = () => {
   const { articleId } = useParams();
@@ -221,9 +221,11 @@ const ArticleView = () => {
                         // 如果找到 source 元素,使用其属性
                         if (sourceNode?.attribs) {
                           return (
-                            <MediaPlayer
+                            <VideoPlayer
+                              videoTitle={$activeArticle?.title}
                               src={sourceNode.attribs.src}
                               type={sourceNode.attribs.type}
+                              provider="video"
                             />
                           );
                         }
@@ -246,7 +248,13 @@ const ArticleView = () => {
                         }
 
                         // YouTube iframe 显示打开链接的按钮
-                        return <MediaPlayer src={src} type="youtube" />;
+                        return (
+                          <VideoPlayer
+                            videoTitle={$activeArticle?.title}
+                            src={src}
+                            provider="youtube"
+                          />
+                        );
                       }
                     },
                   })}
