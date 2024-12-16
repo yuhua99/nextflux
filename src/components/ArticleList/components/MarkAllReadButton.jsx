@@ -8,9 +8,12 @@ import {
 } from "@nextui-org/react";
 import { markAllAsRead } from "@/stores/articlesStore";
 import { CircleCheck } from "lucide-react";
+import { isSyncing } from "@/stores/syncStore.js";
+import { useStore } from "@nanostores/react";
 
 export default function MarkAllReadButton() {
   const { feedId, categoryId } = useParams();
+  const $isSyncing = useStore(isSyncing);
 
   const handleMarkAllRead = async (type) => {
     try {
@@ -32,7 +35,13 @@ export default function MarkAllReadButton() {
   return (
     <Dropdown>
       <DropdownTrigger>
-        <Button size="sm" radius="full" variant="light" isIconOnly>
+        <Button
+          size="sm"
+          radius="full"
+          variant="light"
+          isIconOnly
+          isLoading={$isSyncing}
+        >
           <CircleCheck className="size-4" />
         </Button>
       </DropdownTrigger>
