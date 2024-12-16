@@ -10,6 +10,8 @@ export default function ArticleImage({ imgNode }) {
 
   const { src, alt = "" } = imgNode.attribs;
 
+  const referrerPolicy = getReferrerPolicy(src);
+
   const handleImageClick = (e) => {
     e.preventDefault();
 
@@ -48,8 +50,8 @@ export default function ArticleImage({ imgNode }) {
 
   if (error) {
     return (
-      <div className="w-full h-full min-h-[200px] bg-content2 flex items-center justify-center">
-        <div className="flex flex-col items-center gap-2 text-content2-foreground">
+      <div className="!max-w-[calc(100%+40px)] -mx-5 h-full min-h-[200px] bg-content2 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-2 text-default-500">
           <ImageOff className="size-5" />
           <span className="text-sm">图片加载失败</span>
         </div>
@@ -69,7 +71,7 @@ export default function ArticleImage({ imgNode }) {
         src={src}
         alt={alt}
         loading="lazy"
-        referrerPolicy={getReferrerPolicy(src)}
+        referrerPolicy={referrerPolicy}
         onError={() => setError(true)}
         onClick={handleImageClick}
       />
