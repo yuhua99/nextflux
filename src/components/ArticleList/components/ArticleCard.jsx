@@ -7,6 +7,7 @@ import { handleMarkStatus } from "@/handlers/articleHandlers.js";
 import { useEffect, useMemo, useRef } from "react";
 import { useStore } from "@nanostores/react";
 import { settingsState } from "@/stores/settingsStore";
+import { Ripple, useRipple } from "@nextui-org/react";
 
 export default function ArticleCard({ article }) {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ export default function ArticleCard({ article }) {
   const cardRef = useRef(null);
   const { markAsReadOnScroll } = useStore(settingsState);
   const hasBeenVisible = useRef(false);
+  const { ripples, onClear, onPress } = useRipple()
 
   const imageUrl = useMemo(() => extractFirstImage(article), [article]);
 
@@ -70,6 +72,23 @@ export default function ArticleCard({ article }) {
     }
   };
 
+  const handleClick = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    // 创建一个模拟的 PressEvent 对象
+    const pressEvent = {
+      type: 'press',
+      target: e.currentTarget,
+      x,
+      y
+    };
+    
+    onPress(pressEvent);
+    handleArticleClick(article);
+  };
+
   return (
     <div
       ref={cardRef}
@@ -81,8 +100,10 @@ export default function ArticleCard({ article }) {
         parseInt(articleId) === article.id && "bg-background shadow-small",
       )}
       data-article-id={article.id}
-      onClick={() => handleArticleClick(article)}
+      onClick={handleClick}
     >
+      <Ripple         ripples={ripples} 
+        onClear={onClear}/>
       <div
         className={cn(
           "card-content flex flex-col gap-1",
