@@ -41,7 +41,7 @@ const FeedListSidebar = () => {
               <Image src={logo} alt="logo" className="size-8 rounded" />
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">ReactFlux</span>
-                <span className="truncate text-xs text-default-500">
+                <span className="truncate text-xs text-default-400">
                   {$isSyncing ? "同步中..." : formatLastSync($lastSync)}
                 </span>
               </div>
