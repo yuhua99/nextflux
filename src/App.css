@@ -60,11 +60,11 @@ body {
   }
 
   .vlist-header {
-    height: calc(env(safe-area-inset-bottom) + 64px) !important;
+    margin-top: env(safe-area-inset-top) !important;
   }
 
   .vlist-footer {
-    height: calc(env(safe-area-inset-top) + 64px) !important;
+    margin-bottom: env(safe-area-inset-bottom) !important;
   }
 
   .action-buttons {
