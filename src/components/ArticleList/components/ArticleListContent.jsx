@@ -10,9 +10,9 @@ import { Virtuoso } from "react-virtuoso";
 const ArticleItem = memo(({ article, isLast, info }) => (
   <motion.div
     key={info + article.id}
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    exit={{ y: -20, opacity: 0 }}
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
     transition={{ duration: 0.2 }}
     className="mx-2"
   >
@@ -37,8 +37,8 @@ export default function ArticleListContent({ articles }) {
         className="article-list-content flex-1 h-full"
         data={articles}
         components={{
-          Header: () => <div className="h-16"></div>,
-          Footer: () => <div className="h-16"></div>,
+          Header: () => <div className="vlist-header h-16"></div>,
+          Footer: () => <div className="vlist-footer h-16"></div>,
         }}
         itemContent={(index, article) => (
           <ArticleItem
