@@ -6,15 +6,21 @@ import { useParams } from "react-router-dom";
 import { filter } from "@/stores/articlesStore.js";
 import { useStore } from "@nanostores/react";
 
-const ArticleItem = memo(({ article, isLast, index }) => (
-  <li key={index}>
+const ArticleItem = memo(({ article, isLast, info }) => (
+  <motion.li
+    key={info + article.id}
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ y: -20, opacity: 0 }}
+    transition={{ duration: 0.2 }}
+  >
     <ArticleCard article={article} />
     {!isLast && (
       <div className="mx-1 my-2">
         <Divider />
       </div>
     )}
-  </li>
+  </motion.li>
 ));
 ArticleItem.displayName = "ArticleItem";
 
@@ -34,14 +40,7 @@ export default function ArticleListContent({ articles }) {
 
   return (
     <AnimatePresence mode="wait">
-      <motion.div
-        className="article-list-content flex-1 px-2 py-16"
-        key={info}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ y: -20, opacity: 0 }}
-        transition={{ duration: 0.2 }}
-      >
+      <div className="article-list-content flex-1 px-2 py-16" key={info}>
         {displayArticles.length !== 0 && (
           <>
             <ul className="articles">
@@ -50,7 +49,7 @@ export default function ArticleListContent({ articles }) {
                   key={article.id}
                   article={article}
                   isLast={index === displayArticles.length - 1}
-                  index={index}
+                  info={info}
                 />
               ))}
             </ul>
@@ -67,7 +66,7 @@ export default function ArticleListContent({ articles }) {
             )}
           </>
         )}
-      </motion.div>
+      </div>
     </AnimatePresence>
   );
 }
