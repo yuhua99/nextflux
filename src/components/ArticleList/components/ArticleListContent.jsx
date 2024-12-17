@@ -38,6 +38,11 @@ export default function ArticleListContent({ articles }) {
     setDisplayArticles(articles.slice(0, currentPage * pageSize));
   }, [articles, currentPage, pageSize]);
 
+  // 监听 info 变化，重置 currentPage
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [info]);
+
   return (
     <AnimatePresence mode="wait">
       <div className="article-list-content flex-1 px-2 py-16" key={info}>
