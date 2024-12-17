@@ -40,7 +40,7 @@ const ArticleList = () => {
   useEffect(() => {
     if (scrollAreaRef.current && articleId) {
       const viewport = scrollAreaRef.current.querySelector(
-        "[data-radix-scroll-area-viewport]",
+        ".article-list-content",
       );
       const articleCard = viewport?.querySelector(
         `[data-article-id="${articleId}"]`,
@@ -90,7 +90,7 @@ const ArticleList = () => {
   useEffect(() => {
     if (scrollAreaRef.current) {
       const viewport = scrollAreaRef.current.querySelector(
-        "[data-radix-scroll-area-viewport]",
+        ".article-list-content",
       );
       if (viewport) {
         viewport.scrollTop = 0;
@@ -99,10 +99,10 @@ const ArticleList = () => {
   }, [feedId, categoryId, $filter]);
 
   return (
-    <div className="main-content flex relative bg-content2">
+    <div className="main-content flex bg-content2">
       <div
         ref={scrollAreaRef}
-        className="w-full max-w-[100vw] sm:w-[21rem] sm:border-r border-divider h-[100dvh] bg-content2 flex flex-col"
+        className="w-full relative max-w-[100vw] sm:w-[21rem] sm:border-r border-divider h-[100dvh] bg-content2 flex flex-col"
       >
         <ArticleListContent articles={$filteredArticles} />
         <ArticleListHeader />
