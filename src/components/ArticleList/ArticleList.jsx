@@ -7,7 +7,6 @@ import {
   loadArticles,
 } from "@/stores/articlesStore.js";
 import { Outlet, useLocation, useParams } from "react-router-dom";
-import { ScrollArea } from "@/components/ui/scroll-area.jsx";
 import ArticleListHeader from "./components/ArticleListHeader";
 import ArticleListContent from "./components/ArticleListContent";
 import ArticleListFooter from "./components/ArticleListFooter";
@@ -101,15 +100,14 @@ const ArticleList = () => {
 
   return (
     <div className="main-content flex relative bg-content2">
-      <ScrollArea
+      <div
         ref={scrollAreaRef}
-        type="auto"
         className="w-full max-w-[100vw] sm:w-[21rem] sm:border-r border-divider h-[100dvh] bg-content2 flex flex-col"
       >
         <ArticleListContent articles={$filteredArticles} />
         <ArticleListHeader />
         <ArticleListFooter />
-      </ScrollArea>
+      </div>
       {!location.pathname.includes("/article/") ? (
         <EmptyPlaceholder />
       ) : (

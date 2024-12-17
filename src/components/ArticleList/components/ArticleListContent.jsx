@@ -1,18 +1,20 @@
-import { memo, useEffect, useState } from "react";
+import { memo } from "react";
 import ArticleCard from "./ArticleCard";
-import { Button, Divider } from "@nextui-org/react";
+import { Divider } from "@nextui-org/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useParams } from "react-router-dom";
 import { filter } from "@/stores/articlesStore.js";
 import { useStore } from "@nanostores/react";
+import { Virtuoso } from "react-virtuoso";
 
 const ArticleItem = memo(({ article, isLast, info }) => (
-  <motion.li
+  <motion.div
     key={info + article.id}
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ y: -20, opacity: 0 }}
     transition={{ duration: 0.2 }}
+    className="mx-2"
   >
     <ArticleCard article={article} />
     {!isLast && (
@@ -20,58 +22,33 @@ const ArticleItem = memo(({ article, isLast, info }) => (
         <Divider />
       </div>
     )}
-  </motion.li>
+  </motion.div>
 ));
 ArticleItem.displayName = "ArticleItem";
 
 export default function ArticleListContent({ articles }) {
-  const pageSize = 50;
-  const [currentPage, setCurrentPage] = useState(1);
-  const [displayArticles, setDisplayArticles] = useState(
-    articles.slice(0, pageSize),
-  );
   const { feedId, categoryId } = useParams();
   const $filter = useStore(filter);
   let info = [feedId, categoryId, $filter].filter(Boolean).join("-");
 
-  useEffect(() => {
-    setDisplayArticles(articles.slice(0, currentPage * pageSize));
-  }, [articles, currentPage, pageSize]);
-
-  // 监听 info 变化，重置 currentPage
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [info]);
-
   return (
     <AnimatePresence mode="wait">
-      <div className="article-list-content flex-1 px-2 py-16" key={info}>
-        {displayArticles.length !== 0 && (
-          <>
-            <ul className="articles">
-              {displayArticles.map((article, index) => (
-                <ArticleItem
-                  key={article.id}
-                  article={article}
-                  isLast={index === displayArticles.length - 1}
-                  info={info}
-                />
-              ))}
-            </ul>
-            {displayArticles.length < articles.length && (
-              <div className="w-full px-2 pt-1">
-                <Button
-                  variant="flat"
-                  className="w-full text-content2-foreground"
-                  onPress={() => setCurrentPage(currentPage + 1)}
-                >
-                  加载更多
-                </Button>
-              </div>
-            )}
-          </>
+      <Virtuoso
+        className="article-list-content flex-1 h-full"
+        data={articles}
+        components={{
+          Header: () => <div className="h-16"></div>,
+          Footer: () => <div className="h-16"></div>,
+        }}
+        itemContent={(index, article) => (
+          <ArticleItem
+            key={article.id}
+            article={article}
+            isLast={index === articles.length - 1}
+            info={info}
+          />
         )}
-      </div>
+      />
     </AnimatePresence>
   );
 }
