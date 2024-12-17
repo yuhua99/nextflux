@@ -1,6 +1,7 @@
 import { atom } from "nanostores";
 import minifluxAPI from "../api/miniflux";
 import storage from "../db/storage";
+import { extractTextFromHtml } from "@/lib/utils.js";
 
 // 在线状态
 export const isOnline = atom(navigator.onLine);
@@ -85,6 +86,7 @@ async function syncEntries() {
             author: entry.author,
             url: entry.url,
             content: entry.content,
+            plainContent: extractTextFromHtml(entry.content),
             status: entry.status,
             starred: entry.starred,
             published_at: entry.published_at,
@@ -103,6 +105,7 @@ async function syncEntries() {
           author: entry.author,
           url: entry.url,
           content: entry.content,
+          plainContent: extractTextFromHtml(entry.content),
           status: entry.status,
           starred: entry.starred,
           published_at: entry.published_at,
@@ -123,6 +126,7 @@ async function syncEntries() {
             author: entry.author,
             url: entry.url,
             content: entry.content,
+            plainContent: extractTextFromHtml(entry.content),
             status: entry.status,
             starred: entry.starred,
             published_at: entry.published_at,
@@ -143,6 +147,7 @@ async function syncEntries() {
             author: entry.author,
             url: entry.url,
             content: entry.content,
+            plainContent: extractTextFromHtml(entry.content),
             status: entry.status,
             starred: entry.starred,
             published_at: entry.published_at,

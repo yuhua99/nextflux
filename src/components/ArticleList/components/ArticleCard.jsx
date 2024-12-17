@@ -1,11 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { Star } from "lucide-react";
-import {
-  cleanTitle,
-  cn,
-  extractFirstImage,
-  extractTextFromHtml,
-} from "@/lib/utils";
+import { cleanTitle, cn, extractFirstImage } from "@/lib/utils";
 import { formatPublishDate } from "@/lib/format";
 import ArticleCardCover from "./ArticleCardCover.jsx";
 import { handleMarkStatus } from "@/handlers/articleHandlers.js";
@@ -158,7 +153,7 @@ export default function ArticleCard({ article }) {
                 )}
                 style={{ wordBreak: "break-word" }}
               >
-                {extractTextFromHtml(article.content)}
+                {article.plainContent}
               </span>
             )}
             {cardImageSize === "small" && (
