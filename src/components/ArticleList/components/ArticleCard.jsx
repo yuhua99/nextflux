@@ -1,6 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { Star } from "lucide-react";
-import { cleanTitle, cn, extractFirstImage } from "@/lib/utils";
+import {
+  cleanTitle,
+  cn,
+  extractFirstImage,
+  extractTextFromHtml,
+} from "@/lib/utils";
 import { formatPublishDate } from "@/lib/format";
 import ArticleCardCover from "./ArticleCardCover.jsx";
 import { handleMarkStatus } from "@/handlers/articleHandlers.js";
@@ -8,14 +13,16 @@ import { useEffect, useMemo, useRef } from "react";
 import { useStore } from "@nanostores/react";
 import { settingsState } from "@/stores/settingsStore";
 import { Ripple, useRipple } from "@nextui-org/react";
+import FeedIcon from "@/components/ui/FeedIcon.jsx";
 
 export default function ArticleCard({ article }) {
   const navigate = useNavigate();
   const { articleId } = useParams();
   const cardRef = useRef(null);
-  const { markAsReadOnScroll } = useStore(settingsState);
+  const { markAsReadOnScroll, showTextPreview, cardImageSize, showFavicon } =
+    useStore(settingsState);
   const hasBeenVisible = useRef(false);
-  const { ripples, onClear, onPress } = useRipple()
+  const { ripples, onClear, onPress } = useRipple();
 
   const imageUrl = useMemo(() => extractFirstImage(article), [article]);
 
@@ -76,15 +83,15 @@ export default function ArticleCard({ article }) {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     // 创建一个模拟的 PressEvent 对象
     const pressEvent = {
-      type: 'press',
+      type: "press",
       target: e.currentTarget,
       x,
-      y
+      y,
     };
-    
+
     onPress(pressEvent);
     handleArticleClick(article);
   };
@@ -102,8 +109,7 @@ export default function ArticleCard({ article }) {
       data-article-id={article.id}
       onClick={handleClick}
     >
-      <Ripple         ripples={ripples} 
-        onClear={onClear}/>
+      <Ripple ripples={ripples} onClear={onClear} />
       <div
         className={cn(
           "card-content flex flex-col gap-1",
@@ -113,7 +119,8 @@ export default function ArticleCard({ article }) {
         <div className="card-header">
           <div className="card-meta flex items-start justify-between gap-1 mb-1">
             <div className="card-source flex items-center flex-1 gap-1 min-w-0">
-              <div className="card-source-content flex flex-col min-w-0">
+              <div className="card-source-content flex gap-1 items-center min-w-0">
+                {showFavicon && <FeedIcon url={article.feed?.site_url} />}
                 <span className="card-source-title text-content2-foreground font-bold text-xs line-clamp-1">
                   {article.feed?.title}
                 </span>
@@ -134,7 +141,7 @@ export default function ArticleCard({ article }) {
 
           <h3
             className={cn(
-              "card-title text-base font-bold line-clamp-2 text-wrap break-words",
+              "card-title text-base font-bold line-clamp-2 text-wrap break-words mb-1",
               article.status === "read"
                 ? "text-content2-foreground"
                 : "text-foreground",
@@ -142,9 +149,25 @@ export default function ArticleCard({ article }) {
           >
             {cleanTitle(article.title)}
           </h3>
+          <div className="card-content-body flex gap-1">
+            {(showTextPreview || cardImageSize === "small") && (
+              <span
+                className={cn(
+                  "text-sm text-default-500 text-wrap break-words w-full max-w-full overflow-hidden",
+                  cardImageSize === "small" ? "line-clamp-4" : "line-clamp-2",
+                )}
+                style={{ wordBreak: "break-word" }}
+              >
+                {extractTextFromHtml(article.content)}
+              </span>
+            )}
+            {cardImageSize === "small" && (
+              <ArticleCardCover imageUrl={imageUrl} />
+            )}
+          </div>
         </div>
 
-        <ArticleCardCover imageUrl={imageUrl} />
+        {cardImageSize === "large" && <ArticleCardCover imageUrl={imageUrl} />}
       </div>
     </div>
   );

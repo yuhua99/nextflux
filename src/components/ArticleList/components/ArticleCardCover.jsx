@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Image } from "@nextui-org/react";
 import { cn } from "@/lib/utils.js";
 import { getReferrerPolicy } from "@/lib/utils";
+import { settingsState } from "@/stores/settingsStore";
+import { useStore } from "@nanostores/react";
 
 export default function ArticleCardCover({ imageUrl }) {
   const [error, setError] = useState(false);
@@ -9,7 +11,7 @@ export default function ArticleCardCover({ imageUrl }) {
   const [loading, setLoading] = useState(true);
   const imgRef = useRef(null);
   const referrerPolicy = getReferrerPolicy(imageUrl);
-
+  const { cardImageSize } = useStore(settingsState);
   useEffect(() => {
     const imgElement = imgRef.current;
 
@@ -57,8 +59,11 @@ export default function ArticleCardCover({ imageUrl }) {
     <div
       ref={imgRef}
       className={cn(
-        "card-image-wide aspect-video bg-content3 rounded-lg shadow-small w-full mt-1 overflow-hidden",
+        "card-image bg-content3 rounded-lg shadow-small overflow-hidden",
         loading && "!animate-pulse",
+        cardImageSize === "large"
+          ? "aspect-video w-full"
+          : "aspect-square w-[80px] shrink-0",
       )}
     >
       {isVisible && (
@@ -73,7 +78,12 @@ export default function ArticleCardCover({ imageUrl }) {
           referrerPolicy={referrerPolicy}
           removeWrapper
           classNames={{
-            img: "object-cover w-full aspect-video",
+            img: cn(
+              "object-cover",
+              cardImageSize === "large"
+                ? "aspect-video w-full"
+                : "aspect-square w-[80px]",
+            ),
           }}
         />
       )}

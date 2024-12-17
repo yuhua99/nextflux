@@ -64,7 +64,13 @@ export const SliderItem = ({
   );
 };
 
-export const SwitchItem = ({ label, icon, settingName, settingValue }) => {
+export const SwitchItem = ({
+  label,
+  icon,
+  settingName,
+  settingValue,
+  disabled = false,
+}) => {
   return (
     <div
       className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-2.5`}
@@ -75,6 +81,7 @@ export const SwitchItem = ({ label, icon, settingName, settingValue }) => {
       </div>
       <Switch
         isSelected={settingValue}
+        isDisabled={disabled}
         onValueChange={(value) => updateSettings({ [settingName]: value })}
       />
     </div>

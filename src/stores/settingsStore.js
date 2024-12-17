@@ -15,6 +15,9 @@ const defaultValue = {
   sortDirection: "desc", // asc, desc
   showHiddenFeeds: false,
   markAsReadOnScroll: true,
+  cardImageSize: "large", // none, small, large
+  showFavicon: true,
+  showTextPreview: true,
 };
 
 export const settingsState = persistentAtom("settings", defaultValue, {

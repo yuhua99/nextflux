@@ -57,15 +57,39 @@ export function getFontSizeClass(fontSize) {
 
 // 清理标题中的HTML标签
 export function cleanTitle(title) {
-  if (!title) return '';
-  
+  if (!title) return "";
+
   // 创建临时DOM元素
-  const div = document.createElement('div');
+  const div = document.createElement("div");
   div.innerHTML = title;
-  
+
   // 获取纯文本内容
-  const cleanText = div.textContent || div.innerText || '';
-  
+  const cleanText = div.textContent || div.innerText || "";
+
   // 替换多余的空白字符
-  return cleanText.replace(/\s+/g, ' ').trim();
+  return cleanText.replace(/\s+/g, " ").trim();
+}
+
+// 获取html文本内容
+export function extractTextFromHtml(html) {
+  if (!html) {
+    return "";
+  }
+
+  return html
+    .replace(/<[^>]*>/g, "") // Remove all HTML tags
+    .replace(/&nbsp;/g, " ") // Replace space entities
+    .replace(/&#(\d+);/g, (_match, dec) => String.fromCharCode(dec)) // Handle numeric HTML entities
+    .replace(/&([a-z]+);/g, (_match, entity) => {
+      // Handle named HTML entities
+      const entities = {
+        amp: "&",
+        lt: "<",
+        gt: ">",
+        quot: '"',
+        apos: "'",
+      };
+      return entities[entity] || "";
+    })
+    .trim();
 }
