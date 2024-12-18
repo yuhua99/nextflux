@@ -10,7 +10,7 @@ const ArticleItem = memo(({ article, isLast }) => (
   <div className="mx-2">
     <ArticleCard article={article} />
     {!isLast && (
-      <div className="h-4">
+      <div className="h-4"/>
     )}
   </div>
 ));
