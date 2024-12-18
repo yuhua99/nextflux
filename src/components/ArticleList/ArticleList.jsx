@@ -48,8 +48,8 @@ const ArticleList = () => {
         const cardRect = articleCard.getBoundingClientRect();
 
         // 考虑 header 和 footer 的高度
-        const headerHeight = 60; // header 高度
-        const footerHeight = 60; // footer 高度
+        const headerHeight = 8; // header 高度
+        const footerHeight = 64; // footer 高度
 
         // 计算实际可视区域
         const effectiveViewportTop = viewportRect.top + headerHeight;
