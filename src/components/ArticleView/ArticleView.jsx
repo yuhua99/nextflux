@@ -128,7 +128,7 @@ const ArticleView = () => {
       >
         <ActionButtons parentRef={scrollAreaRef} />
         <div
-          className="article-view-content px-5 py-20 w-full mx-auto"
+          className="article-view-content px-5 pt-5 pb-20 w-full mx-auto"
           style={{
             maxWidth: `${maxWidth}ch`,
             fontFamily: fontFamily,
