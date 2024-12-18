@@ -83,13 +83,12 @@ export default function ActionButtons({ parentRef }) {
 
   return (
     <Navbar
-      className="action-buttons"
-      height={52}
+      className="action-buttons py-2.5"
       maxWidth="full"
       isBordered
       shouldHideOnScroll={autoHideToolbar}
       parentRef={parentRef}
-      classNames={{ wrapper: "px-3" }}
+      classNames={{ wrapper: "px-3 h-auto" }}
     >
       <NavbarContent className="flex items-center space-between">
         <div className="flex items-center gap-3">
