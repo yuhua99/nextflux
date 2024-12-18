@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { filter } from "@/stores/articlesStore.js";
 import { useStore } from "@nanostores/react";
 import { Virtuoso } from "react-virtuoso";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 const ArticleItem = memo(({ article, isLast }) => (
   <div className="mx-2">
@@ -35,16 +35,17 @@ export default function ArticleListContent({ articles }) {
           transition: {
             type: "spring",
             bounce: 0.3,
-            opacity: { delay: 0.05 }
-          }
+            opacity: { delay: 0.05 },
+          },
         }}
         exit={{ y: -50, opacity: 0 }}
-        className="article-list-content flex-1 h-full"
+        className="article-list-content flex-1"
       >
         <Virtuoso
+          className="v-list h-full"
           data={articles}
           components={{
-            Header: () => <div className="vlist-header h-16"></div>,
+            Header: () => <div className="vlist-header h-2"></div>,
             Footer: () => <div className="vlist-footer h-16"></div>,
           }}
           itemContent={(index, article) => (
@@ -52,7 +53,6 @@ export default function ArticleListContent({ articles }) {
               key={article.id}
               article={article}
               isLast={index === articles.length - 1}
-              info={info}
             />
           )}
         />

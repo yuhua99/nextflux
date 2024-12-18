@@ -118,7 +118,7 @@ const ArticleView = () => {
   return (
     <div
       className={cn(
-        "flex-1 bg-content2 p-0 sm:p-2 h-screen fixed sm:static inset-0 z-50",
+        "flex-1 bg-content2 p-0 sm:py-2 sm:pr-2 h-screen fixed sm:static inset-0 z-50",
         "animate-slide-in-from-right motion-reduce:animate-none",
       )}
     >

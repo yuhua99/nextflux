@@ -36,12 +36,9 @@ const ArticleList = () => {
     loadAndFilterArticles();
   }, [feedId, categoryId, $lastSync, $filter, sortDirection, showHiddenFeeds]);
 
-  // 监听 articleId 变化，滚动到对应的文章卡片
   useEffect(() => {
     if (scrollAreaRef.current && articleId) {
-      const viewport = scrollAreaRef.current.querySelector(
-        ".article-list-content",
-      );
+      const viewport = scrollAreaRef.current.querySelector(".v-list");
       const articleCard = viewport?.querySelector(
         `[data-article-id="${articleId}"]`,
       );
@@ -52,7 +49,7 @@ const ArticleList = () => {
 
         // 考虑 header 和 footer 的高度
         const headerHeight = 60; // header 高度
-        const footerHeight = 56; // footer 高度
+        const footerHeight = 60; // footer 高度
 
         // 计算实际可视区域
         const effectiveViewportTop = viewportRect.top + headerHeight;
@@ -89,9 +86,7 @@ const ArticleList = () => {
   // 监听 feedId、categoryId 和 filter 变化，滚动到顶部
   useEffect(() => {
     if (scrollAreaRef.current) {
-      const viewport = scrollAreaRef.current.querySelector(
-        ".article-list-content",
-      );
+      const viewport = scrollAreaRef.current.querySelector(".v-list");
       if (viewport) {
         viewport.scrollTop = 0;
       }
@@ -102,10 +97,10 @@ const ArticleList = () => {
     <div className="main-content flex bg-content2">
       <div
         ref={scrollAreaRef}
-        className="w-full relative max-w-[100vw] sm:w-[21rem] sm:border-r border-divider h-[100dvh] bg-content2 flex flex-col"
+        className="w-full relative max-w-[100vw] sm:w-[21rem] h-[100dvh] bg-content2 flex flex-col"
       >
-        <ArticleListContent articles={$filteredArticles} />
         <ArticleListHeader />
+        <ArticleListContent articles={$filteredArticles} />
         <ArticleListFooter />
       </div>
       {!location.pathname.includes("/article/") ? (

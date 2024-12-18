@@ -45,7 +45,7 @@ export default function ArticleCard({ article }) {
       },
       {
         // 设置根元素为滚动容器
-        root: document.querySelector("[data-radix-scroll-area-viewport]"),
+        root: document.querySelector(".v-list"),
         // 设置阈值为0,表示完全离开视口时触发
         threshold: 0,
       },
