@@ -1,6 +1,5 @@
 import { memo } from "react";
 import ArticleCard from "./ArticleCard";
-import { Divider } from "@nextui-org/react";
 import { useParams } from "react-router-dom";
 import { filter } from "@/stores/articlesStore.js";
 import { useStore } from "@nanostores/react";
@@ -11,9 +10,7 @@ const ArticleItem = memo(({ article, isLast }) => (
   <div className="mx-2">
     <ArticleCard article={article} />
     {!isLast && (
-      <div className="mx-1 my-2">
-        <Divider />
-      </div>
+      <div className="h-4">
     )}
   </div>
 ));
