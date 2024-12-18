@@ -11,16 +11,24 @@ import {
   handleMarkStatus,
   handleToggleStar,
 } from "@/handlers/articleHandlers.js";
-import { Button, Divider, Tooltip } from "@nextui-org/react";
+import {
+  Button,
+  Divider,
+  Navbar,
+  NavbarContent,
+  Tooltip,
+} from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "@nanostores/react";
 import { activeArticle, filteredArticles } from "@/stores/articlesStore";
 import Confetti from "@/components/ui/Confetti";
+import { settingsState } from "@/stores/settingsStore.js";
 
-export default function ActionButtons() {
+export default function ActionButtons({ parentRef }) {
   const navigate = useNavigate();
   const $articles = useStore(filteredArticles);
   const $activeArticle = useStore(activeArticle);
+  const { autoHideToolbar } = useStore(settingsState);
   // 获取当前文章在列表中的索引
   const currentIndex = $articles.findIndex((a) => a.id === $activeArticle?.id);
 
@@ -74,8 +82,16 @@ export default function ActionButtons() {
   };
 
   return (
-    <div className="action-buttons border-b border-divider absolute top-0 left-0 right-0 bg-background/80 backdrop-blur-lg w-full px-3 py-2.5 z-[100]">
-      <div className="flex items-center space-between">
+    <Navbar
+      className="action-buttons"
+      height={52}
+      maxWidth="full"
+      isBordered
+      shouldHideOnScroll={autoHideToolbar}
+      parentRef={parentRef}
+      classNames={{ wrapper: "px-3" }}
+    >
+      <NavbarContent className="flex items-center space-between">
         <div className="flex items-center gap-3">
           <Tooltip content="关闭">
             <Button
@@ -176,7 +192,7 @@ export default function ActionButtons() {
             </Button>
           </Tooltip>
         </div>
-      </div>
-    </div>
+      </NavbarContent>
+    </Navbar>
   );
 }

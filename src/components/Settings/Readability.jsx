@@ -6,6 +6,7 @@ import {
   AlignRight,
   AlignStartVertical,
   CaseSensitive,
+  PanelTopDashed,
   Type,
   UnfoldHorizontal,
   UnfoldVertical,
@@ -54,10 +55,18 @@ export default function Readability() {
     fontFamily,
     titleFontSize,
     titleAlignType,
+    autoHideToolbar,
   } = useStore(settingsState);
   return (
     <>
       <ItemWrapper title="文章内容">
+        <SwitchItem
+          label="自动隐藏顶部工具栏"
+          icon={<PanelTopDashed className="shrink-0 size-4 text-default-500" />}
+          settingName="autoHideToolbar"
+          settingValue={autoHideToolbar}
+        />
+        <Divider />
         <SelItem
           label="字体"
           icon={<Type className="shrink-0 size-4 text-default-500" />}

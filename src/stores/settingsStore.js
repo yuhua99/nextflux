@@ -18,6 +18,7 @@ const defaultValue = {
   cardImageSize: "large", // none, small, large
   showFavicon: true,
   showTextPreview: true,
+  autoHideToolbar: false,
 };
 
 export const settingsState = persistentAtom("settings", defaultValue, {

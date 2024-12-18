@@ -4,11 +4,10 @@ import { useStore } from "@nanostores/react";
 import { PhotoProvider } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
 import "./ArticleView.css";
-import { ScrollArea } from "@/components/ui/scroll-area.jsx";
 import ActionButtons from "@/components/ArticleView/components/ActionButtons.jsx";
 import { generateReadableDate } from "@/lib/format.js";
 import { activeArticle, filteredArticles } from "@/stores/articlesStore.js";
-import { Chip, Divider } from "@nextui-org/react";
+import { Chip, Divider, ScrollShadow } from "@nextui-org/react";
 import EmptyPlaceholder from "@/components/ArticleList/components/EmptyPlaceholder";
 import { cleanTitle, cn, getFontSizeClass } from "@/lib/utils";
 import ArticleImage from "@/components/ArticleView/components/ArticleImage.jsx";
@@ -122,12 +121,12 @@ const ArticleView = () => {
         "animate-slide-in-from-right motion-reduce:animate-none",
       )}
     >
-      <ScrollArea
+      <ScrollShadow
         ref={scrollAreaRef}
-        type="auto"
+        isEnabled={false}
         className="article-scroll-area h-full bg-background rounded-none sm:rounded-lg shadow-none sm:shadow-small"
       >
-        <ActionButtons articleId={$activeArticle?.id} />
+        <ActionButtons parentRef={scrollAreaRef} />
         <div
           className="article-view-content px-5 py-20 w-full mx-auto"
           style={{
@@ -263,7 +262,7 @@ const ArticleView = () => {
             </motion.div>
           </AnimatePresence>
         </div>
-      </ScrollArea>
+      </ScrollShadow>
     </div>
   );
 };

@@ -19,9 +19,7 @@ export default function ArticleImage({ imgNode }) {
       const imgRect = imgRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
 
-      const scrollContainer = imgRef.current.closest(
-        "[data-radix-scroll-area-viewport]",
-      );
+      const scrollContainer = imgRef.current.closest(".article-scroll-area");
 
       if (scrollContainer) {
         const actionButtons = document.querySelector(".action-buttons");
