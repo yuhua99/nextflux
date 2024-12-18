@@ -9,7 +9,12 @@ import { generateReadableDate } from "@/lib/format.js";
 import { activeArticle, filteredArticles } from "@/stores/articlesStore.js";
 import { Chip, Divider, ScrollShadow } from "@nextui-org/react";
 import EmptyPlaceholder from "@/components/ArticleList/components/EmptyPlaceholder";
-import { cleanTitle, cn, getFontSizeClass } from "@/lib/utils";
+import {
+  cleanTitle,
+  cn,
+  extractFirstImage,
+  getFontSizeClass,
+} from "@/lib/utils";
 import ArticleImage from "@/components/ArticleView/components/ArticleImage.jsx";
 import parse from "html-react-parser";
 import { settingsState } from "@/stores/settingsStore";
@@ -223,8 +228,8 @@ const ArticleView = () => {
                             <VideoPlayer
                               videoTitle={$activeArticle?.title}
                               src={sourceNode.attribs.src}
-                              type={sourceNode.attribs.type}
                               provider="video"
+                              poster={extractFirstImage($activeArticle)}
                             />
                           );
                         }
@@ -252,6 +257,7 @@ const ArticleView = () => {
                             videoTitle={$activeArticle?.title}
                             src={src}
                             provider="youtube"
+                            poster={extractFirstImage($activeArticle)}
                           />
                         );
                       }
