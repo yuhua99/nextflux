@@ -257,7 +257,6 @@ const ArticleView = () => {
                             videoTitle={$activeArticle?.title}
                             src={src}
                             provider="youtube"
-                            poster={extractFirstImage($activeArticle)}
                           />
                         );
                       }
