@@ -9,12 +9,7 @@ import { generateReadableDate } from "@/lib/format.js";
 import { activeArticle, filteredArticles } from "@/stores/articlesStore.js";
 import { Chip, Divider, ScrollShadow } from "@nextui-org/react";
 import EmptyPlaceholder from "@/components/ArticleList/components/EmptyPlaceholder";
-import {
-  cleanTitle,
-  cn,
-  extractFirstImage,
-  getFontSizeClass,
-} from "@/lib/utils";
+import { cleanTitle, cn, getFontSizeClass } from "@/lib/utils";
 import ArticleImage from "@/components/ArticleView/components/ArticleImage.jsx";
 import parse from "html-react-parser";
 import { settingsState } from "@/stores/settingsStore";
@@ -216,24 +211,23 @@ const ArticleView = () => {
                           : domNode;
                       }
                       if (domNode.type === "tag" && domNode.name === "video") {
-                        // 查找 source 子元素
-                        const sourceNode = domNode.children?.find(
-                          (child) =>
-                            child.type === "tag" && child.name === "source",
-                        );
+                        // 获取视频的 src 属性
+                        const videoSrc =
+                          domNode.attribs?.src ||
+                          domNode.children?.find(
+                            (child) =>
+                              child.type === "tag" && child.name === "source",
+                          )?.attribs?.src;
 
-                        // 如果找到 source 元素,使用其属性
-                        if (sourceNode?.attribs) {
+                        if (videoSrc) {
                           return (
                             <VideoPlayer
                               videoTitle={$activeArticle?.title}
-                              src={sourceNode.attribs.src}
+                              src={videoSrc}
                               provider="video"
-                              poster={extractFirstImage($activeArticle)}
                             />
                           );
                         }
-
                         return domNode;
                       }
                       if (domNode.type === "tag" && domNode.name === "iframe") {
