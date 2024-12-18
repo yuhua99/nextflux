@@ -57,7 +57,7 @@ export default function Appearance() {
           settingName="cardImageSize"
           settingValue={cardImageSize}
           options={[
-            { value: "none", label: "不显示” },
+            { value: "none", label: "不显示" },
             { value: "small", label: "小" },
             { value: "large", label: "大" },
           ]}
