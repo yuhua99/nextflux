@@ -1,3 +1,4 @@
+
 .article-content {
   @apply break-words;
   word-break: break-word;
@@ -55,10 +56,18 @@ figcaption {
 }
 
 /*Plyr 自定义样式*/
-:root {
+.plyr {
+  --plyr-audio-border: none;
+  --plyr-audio-control-color: hsl(var(--nextui-content4-foreground));
+  --plyr-audio-controls-background: hsl(var(--nextui-content1));
   --plyr-color-main: hsl(var(--nextui-primary));
+  --plyr-tooltip-arrow-size: 0;
+  --plyr-tooltip-background: hsl(var(--nextui-content1));
+  --plyr-tooltip-color: hsl(var(--nextui-content1-foreground));
+  --plyr-tooltip-shadow: var(--shadow-custom);
 }
 
+/*YouTube 播放器视觉修复*/
 iframe.vds-youtube[data-no-controls] {
   height: auto !important;
 }

@@ -20,7 +20,7 @@ import parse from "html-react-parser";
 import { settingsState } from "@/stores/settingsStore";
 import { AnimatePresence, motion } from "framer-motion";
 import VideoPlayer from "@/components/ArticleView/components/VideoPlayer.jsx";
-import CustomAudioPlayer from "@/components/ArticleView/components/CustomAudioPlayer.jsx";
+import AudioPlayer from "@/components/ArticleView/components/AudioPlayer.jsx";
 
 const ArticleView = () => {
   const { articleId } = useParams();
@@ -129,7 +129,7 @@ const ArticleView = () => {
       <ScrollShadow
         ref={scrollAreaRef}
         isEnabled={false}
-        className="article-scroll-area h-full bg-background rounded-none sm:rounded-lg shadow-none sm:shadow-small"
+        className="article-scroll-area h-full bg-background rounded-none sm:rounded-lg shadow-none sm:shadow-custom"
       >
         <ActionButtons parentRef={scrollAreaRef} />
         <div
@@ -178,7 +178,7 @@ const ArticleView = () => {
               </header>
               <Divider className="my-4" />
               {audioEnclosure && (
-                <CustomAudioPlayer
+                <AudioPlayer
                   audioTitle={$activeArticle?.title}
                   artist={$activeArticle?.feed?.title}
                   source={audioEnclosure}

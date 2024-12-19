@@ -12,6 +12,9 @@ export default {
   theme: {
     extend: {
       colors: {},
+      boxShadow: {
+        custom: "var(--shadow-custom)",
+      },
       keyframes: {
         "collapsible-down": {
           from: {

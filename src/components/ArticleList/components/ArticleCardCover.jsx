@@ -47,7 +47,7 @@ export default function ArticleCardCover({ imageUrl }) {
 
   // if (error) {
   //   return (
-  //     <div className="w-full aspect-video bg-content3 rounded-lg flex items-center justify-center shadow-small">
+  //     <div className="w-full aspect-video bg-content3 rounded-lg flex items-center justify-center shadow-custom">
   //       <div className="flex flex-col items-center gap-2 text-content3-foreground">
   //         <ImageOff className="size-5" />
   //       </div>
@@ -59,7 +59,7 @@ export default function ArticleCardCover({ imageUrl }) {
     <div
       ref={imgRef}
       className={cn(
-        "card-image bg-content3 rounded-lg shadow-small overflow-hidden",
+        "card-image bg-content3 rounded-lg shadow-custom overflow-hidden",
         loading && "!animate-pulse",
         cardImageSize === "large"
           ? "aspect-video w-full"

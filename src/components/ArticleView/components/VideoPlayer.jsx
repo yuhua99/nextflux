@@ -66,7 +66,7 @@ export default function VideoPlayer({ videoTitle, src, provider, poster }) {
   return (
     <div className="mb-4">
       <MediaPlayer
-        className="rounded-lg shadow-medium overflow-hidden"
+        className="rounded-lg shadow-custom overflow-hidden"
         src={videoSrc}
         title={videoTitle}
         crossOrigin
