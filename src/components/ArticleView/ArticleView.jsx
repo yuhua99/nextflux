@@ -160,7 +160,7 @@ const ArticleView = () => {
                   {$activeArticle?.feed?.title}
                 </div>
                 <h1
-                  className="font-medium my-2 hover:cursor-pointer leading-tight"
+                  className="font-semibold my-2 hover:cursor-pointer leading-tight"
                   style={{
                     fontSize: `${titleFontSize * fontSize}px`,
                   }}
