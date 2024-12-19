@@ -137,7 +137,7 @@ export default function ArticleCard({ article }) {
             {cardImageSize === "small" && (
               <ArticleCardCover imageUrl={imageUrl} />
             )}
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 flex-1">
               <h3
                 className={cn(
                   "card-title text-base font-bold line-clamp-2 text-wrap break-words",
@@ -148,7 +148,7 @@ export default function ArticleCard({ article }) {
               >
                 {cleanTitle(article.title)}
               </h3>
-              {(showTextPreview || cardImageSize === "small") && (
+              {showTextPreview && (
                 <span
                   className={cn(
                     "text-sm text-default-500 text-wrap break-words w-full max-w-full overflow-hidden",
