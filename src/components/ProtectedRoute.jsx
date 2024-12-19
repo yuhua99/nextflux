@@ -7,12 +7,12 @@ export default function ProtectedRoute({ children }) {
   const $auth = useStore(authState);
 
   useEffect(() => {
-    if (!$auth.serverUrl || !$auth.apiKey) {
+    if (!$auth.serverUrl || !$auth.username || !$auth.password) {
       logout();
     }
-  }, [$auth.serverUrl, $auth.apiKey]);
+  }, [$auth.serverUrl, $auth.username, $auth.password]);
 
-  if (!$auth.serverUrl || !$auth.apiKey) {
+  if (!$auth.serverUrl || !$auth.username || !$auth.password) {
     return <Navigate to="/login" replace />;
   }
 

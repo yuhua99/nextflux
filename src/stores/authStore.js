@@ -5,9 +5,9 @@ import { filter, filteredArticles } from "./articlesStore";
 
 const defaultValue = {
   serverUrl: "",
-  apiKey: "",
-  userId: "",
   username: "",
+  password: "",
+  userId: "",
 };
 
 export const authState = persistentAtom("auth", defaultValue, {
@@ -19,17 +19,17 @@ export const authState = persistentAtom("auth", defaultValue, {
 });
 
 // 登录方法
-export async function login(serverUrl, apiKey) {
+export async function login(serverUrl, username, password) {
   try {
-    // 验证 API 密钥是否有效
+    // 验证用户名密码是否有效
     const response = await fetch(`${serverUrl}/v1/me`, {
       headers: {
-        "X-Auth-Token": apiKey,
+        "Authorization": "Basic " + btoa(`${username}:${password}`)
       },
     });
 
     if (!response.ok) {
-      throw new Error("无效的服务器地址或 API 密钥");
+      throw new Error("无效的服务器地址或用户名密码");
     }
 
     const user = await response.json();
@@ -37,9 +37,9 @@ export async function login(serverUrl, apiKey) {
     // 保存认证信息
     authState.set({
       serverUrl,
-      apiKey,
+      username,
+      password,
       userId: user.id,
-      username: user.username,
     });
 
     return user;

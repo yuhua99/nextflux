@@ -7,7 +7,8 @@ import { Eye, EyeClosed } from "lucide-react";
 export default function LoginPage() {
   const navigate = useNavigate();
   const [serverUrl, setServerUrl] = useState("");
-  const [apiKey, setApiKey] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -16,7 +17,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      await login(serverUrl, apiKey);
+      await login(serverUrl, username, password);
       navigate("/");
     } catch (err) {
       console.log(err.message);
@@ -51,6 +52,17 @@ export default function LoginPage() {
           <Input
             isRequired
             labelPlacement="outside"
+            label="用户名"
+            name="username"
+            placeholder="请输入用户名"
+            type="text"
+            variant="flat"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <Input
+            isRequired
+            labelPlacement="outside"
             endContent={
               <button type="button" onClick={() => setIsVisible(!isVisible)}>
                 {isVisible ? (
@@ -60,13 +72,13 @@ export default function LoginPage() {
                 )}
               </button>
             }
-            label="API 密钥"
-            name="apiKey"
-            placeholder="请输入 API 密钥"
+            label="密码"
+            name="password"
+            placeholder="请输入密码"
             type={isVisible ? "text" : "password"}
             variant="flat"
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <div>
             <span className="text-sm text-default-500">需要更多信息？</span>

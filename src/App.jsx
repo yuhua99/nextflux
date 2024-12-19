@@ -15,7 +15,7 @@ function App() {
 
     // 检查认证状态并启动自动同步
     const auth = authState.get();
-    if (auth.serverUrl && auth.apiKey) {
+    if (auth.serverUrl && auth.username && auth.password) {
       startAutoSync();
     }
   }, []);
