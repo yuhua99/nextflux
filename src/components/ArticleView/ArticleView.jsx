@@ -42,9 +42,7 @@ const ArticleView = () => {
   // 监听文章ID变化,滚动到顶部
   useEffect(() => {
     if (scrollAreaRef.current) {
-      const viewport = scrollAreaRef.current.querySelector(
-        "[data-radix-scroll-area-viewport]",
-      );
+      const viewport = scrollAreaRef.current;
       if (viewport) {
         viewport.scrollTo({
           top: 0,
