@@ -20,9 +20,7 @@ export const ItemWrapper = ({ title, children }) => {
   return (
     <div className="settings-group">
       <div className="text-xs text-content2-foreground ml-2 mb-1">{title}</div>
-      <div className="rounded-lg overflow-hidden border border-divider">
-        {children}
-      </div>
+      <div className="rounded-lg overflow-hidden border">{children}</div>
     </div>
   );
 };

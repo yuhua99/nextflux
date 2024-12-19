@@ -170,7 +170,7 @@ const ArticleView = () => {
                 >
                   {cleanTitle($activeArticle?.title)}
                 </h1>
-                <div className="text-default-500 text-sm">
+                <div className="text-default-400 text-sm">
                   <time dateTime={$activeArticle?.published_at}>
                     {generateReadableDate($activeArticle?.published_at)}
                   </time>

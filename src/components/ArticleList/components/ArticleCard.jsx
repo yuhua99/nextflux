@@ -111,8 +111,8 @@ export default function ArticleCard({ article }) {
           article.status === "read" && "opacity-50",
         )}
       >
-        <div className="card-header">
-          <div className="card-meta flex items-start justify-between gap-1 mb-1">
+        <div className="card-header flex flex-col gap-1">
+          <div className="card-meta flex items-start justify-between gap-1">
             <div className="card-source flex items-center flex-1 gap-1 min-w-0">
               <div className="card-source-content flex gap-1 items-center min-w-0">
                 {showFavicon && <FeedIcon url={article.feed?.site_url} />}
@@ -133,36 +133,38 @@ export default function ArticleCard({ article }) {
               </span>
             </div>
           </div>
-
-          <h3
-            className={cn(
-              "card-title text-base font-bold line-clamp-2 text-wrap break-words",
-              article.status === "read"
-                ? "text-content2-foreground"
-                : "text-foreground",
-            )}
-          >
-            {cleanTitle(article.title)}
-          </h3>
-          <div className="card-content-body flex gap-1">
-            {(showTextPreview || cardImageSize === "small") && (
-              <span
-                className={cn(
-                  "text-sm text-default-500 text-wrap break-words w-full max-w-full overflow-hidden",
-                  cardImageSize === "small" ? "line-clamp-4" : "line-clamp-2",
-                )}
-                style={{ wordBreak: "break-word" }}
-              >
-                {article.plainContent}
-              </span>
-            )}
+          <div className="card-content-body flex gap-2">
             {cardImageSize === "small" && (
               <ArticleCardCover imageUrl={imageUrl} />
             )}
+            <div className="flex flex-col gap-1">
+              <h3
+                className={cn(
+                  "card-title text-base font-bold line-clamp-2 text-wrap break-words",
+                  article.status === "read"
+                    ? "text-content2-foreground"
+                    : "text-foreground",
+                )}
+              >
+                {cleanTitle(article.title)}
+              </h3>
+              {(showTextPreview || cardImageSize === "small") && (
+                <span
+                  className={cn(
+                    "text-sm text-default-500 text-wrap break-words w-full max-w-full overflow-hidden",
+                    cardImageSize === "small" ? "line-clamp-1" : "line-clamp-2",
+                  )}
+                  style={{ wordBreak: "break-word" }}
+                >
+                  {article.plainContent}
+                </span>
+              )}
+              {cardImageSize === "large" && (
+                <ArticleCardCover imageUrl={imageUrl} />
+              )}
+            </div>
           </div>
         </div>
-
-        {cardImageSize === "large" && <ArticleCardCover imageUrl={imageUrl} />}
       </div>
     </div>
   );

@@ -63,7 +63,7 @@ export default function ArticleCardCover({ imageUrl }) {
         loading && "!animate-pulse",
         cardImageSize === "large"
           ? "aspect-video w-full"
-          : "aspect-square w-[80px] shrink-0",
+          : "w-[70px] h-[70px] shrink-0",
       )}
     >
       {isVisible && (
@@ -82,7 +82,7 @@ export default function ArticleCardCover({ imageUrl }) {
               "object-cover",
               cardImageSize === "large"
                 ? "aspect-video w-full"
-                : "aspect-square w-[80px]",
+                : "aspect-square w-[70px]",
             ),
           }}
         />

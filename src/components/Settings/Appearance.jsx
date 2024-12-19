@@ -75,7 +75,6 @@ export default function Appearance() {
           icon={<Text className="shrink-0 size-4 text-default-500" />}
           settingName="showTextPreview"
           settingValue={showTextPreview}
-          disabled={cardImageSize === "small"}
         />
       </ItemWrapper>
     </>
