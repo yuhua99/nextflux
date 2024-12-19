@@ -26,8 +26,8 @@ export default function ArticleListFooter() {
         <Tab
           key="starred"
           title={
-            <div className="flex items-center space-x-2">
-              <Star className="size-4" />
+            <div className="flex items-center space-x-1.5">
+              <Star className="size-3" />
               <span>收藏</span>
             </div>
           }
@@ -35,8 +35,8 @@ export default function ArticleListFooter() {
         <Tab
           key="unread"
           title={
-            <div className="flex items-center space-x-2">
-              <CircleDot className="size-4" />
+            <div className="flex items-center space-x-1.5">
+              <CircleDot className="size-3" />
               <span>未读</span>
             </div>
           }
@@ -44,8 +44,8 @@ export default function ArticleListFooter() {
         <Tab
           key="all"
           title={
-            <div className="flex items-center space-x-2">
-              <Infinity className="size-4" />
+            <div className="flex items-center space-x-1.5">
+              <Infinity className="size-3" />
               <span>全部</span>
             </div>
           }

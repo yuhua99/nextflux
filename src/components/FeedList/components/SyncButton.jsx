@@ -25,7 +25,7 @@ const SyncButton = () => {
       variant="light"
       isIconOnly
     >
-      <RefreshCw className="size-4" />
+      <RefreshCw className="size-4 text-default-500" />
     </Button>
   );
 };

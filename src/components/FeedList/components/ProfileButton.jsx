@@ -18,7 +18,7 @@ export default function ProfileButton() {
       <Dropdown placement="bottom-end">
         <DropdownTrigger>
           <Button size="sm" radius="full" variant="light" isIconOnly>
-            <CircleUser className="size-4" />
+            <CircleUser className="size-4 text-default-500" />
           </Button>
         </DropdownTrigger>
         <DropdownMenu aria-label="Profile Actions" variant="flat">

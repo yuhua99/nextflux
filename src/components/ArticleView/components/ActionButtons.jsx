@@ -101,7 +101,7 @@ export default function ActionButtons({ parentRef }) {
               variant="light"
               isIconOnly
             >
-              <ArrowLeft className="h-4 w-4" />
+              <ArrowLeft className="h-4 w-4 text-default-500" />
               <span className="sr-only">关闭</span>
             </Button>
           </Tooltip>
@@ -116,7 +116,7 @@ export default function ActionButtons({ parentRef }) {
               variant="light"
               isIconOnly
             >
-              <Reply className="h-4 w-4" />
+              <Reply className="h-4 w-4 text-default-500" />
               <span className="sr-only">上一篇</span>
             </Button>
           </Tooltip>
@@ -130,7 +130,7 @@ export default function ActionButtons({ parentRef }) {
               variant="light"
               isIconOnly
             >
-              <Forward className="h-4 w-4" />
+              <Forward className="h-4 w-4 text-default-500" />
               <span className="sr-only">下一篇</span>
             </Button>
           </Tooltip>
@@ -149,9 +149,9 @@ export default function ActionButtons({ parentRef }) {
               isIconOnly
             >
               {$activeArticle?.status === "read" ? (
-                <Circle className="size-4" />
+                <Circle className="size-4 text-default-500" />
               ) : (
-                <CircleDot className="size-4" />
+                <CircleDot className="size-4 text-default-500" />
               )}
               <span className="sr-only">
                 {$activeArticle?.status === "read"
@@ -171,7 +171,7 @@ export default function ActionButtons({ parentRef }) {
             >
               <Confetti active={$activeArticle?.starred} />
               <Star
-                className={`size-4 ${$activeArticle?.starred ? "fill-current" : ""}`}
+                className={`size-4 text-default-500 ${$activeArticle?.starred ? "fill-current" : ""}`}
               />
               <span className="sr-only">
                 {$activeArticle?.starred ? "取消收藏" : "收藏"}
@@ -186,7 +186,7 @@ export default function ActionButtons({ parentRef }) {
               isIconOnly
               onPress={handleShare}
             >
-              <Share className="size-4" />
+              <Share className="size-4 text-default-500" />
               <span className="sr-only">分享</span>
             </Button>
           </Tooltip>

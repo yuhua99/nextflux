@@ -42,7 +42,7 @@ export default function MarkAllReadButton() {
           isIconOnly
           isLoading={$isSyncing}
         >
-          <CircleCheck className="size-4" />
+          <CircleCheck className="size-4 text-default-500" />
         </Button>
       </DropdownTrigger>
       <DropdownMenu aria-label="标记为已读" variant="flat">
