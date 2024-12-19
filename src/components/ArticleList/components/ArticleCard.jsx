@@ -134,9 +134,6 @@ export default function ArticleCard({ article }) {
             </div>
           </div>
           <div className="card-content-body flex gap-2">
-            {cardImageSize === "small" && (
-              <ArticleCardCover imageUrl={imageUrl} />
-            )}
             <div className="flex flex-col gap-1 flex-1">
               <h3
                 className={cn(
@@ -163,6 +160,9 @@ export default function ArticleCard({ article }) {
                 <ArticleCardCover imageUrl={imageUrl} />
               )}
             </div>
+            {cardImageSize === "small" && (
+              <ArticleCardCover imageUrl={imageUrl} />
+            )}
           </div>
         </div>
       </div>
