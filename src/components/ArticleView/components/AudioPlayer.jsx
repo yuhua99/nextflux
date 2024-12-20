@@ -1,7 +1,7 @@
 import { Controls, MediaPlayer, MediaProvider } from "@vidstack/react";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { audioState, resetAudio } from "@/stores/audioStore.js";
+import { useLocation, useNavigate } from "react-router-dom";
+import { activeAudio, audioState, resetAudio } from "@/stores/audioStore.js";
 import { useStore } from "@nanostores/react";
 import * as Buttons from "./shared/buttons";
 import { Button, Card, Image } from "@nextui-org/react";
@@ -17,9 +17,11 @@ export default function AudioPlayer({
   artworkUrl,
 }) {
   const location = useLocation();
+  const navigate = useNavigate();
   const [time, setTime] = useState(0);
   const { paused } = useStore(audioState);
   const [expand, setExpand] = useState(false);
+  const $activeAudio = useStore(activeAudio);
   useEffect(() => {
     const hash = location.hash;
     const timeMatch = hash.match(/#t=(\d+):(\d+)/);
@@ -38,14 +40,17 @@ export default function AudioPlayer({
   return (
     <motion.div
       layout
-      className={cn("mb-2 px-3", expand && "w-full max-w-96")}
+      className={cn("mb-2 px-2", expand && "w-full max-w-96")}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
       transition={{ duration: 0.2 }}
     >
       <MediaPlayer
-        className="rounded-lg shadow-custom w-full bg-background/90 backdrop-blur-lg"
+        className={cn(
+          "shadow-custom w-full bg-background/90 backdrop-blur-lg",
+          expand ? "rounded-xl" : "rounded-lg",
+        )}
         paused={paused}
         autoPlay={true}
         onPlay={() => audioState.setKey("paused", false)}
@@ -67,13 +72,13 @@ export default function AudioPlayer({
           <Controls.Group
             className={cn(
               "flex w-full items-center gap-2",
-              expand ? "flex-col p-4" : "p-1",
+              expand ? "flex-col px-3 pt-3 pb-6" : "p-1",
             )}
           >
             <Card
               className={cn(
                 "w-10 aspect-square bg-content2",
-                expand ? "w-full rounded-medium" : "rounded",
+                expand ? "w-full rounded-lg" : "rounded",
               )}
               isPressable
               shadow={expand ? "lg" : "sm"}
@@ -102,7 +107,10 @@ export default function AudioPlayer({
               </Button>
             )}
             {expand && (
-              <div>
+              <div
+                className="w-full text-center cursor-pointer"
+                onClick={() => navigate(`/article/${$activeAudio?.entry_id}`)}
+              >
                 <div className="font-semibold text-sm line-clamp-1">
                   {audioTitle}
                 </div>
@@ -112,10 +120,18 @@ export default function AudioPlayer({
               </div>
             )}
             {expand && <Time />}
-            <div className={cn("button-group", expand && "flex gap-2")}>
-              <Buttons.SeekBackward />
-              <Buttons.Play />
-              <Buttons.SeekForward />
+            <div
+              className={cn(
+                "button-group",
+                expand && "flex gap-2 items-center",
+              )}
+            >
+              <Buttons.SeekBackward variant="light" size="sm" />
+              <Buttons.Play
+                variant={expand ? "flat" : "light"}
+                size={expand ? "md" : "sm"}
+              />
+              <Buttons.SeekForward variant="light" size="sm" />
             </div>
           </Controls.Group>
         </Controls.Root>

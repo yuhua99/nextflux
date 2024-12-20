@@ -2,15 +2,15 @@ import { PlayButton, SeekButton, useMediaState } from "@vidstack/react";
 import { PauseIcon, PlayIcon, RedoDot, UndoDot } from "lucide-react";
 import { Button } from "@nextui-org/react";
 
-export function Play() {
+export function Play({ variant, size }) {
   const isPaused = useMediaState("paused");
   return (
     <PlayButton asChild>
       <Button
         isIconOnly
-        variant="light"
+        variant={variant}
+        size={size}
         radius="full"
-        size="sm"
         className="text-default-500"
       >
         {isPaused ? (
@@ -23,14 +23,14 @@ export function Play() {
   );
 }
 
-export function SeekBackward() {
+export function SeekBackward({ variant, size }) {
   return (
     <SeekButton seconds={-15} asChild>
       <Button
         isIconOnly
-        variant="light"
+        variant={variant}
+        size={size}
         radius="full"
-        size="sm"
         className="text-default-500"
       >
         <UndoDot className="size-4" />
@@ -39,14 +39,14 @@ export function SeekBackward() {
   );
 }
 
-export function SeekForward() {
+export function SeekForward({ variant, size }) {
   return (
     <SeekButton seconds={30} asChild>
       <Button
         isIconOnly
-        variant="light"
+        variant={variant}
+        size={size}
         radius="full"
-        size="sm"
         className="text-default-500"
       >
         <RedoDot className="size-4" />
