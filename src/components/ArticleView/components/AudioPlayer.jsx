@@ -38,6 +38,8 @@ export default function AudioPlayer({
       <MediaPlayer
         className="rounded-lg shadow-custom w-full"
         paused={$paused}
+        onPlay={() => paused.set(false)}
+        onPause={() => paused.set(true)}
         src={url}
         viewType="audio"
         currentTime={time}
