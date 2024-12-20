@@ -27,8 +27,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
-      <div className="w-full max-w-sm space-y-6">
+    <div className="flex min-h-screen items-center justify-center bg-content2 p-4">
+      <div className="w-full max-w-sm space-y-6 p-6 bg-background rounded-lg shadow-custom">
         <h1 className="text-2xl font-semibold tracking-tight">
           登录到您的服务器
         </h1>
