@@ -1,6 +1,6 @@
 import { Controls, MediaPlayer, MediaProvider } from "@vidstack/react";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { audioState } from "@/stores/audioStore.js";
 import { useStore } from "@nanostores/react";
 import * as Buttons from "./shared/buttons";
@@ -15,7 +15,7 @@ export default function AudioPlayer({
   const location = useLocation();
   const [time, setTime] = useState(0);
   const { paused } = useStore(audioState);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const hash = location.hash;
     const timeMatch = hash.match(/#t=(\d+):(\d+)/);
@@ -53,10 +53,16 @@ export default function AudioPlayer({
         <MediaProvider />
         <Controls.Root>
           <div className="flex-1" />
-          <Controls.Group className="flex w-full items-center p-2 gap-2">
-            <Card radius="sm" className="w-10 aspect-square bg-content2">
+          <Controls.Group className="flex w-full items-center p-1 gap-2">
+            <Card
+              radius="sm"
+              className="w-10 aspect-square bg-content2 rounded"
+              isPressable
+              onPress={() => navigate(`/article/${source.entry_id}`)}
+            >
               <Image
                 removeWrapper
+                radius="none"
                 alt="Card background"
                 className="z-0 w-full h-full object-cover"
                 src={artworkUrl || ""}
