@@ -1,11 +1,14 @@
 import { Controls, MediaPlayer, MediaProvider } from "@vidstack/react";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { audioState } from "@/stores/audioStore.js";
+import { useLocation } from "react-router-dom";
+import { audioState, resetAudio } from "@/stores/audioStore.js";
 import { useStore } from "@nanostores/react";
 import * as Buttons from "./shared/buttons";
-import { Card, Image } from "@nextui-org/react";
+import { Button, Card, Image } from "@nextui-org/react";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils.js";
+import { Time } from "./shared/sliders.jsx";
+import { Square } from "lucide-react";
 
 export default function AudioPlayer({
   audioTitle,
@@ -16,7 +19,7 @@ export default function AudioPlayer({
   const location = useLocation();
   const [time, setTime] = useState(0);
   const { paused } = useStore(audioState);
-  const navigate = useNavigate();
+  const [expand, setExpand] = useState(false);
   useEffect(() => {
     const hash = location.hash;
     const timeMatch = hash.match(/#t=(\d+):(\d+)/);
@@ -34,14 +37,15 @@ export default function AudioPlayer({
   const url = source.url;
   return (
     <motion.div
-      className="mb-2 px-3"
+      layout
+      className={cn("mb-2 px-3", expand && "w-full max-w-96")}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
       transition={{ duration: 0.2 }}
     >
       <MediaPlayer
-        className="rounded-lg shadow-custom w-full bg-background/80 backdrop-blur-lg"
+        className="rounded-lg shadow-custom w-full bg-background/90 backdrop-blur-lg"
         paused={paused}
         autoPlay={true}
         onPlay={() => audioState.setKey("paused", false)}
@@ -58,14 +62,22 @@ export default function AudioPlayer({
         ]}
       >
         <MediaProvider />
-        <Controls.Root>
-          <div className="flex-1" />
-          <Controls.Group className="flex w-full items-center p-1 gap-2">
+        <Controls.Root className="w-full">
+          <div className="flex-1 w-full" />
+          <Controls.Group
+            className={cn(
+              "flex w-full items-center gap-2",
+              expand ? "flex-col p-4" : "p-1",
+            )}
+          >
             <Card
-              radius="sm"
-              className="w-10 aspect-square bg-content2 rounded"
+              className={cn(
+                "w-10 aspect-square bg-content2",
+                expand ? "w-full rounded-medium" : "rounded",
+              )}
               isPressable
-              onPress={() => navigate(`/article/${source.entry_id}`)}
+              shadow={expand ? "lg" : "sm"}
+              onPress={() => setExpand(!expand)}
             >
               <Image
                 removeWrapper
@@ -75,9 +87,36 @@ export default function AudioPlayer({
                 src={artworkUrl || ""}
               />
             </Card>
-            <Buttons.SeekBackward />
-            <Buttons.Play />
-            <Buttons.SeekForward />
+            {expand && (
+              <Button
+                color="danger"
+                radius="full"
+                size="sm"
+                startContent={<Square className="size-3 fill-current" />}
+                variant="flat"
+                onPress={() => {
+                  resetAudio();
+                }}
+              >
+                停止播放
+              </Button>
+            )}
+            {expand && (
+              <div>
+                <div className="font-semibold text-sm line-clamp-1">
+                  {audioTitle}
+                </div>
+                <div className="text-default-500 text-sm line-clamp-1">
+                  {artist}
+                </div>
+              </div>
+            )}
+            {expand && <Time />}
+            <div className={cn("button-group", expand && "flex gap-2")}>
+              <Buttons.SeekBackward />
+              <Buttons.Play />
+              <Buttons.SeekForward />
+            </div>
           </Controls.Group>
         </Controls.Root>
       </MediaPlayer>
