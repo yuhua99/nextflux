@@ -48,7 +48,7 @@ export default function AudioPlayer({
     >
       <MediaPlayer
         className={cn(
-          "shadow-custom w-full bg-background/90 backdrop-blur-lg",
+          "shadow-custom w-full bg-background/80 backdrop-blur-lg dark:bg-content2/80",
           expand ? "rounded-xl" : "rounded-lg",
         )}
         paused={paused}
@@ -72,7 +72,7 @@ export default function AudioPlayer({
           <Controls.Group
             className={cn(
               "flex w-full items-center gap-2",
-              expand ? "flex-col px-3 pt-3 pb-6" : "p-1",
+              expand ? "flex-col p-7 pb-8" : "p-1",
             )}
           >
             <Card
@@ -81,7 +81,7 @@ export default function AudioPlayer({
                 expand ? "w-full rounded-lg" : "rounded",
               )}
               isPressable
-              shadow={expand ? "lg" : "sm"}
+              shadow={expand ? "md" : "sm"}
               onPress={() => setExpand(!expand)}
             >
               <Image
@@ -123,7 +123,7 @@ export default function AudioPlayer({
             <div
               className={cn(
                 "button-group",
-                expand && "flex gap-2 items-center",
+                expand && "flex gap-8 items-center",
               )}
             >
               <Buttons.SeekBackward variant="light" size="sm" />
