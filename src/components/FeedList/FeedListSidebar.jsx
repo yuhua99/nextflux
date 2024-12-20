@@ -51,12 +51,13 @@ const FeedListSidebar = () => {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-      <ScrollShadow>
-        <SidebarContent>
+
+      <SidebarContent>
+        <ScrollShadow>
           <ArticlesGroup />
           <FeedsGroup />
-        </SidebarContent>
-      </ScrollShadow>
+        </ScrollShadow>
+      </SidebarContent>
     </Sidebar>
   );
 };

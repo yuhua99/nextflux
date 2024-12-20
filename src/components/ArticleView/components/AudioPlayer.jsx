@@ -5,6 +5,8 @@ import {
 } from "@vidstack/react/player/layouts/plyr";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { paused } from "@/stores/audioStore.js";
+import { useStore } from "@nanostores/react";
 
 export default function AudioPlayer({
   audioTitle,
@@ -14,6 +16,7 @@ export default function AudioPlayer({
 }) {
   const location = useLocation();
   const [time, setTime] = useState(0);
+  const $paused = useStore(paused);
 
   useEffect(() => {
     const hash = location.hash;
@@ -31,9 +34,10 @@ export default function AudioPlayer({
   }, [location.hash]);
   const url = source.url;
   return (
-    <div className="mb-4">
+    <div className="mb-2 px-3 w-full">
       <MediaPlayer
-        className="rounded-lg shadow-custom"
+        className="rounded-lg shadow-custom w-full"
+        paused={$paused}
         src={url}
         viewType="audio"
         currentTime={time}

@@ -9,18 +9,13 @@ import { generateReadableDate } from "@/lib/format.js";
 import { activeArticle, filteredArticles } from "@/stores/articlesStore.js";
 import { Chip, Divider, ScrollShadow } from "@nextui-org/react";
 import EmptyPlaceholder from "@/components/ArticleList/components/EmptyPlaceholder";
-import {
-  cleanTitle,
-  cn,
-  extractFirstImage,
-  getFontSizeClass,
-} from "@/lib/utils";
+import { cleanTitle, cn, getFontSizeClass } from "@/lib/utils";
 import ArticleImage from "@/components/ArticleView/components/ArticleImage.jsx";
 import parse from "html-react-parser";
 import { settingsState } from "@/stores/settingsStore";
 import { AnimatePresence, motion } from "framer-motion";
 import VideoPlayer from "@/components/ArticleView/components/VideoPlayer.jsx";
-import AudioPlayer from "@/components/ArticleView/components/AudioPlayer.jsx";
+import PlayAndPause from "@/components/ArticleView/components/PlayAndPause.jsx";
 
 const ArticleView = () => {
   const { articleId } = useParams();
@@ -175,14 +170,7 @@ const ArticleView = () => {
                 </div>
               </header>
               <Divider className="my-4" />
-              {audioEnclosure && (
-                <AudioPlayer
-                  audioTitle={$activeArticle?.title}
-                  artist={$activeArticle?.feed?.title}
-                  source={audioEnclosure}
-                  artworkUrl={extractFirstImage($activeArticle) || ""}
-                />
-              )}
+              {audioEnclosure && <PlayAndPause source={audioEnclosure} />}
               <PhotoProvider
                 maskOpacity={0.5}
                 bannerVisible={false}
