@@ -61,9 +61,9 @@ export default function ArticleImage({ imgNode }) {
     <PhotoView key={src} src={src}>
       <Image
         ref={imgRef}
-        className="!max-w-[calc(100%+40px)] h-auto object-cover -mx-5 my-0"
         classNames={{
-          wrapper: "mx-auto",
+          wrapper: "!max-w-[calc(100%+40px)] -mx-5 flex justify-center",
+          img: "h-auto object-cover m-0",
         }}
         radius="none"
         src={src}
