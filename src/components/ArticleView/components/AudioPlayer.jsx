@@ -1,12 +1,10 @@
-import { MediaPlayer, MediaProvider } from "@vidstack/react";
-import {
-  PlyrLayout,
-  plyrLayoutIcons,
-} from "@vidstack/react/player/layouts/plyr";
+import { Controls, MediaPlayer, MediaProvider } from "@vidstack/react";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { audioState } from "@/stores/audioStore.js";
 import { useStore } from "@nanostores/react";
+import * as Buttons from "./shared/buttons";
+import { Card, Image } from "@nextui-org/react";
 
 export default function AudioPlayer({
   audioTitle,
@@ -34,9 +32,9 @@ export default function AudioPlayer({
   }, [location.hash]);
   const url = source.url;
   return (
-    <div className="mb-2 px-3 w-full">
+    <div className="mb-2 px-3">
       <MediaPlayer
-        className="rounded-lg shadow-custom w-full"
+        className="rounded-lg shadow-custom w-full bg-background/80 backdrop-blur-lg"
         paused={paused}
         autoPlay={true}
         onPlay={() => audioState.setKey("paused", false)}
@@ -53,14 +51,22 @@ export default function AudioPlayer({
         ]}
       >
         <MediaProvider />
-        <PlyrLayout
-          controls={["play", "progress", "current-time", "duration"]}
-          icons={plyrLayoutIcons}
-          translations={{
-            Pause: "暂停",
-            Play: "播放",
-          }}
-        />
+        <Controls.Root>
+          <div className="flex-1" />
+          <Controls.Group className="flex w-full items-center p-2 gap-2">
+            <Card radius="sm" className="w-10 aspect-square bg-content2">
+              <Image
+                removeWrapper
+                alt="Card background"
+                className="z-0 w-full h-full object-cover"
+                src={artworkUrl || ""}
+              />
+            </Card>
+            <Buttons.SeekBackward />
+            <Buttons.Play />
+            <Buttons.SeekForward />
+          </Controls.Group>
+        </Controls.Root>
       </MediaPlayer>
     </div>
   );
