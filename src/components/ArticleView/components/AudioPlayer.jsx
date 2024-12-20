@@ -44,7 +44,7 @@ export default function AudioPlayer({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
-      transition={{ duration: 0.2 }}
+      transition={{ duration: 0.3 }}
     >
       <MediaPlayer
         className={cn(
@@ -75,23 +75,29 @@ export default function AudioPlayer({
               expand ? "flex-col p-7 pb-8" : "p-1",
             )}
           >
-            <Card
-              className={cn(
-                "w-10 aspect-square bg-content2",
-                expand ? "w-full rounded-lg" : "rounded",
-              )}
-              isPressable
-              shadow={expand ? "md" : "sm"}
-              onPress={() => setExpand(!expand)}
+            <motion.div
+              layout
+              transition={{ duration: 0.3 }}
+              className={expand && "w-full"}
             >
-              <Image
-                removeWrapper
-                radius="none"
-                alt="Card background"
-                className="z-0 w-full h-full object-cover"
-                src={artworkUrl || ""}
-              />
-            </Card>
+              <Card
+                className={cn(
+                  "w-10 aspect-square bg-content2",
+                  expand ? "w-full rounded-lg" : "rounded",
+                )}
+                isPressable
+                shadow={expand ? "md" : "sm"}
+                onPress={() => setExpand(!expand)}
+              >
+                <Image
+                  removeWrapper
+                  radius="none"
+                  alt="Card background"
+                  className="z-0 w-full h-full object-cover"
+                  src={artworkUrl || ""}
+                />
+              </Card>
+            </motion.div>
             {expand && (
               <Button
                 color="danger"
@@ -120,7 +126,9 @@ export default function AudioPlayer({
               </div>
             )}
             {expand && <Time />}
-            <div
+            <motion.div
+              layout
+              transition={{ duration: 0.3 }}
               className={cn(
                 "button-group",
                 expand && "flex gap-8 items-center",
@@ -132,7 +140,7 @@ export default function AudioPlayer({
                 size={expand ? "md" : "sm"}
               />
               <Buttons.SeekForward variant="light" size="sm" />
-            </div>
+            </motion.div>
           </Controls.Group>
         </Controls.Root>
       </MediaPlayer>
