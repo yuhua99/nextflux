@@ -14,11 +14,12 @@ import { cn, extractFirstImage } from "@/lib/utils.js";
 export default function PlayAndPause({ source }) {
   const $paused = useStore(paused);
   const $activeArticle = useStore(activeArticle);
+  const $activeAudio = useStore(activeAudio);
   return (
     <Card
       className={cn(
-        "playAndPause mx-auto w-60 aspect-square max-w-full bg-content2",
-        !$paused && "scale-105",
+        "playAndPause mx-auto my-16 w-60 aspect-square max-w-full bg-content2",
+        !$paused && $activeAudio === source && "scale-[1.15]",
       )}
     >
       <CardHeader className="absolute z-10 top-1 w-full h-full flex-col items-center justify-center">
@@ -28,13 +29,13 @@ export default function PlayAndPause({ source }) {
           isIconOnly
           onPress={() => {
             activeAudio.set(source);
-            paused.set(!$paused);
+            paused.set($activeAudio === source && !$paused);
             title.set($activeArticle.title);
             artist.set($activeArticle.author);
             artwork.set(extractFirstImage($activeArticle) || "");
           }}
         >
-          {$paused ? (
+          {$paused || $activeAudio !== source ? (
             <Play className="size-4 fill-current ml-0.5" />
           ) : (
             <Pause className="size-4 fill-current" />
