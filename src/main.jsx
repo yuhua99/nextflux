@@ -1,8 +1,12 @@
+import { initTheme } from "@/stores/themeStore";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { router } from "@/routes/index.jsx";
 import { NextUIProvider } from "@nextui-org/react";
 import { RouterProvider } from "react-router";
+
+// 初始化主题
+initTheme();
 
 createRoot(document.getElementById("root")).render(
   <NextUIProvider>
