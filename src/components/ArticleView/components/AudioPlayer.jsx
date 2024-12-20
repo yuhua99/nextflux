@@ -5,6 +5,7 @@ import { audioState } from "@/stores/audioStore.js";
 import { useStore } from "@nanostores/react";
 import * as Buttons from "./shared/buttons";
 import { Card, Image } from "@nextui-org/react";
+import { motion } from "framer-motion";
 
 export default function AudioPlayer({
   audioTitle,
@@ -32,7 +33,13 @@ export default function AudioPlayer({
   }, [location.hash]);
   const url = source.url;
   return (
-    <div className="mb-2 px-3">
+    <motion.div
+      className="mb-2 px-3"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+      transition={{ duration: 0.2 }}
+    >
       <MediaPlayer
         className="rounded-lg shadow-custom w-full bg-background/80 backdrop-blur-lg"
         paused={paused}
@@ -74,6 +81,6 @@ export default function AudioPlayer({
           </Controls.Group>
         </Controls.Root>
       </MediaPlayer>
-    </div>
+    </motion.div>
   );
 }
