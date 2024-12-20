@@ -3,21 +3,19 @@ import { CircleDot, Infinity, Star } from "lucide-react";
 import { Tab, Tabs } from "@nextui-org/react";
 import { useStore } from "@nanostores/react";
 import AudioPlayer from "@/components/ArticleView/components/AudioPlayer.jsx";
-import { activeAudio, artist, artwork, title } from "@/stores/audioStore.js";
-
+import { activeAudio, audioState } from "@/stores/audioStore.js";
 export default function ArticleListFooter() {
   const $filter = useStore(filter);
   const $activeAudio = useStore(activeAudio);
-  const $artwork = useStore(artwork);
-  const $title = useStore(title);
-  const $artist = useStore(artist);
+  const { artwork, title, artist } = useStore(audioState);
+
   return (
     <div className="article-list-footer absolute bottom-0 w-full bg-transparent flex flex-col items-center justify-center pb-4">
       {$activeAudio && (
         <AudioPlayer
-          audioTitle={$title}
-          artist={$artist}
-          artworkUrl={$artwork}
+          audioTitle={title}
+          artist={artist}
+          artworkUrl={artwork}
           source={$activeAudio}
         />
       )}

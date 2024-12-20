@@ -1,41 +1,38 @@
 import { Button, Card, CardHeader, Image } from "@nextui-org/react";
-import {
-  activeAudio,
-  artist,
-  artwork,
-  paused,
-  title,
-} from "@/stores/audioStore.js";
+import { activeAudio, audioState } from "@/stores/audioStore.js";
 import { activeArticle } from "@/stores/articlesStore.js";
 import { useStore } from "@nanostores/react";
 import { Pause, Play } from "lucide-react";
 import { cn, extractFirstImage } from "@/lib/utils.js";
 
 export default function PlayAndPause({ source }) {
-  const $paused = useStore(paused);
+  const { paused } = useStore(audioState);
   const $activeArticle = useStore(activeArticle);
   const $activeAudio = useStore(activeAudio);
   return (
     <Card
       className={cn(
         "playAndPause mx-auto my-16 w-60 aspect-square max-w-full bg-content2",
-        !$paused && $activeAudio === source && "scale-[1.15]",
+        !paused && $activeAudio === source && "scale-[1.15]",
       )}
     >
       <CardHeader className="absolute z-10 top-1 w-full h-full flex-col items-center justify-center">
         <Button
-          className="bg-white text-default-500 shadow-custom"
+          className="bg-white text-black/60 shadow-custom"
           radius="full"
           isIconOnly
           onPress={() => {
             activeAudio.set(source);
-            paused.set($activeAudio === source && !$paused);
-            title.set($activeArticle.title);
-            artist.set($activeArticle.author);
-            artwork.set(extractFirstImage($activeArticle) || "");
+            audioState.setKey("paused", $activeAudio === source && !paused);
+            audioState.setKey("title", $activeArticle.title);
+            audioState.setKey("artist", $activeArticle.author);
+            audioState.setKey(
+              "artwork",
+              extractFirstImage($activeArticle) || "",
+            );
           }}
         >
-          {$paused || $activeAudio !== source ? (
+          {paused || $activeAudio !== source ? (
             <Play className="size-4 fill-current ml-0.5" />
           ) : (
             <Pause className="size-4 fill-current" />

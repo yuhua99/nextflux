@@ -1,16 +1,20 @@
-import { atom } from "nanostores";
+import { atom, map } from "nanostores";
 
 export const activeAudio = atom(null);
-export const paused = atom(true);
-export const title = atom("");
-export const artist = atom("");
-export const artwork = atom("");
+export const audioState = map({
+  paused: true,
+  title: "",
+  artist: "",
+  artwork: "",
+});
 
 // 重置音频
 export const resetAudio = () => {
   activeAudio.set(null);
-  paused.set(true);
-  title.set("");
-  artist.set("");
-  artwork.set("");
+  audioState.set({
+    paused: true,
+    title: "",
+    artist: "",
+    artwork: "",
+  });
 };
