@@ -23,12 +23,14 @@ import { useStore } from "@nanostores/react";
 import { activeArticle, filteredArticles } from "@/stores/articlesStore";
 import Confetti from "@/components/ui/Confetti";
 import { settingsState } from "@/stores/settingsStore.js";
+import { useRef } from "react";
 
 export default function ActionButtons({ parentRef }) {
   const navigate = useNavigate();
   const $articles = useStore(filteredArticles);
   const $activeArticle = useStore(activeArticle);
   const { autoHideToolbar } = useStore(settingsState);
+  const buttonRef = useRef(null);
   // 获取当前文章在列表中的索引
   const currentIndex = $articles.findIndex((a) => a.id === $activeArticle?.id);
 
@@ -162,14 +164,17 @@ export default function ActionButtons({ parentRef }) {
           </Tooltip>
           <Tooltip content={$activeArticle?.starred ? "取消收藏" : "收藏"}>
             <Button
+              ref={buttonRef}
               size="sm"
               radius="full"
               variant="light"
               isIconOnly
-              onPress={() => handleToggleStar($activeArticle)}
+              onPress={() => {
+                !$activeArticle?.starred && Confetti(buttonRef);
+                handleToggleStar($activeArticle);
+              }}
               className="relative"
             >
-              <Confetti active={$activeArticle?.starred} />
               <Star
                 className={`size-4 text-default-500 ${$activeArticle?.starred ? "fill-current" : ""}`}
               />
