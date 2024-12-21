@@ -9,6 +9,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils.js";
 import { Time } from "./shared/sliders.jsx";
 import { Square } from "lucide-react";
+import cover from "@/assets/cover.jpg";
 
 export default function AudioPlayer({
   audioTitle,
@@ -40,7 +41,7 @@ export default function AudioPlayer({
   return (
     <motion.div
       layout
-      className={cn("mb-2 px-2", expand && "w-full max-w-96")}
+      className={cn("mb-2 px-2", expand ? "w-full max-w-96" : "")}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
@@ -64,7 +65,7 @@ export default function AudioPlayer({
         artist={artist}
         artwork={[
           {
-            src: artworkUrl,
+            src: artworkUrl || cover,
           },
         ]}
       >
@@ -85,7 +86,7 @@ export default function AudioPlayer({
                 bounce: 0.2,
                 ease: "linear",
               }}
-              className={expand && "w-full"}
+              className={expand ? "w-full" : ""}
             >
               <Card
                 className={cn(
@@ -100,7 +101,7 @@ export default function AudioPlayer({
                   radius="none"
                   alt="Card background"
                   className="z-0 w-full h-full object-cover"
-                  src={artworkUrl || ""}
+                  src={artworkUrl || cover}
                 />
               </Card>
             </motion.div>
@@ -137,7 +138,7 @@ export default function AudioPlayer({
               transition={{ duration: 0.3, type: "spring", bounce: "0.2" }}
               className={cn(
                 "button-group",
-                expand && "flex gap-8 items-center",
+                expand ? "flex gap-8 items-center" : "",
               )}
             >
               <Buttons.SeekBackward variant="light" size="sm" />

@@ -4,6 +4,7 @@ import { activeArticle } from "@/stores/articlesStore.js";
 import { useStore } from "@nanostores/react";
 import { Pause, Play } from "lucide-react";
 import { cn, extractFirstImage } from "@/lib/utils.js";
+import cover from "@/assets/cover.jpg";
 
 export default function PlayAndPause({ source }) {
   const { paused } = useStore(audioState);
@@ -13,7 +14,7 @@ export default function PlayAndPause({ source }) {
     <Card
       className={cn(
         "playAndPause mx-auto my-16 w-60 aspect-square max-w-full bg-content2",
-        !paused && $activeAudio?.id === source.id && "scale-[1.15]",
+        !paused && $activeAudio?.id === source.id ? "scale-[1.15]" : "",
       )}
     >
       <CardHeader className="absolute z-10 top-1 w-full h-full flex-col items-center justify-center">
@@ -46,7 +47,7 @@ export default function PlayAndPause({ source }) {
         removeWrapper
         alt="Card background"
         className="z-0 w-full h-full object-cover"
-        src={extractFirstImage($activeArticle) || ""}
+        src={extractFirstImage($activeArticle) || cover}
       />
     </Card>
   );
