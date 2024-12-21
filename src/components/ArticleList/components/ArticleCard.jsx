@@ -36,7 +36,7 @@ export default function ArticleCard({ article }) {
             hasBeenVisible.current = true;
           }
           // 只有当卡片完全在视口顶部以上,且之前显示过时才标记已读
-          else if (hasBeenVisible.current && cardRect.bottom < rootRect.top) {
+          else if (hasBeenVisible.current && cardRect.top < rootRect.top) {
             // console.log(cardRect.bottom, rootRect.top, '标记已读');
             handleMarkStatus(article);
             observer.unobserve(entry.target);
@@ -47,7 +47,7 @@ export default function ArticleCard({ article }) {
         // 设置根元素为滚动容器
         root: document.querySelector(".v-list"),
         // 设置阈值为0,表示完全离开视口时触发
-        threshold: 0,
+        threshold: 0.9,
       },
     );
 
@@ -96,7 +96,7 @@ export default function ArticleCard({ article }) {
       ref={cardRef}
       className={cn(
         "cursor-pointer select-none overflow-hidden p-2 rounded-lg",
-        "relative transform-gpu transition-colors duration-200",
+        "relative transform-gpu transition duration-200",
         "bg-transparent contain-content",
         "hover:bg-background",
         parseInt(articleId) === article.id && "bg-background shadow-custom",
