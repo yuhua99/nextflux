@@ -42,7 +42,7 @@ export default function AudioPlayer({ source }) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
       transition={{
-        duration: 0.3,
+        duration: 0.4,
         type: "spring",
         bounce: 0.2,
         ease: "linear",
@@ -77,7 +77,7 @@ export default function AudioPlayer({ source }) {
             <motion.div
               layout
               transition={{
-                duration: 0.3,
+                duration: 0.4,
                 type: "spring",
                 bounce: 0.2,
                 ease: "linear",
@@ -131,17 +131,19 @@ export default function AudioPlayer({ source }) {
             {expand && <Time />}
             <motion.div
               layout
-              transition={{ duration: 0.3, type: "spring", bounce: "0.2" }}
+              transition={{
+                duration: 0.4,
+                type: "spring",
+                bounce: 0.2,
+                ease: "linear",
+              }}
               className={cn(
-                "button-group",
-                expand ? "flex gap-8 items-center" : "",
+                "button-group flex items-center",
+                expand ? "gap-8 " : "gap-1",
               )}
             >
               <Buttons.SeekBackward variant="light" size="sm" />
-              <Buttons.Play
-                variant={expand ? "flat" : "light"}
-                size={expand ? "md" : "sm"}
-              />
+              <Buttons.Play variant="light" size="sm" />
               <Buttons.SeekForward variant="light" size="sm" />
             </motion.div>
           </Controls.Group>
