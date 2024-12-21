@@ -11,18 +11,14 @@ import { Time } from "./shared/sliders.jsx";
 import { Square } from "lucide-react";
 import cover from "@/assets/cover.jpg";
 
-export default function AudioPlayer({
-  audioTitle,
-  artist,
-  source,
-  artworkUrl,
-}) {
+export default function AudioPlayer({ source }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [time, setTime] = useState(0);
   const { paused } = useStore(audioState);
   const [expand, setExpand] = useState(false);
   const $activeAudio = useStore(activeAudio);
+  const { title, artist, artwork } = useStore(audioState);
   useEffect(() => {
     const hash = location.hash;
     const timeMatch = hash.match(/#t=(\d+):(\d+)/);
@@ -61,11 +57,11 @@ export default function AudioPlayer({
         src={url}
         viewType="audio"
         currentTime={time}
-        title={audioTitle}
+        title={title}
         artist={artist}
         artwork={[
           {
-            src: artworkUrl || cover,
+            src: artwork || cover,
           },
         ]}
       >
@@ -101,7 +97,7 @@ export default function AudioPlayer({
                   radius="none"
                   alt="Card background"
                   className="z-0 w-full h-full object-cover"
-                  src={artworkUrl || cover}
+                  src={artwork || cover}
                 />
               </Card>
             </motion.div>
@@ -125,7 +121,7 @@ export default function AudioPlayer({
                 onClick={() => navigate(`/article/${$activeAudio?.entry_id}`)}
               >
                 <div className="font-semibold text-sm line-clamp-1">
-                  {audioTitle}
+                  {title}
                 </div>
                 <div className="text-default-500 text-sm line-clamp-1">
                   {artist}

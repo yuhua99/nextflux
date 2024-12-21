@@ -3,24 +3,17 @@ import { CircleDot, Infinity, Star } from "lucide-react";
 import { Tab, Tabs } from "@nextui-org/react";
 import { useStore } from "@nanostores/react";
 import AudioPlayer from "@/components/ArticleView/components/AudioPlayer.jsx";
-import { activeAudio, audioState } from "@/stores/audioStore.js";
+import { activeAudio } from "@/stores/audioStore.js";
 import { AnimatePresence } from "framer-motion";
+
 export default function ArticleListFooter() {
   const $filter = useStore(filter);
   const $activeAudio = useStore(activeAudio);
-  const { artwork, title, artist } = useStore(audioState);
 
   return (
     <div className="article-list-footer absolute bottom-0 w-full bg-transparent flex flex-col items-center justify-center pb-4">
       <AnimatePresence initial={false} mode="wait">
-        {$activeAudio && (
-          <AudioPlayer
-            audioTitle={title}
-            artist={artist}
-            artworkUrl={artwork}
-            source={$activeAudio}
-          />
-        )}
+        {$activeAudio && <AudioPlayer source={$activeAudio} />}
       </AnimatePresence>
       <Tabs
         aria-label="filter"
