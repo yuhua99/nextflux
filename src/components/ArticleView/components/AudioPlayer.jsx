@@ -44,13 +44,15 @@ export default function AudioPlayer({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
-      transition={{ duration: 0.3 }}
+      transition={{
+        duration: 0.3,
+        type: "spring",
+        bounce: 0.2,
+        ease: "linear",
+      }}
     >
       <MediaPlayer
-        className={cn(
-          "shadow-custom w-full bg-background/80 backdrop-blur-lg dark:bg-content2/80",
-          expand ? "rounded-xl" : "rounded-lg",
-        )}
+        className="shadow-custom w-full bg-background/80 backdrop-blur-lg dark:bg-content2/80 rounded-xl"
         paused={paused}
         autoPlay={true}
         onPlay={() => audioState.setKey("paused", false)}
@@ -72,21 +74,25 @@ export default function AudioPlayer({
           <Controls.Group
             className={cn(
               "flex w-full items-center gap-2",
-              expand ? "flex-col p-7 pb-8" : "p-1",
+              expand ? "flex-col p-8" : "p-2",
             )}
           >
             <motion.div
               layout
-              transition={{ duration: 0.3 }}
+              transition={{
+                duration: 0.3,
+                type: "spring",
+                bounce: 0.2,
+                ease: "linear",
+              }}
               className={expand && "w-full"}
             >
               <Card
                 className={cn(
-                  "w-10 aspect-square bg-content2",
+                  "w-10 aspect-square bg-content2 rounded-lg shadow-custom",
                   expand ? "w-full rounded-lg" : "rounded",
                 )}
                 isPressable
-                shadow={expand ? "md" : "sm"}
                 onPress={() => setExpand(!expand)}
               >
                 <Image
@@ -128,7 +134,7 @@ export default function AudioPlayer({
             {expand && <Time />}
             <motion.div
               layout
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.3, type: "spring", bounce: "0.2" }}
               className={cn(
                 "button-group",
                 expand && "flex gap-8 items-center",
