@@ -54,11 +54,13 @@ const FeedIcon = ({ url }) => {
     <Image
       alt="Feed icon"
       src={faviconUrl}
-      className={cn(
-        "w-5 h-5 rounded-sm bg-white p-0.5 shadow-small",
-        feedIconShape === "circle" ? "rounded-full" : "rounded-sm",
-        useGrayIcon ? "grayscale" : "",
-      )}
+      className="size-5 p-0.5 bg-white shadow-small"
+      classNames={{
+        img: cn(
+          useGrayIcon ? "grayscale" : "",
+          feedIconShape === "circle" ? "rounded-full" : "rounded",
+        ),
+      }}
       onError={handleError}
       onLoad={(e) => {
         handleLoad(e);
