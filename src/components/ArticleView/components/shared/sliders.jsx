@@ -9,7 +9,7 @@ export function Time() {
     <div className="w-full">
       <TimeSlider.Root className="group relative inline-flex w-full cursor-pointer touch-none select-none items-center outline-none aria-hidden:hidden">
         <TimeSlider.Track className="relative ring-primary z-0 h-2 w-full rounded-full bg-content3 group-data-[focus]:ring-[3px]">
-          <TimeSlider.TrackFill className="bg-primary z-20 absolute h-full w-[var(--slider-fill)] rounded-full will-change-[width] transition-width" />
+          <TimeSlider.TrackFill className="bg-primary z-20 absolute h-full w-[var(--slider-fill)] rounded-full will-change-[width]" />
           <TimeSlider.Progress className="absolute z-10 h-full w-[var(--slider-progress)] rounded-full bg-transparent will-change-[width]" />
         </TimeSlider.Track>
 
