@@ -21,12 +21,13 @@ export default function AudioPlayer({ source }) {
   const { title, artist, artwork } = useStore(audioState);
   useEffect(() => {
     const hash = location.hash;
-    const timeMatch = hash.match(/#t=(\d+):(\d+)/);
+    const timeMatch = hash.match(/#t=(?:(\d+):)?(\d+):(\d+)/);
 
     if (timeMatch) {
-      const minutes = parseInt(timeMatch[1]);
-      const seconds = parseInt(timeMatch[2]);
-      const totalSeconds = minutes * 60 + seconds;
+      const [, hours, minutes, seconds] = timeMatch;
+      const totalSeconds = (parseInt(hours) || 0) * 3600 + 
+                          parseInt(minutes) * 60 + 
+                          parseInt(seconds);
 
       if (!isNaN(totalSeconds)) {
         setTime(totalSeconds);
