@@ -57,6 +57,8 @@ const ArticleView = () => {
             (article) => article.id === parseInt(articleId),
           );
           if (loadedArticle) {
+            // 保存原始内容
+            loadedArticle.originalContent = loadedArticle.content;
             activeArticle.set(loadedArticle);
           } else {
             setError("请选择要阅读的文章");

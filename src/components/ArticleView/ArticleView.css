@@ -30,7 +30,7 @@ p {
 
 /*code 相关样式 */
 .article-content code {
-  @apply bg-content2 rounded-lg text-default-500 text-sm p-0.5 font-mono whitespace-pre-wrap
+  @apply rounded-lg text-sm p-0.5 font-mono whitespace-pre-wrap
 }
 
 /*code 相关样式 */
@@ -40,11 +40,11 @@ p {
 
 /*code 相关样式 */
 .article-content pre {
-  @apply bg-content2 rounded-lg overflow-auto p-3 leading-tight
+  @apply rounded-lg overflow-auto p-3 leading-tight
 }
 
 iframe {
-  @apply aspect-video !border-none rounded-lg h-auto w-full
+  @apply aspect-video !border-none rounded-lg h-auto w-full shadow-custom
 }
 
 blockquote {

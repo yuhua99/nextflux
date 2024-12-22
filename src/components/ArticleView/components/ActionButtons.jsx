@@ -6,6 +6,7 @@ import {
   Reply,
   Share,
   Star,
+  FileText,
 } from "lucide-react";
 import {
   handleMarkStatus,
@@ -23,7 +24,8 @@ import { useStore } from "@nanostores/react";
 import { activeArticle, filteredArticles } from "@/stores/articlesStore";
 import Confetti from "@/components/ui/Confetti";
 import { settingsState } from "@/stores/settingsStore.js";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
+import minifluxAPI from "@/api/miniflux";
 
 export default function ActionButtons({ parentRef }) {
   const navigate = useNavigate();
@@ -31,6 +33,14 @@ export default function ActionButtons({ parentRef }) {
   const $activeArticle = useStore(activeArticle);
   const { autoHideToolbar } = useStore(settingsState);
   const buttonRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [showOriginal, setShowOriginal] = useState(true);
+
+  // 每次切换文章时，恢复到原始内容
+  useEffect(() => {
+    setShowOriginal(true);
+  }, [$activeArticle?.id]);
+
   // 获取当前文章在列表中的索引
   const currentIndex = $articles.findIndex((a) => a.id === $activeArticle?.id);
 
@@ -80,6 +90,34 @@ export default function ActionButtons({ parentRef }) {
       }
     } catch (error) {
       console.error("分享失败:", error);
+    }
+  };
+
+  // 处理内容切换
+  const handleToggleContent = async () => {
+    if (!$activeArticle) return;
+    
+    try {
+      setLoading(true);
+      if (showOriginal) {
+        // 获取原始内容
+        const content = await minifluxAPI.fetchEntryContent($activeArticle.id);
+        activeArticle.set({
+          ...$activeArticle,
+          content: content
+        });
+      } else {
+        // 恢复保存的内容
+        activeArticle.set({
+          ...$activeArticle,
+          content: $activeArticle.originalContent
+        });
+      }
+      setShowOriginal(!showOriginal);
+    } catch (error) {
+      console.error("切换内容失败:", error);
+    } finally {
+      setLoading(false); 
     }
   };
 
@@ -183,6 +221,21 @@ export default function ActionButtons({ parentRef }) {
               </span>
             </Button>
           </Tooltip>
+          <Tooltip content={showOriginal ? "获取全文" : "显示摘要"}>
+            <Button
+              onPress={handleToggleContent}
+              size="sm"
+              radius="full"
+              variant={showOriginal ? "light" : "flat"}
+              isIconOnly
+              isLoading={loading}
+            >
+              <FileText className="size-4 text-default-500" />
+              <span className="sr-only">
+                {showOriginal ? "获取全文" : "显示摘要"}
+              </span>
+            </Button>
+          </Tooltip>
           <Tooltip content="分享">
             <Button
               size="sm"
@@ -195,6 +248,7 @@ export default function ActionButtons({ parentRef }) {
               <span className="sr-only">分享</span>
             </Button>
           </Tooltip>
+          
         </div>
       </NavbarContent>
     </Navbar>

@@ -160,6 +160,17 @@ class miniFluxAPI {
       throw error;
     }
   }
+
+  // 获取文章原始内容
+  async fetchEntryContent(entryId) {
+    try {
+      const response = await this.client.get(`/v1/entries/${entryId}/fetch-content`);
+      return response.data.content;
+    } catch (error) {
+      console.error("获取文章原始内容失败:", error);
+      throw error;
+    }
+  }
 }
 
 export default new miniFluxAPI();
