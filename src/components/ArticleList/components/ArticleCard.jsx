@@ -104,7 +104,11 @@ export default function ArticleCard({ article }) {
       data-article-id={article.id}
       onClick={handleClick}
     >
-      <Ripple ripples={ripples} onClear={onClear} />
+      <Ripple
+        ripples={ripples}
+        onClear={onClear}
+        color="hsl(var(--nextui-content4))"
+      />
       <div
         className={cn(
           "card-content flex flex-col gap-1",
