@@ -1,34 +1,45 @@
 import axios from "axios";
-import { authState } from "@/stores/authStore";
-import { logout } from "@/stores/authStore";
+import { authState, logout } from "@/stores/authStore";
+import { toast } from "sonner";
 
 class miniFluxAPI {
   constructor() {
     const auth = authState.get();
-    
+
     this.client = axios.create({
       baseURL: auth?.serverUrl || "",
-      headers: auth?.username && auth?.password ? {
-        "Authorization": "Basic " + btoa(`${auth.username}:${auth.password}`)
-      } : {},
+      headers:
+        auth?.username && auth?.password
+          ? {
+              Authorization:
+                "Basic " + btoa(`${auth.username}:${auth.password}`),
+            }
+          : {},
     });
 
     // 添加响应拦截器
     this.client.interceptors.response.use(
-      response => response,
-      error => {
+      (response) => response,
+      (error) => {
         // 如果响应状态码是 401,执行登出操作
         if (error.response?.status === 401) {
           logout();
         }
+        const errorMessage = error.response?.data?.error_message;
+        if (errorMessage) {
+          toast.error(errorMessage);
+        }
         return Promise.reject(error);
-      }
+      },
     );
 
     // 监听认证状态变化
     authState.listen((newAuth) => {
       this.client.defaults.baseURL = newAuth?.serverUrl || "";
-      this.client.defaults.headers["Authorization"] = newAuth?.username && newAuth?.password ? "Basic " + btoa(`${newAuth.username}:${newAuth.password}`) : "";
+      this.client.defaults.headers["Authorization"] =
+        newAuth?.username && newAuth?.password
+          ? "Basic " + btoa(`${newAuth.username}:${newAuth.password}`)
+          : "";
     });
   }
 
@@ -164,7 +175,9 @@ class miniFluxAPI {
   // 获取文章原始内容
   async fetchEntryContent(entryId) {
     try {
-      const response = await this.client.get(`/v1/entries/${entryId}/fetch-content`);
+      const response = await this.client.get(
+        `/v1/entries/${entryId}/fetch-content`,
+      );
       return response.data.content;
     } catch (error) {
       console.error("获取文章原始内容失败:", error);
@@ -181,6 +194,15 @@ class miniFluxAPI {
       return response.data;
     } catch (error) {
       console.error("更新分类失败:", error);
+      throw error;
+    }
+  }
+
+  async deleteFeed(feedId) {
+    try {
+      await this.client.delete(`/v1/feeds/${feedId}`);
+    } catch (error) {
+      console.error("删除订阅源失败:", error);
       throw error;
     }
   }

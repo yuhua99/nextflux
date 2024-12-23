@@ -4,6 +4,7 @@ import "./index.css";
 import { router } from "@/routes/index.jsx";
 import { NextUIProvider } from "@nextui-org/react";
 import { RouterProvider } from "react-router";
+import { Toaster } from "sonner";
 
 // 初始化主题
 initTheme();
@@ -21,5 +22,6 @@ createRoot(document.getElementById("root")).render(
         v7_skipActionErrorRevalidation: true,
       }}
     />
+    <Toaster theme="system" richColors position="bottom-center" />
   </NextUIProvider>,
 );

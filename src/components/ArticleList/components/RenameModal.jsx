@@ -32,6 +32,9 @@ export default function RenameModal() {
 
   const onClose = () => {
     renameModalOpen.set(false);
+    setNewTitle(
+      $categoryState.find((c) => c.id === parseInt(categoryId))?.name,
+    );
   };
 
   const handleRename = async (e) => {
@@ -52,12 +55,21 @@ export default function RenameModal() {
   return (
     <Modal
       placement="center"
+      radius="md"
+      size="sm"
       isOpen={$renameModalOpen}
       hideCloseButton
       onClose={onClose}
+      classNames={{
+        header: "px-4 py-3",
+        body: "px-4 py-1",
+        footer: "px-4 py-4",
+      }}
     >
       <ModalContent>
-        <ModalHeader className="flex flex-col gap-1">重命名分类</ModalHeader>
+        <ModalHeader className="flex flex-col gap-1 text-base font-medium">
+          重命名分类
+        </ModalHeader>
         <ModalBody>
           <Form
             ref={formRef}
@@ -68,6 +80,7 @@ export default function RenameModal() {
             <div className="flex flex-col gap-4 w-full">
               <Input
                 isRequired
+                size="sm"
                 label="分类名称"
                 labelPlacement="outside"
                 name="name"
@@ -80,13 +93,14 @@ export default function RenameModal() {
           </Form>
         </ModalBody>
         <ModalFooter>
-          <Button color="default" variant="flat" onPress={onClose}>
+          <Button color="default" variant="flat" onPress={onClose} size="sm">
             取消
           </Button>
           <Button
             color="primary"
             onPress={() => formRef.current?.requestSubmit()}
             isLoading={loading}
+            size="sm"
           >
             确定
           </Button>
