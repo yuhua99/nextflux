@@ -6,6 +6,7 @@ import { filter, filteredArticles } from "@/stores/articlesStore.js";
 import { feeds } from "@/stores/feedsStore.js";
 import MarkAllReadButton from "./MarkAllReadButton";
 import { isSyncing } from "@/stores/syncStore.js";
+import MenuButton from "./MenuButton";
 
 export default function ArticleListHeader() {
   const { feedId, categoryId } = useParams();
@@ -70,6 +71,7 @@ export default function ArticleListHeader() {
         <div className="ml-auto">
           <MarkAllReadButton />
         </div>
+        <MenuButton />
       </div>
       <Divider className="w-auto" />
     </div>

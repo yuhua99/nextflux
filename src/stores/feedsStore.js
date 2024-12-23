@@ -99,6 +99,18 @@ export const totalStarredCount = computed([starredCounts], ($starredCounts) => {
   return Object.values($starredCounts).reduce((sum, count) => sum + count, 0);
 });
 
+// 计算状态，分类名称及分类id，去除重复项
+export const categoryState = computed([feeds], ($feeds) => {
+  const uniqueCategories = new Map();
+  $feeds.forEach((feed) => {
+    uniqueCategories.set(feed.categoryId, {
+      id: feed.categoryId,
+      name: feed.categoryName,
+    });
+  });
+  return Array.from(uniqueCategories.values());
+});
+
 export async function loadFeeds() {
   try {
     await storage.init();

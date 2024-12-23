@@ -171,6 +171,19 @@ class miniFluxAPI {
       throw error;
     }
   }
+
+  // 更新分类
+  async updateCategory(categoryId, title) {
+    try {
+      const response = await this.client.put(`/v1/categories/${categoryId}`, {
+        title,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("更新分类失败:", error);
+      throw error;
+    }
+  }
 }
 
 export default new miniFluxAPI();
