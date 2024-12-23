@@ -70,4 +70,8 @@ body {
   .settings-modal {
     margin-bottom: calc(env(safe-area-inset-bottom) + 8px) !important;
   }
+
+  .profile-button {
+    padding-bottom: env(safe-area-inset-bottom) !important;
+  }
 }

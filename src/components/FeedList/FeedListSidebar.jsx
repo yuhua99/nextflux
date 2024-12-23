@@ -5,6 +5,7 @@ import { isSyncing, lastSync } from "@/stores/syncStore.js";
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
@@ -18,6 +19,7 @@ import SyncButton from "@/components/FeedList/components/SyncButton.jsx";
 import ProfileButton from "@/components/FeedList/components/ProfileButton.jsx";
 import logo from "@/assets/logo.png";
 import storage from "@/db/storage.js";
+import AddFeedButton from "@/components/FeedList/components/AddFeedButton.jsx";
 
 const FeedListSidebar = () => {
   const $lastSync = useStore(lastSync);
@@ -46,18 +48,20 @@ const FeedListSidebar = () => {
                 </span>
               </div>
               <SyncButton />
-              <ProfileButton />
+              <AddFeedButton />
             </div>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
-
       <SidebarContent>
         <ScrollShadow>
           <ArticlesGroup />
           <FeedsGroup />
         </ScrollShadow>
       </SidebarContent>
+      <SidebarFooter>
+        <ProfileButton />
+      </SidebarFooter>
     </Sidebar>
   );
 };

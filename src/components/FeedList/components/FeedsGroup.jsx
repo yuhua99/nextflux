@@ -5,7 +5,7 @@ import {
   getFeedCount,
 } from "@/stores/feedsStore.js";
 import { cn } from "@/lib/utils";
-import { ChevronRight, Plus } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -27,8 +27,6 @@ import {
 } from "@/components/ui/sidebar";
 import { useSidebar } from "@/components/ui/sidebar.jsx";
 import FeedIcon from "@/components/ui/FeedIcon";
-import { Button } from "@nextui-org/react";
-import { addFeedModalOpen } from "@/stores/modalStore";
 import AddFeedModal from "./AddFeedModal";
 
 const FeedsGroup = () => {
@@ -40,18 +38,7 @@ const FeedsGroup = () => {
 
   return (
     <SidebarGroup>
-      <div className="flex items-center justify-between">
-        <SidebarGroupLabel>订阅源</SidebarGroupLabel>
-        <Button
-          size="sm"
-          radius="full"
-          variant="light"
-          isIconOnly
-          onPress={() => addFeedModalOpen.set(true)}
-        >
-          <Plus className="size-4 text-default-500" />
-        </Button>
-      </div>
+      <SidebarGroupLabel>订阅源</SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
           {$feedsByCategory.map((category) => (
