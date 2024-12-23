@@ -9,7 +9,12 @@ import { EllipsisVertical } from "lucide-react";
 import { useParams } from "react-router-dom";
 import RenameModal from "./RenameModal";
 import UnsubscribeModal from "./UnsubscribeModal";
-import { renameModalOpen, unsubscribeModalOpen } from "@/stores/modalStore.js";
+import EditFeedModal from "./EditFeedModal";
+import {
+  editFeedModalOpen,
+  renameModalOpen,
+  unsubscribeModalOpen,
+} from "@/stores/modalStore.js";
 
 export default function MenuButton() {
   const { feedId, categoryId } = useParams();
@@ -30,7 +35,12 @@ export default function MenuButton() {
         </DropdownTrigger>
         {feedId && (
           <DropdownMenu aria-label="Feed Actions">
-            <DropdownItem key="edit">编辑订阅</DropdownItem>
+            <DropdownItem
+              key="edit"
+              onPress={() => editFeedModalOpen.set(true)}
+            >
+              编辑订阅
+            </DropdownItem>
             <DropdownItem
               key="delete"
               className="text-danger"
@@ -56,6 +66,7 @@ export default function MenuButton() {
 
       <RenameModal />
       <UnsubscribeModal />
+      <EditFeedModal />
     </>
   );
 }

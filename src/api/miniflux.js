@@ -206,6 +206,31 @@ class miniFluxAPI {
       throw error;
     }
   }
+
+  // 更新订阅源
+  async updateFeed(feedId, data) {
+    try {
+      const response = await this.client.put(`/v1/feeds/${feedId}`, data);
+      return response.data;
+    } catch (error) {
+      console.error("更新订阅源失败:", error);
+      throw error;
+    }
+  }
+
+  // 创建订阅源
+  async createFeed(feedUrl, categoryId) {
+    try {
+      const response = await this.client.post("/v1/feeds", {
+        feed_url: feedUrl,
+        category_id: categoryId,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("创建订阅源失败:", error);
+      throw error;
+    }
+  }
 }
 
 export default new miniFluxAPI();
