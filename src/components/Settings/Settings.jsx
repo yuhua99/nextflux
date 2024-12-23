@@ -3,7 +3,6 @@ import {
   Modal,
   ModalBody,
   ModalContent,
-  ModalFooter,
   ModalHeader,
 } from "@nextui-org/react";
 import { resetSettings, settingsModalOpen } from "@/stores/settingsStore.js";
@@ -32,7 +31,7 @@ export default function App() {
         }}
       >
         <ModalContent>
-          {(onClose) => (
+          {() => (
             <>
               <ModalHeader>
                 <div className="flex items-center gap-2">
@@ -59,11 +58,6 @@ export default function App() {
                   </Button>
                 </div>
               </ModalBody>
-              <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
-                </Button>
-              </ModalFooter>
             </>
           )}
         </ModalContent>
