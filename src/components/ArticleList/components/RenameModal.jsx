@@ -15,7 +15,7 @@ import { renameModalOpen } from "@/stores/modalStore.js";
 import { useStore } from "@nanostores/react";
 import { useParams } from "react-router-dom";
 import { categoryState } from "@/stores/feedsStore";
-
+import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
 export default function RenameModal() {
   const $categoryState = useStore(categoryState);
   const { categoryId } = useParams();
@@ -61,14 +61,15 @@ export default function RenameModal() {
       hideCloseButton
       onClose={onClose}
       classNames={{
-        header: "px-4 py-3",
+        header: "px-4 py-3 flex justify-between text-base font-medium",
         body: "px-4 py-1",
         footer: "px-4 py-4",
       }}
     >
       <ModalContent>
-        <ModalHeader className="flex flex-col gap-1 text-base font-medium">
-          重命名分类
+        <ModalHeader>
+          <div>重命名分类</div>
+          <MiniCloseButton onClose={onClose} />
         </ModalHeader>
         <ModalBody>
           <Form

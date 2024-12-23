@@ -13,7 +13,7 @@ import { unsubscribeModalOpen } from "@/stores/modalStore.js";
 import { useStore } from "@nanostores/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { feeds } from "@/stores/feedsStore";
-
+import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
 export default function UnsubscribeModal() {
   const $feeds = useStore(feeds);
   const { feedId } = useParams();
@@ -50,14 +50,15 @@ export default function UnsubscribeModal() {
       hideCloseButton
       onClose={onClose}
       classNames={{
-        header: "px-4 py-3",
+        header: "px-4 py-3 flex justify-between text-base font-medium",
         body: "px-4 py-1",
         footer: "px-4 py-4",
       }}
     >
       <ModalContent>
-        <ModalHeader className="flex flex-col gap-1 text-base font-medium">
-          取消订阅
+        <ModalHeader>
+          <div>取消订阅</div>
+          <MiniCloseButton onClose={onClose} />
         </ModalHeader>
         <ModalBody>
           <p className="text-sm text-default-500">

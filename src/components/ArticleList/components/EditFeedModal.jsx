@@ -18,6 +18,7 @@ import { useParams } from "react-router-dom";
 import minifluxAPI from "@/api/miniflux";
 import { forceSync } from "@/stores/syncStore";
 import { cn } from "@/lib/utils";
+import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
 
 export default function EditFeedModal() {
   const { feedId } = useParams();
@@ -77,15 +78,16 @@ export default function EditFeedModal() {
       size="sm"
       hideCloseButton
       classNames={{
-        header: "px-4 py-3",
+        header: "px-4 py-3 flex justify-between text-base font-medium",
         body: "px-4 py-1",
         footer: "px-4 py-4",
       }}
     >
       <ModalContent>
         <form onSubmit={handleSubmit}>
-          <ModalHeader className="flex flex-col gap-1 text-base font-medium">
-            编辑订阅源
+          <ModalHeader>
+            <div>编辑订阅源</div>
+            <MiniCloseButton onClose={onClose} />
           </ModalHeader>
           <ModalBody>
             <div className="flex flex-col gap-4">
