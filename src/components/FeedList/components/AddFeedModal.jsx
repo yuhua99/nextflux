@@ -16,11 +16,13 @@ import { addFeedModalOpen } from "@/stores/modalStore";
 import minifluxAPI from "@/api/miniflux";
 import { forceSync } from "@/stores/syncStore";
 import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
+import { useNavigate } from "react-router-dom";
 
 export default function AddFeedModal() {
   const $categories = useStore(categories);
   const $addFeedModalOpen = useStore(addFeedModalOpen);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     feed_url: "",
     category_id: "",
@@ -38,9 +40,15 @@ export default function AddFeedModal() {
     e.preventDefault();
     try {
       setLoading(true);
-      await minifluxAPI.createFeed(formData.feed_url, formData.category_id);
+      const response = await minifluxAPI.createFeed(
+        formData.feed_url,
+        formData.category_id,
+      );
       await forceSync(); // 重新加载订阅源列表以更新UI
       onClose();
+      // 导航到新增的订阅源
+      console.log(response);
+      navigate(`/feed/${response.feed_id}`);
     } catch (error) {
       console.error("添加订阅源失败:", error);
     } finally {

@@ -185,19 +185,6 @@ class miniFluxAPI {
     }
   }
 
-  // 更新分类
-  async updateCategory(categoryId, title) {
-    try {
-      const response = await this.client.put(`/v1/categories/${categoryId}`, {
-        title,
-      });
-      return response.data;
-    } catch (error) {
-      console.error("更新分类失败:", error);
-      throw error;
-    }
-  }
-
   async deleteFeed(feedId) {
     try {
       await this.client.delete(`/v1/feeds/${feedId}`);
@@ -241,6 +228,29 @@ class miniFluxAPI {
       return response.data;
     } catch (error) {
       console.error("创建分类失败:", error);
+      throw error;
+    }
+  }
+
+  // 删除分类
+  async deleteCategory(categoryId) {
+    try {
+      await this.client.delete(`/v1/categories/${categoryId}`);
+    } catch (error) {
+      console.error("删除分类失败:", error);
+      throw error;
+    }
+  }
+
+  // 更新分类
+  async updateCategory(categoryId, title) {
+    try {
+      const response = await this.client.put(`/v1/categories/${categoryId}`, {
+        title,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("更新分类失败:", error);
       throw error;
     }
   }

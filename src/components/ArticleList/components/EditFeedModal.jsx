@@ -19,6 +19,8 @@ import minifluxAPI from "@/api/miniflux";
 import { forceSync } from "@/stores/syncStore";
 import { cn } from "@/lib/utils";
 import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
+import { Copy } from "lucide-react";
+import { toast } from "sonner";
 
 export default function EditFeedModal() {
   const { feedId } = useParams();
@@ -26,6 +28,7 @@ export default function EditFeedModal() {
   const $categories = useStore(categories);
   const $editFeedModalOpen = useStore(editFeedModalOpen);
   const [loading, setLoading] = useState(false);
+  const [feedUrl, setFeedUrl] = useState("");
   const [formData, setFormData] = useState({
     title: "",
     category_id: "",
@@ -41,6 +44,7 @@ export default function EditFeedModal() {
           category_id: feed.categoryId,
           hide_globally: feed.hide_globally,
         });
+        setFeedUrl(feed.url);
       }
     }
   }, [feedId, $feeds]);
@@ -53,6 +57,7 @@ export default function EditFeedModal() {
       category_id: feed.categoryId,
       hide_globally: feed.hide_globally,
     });
+    setFeedUrl(feed.url);
   };
 
   const handleSubmit = async (e) => {
@@ -146,6 +151,26 @@ export default function EditFeedModal() {
                   </div>
                 </div>
               </Switch>
+              <div className="flex items-center gap-2 bg-content2 rounded-lg px-2 py-[6px]">
+                <div className="flex flex-col w-full">
+                  <div className="text-sm">订阅源地址</div>
+                  <div className="text-xs text-default-500 line-clamp-1">
+                    {feedUrl}
+                  </div>
+                </div>
+                <Button
+                  size="sm"
+                  color="primary"
+                  variant="flat"
+                  startContent={<Copy className="size-4 shrink-0" />}
+                  onPress={() => {
+                    navigator.clipboard.writeText(feedUrl);
+                    toast.success("复制成功");
+                  }}
+                >
+                  复制
+                </Button>
+              </div>
             </div>
           </ModalBody>
           <ModalFooter>
