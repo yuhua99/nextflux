@@ -128,9 +128,7 @@ export function SelItem({ label, icon, settingName, settingValue, options }) {
 
 export function GroupItem({ label, icon, settingName, settingValue, options }) {
   return (
-    <div
-      className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-1.5`}
-    >
+    <div className={`flex justify-between items-center gap-2 ${bgColor} p-2`}>
       <div className="flex items-center gap-2">
         {icon}
         <div className="text-sm text-foreground">{label}</div>
@@ -141,6 +139,7 @@ export function GroupItem({ label, icon, settingName, settingValue, options }) {
         variant="solid"
         classNames={{
           tabList: "bg-default-100/90 backdrop-blur-md",
+          tab: "py-0 h-6",
         }}
         selectedKey={settingValue}
         onSelectionChange={(value) => {

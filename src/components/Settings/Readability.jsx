@@ -19,7 +19,8 @@ import {
   SliderItem,
   SwitchItem,
 } from "@/components/ui/settingItem.jsx";
-import { Divider } from "@nextui-org/react";
+import { Button, Divider } from "@nextui-org/react";
+import { resetSettings } from "@/stores/settingsStore.js";
 
 const fontOptions = [
   { label: "系统默认", value: "system-ui", style: { fontFamily: "system-ui" } },
@@ -139,6 +140,9 @@ export default function Readability() {
           step={0.2}
         />
       </ItemWrapper>
+      <Button color="danger" variant="flat" onPress={resetSettings}>
+        重 置
+      </Button>
     </>
   );
 }
