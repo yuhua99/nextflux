@@ -17,7 +17,7 @@
 
 @layer base {
   * {
-    @apply border-divider;
+    @apply border-divider !ring-transparent !outline-transparent;
   }
 }
 
