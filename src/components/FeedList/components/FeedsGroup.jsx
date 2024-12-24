@@ -27,8 +27,6 @@ import {
 } from "@/components/ui/sidebar";
 import { useSidebar } from "@/components/ui/sidebar.jsx";
 import FeedIcon from "@/components/ui/FeedIcon";
-import AddFeedModal from "./AddFeedModal";
-import AddCategoryModal from "./AddCategoryModal";
 
 const FeedsGroup = () => {
   const $feedsByCategory = useStore(feedsByCategory);
@@ -107,8 +105,6 @@ const FeedsGroup = () => {
           ))}
         </SidebarMenu>
       </SidebarGroupContent>
-      <AddFeedModal />
-      <AddCategoryModal />
     </SidebarGroup>
   );
 };

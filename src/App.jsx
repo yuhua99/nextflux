@@ -6,6 +6,8 @@ import FeedListSidebar from "@/components/FeedList/FeedListSidebar.jsx";
 import { authState } from "@/stores/authStore.js";
 import { startAutoSync } from "@/stores/syncStore.js";
 import Settings from "@/components/Settings/Settings.jsx";
+import AddFeedModal from "@/components/FeedList/components/AddFeedModal.jsx";
+import AddCategoryModal from "@/components/FeedList/components/AddCategoryModal.jsx";
 
 function App() {
   useEffect(() => {
@@ -23,6 +25,8 @@ function App() {
         <Outlet />
       </SidebarInset>
       <Settings />
+      <AddFeedModal />
+      <AddCategoryModal />
     </SidebarProvider>
   );
 }
