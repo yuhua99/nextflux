@@ -4,6 +4,7 @@ import { filter } from "@/stores/articlesStore.js";
 import { settingsState } from "@/stores/settingsStore.js";
 
 export const feeds = atom([]);
+export const categories = atom([]);
 export const error = atom(null);
 export const unreadCounts = atom({});
 export const starredCounts = atom({});
@@ -99,23 +100,13 @@ export const totalStarredCount = computed([starredCounts], ($starredCounts) => {
   return Object.values($starredCounts).reduce((sum, count) => sum + count, 0);
 });
 
-// 计算状态，分类名称及分类id，去除重复项
-export const categoryState = computed([feeds], ($feeds) => {
-  const uniqueCategories = new Map();
-  $feeds.forEach((feed) => {
-    uniqueCategories.set(feed.categoryId, {
-      id: feed.categoryId,
-      name: feed.categoryName,
-    });
-  });
-  return Array.from(uniqueCategories.values());
-});
-
 export async function loadFeeds() {
   try {
     await storage.init();
     const storedFeeds = await storage.getFeeds();
     feeds.set(storedFeeds || []);
+    const storedCategories = await storage.getCategories();
+    categories.set(storedCategories || []);
     const filteredFeeds = settingsState.get().showHiddenFeeds
       ? storedFeeds
       : storedFeeds.filter((feed) => !feed.hide_globally);

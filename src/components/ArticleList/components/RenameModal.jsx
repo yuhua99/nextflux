@@ -14,11 +14,11 @@ import { forceSync } from "@/stores/syncStore";
 import { renameModalOpen } from "@/stores/modalStore.js";
 import { useStore } from "@nanostores/react";
 import { useParams } from "react-router-dom";
-import { categoryState } from "@/stores/feedsStore";
+import { categories } from "@/stores/feedsStore";
 import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
 
 export default function RenameModal() {
-  const $categoryState = useStore(categoryState);
+  const $categories = useStore(categories);
   const { categoryId } = useParams();
   const [newTitle, setNewTitle] = useState("");
   const [loading, setLoading] = useState(false);
@@ -26,16 +26,12 @@ export default function RenameModal() {
   const $renameModalOpen = useStore(renameModalOpen);
 
   useEffect(() => {
-    setNewTitle(
-      $categoryState.find((c) => c.id === parseInt(categoryId))?.name,
-    );
-  }, [$categoryState, categoryId]);
+    setNewTitle($categories.find((c) => c.id === parseInt(categoryId))?.title);
+  }, [$categories, categoryId]);
 
   const onClose = () => {
     renameModalOpen.set(false);
-    setNewTitle(
-      $categoryState.find((c) => c.id === parseInt(categoryId))?.name,
-    );
+    setNewTitle($categories.find((c) => c.id === parseInt(categoryId))?.title);
   };
 
   const handleRename = async (e) => {
@@ -84,7 +80,7 @@ export default function RenameModal() {
                 isRequired
                 size="sm"
                 label="分类名称"
-                name="name"
+                name="title"
                 placeholder="请输入分类名称"
                 errorMessage="请输入分类名称"
                 value={newTitle}

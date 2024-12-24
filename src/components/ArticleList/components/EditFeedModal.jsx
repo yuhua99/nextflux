@@ -12,7 +12,7 @@ import {
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { useStore } from "@nanostores/react";
-import { categoryState, feeds } from "@/stores/feedsStore";
+import { categories, feeds } from "@/stores/feedsStore";
 import { editFeedModalOpen } from "@/stores/modalStore";
 import { useParams } from "react-router-dom";
 import minifluxAPI from "@/api/miniflux";
@@ -23,7 +23,7 @@ import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
 export default function EditFeedModal() {
   const { feedId } = useParams();
   const $feeds = useStore(feeds);
-  const $categories = useStore(categoryState);
+  const $categories = useStore(categories);
   const $editFeedModalOpen = useStore(editFeedModalOpen);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -120,7 +120,7 @@ export default function EditFeedModal() {
               >
                 {$categories.map((category) => (
                   <SelectItem key={category.id} value={category.id}>
-                    {category.name}
+                    {category.title}
                   </SelectItem>
                 ))}
               </Select>

@@ -11,14 +11,14 @@ import {
 } from "@nextui-org/react";
 import { useState } from "react";
 import { useStore } from "@nanostores/react";
-import { categoryState } from "@/stores/feedsStore";
+import { categories } from "@/stores/feedsStore";
 import { addFeedModalOpen } from "@/stores/modalStore";
 import minifluxAPI from "@/api/miniflux";
 import { forceSync } from "@/stores/syncStore";
 import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
 
 export default function AddFeedModal() {
-  const $categories = useStore(categoryState);
+  const $categories = useStore(categories);
   const $addFeedModalOpen = useStore(addFeedModalOpen);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -99,7 +99,7 @@ export default function AddFeedModal() {
               >
                 {$categories.map((category) => (
                   <SelectItem key={category.id} value={category.id}>
-                    {category.name}
+                    {category.title}
                   </SelectItem>
                 ))}
               </Select>

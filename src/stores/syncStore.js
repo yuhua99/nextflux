@@ -23,8 +23,11 @@ if (typeof window !== "undefined") {
 // 从miniflux同步订阅源并保存到数据库
 async function syncFeeds() {
   try {
-    // 获取服务器上的所有订阅源
-    const serverFeeds = await minifluxAPI.getFeeds();
+    // 获取服务器上的所有订阅源和分类
+    const [serverFeeds, serverCategories] = await Promise.all([
+      minifluxAPI.getFeeds(),
+      minifluxAPI.getCategories(),
+    ]);
     await storage.init();
 
     // 获取本地数据库中的所有订阅源
@@ -41,7 +44,19 @@ async function syncFeeds() {
       await storage.deleteArticlesByFeedId(feed.id);
     }
 
-    await storage.deleteAllFeeds();
+    // 清空本地订阅源和分类数据
+    await Promise.all([
+      storage.deleteAllFeeds(),
+      storage.deleteAllCategories(),
+    ]);
+
+    // 同步分类数据
+    for (const category of serverCategories) {
+      await storage.addCategory({
+        id: category.id,
+        title: category.title,
+      });
+    }
 
     // 重置现有订阅源
     for (const feed of serverFeeds) {

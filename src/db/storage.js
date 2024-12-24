@@ -1,7 +1,7 @@
 class Storage {
   constructor() {
     this.dbName = "minifluxReader";
-    this.dbVersion = 1;
+    this.dbVersion = 2;
     this.db = null;
   }
 
@@ -20,6 +20,14 @@ class Storage {
 
       request.onupgradeneeded = (event) => {
         const db = event.target.result;
+
+        // 创建分类存储
+        if (!db.objectStoreNames.contains("categories")) {
+          const categoriesDb = db.createObjectStore("categories", {
+            keyPath: "id",
+          });
+          categoriesDb.createIndex("title", "title", { unique: true });
+        }
 
         // 创建文章存储
         if (!db.objectStoreNames.contains("articles")) {
@@ -194,6 +202,37 @@ class Storage {
       };
       request.onerror = () => reject(request.error);
     });
+  }
+
+  // 添加分类
+  async addCategory(category) {
+    const tx = this.db.transaction("categories", "readwrite");
+    const store = tx.objectStore("categories");
+
+    return new Promise((resolve, reject) => {
+      const request = store.put(category);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  // 获取所有分类
+  async getCategories() {
+    const tx = this.db.transaction("categories", "readonly");
+    const store = tx.objectStore("categories");
+
+    return new Promise((resolve, reject) => {
+      const request = store.getAll();
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  // 删除全部分类
+  async deleteAllCategories() {
+    const tx = this.db.transaction("categories", "readwrite");
+    const store = tx.objectStore("categories");
+    await store.clear();
   }
 }
 

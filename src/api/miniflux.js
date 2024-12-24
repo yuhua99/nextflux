@@ -231,6 +231,30 @@ class miniFluxAPI {
       throw error;
     }
   }
+
+  // 创建分类
+  async createCategory(title) {
+    try {
+      const response = await this.client.post("/v1/categories", {
+        title,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("创建分类失败:", error);
+      throw error;
+    }
+  }
+
+  // 获取所有分类
+  async getCategories() {
+    try {
+      const response = await this.client.get("/v1/categories");
+      return response.data;
+    } catch (error) {
+      console.error("获取分类列表失败:", error);
+      throw error;
+    }
+  }
 }
 
 export default new miniFluxAPI();
