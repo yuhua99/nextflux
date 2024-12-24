@@ -266,6 +266,23 @@ class miniFluxAPI {
       throw error;
     }
   }
+
+  async importOPML(file) {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      const response = await this.client.post('/v1/import', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      return response.data;
+    } catch (error) {
+      console.error('导入OPML失败:', error);
+      throw error;
+    }
+  }
 }
 
 export default new miniFluxAPI();
