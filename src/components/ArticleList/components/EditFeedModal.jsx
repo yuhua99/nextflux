@@ -95,7 +95,6 @@ export default function EditFeedModal() {
                 isRequired
                 size="sm"
                 label="订阅名称"
-                labelPlacement="outside"
                 name="title"
                 placeholder="请输入订阅名称"
                 errorMessage="请输入订阅名称"
@@ -108,7 +107,6 @@ export default function EditFeedModal() {
                 isRequired
                 size="sm"
                 label="分类"
-                labelPlacement="outside"
                 name="category_id"
                 placeholder="请选择分类"
                 errorMessage="请选择分类"
@@ -132,7 +130,7 @@ export default function EditFeedModal() {
                 classNames={{
                   base: cn(
                     "inline-flex flex-row-reverse w-full max-w-md bg-content2 items-center",
-                    "justify-between cursor-pointer rounded-lg gap-2 py-2 pr-2 border-2 border-transparent",
+                    "justify-between cursor-pointer rounded-lg gap-2 py-[6px] pr-2 border-2 border-transparent",
                     "data-[selected=true]:border-primary",
                   ),
                 }}
@@ -143,7 +141,7 @@ export default function EditFeedModal() {
               >
                 <div className="flex flex-col w-full">
                   <div className="text-sm">隐藏订阅源</div>
-                  <div className="text-xs text-default-400">
+                  <div className="text-xs text-default-500">
                     隐藏订阅源默认不显示在订阅源列表中
                   </div>
                 </div>

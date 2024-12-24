@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { login } from "@/stores/authStore";
 import { Button, Form, Input, Link } from "@nextui-org/react";
 import { Eye, EyeClosed } from "lucide-react";
+import { toast } from "sonner";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -21,6 +22,7 @@ export default function LoginPage() {
       navigate("/");
     } catch (err) {
       console.log(err.message);
+      toast.error(err.message);
     } finally {
       setLoading(false);
     }

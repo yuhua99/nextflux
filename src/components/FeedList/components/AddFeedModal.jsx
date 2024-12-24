@@ -74,7 +74,6 @@ export default function AddFeedModal() {
                 isRequired
                 size="sm"
                 label="订阅地址"
-                labelPlacement="outside"
                 name="feed_url"
                 placeholder="请输入订阅地址"
                 errorMessage="请输入订阅地址"
@@ -87,7 +86,6 @@ export default function AddFeedModal() {
                 isRequired
                 size="sm"
                 label="分类"
-                labelPlacement="outside"
                 name="category_id"
                 placeholder="请选择分类"
                 errorMessage="请选择分类"

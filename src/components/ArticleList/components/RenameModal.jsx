@@ -16,6 +16,7 @@ import { useStore } from "@nanostores/react";
 import { useParams } from "react-router-dom";
 import { categoryState } from "@/stores/feedsStore";
 import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
+
 export default function RenameModal() {
   const $categoryState = useStore(categoryState);
   const { categoryId } = useParams();
@@ -83,7 +84,6 @@ export default function RenameModal() {
                 isRequired
                 size="sm"
                 label="分类名称"
-                labelPlacement="outside"
                 name="name"
                 placeholder="请输入分类名称"
                 errorMessage="请输入分类名称"
