@@ -25,9 +25,10 @@ export default function AudioPlayer({ source }) {
 
     if (timeMatch) {
       const [, hours, minutes, seconds] = timeMatch;
-      const totalSeconds = (parseInt(hours) || 0) * 3600 + 
-                          parseInt(minutes) * 60 + 
-                          parseInt(seconds);
+      const totalSeconds =
+        (parseInt(hours) || 0) * 3600 +
+        parseInt(minutes) * 60 +
+        parseInt(seconds);
 
       if (!isNaN(totalSeconds)) {
         setTime(totalSeconds);
@@ -53,8 +54,13 @@ export default function AudioPlayer({ source }) {
         className="shadow-custom w-full bg-background/80 backdrop-blur-lg dark:bg-content2/80 rounded-xl"
         paused={paused}
         autoPlay={true}
-        onPlay={() => audioState.setKey("paused", false)}
+        onPlay={() => {
+          audioState.setKey("loading", false);
+          audioState.setKey("paused", false);
+        }}
         onPause={() => audioState.setKey("paused", true)}
+        onWaiting={() => audioState.setKey("loading", true)}
+        onPlaying={() => audioState.setKey("loading", false)}
         src={url}
         viewType="audio"
         currentTime={time}
