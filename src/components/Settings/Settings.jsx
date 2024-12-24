@@ -25,7 +25,10 @@ export default function App() {
         isOpen={isOpen}
         radius="md"
         scrollBehavior="inside"
-        onOpenChange={(value) => settingsModalOpen.set(value)}
+        onOpenChange={(value) => {
+          settingsModalOpen.set(value);
+          setActiveTab("general");
+        }}
         classNames={{
           base: "settings-modal m-2 max-h-[80vh] h-[600px] overflow-hidden bg-content2 dark:bg-background dark:border",
           header: "border-b flex flex-col gap-3 p-3 bg-background",
@@ -48,7 +51,10 @@ export default function App() {
                     radius="full"
                     variant="light"
                     isIconOnly
-                    onPress={() => settingsModalOpen.set(false)}
+                    onPress={() => {
+                      settingsModalOpen.set(false);
+                      setActiveTab("general");
+                    }}
                   >
                     <X className="size-4" />
                   </Button>

@@ -40,7 +40,6 @@ export const settingsState = persistentAtom("settings", defaultValue, {
 export const updateSettings = (settingsChanges) =>
   settingsState.set({ ...settingsState.get(), ...settingsChanges });
 
-
 export const resetSettings = () => {
   // 定义阅读相关的设置项
   const readingSettings = [
@@ -51,14 +50,15 @@ export const resetSettings = () => {
     "fontFamily",
     "titleFontSize",
     "titleAlignType",
+    "autoHideToolbar",
   ];
   const currentSettings = settingsState.get();
   const newSettings = { ...currentSettings };
 
   // 只重置阅读相关的设置
-  readingSettings.forEach(key => {
+  readingSettings.forEach((key) => {
     newSettings[key] = defaultValue[key];
   });
-  
+
   settingsState.set(newSettings);
 };
