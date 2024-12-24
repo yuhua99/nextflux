@@ -33,6 +33,7 @@ export default function EditFeedModal() {
     title: "",
     category_id: "",
     hide_globally: false,
+    crawler: false,
   });
 
   useEffect(() => {
@@ -43,6 +44,7 @@ export default function EditFeedModal() {
           title: feed.title,
           category_id: feed.categoryId,
           hide_globally: feed.hide_globally,
+          crawler: feed.crawler,
         });
         setFeedUrl(feed.url);
       }
@@ -56,6 +58,7 @@ export default function EditFeedModal() {
       title: feed.title,
       category_id: feed.categoryId,
       hide_globally: feed.hide_globally,
+      crawler: feed.crawler,
     });
     setFeedUrl(feed.url);
   };
@@ -130,6 +133,28 @@ export default function EditFeedModal() {
                 ))}
               </Select>
               <Switch
+                name="crawler"
+                size="sm"
+                classNames={{
+                  base: cn(
+                    "inline-flex flex-row-reverse w-full max-w-md bg-content2 items-center",
+                    "justify-between cursor-pointer rounded-lg gap-2 py-[6px] pr-2 border-2 border-transparent",
+                    "data-[selected=true]:border-primary",
+                  ),
+                }}
+                isSelected={formData.crawler}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, crawler: value })
+                }
+              >
+                <div className="flex flex-col w-full">
+                  <div className="text-sm">获取全文</div>
+                  <div className="text-xs text-default-500">
+                    自动尝试抓取全文内容
+                  </div>
+                </div>
+              </Switch>
+              <Switch
                 name="hide_globally"
                 size="sm"
                 classNames={{
@@ -139,7 +164,7 @@ export default function EditFeedModal() {
                     "data-[selected=true]:border-primary",
                   ),
                 }}
-                checked={formData.hide_globally}
+                isSelected={formData.hide_globally}
                 onValueChange={(value) =>
                   setFormData({ ...formData, hide_globally: value })
                 }

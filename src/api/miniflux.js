@@ -206,11 +206,12 @@ class miniFluxAPI {
   }
 
   // 创建订阅源
-  async createFeed(feedUrl, categoryId) {
+  async createFeed(feedUrl, categoryId, params) {
     try {
       const response = await this.client.post("/v1/feeds", {
         feed_url: feedUrl,
         category_id: categoryId,
+        ...params,
       });
       return response.data;
     } catch (error) {

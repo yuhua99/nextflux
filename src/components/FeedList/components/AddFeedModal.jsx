@@ -8,6 +8,7 @@ import {
   ModalHeader,
   Select,
   SelectItem,
+  Switch,
 } from "@nextui-org/react";
 import { useState } from "react";
 import { useStore } from "@nanostores/react";
@@ -17,6 +18,7 @@ import minifluxAPI from "@/api/miniflux";
 import { forceSync } from "@/stores/syncStore";
 import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
 import { useNavigate } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 export default function AddFeedModal() {
   const $categories = useStore(categories);
@@ -26,6 +28,7 @@ export default function AddFeedModal() {
   const [formData, setFormData] = useState({
     feed_url: "",
     category_id: "",
+    crawler: false,
   });
 
   const onClose = () => {
@@ -33,6 +36,7 @@ export default function AddFeedModal() {
     setFormData({
       feed_url: "",
       category_id: "",
+      crawler: false,
     });
   };
 
@@ -43,6 +47,7 @@ export default function AddFeedModal() {
       const response = await minifluxAPI.createFeed(
         formData.feed_url,
         formData.category_id,
+        { crawler: formData.crawler },
       );
       await forceSync(); // 重新加载订阅源列表以更新UI
       onClose();
@@ -111,6 +116,28 @@ export default function AddFeedModal() {
                   </SelectItem>
                 ))}
               </Select>
+              <Switch
+                name="crawler"
+                size="sm"
+                classNames={{
+                  base: cn(
+                    "inline-flex flex-row-reverse w-full max-w-md bg-content2 items-center",
+                    "justify-between cursor-pointer rounded-lg gap-2 py-[6px] pr-2 border-2 border-transparent",
+                    "data-[selected=true]:border-primary",
+                  ),
+                }}
+                isSelected={formData.crawler}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, crawler: value })
+                }
+              >
+                <div className="flex flex-col w-full">
+                  <div className="text-sm">获取全文</div>
+                  <div className="text-xs text-default-500">
+                    自动尝试抓取全文内容
+                  </div>
+                </div>
+              </Switch>
             </div>
           </ModalBody>
           <ModalFooter>
