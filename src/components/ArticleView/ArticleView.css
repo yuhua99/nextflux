@@ -62,6 +62,6 @@ figcaption {
 }
 
 /*YouTube 播放器视觉修复*/
-iframe.vds-youtube[data-no-controls] {
-  height: auto !important;
+[data-media-player] {
+  contain: layout;
 }

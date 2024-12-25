@@ -5,12 +5,7 @@ import {
   PlyrLayout,
   plyrLayoutIcons,
 } from "@vidstack/react/player/layouts/plyr";
-import { Button, Chip, Image } from "@nextui-org/react";
-import { useState } from "react";
-import { extractFirstImage } from "@/lib/utils.js";
-import { activeArticle } from "@/stores/articlesStore.js";
-import { useStore } from "@nanostores/react";
-import { Play } from "lucide-react";
+import { Chip } from "@nextui-org/react";
 
 const CHINESE = {
   "Current time": "当前时间",
@@ -69,56 +64,33 @@ export default function VideoPlayer({ src, provider }) {
   const videoSrc =
     provider === "youtube" ? `https://www.youtube.com/embed/${videoId}` : src;
 
-  const [clicked, setClicked] = useState(false);
-  const $activeArticle = useStore(activeArticle);
   return (
     <div className="mb-4">
-      {clicked ? (
-        <MediaPlayer
-          className="rounded-lg shadow-custom overflow-hidden"
-          src={videoSrc}
-          crossOrigin
-          autoPlay={!isIOSDevice}
-          posterLoad="visible"
-        >
-          <MediaProvider />
-          <PlyrLayout
-            icons={plyrLayoutIcons}
-            translations={CHINESE}
-            controls={[
-              ...(isIOSDevice
-                ? ["play-large"]
-                : [
-                    "play",
-                    "progress",
-                    "current-time",
-                    "duration",
-                    "fullscreen",
-                  ]),
-            ]}
-          />
-        </MediaPlayer>
-      ) : (
-        <div className="video-card relative mx-auto w-full aspect-video bg-content2 rounded-lg shadow-custom overflow-hidden">
-          <Image
-            removeWrapper
-            radius="none"
-            alt="Card background"
-            classNames={{ img: "m-0 absolute z-0 w-full h-full object-cover" }}
-            src={extractFirstImage($activeArticle)}
-          />
-          <div className="button-wrapper absolute z-10 top-0 w-full h-full flex flex-col items-center justify-center">
-            <Button
-              className="bg-white text-black/60 shadow-custom"
-              radius="full"
-              isIconOnly
-              onPress={() => setClicked(true)}
-            >
-              <Play className="size-4 fill-current" />
-            </Button>
-          </div>
-        </div>
-      )}
+      <MediaPlayer
+        className="rounded-lg shadow-custom overflow-hidden"
+        src={videoSrc}
+        crossOrigin
+        load="play"
+        posterLoad="visible"
+        title=""
+        artist=""
+        artwork={[
+          {
+            src: "",
+          },
+        ]}
+      >
+        <MediaProvider />
+        <PlyrLayout
+          icons={plyrLayoutIcons}
+          translations={CHINESE}
+          controls={[
+            ...(isIOSDevice
+              ? ["play-large"]
+              : ["play", "progress", "current-time", "duration", "fullscreen"]),
+          ]}
+        />
+      </MediaPlayer>
       {provider === "youtube" && (
         <div className="flex justify-center">
           <Chip
