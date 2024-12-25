@@ -5,7 +5,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
-import { EllipsisVertical } from "lucide-react";
+import { EllipsisVertical, FilePen, FolderPen, Trash2 } from "lucide-react";
 import { useParams } from "react-router-dom";
 import RenameModal from "./RenameModal";
 import UnsubscribeModal from "./UnsubscribeModal";
@@ -38,6 +38,7 @@ export default function MenuButton() {
             <DropdownItem
               key="edit"
               onPress={() => editFeedModalOpen.set(true)}
+              startContent={<FilePen className="size-4" />}
             >
               编辑订阅
             </DropdownItem>
@@ -47,6 +48,7 @@ export default function MenuButton() {
               color="danger"
               variant="flat"
               onPress={() => unsubscribeModalOpen.set(true)}
+              startContent={<Trash2 className="size-4" />}
             >
               取消订阅
             </DropdownItem>
@@ -57,6 +59,7 @@ export default function MenuButton() {
             <DropdownItem
               key="rename"
               onPress={() => renameModalOpen.set(true)}
+              startContent={<FolderPen className="size-4" />}
             >
               重命名分类
             </DropdownItem>

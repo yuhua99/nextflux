@@ -50,6 +50,7 @@ export default function MarkAllReadButton() {
           key="markAsRead"
           className="text-danger"
           color="danger"
+          startContent={<CircleCheck className="size-4" />}
           onPress={() => {
             if (feedId) {
               handleMarkAllRead("feed");
