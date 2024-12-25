@@ -60,7 +60,7 @@ class miniFluxAPI {
       const response = await this.client.get(
         "/v1/feeds/" + feedId + "/entries",
         {
-          params: { direction: "desc", limit: 50, ...params },
+          params: { direction: "desc", limit: 20, ...params },
         },
       );
       return response.data.entries;
@@ -270,16 +270,16 @@ class miniFluxAPI {
   async importOPML(file) {
     try {
       const formData = new FormData();
-      formData.append('file', file);
-      
-      const response = await this.client.post('/v1/import', formData, {
+      formData.append("file", file);
+
+      const response = await this.client.post("/v1/import", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          "Content-Type": "multipart/form-data",
+        },
       });
       return response.data;
     } catch (error) {
-      console.error('导入OPML失败:', error);
+      console.error("导入OPML失败:", error);
       throw error;
     }
   }
