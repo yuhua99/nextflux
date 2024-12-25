@@ -1,6 +1,6 @@
 import "@vidstack/react/player/styles/base.css";
 import "@vidstack/react/player/styles/plyr/theme.css";
-import { MediaPlayer, MediaProvider, Poster } from "@vidstack/react";
+import { MediaPlayer, MediaProvider } from "@vidstack/react";
 import {
   PlyrLayout,
   plyrLayoutIcons,
@@ -56,7 +56,7 @@ const getYouTubeId = (url) => {
   return match && match[2].length === 11 ? match[2] : null;
 };
 
-export default function VideoPlayer({ videoTitle, src, provider, poster }) {
+export default function VideoPlayer({ src, provider }) {
   const videoId = getYouTubeId(src);
   const userAgent = window.navigator.userAgent.toLowerCase();
   const isIOSDevice =
@@ -68,12 +68,11 @@ export default function VideoPlayer({ videoTitle, src, provider, poster }) {
       <MediaPlayer
         className="rounded-lg shadow-custom overflow-hidden"
         src={videoSrc}
-        title={videoTitle}
         crossOrigin
+        load="play"
+        posterLoad="visible"
       >
-        <MediaProvider>
-          {poster && <Poster className="vds-poster" src={poster} />}
-        </MediaProvider>
+        <MediaProvider />
         <PlyrLayout
           icons={plyrLayoutIcons}
           translations={CHINESE}

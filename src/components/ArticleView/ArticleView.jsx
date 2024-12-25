@@ -221,11 +221,7 @@ const ArticleView = () => {
 
                         if (videoSrc) {
                           return (
-                            <VideoPlayer
-                              videoTitle={$activeArticle?.title}
-                              src={videoSrc}
-                              provider="video"
-                            />
+                            <VideoPlayer src={videoSrc} provider="video" />
                           );
                         }
                         return domNode;
@@ -246,13 +242,7 @@ const ArticleView = () => {
                         }
 
                         // YouTube iframe 显示打开链接的按钮
-                        return (
-                          <VideoPlayer
-                            videoTitle={$activeArticle?.title}
-                            src={src}
-                            provider="youtube"
-                          />
-                        );
+                        return <VideoPlayer src={src} provider="youtube" />;
                       }
                     },
                   })}
