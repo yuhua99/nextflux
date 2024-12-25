@@ -55,5 +55,20 @@ export default {
   },
 
   darkMode: "class",
-  plugins: [nextui(), animate, typography],
+  plugins: [
+    nextui({
+      themes: {
+        light: {
+          colors: {
+            divider: "rgba(17, 17, 17, 0.08)",
+            default: {
+              DEFAULT: "#e4e4e7",
+            },
+          },
+        },
+      },
+    }),
+    animate,
+    typography,
+  ],
 };
