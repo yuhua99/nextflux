@@ -1,12 +1,13 @@
 import { useParams } from "react-router-dom";
 import { useStore } from "@nanostores/react";
-import { SidebarTrigger } from "@/components/ui/sidebar.jsx";
+import { SidebarTrigger, useSidebar } from "@/components/ui/sidebar.jsx";
 import { Divider } from "@nextui-org/react";
 import { filter, filteredArticles } from "@/stores/articlesStore.js";
 import { feeds } from "@/stores/feedsStore.js";
 import MarkAllReadButton from "./MarkAllReadButton";
 import { isSyncing } from "@/stores/syncStore.js";
 import MenuButton from "./MenuButton";
+import { cn } from "@/lib/utils.js";
 
 export default function ArticleListHeader() {
   const { feedId, categoryId } = useParams();
@@ -14,6 +15,7 @@ export default function ArticleListHeader() {
   const $feeds = useStore(feeds);
   const $isSyncing = useStore(isSyncing);
   const $articles = useStore(filteredArticles);
+  const { isMobile } = useSidebar();
 
   // 获取标题文本
   const getTitleText = () => {
@@ -59,7 +61,12 @@ export default function ArticleListHeader() {
   };
 
   return (
-    <div className="article-list-header bg-content2 w-full px-3 z-10">
+    <div
+      className={cn(
+        "article-list-header absolute top-0 w-full px-3 z-10",
+        isMobile ? "bg-content2/80 backdrop-blur-lg" : "bg-content2",
+      )}
+    >
       <div className="flex items-center gap-2">
         <SidebarTrigger className="my-2.5" />
         <div className="grid flex-1 text-left text-sm leading-tight">

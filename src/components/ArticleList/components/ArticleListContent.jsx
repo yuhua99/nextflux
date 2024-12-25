@@ -9,9 +9,7 @@ import { AnimatePresence, motion } from "framer-motion";
 const ArticleItem = memo(({ article, isLast }) => (
   <div className="mx-2">
     <ArticleCard article={article} />
-    {!isLast && (
-      <div className="h-4"/>
-    )}
+    {!isLast && <div className="h-4" />}
   </div>
 ));
 ArticleItem.displayName = "ArticleItem";
@@ -42,7 +40,7 @@ export default function ArticleListContent({ articles }) {
           className="v-list h-full"
           data={articles}
           components={{
-            Header: () => <div className="vlist-header h-2"></div>,
+            Header: () => <div className="vlist-header h-16"></div>,
             Footer: () => <div className="vlist-footer h-16"></div>,
           }}
           itemContent={(index, article) => (
