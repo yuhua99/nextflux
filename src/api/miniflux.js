@@ -60,7 +60,7 @@ class miniFluxAPI {
       const response = await this.client.get(
         "/v1/feeds/" + feedId + "/entries",
         {
-          params: { direction: "desc", limit: 0, status: "unread", ...params },
+          params: { direction: "desc", limit: 50, ...params },
         },
       );
       return response.data.entries;
@@ -280,6 +280,23 @@ class miniFluxAPI {
       return response.data;
     } catch (error) {
       console.error("导入OPML失败:", error);
+      throw error;
+    }
+  }
+
+  // 获取所有未读文章
+  async getAllUnreadEntries() {
+    try {
+      const response = await this.client.get("/v1/entries", {
+        params: {
+          status: "unread",
+          direction: "desc",
+          limit: 0,
+        },
+      });
+      return response.data.entries;
+    } catch (error) {
+      console.error("获取未读文章失败:", error);
       throw error;
     }
   }

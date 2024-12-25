@@ -83,80 +83,35 @@ async function syncFeeds() {
 async function syncEntries() {
   try {
     const lastSyncTime = storage.getLastSyncTime();
-    // 计算24小时前的时间戳
     const oneDayAgo = new Date(lastSyncTime);
     oneDayAgo.setHours(oneDayAgo.getHours() - 24);
 
     if (!lastSyncTime) {
-      // 首次同步,获取所有非星标文章
-      const feeds = await storage.getFeeds();
-      for (const feed of feeds) {
-        const entries = await minifluxAPI.getFeedEntries(feed.id, {
-          starred: false,
-        });
-        await storage.addArticles(
-          entries.map((entry) => ({
-            id: entry.id,
-            feedId: feed.id,
-            title: entry.title,
-            author: entry.author,
-            url: entry.url,
-            content: entry.content,
-            plainContent: extractTextFromHtml(entry.content),
-            status: entry.status,
-            starred: entry.starred,
-            published_at: entry.published_at,
-            created_at: entry.created_at,
-            enclosures: entry.enclosures || [],
-          })),
-        );
-      }
-      // 获取星标文章
+      // 首次同步时一次性获取所有未读文章
+      const response = await minifluxAPI.client.get("/v1/entries", {
+        params: {
+          status: "unread",
+          direction: "desc",
+          limit: 0,
+        },
+      });
+      const unreadEntries = response.data.entries;
+
+      // 获取所有星标文章
       const starredEntries = await minifluxAPI.getAllStarredEntries();
-      await storage.addArticles(
-        starredEntries.map((entry) => ({
-          id: entry.id,
-          feedId: entry.feed.id,
-          title: entry.title,
-          author: entry.author,
-          url: entry.url,
-          content: entry.content,
-          plainContent: extractTextFromHtml(entry.content),
-          status: entry.status,
-          starred: entry.starred,
-          published_at: entry.published_at,
-          created_at: entry.created_at,
-          enclosures: entry.enclosures || [],
-        })),
-      );
-    } else {
-      // 增量同步
-      // 1. 获取变更的文章
-      const changedEntries = await minifluxAPI.getChangedEntries(oneDayAgo);
-      if (changedEntries.length > 0) {
-        await storage.addArticles(
-          changedEntries.map((entry) => ({
-            id: entry.id,
-            feedId: entry.feed.id,
-            title: entry.title,
-            author: entry.author,
-            url: entry.url,
-            content: entry.content,
-            plainContent: extractTextFromHtml(entry.content),
-            status: entry.status,
-            starred: entry.starred,
-            published_at: entry.published_at,
-            created_at: entry.created_at,
-            enclosures: entry.enclosures || [],
-          })),
-        );
+
+      // 合并去重
+      const allEntries = [...unreadEntries];
+      for (const entry of starredEntries) {
+        if (!allEntries.find(e => e.id === entry.id)) {
+          allEntries.push(entry);
+        }
       }
 
-      // 2. 获取新发布的文章
-      const newEntries = await minifluxAPI.getNewEntries(oneDayAgo);
-      if (newEntries.length > 0) {
+      // 批量保存到数据库
+      if (allEntries.length > 0) {
         await storage.addArticles(
-          newEntries.map((entry) => ({
+          allEntries.map((entry) => ({
             id: entry.id,
             feedId: entry.feed.id,
             title: entry.title,
@@ -169,7 +124,41 @@ async function syncEntries() {
             published_at: entry.published_at,
             created_at: entry.created_at,
             enclosures: entry.enclosures || [],
-          })),
+          }))
+        );
+      }
+    } else {
+      // 增量同步 - 并行获取变更和新文章
+      const [changedEntries, newEntries] = await Promise.all([
+        minifluxAPI.getChangedEntries(oneDayAgo),
+        minifluxAPI.getNewEntries(oneDayAgo)
+      ]);
+
+      // 合并去重
+      const allEntries = [...changedEntries];
+      for (const entry of newEntries) {
+        if (!allEntries.find(e => e.id === entry.id)) {
+          allEntries.push(entry);
+        }
+      }
+
+      // 批量保存到数据库
+      if (allEntries.length > 0) {
+        await storage.addArticles(
+          allEntries.map((entry) => ({
+            id: entry.id,
+            feedId: entry.feed.id,
+            title: entry.title,
+            author: entry.author,
+            url: entry.url,
+            content: entry.content,
+            plainContent: extractTextFromHtml(entry.content),
+            status: entry.status,
+            starred: entry.starred,
+            published_at: entry.published_at,
+            created_at: entry.created_at,
+            enclosures: entry.enclosures || [],
+          }))
         );
       }
     }
