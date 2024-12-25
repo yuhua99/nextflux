@@ -87,7 +87,7 @@ export default function VideoPlayer({ src, provider }) {
             translations={CHINESE}
             controls={[
               ...(isIOSDevice
-                ? []
+                ? ["play-large"]
                 : [
                     "play",
                     "progress",
