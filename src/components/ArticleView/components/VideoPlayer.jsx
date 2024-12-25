@@ -78,7 +78,7 @@ export default function VideoPlayer({ src, provider }) {
           className="rounded-lg shadow-custom overflow-hidden"
           src={videoSrc}
           crossOrigin
-          autoPlay={true}
+          autoPlay={!isIOSDevice}
           posterLoad="visible"
         >
           <MediaProvider />
