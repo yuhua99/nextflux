@@ -60,7 +60,7 @@ class miniFluxAPI {
       const response = await this.client.get(
         "/v1/feeds/" + feedId + "/entries",
         {
-          params: { direction: "desc", limit: 20, ...params },
+          params: { direction: "desc", limit: 0, status: "unread", ...params },
         },
       );
       return response.data.entries;
