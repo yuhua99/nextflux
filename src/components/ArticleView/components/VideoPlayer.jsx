@@ -63,7 +63,6 @@ export default function VideoPlayer({ src, provider }) {
     /iphone|ipod|ipad|macintosh/.test(userAgent) && "ontouchend" in document;
   const videoSrc =
     provider === "youtube" ? `https://www.youtube.com/embed/${videoId}` : src;
-
   return (
     <div className="mb-4">
       <MediaPlayer
@@ -85,8 +84,9 @@ export default function VideoPlayer({ src, provider }) {
           icons={plyrLayoutIcons}
           translations={CHINESE}
           controls={[
+            "play-large",
             ...(isIOSDevice
-              ? ["play-large"]
+              ? []
               : ["play", "progress", "current-time", "duration", "fullscreen"]),
           ]}
         />
