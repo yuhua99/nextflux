@@ -14,6 +14,7 @@ import {
   Square,
   Text,
 } from "lucide-react";
+import Theme from "./components/Theme";
 
 export default function Appearance() {
   const {
@@ -25,6 +26,7 @@ export default function Appearance() {
   } = useStore(settingsState);
   return (
     <>
+      <Theme />
       <ItemWrapper title="订阅源图标">
         <SelItem
           label="形状"

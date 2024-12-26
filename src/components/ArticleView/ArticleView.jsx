@@ -16,6 +16,7 @@ import { settingsState } from "@/stores/settingsStore";
 import { AnimatePresence, motion } from "framer-motion";
 import VideoPlayer from "@/components/ArticleView/components/VideoPlayer.jsx";
 import PlayAndPause from "@/components/ArticleView/components/PlayAndPause.jsx";
+import { themeState } from "@/stores/themeStore.js";
 
 const ArticleView = () => {
   const { articleId } = useParams();
@@ -32,6 +33,22 @@ const ArticleView = () => {
     titleFontSize,
     titleAlignType,
   } = useStore(settingsState);
+  const { themeMode, lightTheme, darkTheme } = useStore(themeState);
+  const systemMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+  // 判断当前是否实际使用了stone主题
+  const isStoneTheme = () => {
+    if (themeMode === "system") {
+      return (systemMode === "light" && lightTheme==="stone") || (systemMode === "dark" && darkTheme==="stone")
+    }
+    if (themeMode === "light") {
+      return lightTheme === "stone";
+    }
+    if (themeMode === "dark") {
+      return darkTheme === "stone";
+    }
+  }
   const scrollAreaRef = useRef(null);
 
   // 监听文章ID变化,滚动到顶部
@@ -182,6 +199,7 @@ const ArticleView = () => {
                   className={cn(
                     "article-content prose dark:prose-invert max-w-none",
                     getFontSizeClass(fontSize),
+                    isStoneTheme() ? "prose-stone" : "",
                   )}
                   style={{
                     lineHeight: lineHeight + "em",

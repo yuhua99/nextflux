@@ -1,41 +1,78 @@
 import { persistentAtom } from "@nanostores/persistent";
 
-// 创建主题状态存储
-export const themeState = persistentAtom("theme", "system", {
+const defaultValue = {
+  themeMode: "system",
+  lightTheme: "light",
+  darkTheme: "dark",
+};
+
+// 主题配置
+export const themes = {
+  light: [
+    { id: "light", name: "白色", color: "#e4e4e7" },
+    { id: "stone", name: "石灰", color: "#e7e5e4" },
+  ],
+  dark: [{ id: "dark", name: "黑色", color: "#27272a" }],
+};
+
+export const themeState = persistentAtom("theme", defaultValue, {
   encode: JSON.stringify,
-  decode: JSON.parse,
+  decode: (str) => {
+    const storedValue = JSON.parse(str);
+    return { ...defaultValue, ...storedValue };
+  },
 });
 
 // 更新主题的函数
-export function setTheme(theme) {
+export function setTheme(mode, themeId = null) {
   const root = window.document.documentElement;
-  root.classList.remove("light", "dark");
+  const allThemes = [...themes.light, ...themes.dark].map((t) => t.id);
+  root.classList.remove(...allThemes);
 
-  if (theme === "system") {
-    const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+  if (mode === "system") {
+    const systemMode = window.matchMedia("(prefers-color-scheme: dark)").matches
       ? "dark"
       : "light";
-    root.classList.add(systemTheme);
+    const themeToUse =
+      systemMode === "dark"
+        ? themeState.get().darkTheme
+        : themeState.get().lightTheme;
+    root.classList.add(themeToUse);
   } else {
-    root.classList.add(theme);
+    const newTheme =
+      themeId ||
+      (mode === "dark"
+        ? themeState.get().darkTheme
+        : themeState.get().lightTheme);
+    root.classList.add(newTheme);
+    if (mode === "dark") {
+      themeState.set({ ...themeState.get(), darkTheme: newTheme });
+    } else {
+      themeState.set({ ...themeState.get(), lightTheme: newTheme });
+    }
   }
-  
-  themeState.set(theme);
+
+  themeState.set({ ...themeState.get(), themeMode: mode });
 }
 
 // 初始化主题
 export function initTheme() {
-  const theme = themeState.get();
-  setTheme(theme);
+  const mode = themeState.get().themeMode;
+  setTheme(mode);
 
   // 监听系统主题变化
   const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
   mediaQuery.addEventListener("change", (e) => {
-    if (themeState.get() === "system") {
-      const systemTheme = e.matches ? "dark" : "light";
+    if (themeState.get().themeMode === "system") {
+      const systemMode = e.matches ? "dark" : "light";
+      const themeToUse =
+        systemMode === "dark"
+          ? themeState.get().darkTheme
+          : themeState.get().lightTheme;
       const root = window.document.documentElement;
-      root.classList.remove("light", "dark");
-      root.classList.add(systemTheme);
+      const allThemes = [...themes.light, ...themes.dark].map((t) => t.id);
+      root.classList.remove(...allThemes);
+      root.classList.add(themeToUse);
     }
   });
-} 
+}

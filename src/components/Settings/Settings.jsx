@@ -30,7 +30,7 @@ export default function App() {
           setActiveTab("general");
         }}
         classNames={{
-          base: "settings-modal m-2 max-h-[80vh] h-[600px] overflow-hidden bg-content2 dark:bg-background dark:border",
+          base: "settings-modal m-2 max-h-[80vh] h-[612px] overflow-hidden bg-content2 dark:bg-background dark:border",
           header:
             "border-b flex flex-col gap-3 p-3 bg-background dark:bg-content1",
           footer: "hidden",
