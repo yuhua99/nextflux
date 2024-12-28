@@ -40,7 +40,10 @@ const ArticleView = () => {
   // 判断当前是否实际使用了stone主题
   const isStoneTheme = () => {
     if (themeMode === "system") {
-      return (systemMode === "light" && lightTheme==="stone") || (systemMode === "dark" && darkTheme==="stone")
+      return (
+        (systemMode === "light" && lightTheme === "stone") ||
+        (systemMode === "dark" && darkTheme === "stone")
+      );
     }
     if (themeMode === "light") {
       return lightTheme === "stone";
@@ -48,7 +51,7 @@ const ArticleView = () => {
     if (themeMode === "dark") {
       return darkTheme === "stone";
     }
-  }
+  };
   const scrollAreaRef = useRef(null);
 
   // 监听文章ID变化,滚动到顶部
@@ -254,8 +257,26 @@ const ArticleView = () => {
                             src.includes("youtu.be") ||
                             src.includes("youtube-nocookie.com/embed"));
 
+                        // 判断是否为 Bilibili iframe
+                        const isBilibili = src && src.includes("bilibili");
+
                         // 如果不是 YouTube iframe,直接返回原始节点
-                        if (!isYouTube) {
+                        if (!isYouTube && !isBilibili) {
+                          return domNode;
+                        }
+
+                        // 如果是 Bilibili iframe, 组装新的iframe，不使用VideoPlayer组件
+                        if (isBilibili) {
+                          // 获取bilibili视频 bvid
+                          const bvid = new URL(src).searchParams.get("bvid");
+                          if (bvid) {
+                            return (
+                              <iframe
+                                src={`//bilibili.com/blackboard/html5mobileplayer.html?isOutside=true&bvid=${bvid}&p=1&hideCoverInfo=1&danmaku=0`}
+                                allowFullScreen={true}
+                              ></iframe>
+                            );
+                          }
                           return domNode;
                         }
 
