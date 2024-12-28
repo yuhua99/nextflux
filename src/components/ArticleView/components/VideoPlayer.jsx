@@ -6,6 +6,7 @@ import {
   plyrLayoutIcons,
 } from "@vidstack/react/player/layouts/plyr";
 import { Chip } from "@nextui-org/react";
+import { toast } from "sonner";
 
 const CHINESE = {
   "Current time": "当前时间",
@@ -66,10 +67,10 @@ export default function VideoPlayer({ videoTitle, src, provider, poster }) {
   return (
     <div className="mb-4">
       <MediaPlayer
-        className="rounded-lg shadow-custom overflow-hidden"
+        className="rounded-lg shadow-custom overflow-hidden bg-black"
         src={videoSrc}
         title={videoTitle}
-        crossOrigin
+        onError={(detail) => toast.error(detail.message)}
       >
         <MediaProvider>
           {poster && <Poster className="vds-poster" src={poster} />}
@@ -85,24 +86,24 @@ export default function VideoPlayer({ videoTitle, src, provider, poster }) {
           ]}
         />
       </MediaPlayer>
-      {provider === "youtube" && (
-        <div className="flex justify-center">
-          <Chip
-            color="primary"
-            variant="flat"
-            size="sm"
-            classNames={{ base: "cursor-pointer my-2" }}
-            onClick={() => {
-              window.open(
-                `https://www.youtube.com/watch?v=${videoId}`,
-                "_blank",
-              );
-            }}
-          >
-            在新窗口中打开嵌入内容
-          </Chip>
-        </div>
-      )}
+      <div className="flex justify-center">
+        <Chip
+          color="primary"
+          variant="flat"
+          size="sm"
+          classNames={{ base: "cursor-pointer my-2" }}
+          onClick={() => {
+            window.open(
+              provider === "youtube"
+                ? `https://www.youtube.com/watch?v=${videoId}`
+                : src,
+              "_blank",
+            );
+          }}
+        >
+          在新窗口中打开
+        </Chip>
+      </div>
     </div>
   );
 }
