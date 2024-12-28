@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useStore } from "@nanostores/react";
 import { PhotoProvider } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
@@ -37,6 +37,24 @@ const ArticleView = () => {
   const systemMode = window.matchMedia("(prefers-color-scheme: dark)").matches
     ? "dark"
     : "light";
+  const navigate = useNavigate();
+  const [dragX, setDragX] = useState(0);
+  
+  // 获取当前路径并去掉 article 部分
+  const basePath = window.location.pathname.split("/article/")[0];
+  
+  // 处理拖拽结束
+  const handleDragEnd = (event, info) => {
+    const dragDistance = info.offset.x;
+    // 如果向右拖拽超过100px,则关闭文章详情
+    if (dragDistance > 100) {
+      navigate(basePath || "/");
+    } else {
+      // 否则回弹
+      setDragX(0);
+    }
+  };
+
   // 判断当前是否实际使用了stone主题
   const isStoneTheme = () => {
     if (themeMode === "system") {
@@ -135,11 +153,24 @@ const ArticleView = () => {
   }
 
   return (
-    <div
+    <motion.div
       className={cn(
         "flex-1 bg-content2 p-0 sm:p-2 h-screen fixed sm:static inset-0 z-50",
         "animate-slide-in-from-right motion-reduce:animate-none",
       )}
+      drag="x"
+      dragDirectionLock
+      dragElastic={0.2}
+      dragConstraints={{ left: 0, right: 200 }}
+      onDrag={(e, info) => setDragX(info.offset.x)}
+      onDragEnd={handleDragEnd}
+      animate={{
+        x: dragX,
+      }}
+      transition={{
+        type: "spring",
+        bounce: 0,
+      }}
     >
       <ScrollShadow
         ref={scrollAreaRef}
@@ -149,6 +180,7 @@ const ArticleView = () => {
         <ActionButtons parentRef={scrollAreaRef} />
         <div
           className="article-view-content px-5 pt-5 pb-20 w-full mx-auto"
+          data-dragging={dragX > 50}
           style={{
             maxWidth: `${maxWidth}ch`,
             fontFamily: fontFamily,
@@ -291,7 +323,7 @@ const ArticleView = () => {
           </AnimatePresence>
         </div>
       </ScrollShadow>
-    </div>
+    </motion.div>
   );
 };
 

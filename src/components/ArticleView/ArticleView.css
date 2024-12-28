@@ -1,4 +1,3 @@
-
 .article-content {
   @apply break-words;
   word-break: break-word;
@@ -64,4 +63,13 @@ figcaption {
 /*YouTube 播放器视觉修复*/
 iframe.vds-youtube[data-no-controls] {
   position: absolute;
+}
+
+/* 添加拖拽时的透明度过渡效果 */
+.article-view-content {
+  transition: opacity 0.2s ease;
+}
+
+.article-view-content[data-dragging="true"] {
+  opacity: 0.5;
 }
