@@ -41,7 +41,7 @@ const FeedIcon = ({ url }) => {
     return (
       <span
         className={cn(
-          "flex items-center justify-center w-5 h-5 p-0.5 bg-white rounded-sm transition-opacity duration-300 ease-in-out animate-in fade-in-0 shadow-small",
+          "flex items-center shrink-0 justify-center w-5 h-5 p-0.5 bg-white rounded-sm transition-opacity duration-300 ease-in-out animate-in fade-in-0 shadow-small",
           feedIconShape === "circle" ? "rounded-full" : "rounded-sm",
         )}
       >
@@ -54,7 +54,7 @@ const FeedIcon = ({ url }) => {
     <Image
       alt="Feed icon"
       src={faviconUrl}
-      className="size-5 p-0.5 bg-white shadow-small"
+      className="size-5 p-0.5 bg-white shadow-small shrink-0"
       classNames={{
         img: cn(
           useGrayIcon ? "grayscale" : "",
