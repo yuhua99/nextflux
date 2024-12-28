@@ -36,10 +36,6 @@ export default {
             opacity: "0.3",
           },
         },
-        "slide-in-from-right": {
-          "0%": { transform: "translateX(100%)" },
-          "100%": { transform: "translateX(0)" },
-        },
         pulse: {
           "0%, 100%": { backgroundColor: "hsl(var(--nextui-content2))" },
           "50%": { backgroundColor: "hsl(var(--nextui-content4))" },
@@ -48,7 +44,6 @@ export default {
       animation: {
         "collapsible-down": "collapsible-down 0.2s ease-out",
         "collapsible-up": "collapsible-up 0.2s ease-out",
-        "slide-in-from-right": "slide-in-from-right 0.3s ease-out",
         pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
     },

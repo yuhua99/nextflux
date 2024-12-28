@@ -138,7 +138,7 @@ const ArticleView = () => {
     <div
       className={cn(
         "flex-1 bg-content2 p-0 sm:p-2 h-screen fixed sm:static inset-0 z-50",
-        "animate-slide-in-from-right motion-reduce:animate-none",
+        "animate-in slide-in-from-right motion-reduce:animate-none",
       )}
     >
       <ScrollShadow
