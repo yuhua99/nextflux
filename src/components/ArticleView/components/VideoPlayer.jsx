@@ -57,7 +57,7 @@ const getYouTubeId = (url) => {
   return match && match[2].length === 11 ? match[2] : null;
 };
 
-export default function VideoPlayer({ videoTitle, src, provider, poster }) {
+export default function VideoPlayer({ videoTitle, src, provider }) {
   const videoId = getYouTubeId(src);
   const userAgent = window.navigator.userAgent.toLowerCase();
   const isIOSDevice =
@@ -73,7 +73,7 @@ export default function VideoPlayer({ videoTitle, src, provider, poster }) {
         onError={(detail) => toast.error(detail.message)}
       >
         <MediaProvider>
-          {poster && <Poster className="vds-poster" src={poster} />}
+          <Poster className="vds-poster" />
         </MediaProvider>
         <PlyrLayout
           icons={plyrLayoutIcons}
