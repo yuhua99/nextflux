@@ -9,10 +9,10 @@ const defaultValue = {
 // 主题配置
 export const themes = {
   light: [
-    { id: "light", name: "白色", color: "#e4e4e7" },
-    { id: "stone", name: "石灰", color: "#e7e5e4" },
+    { id: "light", name: "白色", color: "#ffffff" },
+    { id: "stone", name: "石灰", color: "#F3F1ED" },
   ],
-  dark: [{ id: "dark", name: "黑色", color: "#27272a" }],
+  dark: [{ id: "dark", name: "黑色", color: "#1E1E1E" }],
 };
 
 export const themeState = persistentAtom("theme", defaultValue, {

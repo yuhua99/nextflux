@@ -80,6 +80,7 @@ export default function RenameModal() {
                 isRequired
                 size="sm"
                 label="分类名称"
+                variant="faded"
                 name="title"
                 placeholder="请输入分类名称"
                 errorMessage="请输入分类名称"

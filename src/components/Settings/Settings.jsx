@@ -30,9 +30,8 @@ export default function App() {
           setActiveTab("general");
         }}
         classNames={{
-          base: "settings-modal m-2 max-h-[80vh] h-[612px] overflow-hidden bg-content2 dark:bg-background dark:border",
-          header:
-            "border-b flex flex-col gap-3 p-3 bg-background dark:bg-content1",
+          base: "settings-modal m-2 max-h-[80vh] h-[612px] overflow-hidden bg-content2 dark:bg-content1 dark:border",
+          header: "border-b flex flex-col gap-3 p-3 bg-content1",
           footer: "hidden",
           body: "modal-body p-0 !block",
           closeButton: "hidden",
@@ -66,7 +65,7 @@ export default function App() {
                     size="mini"
                     radius="sm"
                     fullWidth
-                    classNames={{ tab: "py-0 h-6" }}
+                    classNames={{ tab: "py-0 h-6", cursor: "bg-content1" }}
                     selectedKey={activeTab}
                     onSelectionChange={(key) => setActiveTab(key)}
                   >

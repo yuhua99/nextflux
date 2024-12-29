@@ -87,6 +87,7 @@ export default function AddFeedModal() {
                 isRequired
                 size="sm"
                 label="订阅地址"
+                variant="faded"
                 name="feed_url"
                 placeholder="请输入订阅地址"
                 errorMessage="请输入订阅地址"
@@ -99,6 +100,7 @@ export default function AddFeedModal() {
                 isRequired
                 size="sm"
                 label="分类"
+                variant="faded"
                 name="category_id"
                 placeholder="请选择分类"
                 errorMessage="请选择分类"
@@ -122,8 +124,8 @@ export default function AddFeedModal() {
                 classNames={{
                   base: cn(
                     "inline-flex flex-row-reverse w-full max-w-md bg-content2 items-center",
-                    "justify-between cursor-pointer rounded-lg gap-2 py-[6px] pr-2 border-2 border-transparent",
-                    "data-[selected=true]:border-primary",
+                    "justify-between cursor-pointer rounded-lg gap-2 py-[6px] pr-2 border-2 border-default-200",
+                    "data-[hover=true]:border-default-400 data-[selected=true]:border-primary",
                   ),
                 }}
                 isSelected={formData.crawler}

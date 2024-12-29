@@ -103,6 +103,7 @@ export default function EditFeedModal() {
                 isRequired
                 size="sm"
                 label="订阅名称"
+                variant="faded"
                 name="title"
                 placeholder="请输入订阅名称"
                 errorMessage="请输入订阅名称"
@@ -115,6 +116,7 @@ export default function EditFeedModal() {
                 isRequired
                 size="sm"
                 label="分类"
+                variant="faded"
                 name="category_id"
                 placeholder="请选择分类"
                 errorMessage="请选择分类"
@@ -138,8 +140,8 @@ export default function EditFeedModal() {
                 classNames={{
                   base: cn(
                     "inline-flex flex-row-reverse w-full max-w-md bg-content2 items-center",
-                    "justify-between cursor-pointer rounded-lg gap-2 py-[6px] pr-2 border-2 border-transparent",
-                    "data-[selected=true]:border-primary",
+                    "justify-between cursor-pointer rounded-lg gap-2 py-1 pr-2 border-2 border-default-200",
+                    "data-[hover=true]:border-default-400 data-[selected=true]:border-primary",
                   ),
                 }}
                 isSelected={formData.crawler}
@@ -160,8 +162,8 @@ export default function EditFeedModal() {
                 classNames={{
                   base: cn(
                     "inline-flex flex-row-reverse w-full max-w-md bg-content2 items-center",
-                    "justify-between cursor-pointer rounded-lg gap-2 py-[6px] pr-2 border-2 border-transparent",
-                    "data-[selected=true]:border-primary",
+                    "justify-between cursor-pointer rounded-lg gap-2 py-1 pr-2 border-2 border-default-200",
+                    "data-[hover=true]:border-default-400 data-[selected=true]:border-primary",
                   ),
                 }}
                 isSelected={formData.hide_globally}
@@ -176,7 +178,7 @@ export default function EditFeedModal() {
                   </div>
                 </div>
               </Switch>
-              <div className="flex items-center gap-2 bg-content2 rounded-lg px-2 py-[6px]">
+              <div className="flex items-center gap-2 bg-content2 rounded-lg px-2 py-1 border-default-200 border-2">
                 <div className="flex flex-col w-full">
                   <div className="text-sm">订阅源地址</div>
                   <div className="text-xs text-default-500 line-clamp-1">

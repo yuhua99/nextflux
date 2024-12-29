@@ -14,7 +14,7 @@ import {
 
 import { ChevronsUpDown } from "lucide-react";
 
-const bgColor = "dark:bg-content1 bg-background";
+const bgColor = "bg-content1 dark:bg-content2/30";
 
 export const ItemWrapper = ({ title, children }) => {
   return (
@@ -140,6 +140,7 @@ export function GroupItem({ label, icon, settingName, settingValue, options }) {
         classNames={{
           tabList: "bg-default-100/90 backdrop-blur-md",
           tab: "py-0 h-6",
+          cursor: "bg-content1",
         }}
         selectedKey={settingValue}
         onSelectionChange={(value) => {

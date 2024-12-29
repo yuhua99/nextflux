@@ -30,7 +30,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-content2 p-4">
-      <div className="w-full max-w-sm space-y-6 p-6 bg-background rounded-lg shadow-custom">
+      <div className="w-full max-w-sm space-y-6 p-6 bg-content1 rounded-lg shadow-custom">
         <h1 className="text-2xl font-semibold tracking-tight">
           登录到您的服务器
         </h1>
@@ -47,7 +47,7 @@ export default function LoginPage() {
             name="serverUrl"
             placeholder="请输入 Miniflux 服务器地址"
             type="text"
-            variant="flat"
+            variant="faded"
             value={serverUrl}
             onChange={(e) => setServerUrl(e.target.value)}
           />
@@ -58,7 +58,7 @@ export default function LoginPage() {
             name="username"
             placeholder="请输入用户名"
             type="text"
-            variant="flat"
+            variant="faded"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
@@ -78,7 +78,7 @@ export default function LoginPage() {
             name="password"
             placeholder="请输入密码"
             type={isVisible ? "text" : "password"}
-            variant="flat"
+            variant="faded"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />

@@ -17,7 +17,7 @@ export function Time() {
           className="flex flex-col items-center opacity-0 transition-opacity duration-200 data-[visible]:opacity-100 pointer-events-none"
           noClamp
         >
-          <TimeSlider.Value className="rounded bg-background px-2 py-1 mb-2 text-xs font-medium text-default-500 shadow-custom" />
+          <TimeSlider.Value className="rounded bg-content1 px-2 py-1 mb-2 text-xs font-medium text-default-500 shadow-custom" />
         </TimeSlider.Preview>
 
         <TimeSlider.Thumb className="absolute left-[var(--slider-fill)] top-1/2 z-20 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full shadow-custom bg-white ring-primary/40 transition-size group-data-[active]:size-5 group-data-[dragging]:ring-4 will-change-[left]" />

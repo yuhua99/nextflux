@@ -38,7 +38,7 @@ export default function Theme() {
     },
   ];
 
-  const bgColor = "dark:bg-content1 bg-background";
+  const bgColor = "bg-content1 dark:bg-content2/30";
 
   return (
     <ItemWrapper title="主题">

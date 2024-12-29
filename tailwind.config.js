@@ -61,9 +61,29 @@ export default {
             },
           },
         },
+        dark: {
+          colors: {
+            divider: "rgba(255,255,255,0.06)",
+            background: "#1E1E1E",
+            primary: {
+              50: "#001A4D",
+              100: "#052F78",
+              200: "#134CA3",
+              300: "#2971CF",
+              400: "#469AFA",
+              500: "#5AAAFB",
+              600: "#7DC1FC",
+              700: "#A1D5FD",
+              800: "#C6E8FE",
+              900: "#EAF8FF",
+              foreground: "#FFFFFF",
+              DEFAULT: "#5AAAFB",
+            },
+          },
+        },
         stone: {
           colors: {
-            background: "#ffffff", // or DEFAULT
+            background: "#F3F1ED", // or DEFAULT
             foreground: "#42403B", // or 50 to 900 DEFAULT
             divider: "rgba(17, 17, 17, 0.08)",
             focus: "#D19600",

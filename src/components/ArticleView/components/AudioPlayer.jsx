@@ -51,7 +51,7 @@ export default function AudioPlayer({ source }) {
       }}
     >
       <MediaPlayer
-        className="shadow-custom w-full bg-background/80 backdrop-blur-lg dark:bg-content2/80 rounded-xl"
+        className="shadow-custom w-full bg-content1/80 backdrop-blur-lg dark:bg-content2/80 rounded-xl"
         paused={paused}
         autoPlay={true}
         onPlay={() => {
