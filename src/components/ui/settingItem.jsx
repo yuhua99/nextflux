@@ -101,8 +101,9 @@ export function SelItem({ label, icon, settingName, settingValue, options }) {
             size="sm"
             endContent={<ChevronsUpDown className="size-4" />}
           >
-            {options.find((opt) => opt.value === settingValue.toString())
-              ?.label || settingValue}
+            {options.find(
+              (opt) => opt.value.toString() === settingValue.toString(),
+            )?.label || settingValue}
           </Button>
         </DropdownTrigger>
         <DropdownMenu
@@ -116,10 +117,7 @@ export function SelItem({ label, icon, settingName, settingValue, options }) {
           }
         >
           {options.map((option) => (
-            <DropdownItem
-              key={option.value}
-              style={option.style}
-            >
+            <DropdownItem key={option.value} style={option.style}>
               {option.label}
             </DropdownItem>
           ))}

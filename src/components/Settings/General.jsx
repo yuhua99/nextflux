@@ -27,11 +27,11 @@ export default function General() {
           settingName="syncInterval"
           settingValue={syncInterval}
           options={[
-            { value: "0", label: "关闭" },
-            { value: "5", label: "5分钟" },
-            { value: "15", label: "15分钟" },
-            { value: "30", label: "30分钟" },
-            { value: "60", label: "1小时" },
+            { value: 0, label: "关闭" },
+            { value: 5, label: "5分钟" },
+            { value: 15, label: "15分钟" },
+            { value: 30, label: "30分钟" },
+            { value: 60, label: "1小时" },
           ]}
         />
       </ItemWrapper>
