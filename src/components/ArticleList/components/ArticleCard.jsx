@@ -98,8 +98,8 @@ export default function ArticleCard({ article }) {
         "cursor-pointer select-none overflow-hidden p-2 rounded-lg",
         "relative transform-gpu transition duration-200",
         "bg-transparent contain-content",
-        "hover:bg-content1",
-        parseInt(articleId) === article.id && "bg-content1 shadow-custom",
+        "hover:bg-background/70",
+        parseInt(articleId) === article.id && "bg-background/70 shadow-custom",
       )}
       data-article-id={article.id}
       onClick={handleClick}
