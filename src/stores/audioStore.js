@@ -7,6 +7,7 @@ export const audioState = map({
   title: "",
   artist: "",
   artwork: "",
+  playbackRate: 1,
 });
 
 // 重置音频
@@ -18,5 +19,6 @@ export const resetAudio = () => {
     title: "",
     artist: "",
     artwork: "",
+    playbackRate: 1,
   });
 };

@@ -1,6 +1,9 @@
 import { PlayButton, SeekButton, useMediaState } from "@vidstack/react";
-import { PauseIcon, PlayIcon, RedoDot, UndoDot } from "lucide-react";
+import { FileText, PauseIcon, PlayIcon, RedoDot, UndoDot } from "lucide-react";
 import { Button } from "@nextui-org/react";
+import { activeAudio } from "@/stores/audioStore.js";
+import { useStore } from "@nanostores/react";
+import { useNavigate } from "react-router-dom";
 
 export function Play({ variant, size }) {
   const isPaused = useMediaState("paused");
@@ -52,5 +55,22 @@ export function SeekForward({ variant, size }) {
         <RedoDot className="size-4" />
       </Button>
     </SeekButton>
+  );
+}
+
+export function Jump({ variant, size }) {
+  const $activeAudio = useStore(activeAudio);
+  const navigate = useNavigate();
+  return (
+    <Button
+      isIconOnly
+      variant={variant}
+      size={size}
+      radius="full"
+      className="text-default-500"
+      onPress={() => navigate(`/article/${$activeAudio?.entry_id}`)}
+    >
+      <FileText className="size-4" />
+    </Button>
   );
 }

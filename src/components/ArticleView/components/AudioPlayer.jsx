@@ -1,7 +1,7 @@
 import { Controls, MediaPlayer, MediaProvider } from "@vidstack/react";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { activeAudio, audioState, resetAudio } from "@/stores/audioStore.js";
+import { useLocation } from "react-router-dom";
+import { audioState, resetAudio } from "@/stores/audioStore.js";
 import { useStore } from "@nanostores/react";
 import * as Buttons from "./shared/buttons";
 import { Button, Card, Image } from "@nextui-org/react";
@@ -10,15 +10,13 @@ import { cn } from "@/lib/utils.js";
 import { Time } from "./shared/sliders.jsx";
 import { Square } from "lucide-react";
 import cover from "@/assets/cover.jpg";
+import SpeedSubmenu from "@/components/ArticleView/components/shared/speed.jsx";
 
 export default function AudioPlayer({ source }) {
   const location = useLocation();
-  const navigate = useNavigate();
   const [time, setTime] = useState(0);
-  const { paused } = useStore(audioState);
   const [expand, setExpand] = useState(false);
-  const $activeAudio = useStore(activeAudio);
-  const { title, artist, artwork } = useStore(audioState);
+  const { title, artist, artwork, playbackRate, paused } = useStore(audioState);
   useEffect(() => {
     const hash = location.hash;
     const timeMatch = hash.match(/#t=(?:(\d+):)?(\d+):(\d+)/);
@@ -64,6 +62,7 @@ export default function AudioPlayer({ source }) {
         src={url}
         viewType="audio"
         currentTime={time}
+        playbackRate={playbackRate}
         title={title}
         artist={artist}
         artwork={[
@@ -123,10 +122,7 @@ export default function AudioPlayer({ source }) {
               </Button>
             )}
             {expand && (
-              <div
-                className="w-full text-center cursor-pointer"
-                onClick={() => navigate(`/article/${$activeAudio?.entry_id}`)}
-              >
+              <div className="w-full text-center">
                 <div className="font-semibold text-sm line-clamp-1">
                   {title}
                 </div>
@@ -145,13 +141,15 @@ export default function AudioPlayer({ source }) {
                 ease: "linear",
               }}
               className={cn(
-                "button-group flex items-center",
-                expand ? "gap-8 " : "gap-1",
+                "button-group flex items-center w-full",
+                expand ? "justify-between" : "gap-1",
               )}
             >
+              {expand && <SpeedSubmenu />}
               <Buttons.SeekBackward variant="light" size="sm" />
               <Buttons.Play variant="light" size="sm" />
               <Buttons.SeekForward variant="light" size="sm" />
+              {expand && <Buttons.Jump variant="light" size="sm" />}
             </motion.div>
           </Controls.Group>
         </Controls.Root>
