@@ -268,7 +268,7 @@ const ArticleView = () => {
                         // 如果是 Bilibili iframe, 组装新的iframe，不使用VideoPlayer组件
                         if (isBilibili) {
                           // 获取bilibili视频 bvid
-                          const bvid = new URL(src).searchParams.get("bvid");
+                          const bvid = src.match(/bvid=([^&]+)/)?.[1];
                           if (bvid) {
                             return (
                               <iframe
