@@ -116,7 +116,10 @@ export function SelItem({ label, icon, settingName, settingValue, options }) {
           }
         >
           {options.map((option) => (
-            <DropdownItem key={option.value} aria-label={option.label}>
+            <DropdownItem
+              key={option.value}
+              style={option.style}
+            >
               {option.label}
             </DropdownItem>
           ))}
