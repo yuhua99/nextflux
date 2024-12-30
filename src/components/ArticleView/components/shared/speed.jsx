@@ -1,4 +1,3 @@
-import { usePlaybackRateOptions } from "@vidstack/react"; // See "Icons" component page for setup before importing the following:
 import {
   Button,
   Dropdown,
@@ -12,18 +11,18 @@ import { CircleGauge } from "lucide-react";
 
 export default function SpeedMenu() {
   const { playbackRate } = useStore(audioState);
-  const options = usePlaybackRateOptions();
+  const options = ["0.5", "1.0", "1.5", "2.0"];
   return (
     <Dropdown>
       <DropdownTrigger>
         <Button
           isIconOnly
-          variant="light"
+          variant={playbackRate === "1.0" ? "light" : "flat"}
+          color={playbackRate === "1.0" ? "default" : "primary"}
           size="sm"
           radius="full"
-          className="text-primary font-semibold"
         >
-          {playbackRate === "1" ? (
+          {playbackRate === "1.0" ? (
             <CircleGauge className="size-4 text-default-500" />
           ) : (
             playbackRate
@@ -39,11 +38,10 @@ export default function SpeedMenu() {
         onSelectionChange={(values) =>
           audioState.setKey("playbackRate", values.currentKey)
         }
+        classNames={{ base: "font-mono" }}
       >
         {options.map((option) => (
-          <DropdownItem key={option.value}>
-            {option.value + " 倍速"}
-          </DropdownItem>
+          <DropdownItem key={option}>{option + "x"}</DropdownItem>
         ))}
       </DropdownMenu>
     </Dropdown>
