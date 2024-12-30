@@ -5,7 +5,7 @@ import {
   getFeedCount,
 } from "@/stores/feedsStore.js";
 import { cn } from "@/lib/utils";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, TriangleAlert } from "lucide-react";
 import {
   Collapsible,
   CollapsibleContent,
@@ -87,7 +87,12 @@ const FeedsGroup = () => {
                             onClick={() => isMobile && setOpenMobile(false)}
                           >
                             <FeedIcon url={feed.site_url} />
-                            <span className="flex-1 truncate">
+                            <span className="flex-1 truncate flex items-center gap-1">
+                              {feed.parsing_error_count > 0 && (
+                                <span className="text-warning">
+                                  <TriangleAlert className="size-4" />
+                                </span>
+                              )}
                               {feed.title}
                             </span>
                             <span className="text-content2-foreground text-xs">

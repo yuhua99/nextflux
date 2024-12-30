@@ -53,6 +53,7 @@ export const feedsByCategory = computed(
         title: feed.title,
         url: feed.url || "#",
         site_url: feed.site_url || "#",
+        parsing_error_count: feed.parsing_error_count,
         unreadCount: $unreadCounts[feed.id] || 0,
         starredCount: $starredCounts[feed.id] || 0,
       })),
