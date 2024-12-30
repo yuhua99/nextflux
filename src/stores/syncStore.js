@@ -2,6 +2,7 @@ import { atom } from "nanostores";
 import minifluxAPI from "../api/miniflux";
 import storage from "../db/storage";
 import { extractTextFromHtml } from "@/lib/utils.js";
+import { settingsState } from "./settingsStore";
 
 // 在线状态
 export const isOnline = atom(navigator.onLine);
@@ -103,7 +104,7 @@ async function syncEntries() {
       // 合并去重
       const allEntries = [...unreadEntries];
       for (const entry of starredEntries) {
-        if (!allEntries.find(e => e.id === entry.id)) {
+        if (!allEntries.find((e) => e.id === entry.id)) {
           allEntries.push(entry);
         }
       }
@@ -124,20 +125,20 @@ async function syncEntries() {
             published_at: entry.published_at,
             created_at: entry.created_at,
             enclosures: entry.enclosures || [],
-          }))
+          })),
         );
       }
     } else {
       // 增量同步 - 并行获取变更和新文章
       const [changedEntries, newEntries] = await Promise.all([
         minifluxAPI.getChangedEntries(oneDayAgo),
-        minifluxAPI.getNewEntries(oneDayAgo)
+        minifluxAPI.getNewEntries(oneDayAgo),
       ]);
 
       // 合并去重
       const allEntries = [...changedEntries];
       for (const entry of newEntries) {
-        if (!allEntries.find(e => e.id === entry.id)) {
+        if (!allEntries.find((e) => e.id === entry.id)) {
           allEntries.push(entry);
         }
       }
@@ -158,7 +159,7 @@ async function syncEntries() {
             published_at: entry.published_at,
             created_at: entry.created_at,
             enclosures: entry.enclosures || [],
-          }))
+          })),
         );
       }
     }
@@ -195,6 +196,23 @@ export async function sync() {
   }
 }
 
+// 重置同步定时器
+function resetSyncInterval() {
+  if (syncInterval) {
+    clearInterval(syncInterval);
+    console.log("清除同步定时器");
+    syncInterval = null;
+  }
+
+  const interval = parseInt(settingsState.get().syncInterval);
+
+  // 如果设置为0或无效值，则不启动自动同步
+  if (!interval) return;
+
+  syncInterval = setInterval(performSync, interval * 60 * 1000);
+  console.log("启动后台刷新，间隔：", interval, "分钟");
+}
+
 // 启动自动同步
 export function startAutoSync() {
   if (typeof window === "undefined") return;
@@ -202,11 +220,8 @@ export function startAutoSync() {
   // 执行初始同步
   performSync();
 
-  //打印
-  console.log("启动后台刷新。");
-
   // 设置定时器
-  syncInterval = setInterval(performSync, 5 * 60 * 1000);
+  resetSyncInterval();
 
   // 添加清理函数
   window.addEventListener("beforeunload", stopAutoSync);
@@ -227,7 +242,9 @@ async function performSync() {
     try {
       const lastSyncTime = storage.getLastSyncTime();
       const now = new Date();
-      if (!lastSyncTime || now - lastSyncTime > 5 * 60 * 1000) {
+      const interval = parseInt(settingsState.get().syncInterval);
+
+      if (!lastSyncTime || now - lastSyncTime > interval * 60 * 1000) {
         await sync();
       }
     } catch (error) {

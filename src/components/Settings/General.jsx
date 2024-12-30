@@ -1,5 +1,11 @@
 import { settingsState } from "@/stores/settingsStore";
-import { CircleCheck, ClockArrowDown, ClockArrowUp, Eye } from "lucide-react";
+import {
+  CircleCheck,
+  ClockArrowDown,
+  ClockArrowUp,
+  Eye,
+  RefreshCw,
+} from "lucide-react";
 import { useStore } from "@nanostores/react";
 import {
   ItemWrapper,
@@ -9,11 +15,26 @@ import {
 import { Divider } from "@nextui-org/react";
 
 export default function General() {
-  const { sortDirection, showHiddenFeeds, markAsReadOnScroll } =
+  const { sortDirection, showHiddenFeeds, markAsReadOnScroll, syncInterval } =
     useStore(settingsState);
 
   return (
     <>
+      <ItemWrapper title="同步">
+        <SelItem
+          label="自动同步间隔"
+          icon={<RefreshCw className="shrink-0 size-4 text-default-500" />}
+          settingName="syncInterval"
+          settingValue={syncInterval}
+          options={[
+            { value: "0", label: "关闭" },
+            { value: "5", label: "5分钟" },
+            { value: "15", label: "15分钟" },
+            { value: "30", label: "30分钟" },
+            { value: "60", label: "1小时" },
+          ]}
+        />
+      </ItemWrapper>
       <ItemWrapper title="订阅源">
         <SwitchItem
           label="显示隐藏的订阅源"
