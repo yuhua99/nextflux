@@ -19,7 +19,7 @@ const defaultValue = {
   showFavicon: true,
   showTextPreview: true,
   autoHideToolbar: false,
-  syncInterval: 15, // 添加同步间隔设置，默认15分钟
+  syncInterval: "15", // 添加同步间隔设置，默认15分钟
 };
 
 export const settingsState = persistentAtom("settings", defaultValue, {

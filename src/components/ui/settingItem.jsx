@@ -101,9 +101,8 @@ export function SelItem({ label, icon, settingName, settingValue, options }) {
             size="sm"
             endContent={<ChevronsUpDown className="size-4" />}
           >
-            {options.find(
-              (opt) => opt.value.toString() === settingValue.toString(),
-            )?.label || settingValue}
+            {options.find((opt) => opt.value === settingValue.toString())
+              ?.label || settingValue}
           </Button>
         </DropdownTrigger>
         <DropdownMenu
