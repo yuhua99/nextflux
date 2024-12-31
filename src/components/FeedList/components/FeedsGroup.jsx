@@ -87,13 +87,13 @@ const FeedsGroup = () => {
                             onClick={() => isMobile && setOpenMobile(false)}
                           >
                             <FeedIcon url={feed.site_url} />
-                            <span className="flex-1 truncate flex items-center gap-1">
+                            <span className="flex-1 flex items-center gap-1">
                               {feed.parsing_error_count > 0 && (
                                 <span className="text-warning">
                                   <TriangleAlert className="size-4" />
                                 </span>
                               )}
-                              {feed.title}
+                              <span className="line-clamp-1">{feed.title}</span>
                             </span>
                             <span className="text-content2-foreground text-xs">
                               {$getFeedCount(feed.id) !== 0 &&
