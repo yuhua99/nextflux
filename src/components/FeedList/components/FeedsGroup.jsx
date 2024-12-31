@@ -62,7 +62,7 @@ const FeedsGroup = () => {
                   </Link>
                 </SidebarMenuButton>
                 <CollapsibleTrigger asChild>
-                  <SidebarMenuAction className="left-2 hover:bg-default text-foreground data-[state=open]:rotate-90">
+                  <SidebarMenuAction className="left-2 hover:bg-default text-default-500 data-[state=open]:rotate-90">
                     <ChevronRight />
                   </SidebarMenuAction>
                 </CollapsibleTrigger>
@@ -95,7 +95,7 @@ const FeedsGroup = () => {
                               )}
                               <span className="line-clamp-1">{feed.title}</span>
                             </span>
-                            <span className="text-content2-foreground text-xs">
+                            <span className="text-default-400 text-xs">
                               {$getFeedCount(feed.id) !== 0 &&
                                 $getFeedCount(feed.id)}
                             </span>

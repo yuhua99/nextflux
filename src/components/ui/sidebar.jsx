@@ -509,7 +509,7 @@ const SidebarMenuAction = React.forwardRef(
         ref={ref}
         data-sidebar="menu-action"
         className={cn(
-          "absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-full p-0 text-content2-foreground outline-none ring-primary transition-transform hover:bg-default hover:text-content2-foreground focus-visible:ring-2 peer-hover/menu-button:text-content2-foreground [&>svg]:size-4 [&>svg]:shrink-0",
+          "absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-full p-0 text-default-500 outline-none ring-primary transition-transform hover:bg-default hover:text-default-500 focus-visible:ring-2 peer-hover/menu-button:text-default-500 [&>svg]:size-4 [&>svg]:shrink-0",
           // Increases the hit area of the button on mobile.
           "after:absolute after:-inset-2 after:md:hidden",
           "peer-data-[size=sm]/menu-button:top-1",
@@ -517,7 +517,7 @@ const SidebarMenuAction = React.forwardRef(
           "peer-data-[size=lg]/menu-button:top-2.5",
           "group-data-[collapsible=icon]:hidden",
           showOnHover &&
-            "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-content2-foreground md:opacity-0",
+            "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 data-[state=open]:opacity-100 peer-data-[active=true]/menu-button:text-default-500 md:opacity-0",
           className,
         )}
         {...props}
@@ -532,8 +532,8 @@ const SidebarMenuBadge = React.forwardRef(({ className, ...props }, ref) => (
     ref={ref}
     data-sidebar="menu-badge"
     className={cn(
-      "absolute right-1 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-content2-foreground select-none pointer-events-none",
-      "peer-hover/menu-button:text-foreground peer-data-[active=true]/menu-button:text-content2-foreground",
+      "absolute right-1 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-default-400 select-none pointer-events-none",
+      "peer-hover/menu-button:text-default-400 peer-data-[active=true]/menu-button:text-content2-foreground",
       "peer-data-[size=sm]/menu-button:top-1",
       "peer-data-[size=default]/menu-button:top-1.5",
       "peer-data-[size=lg]/menu-button:top-2.5",
