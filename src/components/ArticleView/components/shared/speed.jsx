@@ -3,6 +3,7 @@ import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
+  DropdownSection,
   DropdownTrigger,
 } from "@nextui-org/react"; // Re-use styles across other submenus.
 import { audioState } from "@/stores/audioStore.js";
@@ -11,7 +12,7 @@ import { CircleGauge } from "lucide-react";
 
 export default function SpeedMenu() {
   const { playbackRate } = useStore(audioState);
-  const options = ["0.5", "1.0", "1.5", "2.0"];
+  const options = ["0.5", "1.0", "1.25", "1.5", "2.0"];
   return (
     <Dropdown>
       <DropdownTrigger>
@@ -38,11 +39,14 @@ export default function SpeedMenu() {
         onSelectionChange={(values) =>
           audioState.setKey("playbackRate", values.currentKey)
         }
-        classNames={{ base: "font-mono" }}
       >
-        {options.map((option) => (
-          <DropdownItem key={option}>{option + "x"}</DropdownItem>
-        ))}
+        <DropdownSection title="播放速度" classNames={{ base: "mb-0" }}>
+          {options.map((option) => (
+            <DropdownItem key={option}>
+              {option === "1.0" ? "正常" : option + " 倍"}
+            </DropdownItem>
+          ))}
+        </DropdownSection>
       </DropdownMenu>
     </Dropdown>
   );
