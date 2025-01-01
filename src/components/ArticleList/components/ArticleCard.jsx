@@ -120,15 +120,15 @@ export default function ArticleCard({ article }) {
             <div className="card-source flex items-center flex-1 gap-1 min-w-0">
               <div className="card-source-content flex gap-1 items-center min-w-0">
                 {showFavicon && <FeedIcon url={article.feed?.site_url} />}
-                <span className="card-source-title text-content2-foreground font-bold text-xs line-clamp-1">
+                <span className="card-source-title text-default-500 font-bold text-xs line-clamp-1">
                   {article.feed?.title}
                 </span>
               </div>
             </div>
-            <div className="card-time-wrapper flex items-center gap-1 text-xs text-content3-foreground">
+            <div className="card-time-wrapper flex items-center gap-1 text-xs text-default-400">
               <span className="card-star">
                 <Star
-                  className="size-3 fill-content2-foreground"
+                  className="size-3 fill-current"
                   style={{ opacity: article.starred ? 1 : 0 }}
                 />
               </span>
@@ -141,7 +141,7 @@ export default function ArticleCard({ article }) {
             <div className="flex flex-col gap-1 flex-1">
               <h3
                 className={cn(
-                  "card-title text-base font-bold line-clamp-2 text-wrap break-words",
+                  "card-title text-base font-semibold line-clamp-2 text-wrap break-words",
                   article.status === "read"
                     ? "text-content2-foreground"
                     : "text-foreground",
