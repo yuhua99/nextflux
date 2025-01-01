@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Image } from "@nextui-org/react";
 import { cn } from "@/lib/utils.js";
-import { getReferrerPolicy } from "@/lib/utils";
 import { settingsState } from "@/stores/settingsStore";
 import { useStore } from "@nanostores/react";
 
@@ -10,7 +9,6 @@ export default function ArticleCardCover({ imageUrl }) {
   const [isVisible, setIsVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const imgRef = useRef(null);
-  const referrerPolicy = getReferrerPolicy(imageUrl);
   const { cardImageSize } = useStore(settingsState);
   useEffect(() => {
     const imgElement = imgRef.current;
@@ -75,7 +73,6 @@ export default function ArticleCardCover({ imageUrl }) {
           onError={() => setError(true)}
           radius="none"
           loading="lazy"
-          referrerPolicy={referrerPolicy}
           removeWrapper
           classNames={{
             img: cn(

@@ -1,7 +1,6 @@
 import { PhotoView } from "react-photo-view";
 import { useRef, useState } from "react";
 import { ImageOff } from "lucide-react";
-import { getReferrerPolicy } from "@/lib/utils";
 import { Image } from "@nextui-org/react";
 
 export default function ArticleImage({ imgNode }) {
@@ -9,8 +8,6 @@ export default function ArticleImage({ imgNode }) {
   const imgRef = useRef(null);
 
   const { src, alt = "" } = imgNode.attribs;
-
-  const referrerPolicy = getReferrerPolicy(src);
 
   const handleImageClick = (e) => {
     e.preventDefault();
@@ -69,7 +66,6 @@ export default function ArticleImage({ imgNode }) {
         src={src}
         alt={alt}
         loading="lazy"
-        referrerPolicy={referrerPolicy}
         onError={() => setError(true)}
         onClick={handleImageClick}
       />

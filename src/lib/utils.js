@@ -26,20 +26,6 @@ export function extractFirstImage(article) {
   return img ? img.src : null;
 }
 
-export function getReferrerPolicy(url) {
-  const rules = [
-    {
-      pattern: /^https:\/\/static\.cnbetacdn\.com/,
-    },
-    {
-      pattern: /^https:\/\/img1\.mydrivers\.com/,
-    },
-  ];
-
-  const matchedRule = rules.find((rule) => rule.pattern.test(url));
-  return matchedRule ? "no-referrer" : "origin-when-cross-origin";
-}
-
 export function getFontSizeClass(fontSize) {
   // fontSize 参数单位为 px
   if (fontSize === 14) {

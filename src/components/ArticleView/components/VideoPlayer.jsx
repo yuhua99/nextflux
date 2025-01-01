@@ -70,6 +70,7 @@ export default function VideoPlayer({ videoTitle, src, provider }) {
         className="rounded-lg shadow-custom overflow-hidden bg-black"
         src={videoSrc}
         title={videoTitle}
+        preload="none"
         onError={(detail) => toast.error(detail.message)}
       >
         <MediaProvider>
