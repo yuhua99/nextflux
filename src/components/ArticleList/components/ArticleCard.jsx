@@ -156,8 +156,12 @@ export default function ArticleCard({ article }) {
               </h3>
               {showReadingTime && (
                 <div className="text-xs text-default-500 flex items-center gap-1">
-                  <Clock className="size-3 " />
-                  {article.reading_time} 分钟
+                  <Clock className="size-3 shrink-0" />
+                  <span className="line-clamp-1">
+                    {article.reading_time === 0
+                      ? "不到 1 分钟"
+                      : `${article.reading_time} 分钟`}
+                  </span>
                 </div>
               )}
               {showTextPreview && (
