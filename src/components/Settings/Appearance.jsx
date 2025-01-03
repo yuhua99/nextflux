@@ -9,6 +9,7 @@ import {
 import {
   Circle,
   CircleDashed,
+  Clock,
   LayoutList,
   Rss,
   Square,
@@ -23,6 +24,7 @@ export default function Appearance() {
     cardImageSize,
     showFavicon,
     showTextPreview,
+    showReadingTime,
   } = useStore(settingsState);
   return (
     <>
@@ -77,6 +79,13 @@ export default function Appearance() {
           icon={<Text className="shrink-0 size-4 text-default-500" />}
           settingName="showTextPreview"
           settingValue={showTextPreview}
+        />
+        <Divider />
+        <SwitchItem
+          label="显示预计阅读时间"
+          icon={<Clock className="shrink-0 size-4 text-default-500" />}
+          settingName="showReadingTime"
+          settingValue={showReadingTime}
         />
       </ItemWrapper>
     </>

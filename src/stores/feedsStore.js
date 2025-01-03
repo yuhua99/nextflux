@@ -49,11 +49,7 @@ export const feedsByCategory = computed(
       title: category.name,
       isActive: false,
       feeds: category.feeds.map((feed) => ({
-        id: feed.id,
-        title: feed.title,
-        url: feed.url || "#",
-        site_url: feed.site_url || "#",
-        parsing_error_count: feed.parsing_error_count,
+        ...feed,
         unreadCount: $unreadCounts[feed.id] || 0,
         starredCount: $starredCounts[feed.id] || 0,
       })),

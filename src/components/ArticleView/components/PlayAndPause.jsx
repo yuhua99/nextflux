@@ -35,7 +35,7 @@ export default function PlayAndPause({ source }) {
               activeAudio.set(source);
               audioState.setKey("loading", true);
               audioState.setKey("title", $activeArticle.title);
-              audioState.setKey("artist", $activeArticle.author || "");
+              audioState.setKey("artist", $activeArticle.feed.title || "");
               audioState.setKey("paused", false);
               audioState.setKey(
                 "artwork",

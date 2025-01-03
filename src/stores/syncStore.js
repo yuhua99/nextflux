@@ -125,6 +125,7 @@ async function syncEntries() {
             starred: entry.starred,
             published_at: entry.published_at,
             created_at: entry.created_at,
+            reading_time: entry.reading_time,
             enclosures: entry.enclosures || [],
           })),
         );
@@ -159,6 +160,7 @@ async function syncEntries() {
             starred: entry.starred,
             published_at: entry.published_at,
             created_at: entry.created_at,
+            reading_time: entry.reading_time,
             enclosures: entry.enclosures || [],
           })),
         );

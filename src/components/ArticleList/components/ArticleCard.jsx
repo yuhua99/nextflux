@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { Star } from "lucide-react";
+import { Clock, Star } from "lucide-react";
 import { cleanTitle, cn, extractFirstImage } from "@/lib/utils";
 import { formatPublishDate } from "@/lib/format";
 import ArticleCardCover from "./ArticleCardCover.jsx";
@@ -14,8 +14,13 @@ export default function ArticleCard({ article }) {
   const navigate = useNavigate();
   const { articleId } = useParams();
   const cardRef = useRef(null);
-  const { markAsReadOnScroll, showTextPreview, cardImageSize, showFavicon } =
-    useStore(settingsState);
+  const {
+    markAsReadOnScroll,
+    showTextPreview,
+    cardImageSize,
+    showFavicon,
+    showReadingTime,
+  } = useStore(settingsState);
   const hasBeenVisible = useRef(false);
   const { ripples, onClear, onPress } = useRipple();
 
@@ -149,6 +154,12 @@ export default function ArticleCard({ article }) {
               >
                 {cleanTitle(article.title)}
               </h3>
+              {showReadingTime && (
+                <div className="text-xs text-default-500 flex items-center gap-1">
+                  <Clock className="size-3 " />
+                  {article.reading_time} 分钟
+                </div>
+              )}
               {showTextPreview && (
                 <span
                   className={cn(
