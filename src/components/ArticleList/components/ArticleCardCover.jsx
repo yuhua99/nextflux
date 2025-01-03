@@ -1,43 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Image } from "@nextui-org/react";
 import { cn } from "@/lib/utils.js";
 import { settingsState } from "@/stores/settingsStore";
 import { useStore } from "@nanostores/react";
+import { useInView } from "framer-motion";
 
 export default function ArticleCardCover({ imageUrl }) {
   const [error, setError] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const imgRef = useRef(null);
   const { cardImageSize } = useStore(settingsState);
-  useEffect(() => {
-    const imgElement = imgRef.current;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true);
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        rootMargin: "10px",
-        threshold: 0.1,
-      },
-    );
-
-    if (imgElement) {
-      observer.observe(imgElement);
-    }
-
-    return () => {
-      if (imgElement) {
-        observer.unobserve(imgElement);
-      }
-    };
-  }, []);
+  const isInView = useInView(imgRef);
 
   if (!imageUrl || error) {
     return null;
@@ -64,9 +37,8 @@ export default function ArticleCardCover({ imageUrl }) {
           : "w-[70px] h-[70px] shrink-0",
       )}
     >
-      {isVisible && (
+      {isInView && (
         <Image
-          ref={imgRef}
           alt=""
           src={imageUrl}
           onLoad={() => setLoading(false)}
