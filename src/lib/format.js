@@ -11,10 +11,8 @@ export const formatLastSync = (date) => {
   if (!date) return "从未同步";
   return dayjs(date).calendar(null, {
     sameDay: "[今天] HH:mm",
-    nextDay: "[明天] HH:mm",
-    nextWeek: "MM-DD HH:mm",
     lastDay: "[昨天] HH:mm",
-    lastWeek: "YYYY-MM-DD HH:mm",
+    sameElse: "YYYY-MM-DD HH:mm",
   });
 };
 
