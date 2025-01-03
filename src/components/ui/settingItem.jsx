@@ -41,6 +41,7 @@ export const SliderItem = ({
         {icon}
         <Slider
           aria-label={label}
+          size="sm"
           value={[settingValue]}
           onChange={(value) => updateSettings({ [settingName]: value[0] })}
           maxValue={max}

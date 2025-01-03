@@ -139,7 +139,7 @@ export default function EditFeedModal() {
                 size="sm"
                 classNames={{
                   base: cn(
-                    "inline-flex flex-row-reverse w-full max-w-md bg-content2 items-center",
+                    "inline-flex flex-row-reverse w-full max-w-md bg-content2 items-center shadow-sm transition-colors",
                     "justify-between cursor-pointer rounded-lg gap-2 py-1 pr-2 border-2 border-default-200",
                     "data-[hover=true]:border-default-400 data-[selected=true]:border-primary",
                   ),
@@ -161,7 +161,7 @@ export default function EditFeedModal() {
                 size="sm"
                 classNames={{
                   base: cn(
-                    "inline-flex flex-row-reverse w-full max-w-md bg-content2 items-center",
+                    "inline-flex flex-row-reverse w-full max-w-md bg-content2 items-center shadow-sm transition-colors",
                     "justify-between cursor-pointer rounded-lg gap-2 py-1 pr-2 border-2 border-default-200",
                     "data-[hover=true]:border-default-400 data-[selected=true]:border-primary",
                   ),
@@ -178,7 +178,7 @@ export default function EditFeedModal() {
                   </div>
                 </div>
               </Switch>
-              <div className="flex items-center gap-2 bg-content2 rounded-lg px-2 py-1 border-default-200 border-2">
+              <div className="flex items-center gap-2 bg-content2 rounded-lg px-2 py-1 border-default-200 hover:border-default-400 border-2 shadow-sm transition-colors">
                 <div className="flex flex-col w-full">
                   <div className="text-sm">订阅源地址</div>
                   <div className="text-xs text-default-500 line-clamp-1">
@@ -192,7 +192,7 @@ export default function EditFeedModal() {
                   startContent={<Copy className="size-4 shrink-0" />}
                   onPress={() => {
                     navigator.clipboard.writeText(feedUrl);
-                    toast.success("复制成功");
+                    toast.success("已复制");
                   }}
                 >
                   复制

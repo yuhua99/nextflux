@@ -123,8 +123,8 @@ export default function AddFeedModal() {
                 size="sm"
                 classNames={{
                   base: cn(
-                    "inline-flex flex-row-reverse w-full max-w-md bg-content2 items-center",
-                    "justify-between cursor-pointer rounded-lg gap-2 py-[6px] pr-2 border-2 border-default-200",
+                    "inline-flex flex-row-reverse w-full max-w-md bg-content2 items-center shadow-sm transition-colors",
+                    "justify-between cursor-pointer rounded-lg gap-2 py-1 pr-2 border-2 border-default-200",
                     "data-[hover=true]:border-default-400 data-[selected=true]:border-primary",
                   ),
                 }}
