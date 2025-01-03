@@ -7,7 +7,7 @@ import "./ArticleView.css";
 import ActionButtons from "@/components/ArticleView/components/ActionButtons.jsx";
 import { generateReadableDate } from "@/lib/format.js";
 import { activeArticle, filteredArticles } from "@/stores/articlesStore.js";
-import { Chip, Divider, Link, ScrollShadow } from "@nextui-org/react";
+import { Chip, Divider, ScrollShadow } from "@nextui-org/react";
 import EmptyPlaceholder from "@/components/ArticleList/components/EmptyPlaceholder";
 import { cleanTitle, cn, getFontSizeClass } from "@/lib/utils";
 import ArticleImage from "@/components/ArticleView/components/ArticleImage.jsx";
@@ -176,17 +176,15 @@ const ArticleView = () => {
                 <div className="text-default-500 text-sm">
                   {$activeArticle?.feed?.title}
                 </div>
-                <Link
-                  href={$activeArticle?.url}
-                  color="foreground"
-                  isExternal
+                <h1
                   className="font-semibold my-2 hover:cursor-pointer leading-tight"
                   style={{
                     fontSize: `${titleFontSize * fontSize}px`,
                   }}
+                  onClick={() => window.open($activeArticle?.url, "_blank")}
                 >
                   {cleanTitle($activeArticle?.title)}
-                </Link>
+                </h1>
                 <div className="text-default-400 text-sm">
                   <time dateTime={$activeArticle?.published_at}>
                     {generateReadableDate($activeArticle?.published_at)}
