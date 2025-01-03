@@ -5,18 +5,18 @@ import { audioState, resetAudio } from "@/stores/audioStore.js";
 import { useStore } from "@nanostores/react";
 import * as Buttons from "./shared/buttons";
 import { Button, Card, Image } from "@nextui-org/react";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils.js";
 import { Time } from "./shared/sliders.jsx";
 import { Square } from "lucide-react";
 import cover from "@/assets/cover.jpg";
 import SpeedSubmenu from "@/components/ArticleView/components/shared/speed.jsx";
-import { motion } from "framer-motion";
 
 export default function AudioPlayer({ source }) {
   const location = useLocation();
   const [time, setTime] = useState(0);
   const [expand, setExpand] = useState(false);
   const { title, artist, artwork, playbackRate, paused } = useStore(audioState);
-
   useEffect(() => {
     const hash = location.hash;
     const timeMatch = hash.match(/#t=(?:(\d+):)?(\d+):(\d+)/);
@@ -33,16 +33,23 @@ export default function AudioPlayer({ source }) {
       }
     }
   }, [location.hash]);
-
   const url = source.url;
-
   return (
     <motion.div
+      layout
+      className={cn("mb-2 px-2", expand ? "w-full max-w-96" : "")}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
+      transition={{
+        duration: 0.4,
+        type: "spring",
+        bounce: 0.2,
+        ease: "linear",
+      }}
     >
       <MediaPlayer
+        className="shadow-custom w-full bg-content1/80 backdrop-blur-lg dark:bg-content2/80 rounded-xl"
         paused={paused}
         autoPlay={true}
         onPlay={() => {
@@ -65,133 +72,86 @@ export default function AudioPlayer({ source }) {
         ]}
       >
         <MediaProvider />
-        <Controls.Root className="w-full mb-2 px-2 max-w-xs mx-auto">
-          {expand ? (
+        <Controls.Root className="w-full">
+          <div className="flex-1 w-full" />
+          <Controls.Group
+            className={cn(
+              "flex w-full items-center gap-2",
+              expand ? "flex-col p-8" : "p-2",
+            )}
+          >
             <motion.div
-              layoutId="wrapper"
-              className="flex-1 w-full shadow-custom bg-content1/80 backdrop-blur-lg dark:bg-content2/80"
-              style={{
-                borderRadius: "12px",
+              layout
+              transition={{
+                duration: 0.4,
+                type: "spring",
+                bounce: 0.2,
+                ease: "linear",
               }}
+              className={expand ? "w-full" : ""}
             >
-              <Controls.Group className="flex w-full items-center gap-2 flex-col p-8">
-                <>
-                  <motion.div layoutId="artwork" className="w-full">
-                    <Card
-                      className="w-full rounded-lg bg-content2 shadow-custom"
-                      isPressable
-                      onPress={() => setExpand(false)}
-                    >
-                      <Image
-                        removeWrapper
-                        radius="none"
-                        alt="Card background"
-                        className="z-0 w-full h-full object-cover"
-                        src={artwork || cover}
-                      />
-                    </Card>
-                  </motion.div>
-
-                  <motion.div
-                    layoutId="stop-button"
-                    className="w-full flex justify-center"
-                  >
-                    <Button
-                      color="danger"
-                      radius="full"
-                      size="sm"
-                      startContent={<Square className="size-3 fill-current" />}
-                      variant="flat"
-                      onPress={resetAudio}
-                    >
-                      停止播放
-                    </Button>
-                  </motion.div>
-
-                  <div className="w-full text-center">
-                    <motion.div
-                      layoutId="music-title-large"
-                      className="font-semibold text-sm line-clamp-1"
-                    >
-                      {title}
-                    </motion.div>
-                    <motion.div
-                      layoutId="music-artist-large"
-                      className="text-default-500 text-sm line-clamp-1"
-                    >
-                      {artist}
-                    </motion.div>
-                  </div>
-
-                  <motion.div layoutId="time" className="w-full">
-                    <Time />
-                  </motion.div>
-
-                  <motion.div
-                    layoutId="controls-large"
-                    className="button-group flex items-center w-full justify-between"
-                  >
-                    <SpeedSubmenu />
-                    <Buttons.SeekBackward variant="light" size="sm" />
-                    <Buttons.Play variant="light" size="sm" />
-                    <Buttons.SeekForward variant="light" size="sm" />
-                    <Buttons.Jump variant="light" size="sm" />
-                  </motion.div>
-                </>
-              </Controls.Group>
+              <Card
+                className={cn(
+                  "w-10 aspect-square bg-content2 rounded-lg shadow-custom",
+                  expand ? "w-full rounded-lg" : "rounded",
+                )}
+                isPressable
+                onPress={() => setExpand(!expand)}
+              >
+                <Image
+                  removeWrapper
+                  radius="none"
+                  alt="Card background"
+                  className="z-0 w-full h-full object-cover"
+                  src={artwork || cover}
+                />
+              </Card>
             </motion.div>
-          ) : (
+            {expand && (
+              <Button
+                color="danger"
+                radius="full"
+                size="sm"
+                startContent={<Square className="size-3 fill-current" />}
+                variant="flat"
+                onPress={() => {
+                  resetAudio();
+                }}
+              >
+                停止播放
+              </Button>
+            )}
+            {expand && (
+              <div className="w-full text-center">
+                <div className="font-semibold text-sm line-clamp-1">
+                  {title}
+                </div>
+                <div className="text-default-500 text-sm line-clamp-1">
+                  {artist}
+                </div>
+              </div>
+            )}
+            {expand && <Time />}
             <motion.div
-              layoutId="wrapper"
-              className="flex-1 w-full shadow-custom bg-content1/80 backdrop-blur-lg dark:bg-content2/80"
-              style={{
-                borderRadius: "12px",
+              layout
+              transition={{
+                duration: 0.4,
+                type: "spring",
+                bounce: 0.2,
+                ease: "linear",
               }}
+              className={cn(
+                "button-group flex items-center w-full",
+                expand ? "justify-between" : "gap-1",
+              )}
             >
-              <Controls.Group className="flex w-full items-center gap-2 p-2">
-                <>
-                  <motion.div layoutId="artwork">
-                    <Card
-                      className="w-10 aspect-square bg-content2 rounded shadow-custom"
-                      isPressable
-                      onPress={() => setExpand(true)}
-                    >
-                      <Image
-                        removeWrapper
-                        radius="none"
-                        alt="Card background"
-                        className="z-0 w-full h-full object-cover"
-                        src={artwork || cover}
-                      />
-                    </Card>
-                  </motion.div>
-
-                  <div className="w-full">
-                    <motion.div
-                      layoutId="music-title-small"
-                      className="font-semibold text-sm line-clamp-1"
-                    >
-                      {title}
-                    </motion.div>
-                    <motion.div
-                      layoutId="music-artist-small"
-                      className="text-default-500 text-sm line-clamp-1"
-                    >
-                      {artist}
-                    </motion.div>
-                  </div>
-
-                  <motion.div
-                    layoutId="controls-small"
-                    className="button-group flex items-center gap-1"
-                  >
-                    <Buttons.Play variant="light" size="sm" />
-                    <Buttons.SeekForward variant="light" size="sm" />
-                  </motion.div>
-                </>
-              </Controls.Group>
+              {expand && <SpeedSubmenu />}
+              <Buttons.SeekBackward variant="light" size="sm" />
+              <Buttons.Play variant="light" size="sm" />
+              <Buttons.SeekForward variant="light" size="sm" />
+              {expand && <Buttons.Jump variant="light" size="sm" />}
             </motion.div>
-          )}
+          </Controls.Group>
         </Controls.Root>
       </MediaPlayer>
     </motion.div>
