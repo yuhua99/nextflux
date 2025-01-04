@@ -40,7 +40,7 @@ const FeedListSidebar = () => {
         <SidebarMenu>
           <SidebarMenuItem>
             <div className="flex items-center gap-2">
-              <Image src={logo} alt="logo" className="size-8 rounded" />
+              <Image src={logo} alt="logo" className="size-8" radius="none" />
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">ReactFlux</span>
                 <span className="truncate text-xs text-default-400">
