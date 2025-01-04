@@ -117,7 +117,9 @@ export default function ArticleCard({ article }) {
       <div
         className={cn(
           "card-content flex flex-col gap-1",
-          article.status === "read" && "opacity-50",
+          article.status === "read" &&
+            article.starred === false &&
+            "opacity-50",
         )}
       >
         <div className="card-header flex flex-col gap-1">
