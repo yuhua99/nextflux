@@ -1,14 +1,16 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useStore } from "@nanostores/react";
-import { filteredArticles, activeArticle } from "@/stores/articlesStore";
+import { activeArticle, filteredArticles } from "@/stores/articlesStore";
 import { handleMarkStatus, handleToggleStar } from "@/handlers/articleHandlers";
 import { forceSync } from "@/stores/syncStore";
+import { shortcutsModalOpen } from "@/stores/modalStore";
 
-export function useHotkeys({ parentRef = null } = {}) {
+export function useHotkeys() {
   const navigate = useNavigate();
   const $articles = useStore(filteredArticles);
   const $activeArticle = useStore(activeArticle);
+  const { articleId } = useParams();
 
   // 获取当前文章在列表中的索引
   const currentIndex = $articles.findIndex((a) => a.id === $activeArticle?.id);
@@ -27,9 +29,14 @@ export function useHotkeys({ parentRef = null } = {}) {
         return;
       }
 
+      if (e.key === "/" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        shortcutsModalOpen.set(!shortcutsModalOpen.get());
+      }
+
       switch (e.key.toLowerCase()) {
         case "j": // 下一篇
-          if (currentIndex < $articles.length - 1) {
+          if (articleId && currentIndex < $articles.length - 1) {
             const nextArticle = $articles[currentIndex + 1];
             navigate(`${basePath}/article/${nextArticle.id}`);
             if (nextArticle.status !== "read") {
@@ -49,13 +56,13 @@ export function useHotkeys({ parentRef = null } = {}) {
           break;
 
         case "m": // 标记已读/未读
-          if ($activeArticle) {
+          if (articleId) {
             await handleMarkStatus($activeArticle);
           }
           break;
 
         case "s": // 收藏/取消收藏
-          if ($activeArticle) {
+          if (articleId) {
             await handleToggleStar($activeArticle);
           }
           break;
@@ -71,7 +78,7 @@ export function useHotkeys({ parentRef = null } = {}) {
           break;
 
         case "v": // 在新标签页打开原文
-          if ($activeArticle) {
+          if (articleId) {
             window.open($activeArticle.url, "_blank");
           }
           break;
@@ -81,11 +88,11 @@ export function useHotkeys({ parentRef = null } = {}) {
       }
     };
 
-    const target = parentRef?.current || window;
+    const target = window;
     target.addEventListener("keydown", handleKeyDown);
 
     return () => {
       target.removeEventListener("keydown", handleKeyDown);
     };
-  }, [$activeArticle, currentIndex, $articles, basePath, navigate, parentRef]);
-} 
+  }, [$activeArticle, currentIndex, $articles, basePath, navigate, articleId]);
+}

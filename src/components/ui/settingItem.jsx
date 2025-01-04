@@ -173,7 +173,15 @@ export function KeyboardItem({ desc, kbdKey, keyStr }) {
       <div className="flex items-center gap-2">
         <div className="text-sm text-foreground">{desc}</div>
       </div>
-      <Kbd keys={kbdKey}>{keyStr}</Kbd>
+      <Kbd
+        classNames={{
+          base: "min-w-10",
+          content: "w-full",
+        }}
+        keys={kbdKey}
+      >
+        {keyStr}
+      </Kbd>
     </div>
   );
 }

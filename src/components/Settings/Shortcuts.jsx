@@ -18,11 +18,19 @@ export default function Shortcuts() {
       { key: "K", desc: "上一篇文章" },
       { key: "M", desc: "标记已读/未读" },
       { key: "S", desc: "收藏/取消收藏" },
-      { key: "R", desc: "刷新" },
       { key: "ESC", desc: "关闭文章" },
-      { key: "V", desc: "在新标签页打开原文" },
+      { key: "V", desc: "在浏览器中查看" },
     ],
-    global: [{ key: "B", desc: "切换侧边栏", kbdKey: ["option"] }],
+    global: [
+      { key: "B", desc: "切换侧边栏", kbdKey: ["option"] },
+
+      {
+        key: "/",
+        desc: "查看/隐藏快捷键",
+        kbdKey: ["option"],
+      },
+      { key: "R", desc: "刷新" },
+    ],
   };
   const isOpen = useStore(shortcutsModalOpen);
   return (
