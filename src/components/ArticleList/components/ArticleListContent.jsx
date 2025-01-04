@@ -39,8 +39,9 @@ export default function ArticleListContent({ articles }) {
         <Virtuoso
           className="v-list h-full"
           data={articles}
+          totalCount={articles.length}
           components={{
-            Header: () => <div className="vlist-header h-16"></div>,
+            Header: () => <div className="vlist-header h-2"></div>,
             Footer: () => <div className="vlist-footer h-16"></div>,
           }}
           itemContent={(index, article) => (

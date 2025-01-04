@@ -56,10 +56,6 @@ body {
     padding-bottom: calc(env(safe-area-inset-bottom) + 8px) !important;
   }
 
-  .vlist-header {
-    margin-top: env(safe-area-inset-top) !important;
-  }
-
   .vlist-footer {
     margin-bottom: env(safe-area-inset-bottom) !important;
   }
