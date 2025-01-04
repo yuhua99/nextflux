@@ -194,9 +194,14 @@ const ArticleView = () => {
               <Divider className="my-4" />
               {audioEnclosure && <PlayAndPause source={audioEnclosure} />}
               <PhotoProvider
-                maskOpacity={0.5}
                 bannerVisible={false}
-                maskClassName="backdrop-blur"
+                loop={false}
+                speed={() => 300}
+                easing={(type) =>
+                  type !== 2
+                    ? "cubic-bezier(0.34, 1.3, 0.64, 1)"
+                    : "cubic-bezier(0.25, 0.8, 0.25, 1)"
+                }
               >
                 <motion.div
                   className={cn(
