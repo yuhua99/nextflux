@@ -8,6 +8,7 @@ import { startAutoSync } from "@/stores/syncStore.js";
 import { settingsState } from "@/stores/settingsStore.js";
 import { useStore } from "@nanostores/react";
 import Settings from "@/components/Settings/Settings.jsx";
+import Shortcuts from "@/components/Settings/Shortcuts.jsx";
 import AddFeedModal from "@/components/FeedList/components/AddFeedModal.jsx";
 import AddCategoryModal from "@/components/FeedList/components/AddCategoryModal.jsx";
 
@@ -28,6 +29,7 @@ function App() {
         <Outlet />
       </SidebarInset>
       <Settings />
+      <Shortcuts />
       <AddFeedModal />
       <AddCategoryModal />
     </SidebarProvider>

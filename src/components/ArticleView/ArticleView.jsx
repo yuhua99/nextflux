@@ -17,6 +17,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import VideoPlayer from "@/components/ArticleView/components/VideoPlayer.jsx";
 import PlayAndPause from "@/components/ArticleView/components/PlayAndPause.jsx";
 import { themeState } from "@/stores/themeStore.js";
+import { useHotkeys } from "@/hooks/useHotkeys";
 
 const ArticleView = () => {
   const { articleId } = useParams();
@@ -53,6 +54,10 @@ const ArticleView = () => {
     }
   };
   const scrollAreaRef = useRef(null);
+  const contentRef = useRef(null);
+
+  // 使用快捷键
+  useHotkeys({ parentRef: contentRef });
 
   // 监听文章ID变化,滚动到顶部
   useEffect(() => {

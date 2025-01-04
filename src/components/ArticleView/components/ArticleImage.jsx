@@ -59,7 +59,7 @@ export default function ArticleImage({ imgNode }) {
       <Image
         ref={imgRef}
         classNames={{
-          wrapper: "!max-w-[calc(100%+40px)] -mx-5 flex justify-center my-8",
+          wrapper: "!max-w-[calc(100%+40px)] -mx-5 flex justify-center my-1",
           img: "h-auto object-cover m-0",
         }}
         radius="none"

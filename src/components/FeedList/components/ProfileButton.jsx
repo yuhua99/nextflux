@@ -6,9 +6,16 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
-import { ChevronsUpDown, Cog, ExternalLink, LogOut } from "lucide-react";
+import {
+  ChevronsUpDown,
+  Cog,
+  ExternalLink,
+  Keyboard,
+  LogOut,
+} from "lucide-react";
 import { authState, logout } from "@/stores/authStore.js";
 import { settingsModalOpen } from "@/stores/settingsStore.js";
+import { shortcutsModalOpen } from "@/stores/modalStore.js";
 import { useSidebar } from "@/components/ui/sidebar.jsx";
 
 export default function ProfileButton() {
@@ -48,6 +55,17 @@ export default function ProfileButton() {
             }}
           >
             设置
+          </DropdownItem>
+          <DropdownItem
+            key="shortcuts"
+            textValue="shortcuts"
+            startContent={<Keyboard className="size-4" />}
+            onPress={() => {
+              shortcutsModalOpen.set(true);
+              isMobile && setOpenMobile(false);
+            }}
+          >
+            快捷键
           </DropdownItem>
           <DropdownItem
             key="open_miniflux"

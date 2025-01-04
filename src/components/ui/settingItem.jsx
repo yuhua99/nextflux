@@ -6,6 +6,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
+  Kbd,
   Slider,
   Switch,
   Tab,
@@ -160,6 +161,19 @@ export function GroupItem({ label, icon, settingName, settingValue, options }) {
           />
         ))}
       </Tabs>
+    </div>
+  );
+}
+
+export function KeyboardItem({ desc, kbdKey, keyStr }) {
+  return (
+    <div
+      className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-3`}
+    >
+      <div className="flex items-center gap-2">
+        <div className="text-sm text-foreground">{desc}</div>
+      </div>
+      <Kbd keys={kbdKey}>{keyStr}</Kbd>
     </div>
   );
 }
