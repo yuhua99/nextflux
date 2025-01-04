@@ -58,6 +58,7 @@ export default function ArticleImage({ imgNode }) {
     <PhotoView key={src} src={src}>
       <Image
         ref={imgRef}
+        disableAnimation
         classNames={{
           wrapper: "!max-w-[calc(100%+40px)] -mx-5 flex justify-center my-1",
           img: "h-auto object-cover m-0",
