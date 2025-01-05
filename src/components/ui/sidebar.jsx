@@ -178,7 +178,7 @@ const Sidebar = React.forwardRef(
           <DrawerContent
             data-sidebar="sidebar"
             data-mobile="true"
-            className="w-[--sidebar-width] bg-content2 p-0 text-content2-foreground [&>button]:hidden"
+            className="sidebar w-[--sidebar-width] bg-content2 p-0 text-content2-foreground [&>button]:hidden"
             style={{
               "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
             }}
