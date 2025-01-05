@@ -137,14 +137,14 @@ const ArticleView = () => {
   return (
     <div
       className={cn(
-        "flex-1 bg-content2 p-0 sm:p-2 h-screen fixed sm:static inset-0 z-50",
+        "flex-1 bg-content2 p-0 md:p-2 h-screen fixed md:static inset-0 z-50",
         "animate-in slide-in-from-right motion-reduce:animate-none",
       )}
     >
       <ScrollShadow
         ref={scrollAreaRef}
         isEnabled={false}
-        className="article-scroll-area h-full bg-background rounded-none sm:rounded-lg shadow-none sm:shadow-custom"
+        className="article-scroll-area h-full bg-background rounded-none md:rounded-lg shadow-none md:shadow-custom"
       >
         <ActionButtons parentRef={scrollAreaRef} />
         <div

@@ -2,11 +2,11 @@ import {
   ArrowLeft,
   Circle,
   CircleDot,
+  FileText,
   Forward,
   Reply,
   Share,
   Star,
-  FileText,
 } from "lucide-react";
 import {
   handleMarkStatus,
@@ -24,7 +24,7 @@ import { useStore } from "@nanostores/react";
 import { activeArticle, filteredArticles } from "@/stores/articlesStore";
 import Confetti from "@/components/ui/Confetti";
 import { settingsState } from "@/stores/settingsStore.js";
-import { useRef, useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import minifluxAPI from "@/api/miniflux";
 
 export default function ActionButtons({ parentRef }) {
@@ -96,7 +96,7 @@ export default function ActionButtons({ parentRef }) {
   // 处理内容切换
   const handleToggleContent = async () => {
     if (!$activeArticle) return;
-    
+
     try {
       setLoading(true);
       if (showOriginal) {
@@ -104,20 +104,20 @@ export default function ActionButtons({ parentRef }) {
         const content = await minifluxAPI.fetchEntryContent($activeArticle.id);
         activeArticle.set({
           ...$activeArticle,
-          content: content
+          content: content,
         });
       } else {
         // 恢复保存的内容
         activeArticle.set({
           ...$activeArticle,
-          content: $activeArticle.originalContent
+          content: $activeArticle.originalContent,
         });
       }
       setShowOriginal(!showOriginal);
     } catch (error) {
       console.error("切换内容失败:", error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -149,7 +149,7 @@ export default function ActionButtons({ parentRef }) {
           <Tooltip content="上一篇">
             <Button
               onPress={handlePrevious}
-              className="hidden sm:flex"
+              className="hidden md:flex"
               isDisabled={currentIndex <= 0}
               size="sm"
               radius="full"
@@ -163,7 +163,7 @@ export default function ActionButtons({ parentRef }) {
           <Tooltip content="下一篇">
             <Button
               onPress={handleNext}
-              className="hidden sm:flex"
+              className="hidden md:flex"
               isDisabled={currentIndex >= $articles.length - 1}
               size="sm"
               radius="full"
@@ -248,7 +248,6 @@ export default function ActionButtons({ parentRef }) {
               <span className="sr-only">分享</span>
             </Button>
           </Tooltip>
-          
         </div>
       </NavbarContent>
     </Navbar>
