@@ -49,7 +49,7 @@ export default {
     },
   },
 
-  darkMode: "class",
+  darkMode: ["selector", '[class$="dark"]'],
   plugins: [
     nextui({
       themes: {
@@ -78,6 +78,27 @@ export default {
           colors: {
             divider: "rgba(255,255,255,0.06)",
             background: "#1E1E1E",
+            primary: {
+              50: "#004D1C",
+              100: "#046625",
+              200: "#0A802D",
+              300: "#129A37",
+              400: "#1DB440",
+              500: "#27C346",
+              600: "#50D266",
+              700: "#7EE18B",
+              800: "#B2F0B7",
+              900: "#EBFFEC",
+              foreground: "#FFFFFF",
+              DEFAULT: "#27C346",
+            },
+          },
+        },
+        "black-dark": {
+          extend: "dark",
+          colors: {
+            divider: "rgba(255,255,255,0.08)",
+            background: "#000000",
             primary: {
               50: "#004D1C",
               100: "#046625",

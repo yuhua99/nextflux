@@ -42,14 +42,14 @@ const ArticleView = () => {
     if (themeMode === "system") {
       return (
         (systemMode === "light" && lightTheme === "stone") ||
-        (systemMode === "dark" && darkTheme === "stone")
+        (systemMode === "dark" && darkTheme === "stone-dark")
       );
     }
     if (themeMode === "light") {
       return lightTheme === "stone";
     }
     if (themeMode === "dark") {
-      return darkTheme === "stone";
+      return darkTheme === "stone-dark";
     }
   };
   const scrollAreaRef = useRef(null);

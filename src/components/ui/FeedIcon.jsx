@@ -54,8 +54,9 @@ const FeedIcon = ({ url }) => {
     <Image
       alt="Feed icon"
       src={faviconUrl}
-      className="size-5 p-0.5 bg-white shadow-small shrink-0"
+      className="size-5 p-0.5 bg-white shadow-small"
       classNames={{
+        wrapper: "shrink-0",
         img: cn(
           useGrayIcon ? "grayscale" : "",
           feedIconShape === "circle" ? "rounded-full" : "rounded",
