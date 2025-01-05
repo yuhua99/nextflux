@@ -34,7 +34,7 @@ export default function ArticleCardCover({ imageUrl }) {
         loading && "!animate-pulse",
         cardImageSize === "large"
           ? "aspect-video w-full"
-          : "w-[70px] h-[70px] shrink-0",
+          : "w-20 h-20 shrink-0",
       )}
     >
       {isInView && (
@@ -51,7 +51,7 @@ export default function ArticleCardCover({ imageUrl }) {
               "object-cover",
               cardImageSize === "large"
                 ? "aspect-video w-full"
-                : "aspect-square w-[70px]",
+                : "aspect-square w-20",
             ),
           }}
         />

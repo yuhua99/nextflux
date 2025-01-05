@@ -170,7 +170,7 @@ export default function ArticleCard({ article }) {
                 <span
                   className={cn(
                     "text-sm text-default-500 text-wrap break-words w-full max-w-full overflow-hidden",
-                    cardImageSize === "small" ? "line-clamp-1" : "line-clamp-2",
+                    showReadingTime ? "line-clamp-1" : "line-clamp-2",
                   )}
                   style={{ wordBreak: "break-word" }}
                 >
