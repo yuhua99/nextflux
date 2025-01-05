@@ -12,6 +12,7 @@ import ArticleListContent from "./components/ArticleListContent";
 import ArticleListFooter from "./components/ArticleListFooter";
 import EmptyPlaceholder from "./components/EmptyPlaceholder";
 import { settingsState } from "@/stores/settingsStore.js";
+import { useIsMobile } from "@/hooks/use-mobile.jsx";
 
 const ArticleList = () => {
   const { feedId, categoryId, articleId } = useParams();
@@ -21,6 +22,7 @@ const ArticleList = () => {
   const { sortDirection, showHiddenFeeds } = useStore(settingsState);
   const location = useLocation();
   const scrollAreaRef = useRef(null);
+  const { isMedium } = useIsMobile();
 
   useEffect(() => {
     const loadAndFilterArticles = () => {
@@ -37,6 +39,9 @@ const ArticleList = () => {
   }, [feedId, categoryId, $lastSync, $filter, sortDirection, showHiddenFeeds]);
 
   useEffect(() => {
+    if (isMedium) {
+      return;
+    }
     if (scrollAreaRef.current && articleId) {
       const viewport = scrollAreaRef.current.querySelector(".v-list");
       const articleCard = viewport?.querySelector(
@@ -81,7 +86,7 @@ const ArticleList = () => {
         }
       }
     }
-  }, [articleId]);
+  }, [articleId, isMedium]);
 
   // 监听 feedId、categoryId 和 filter 变化，滚动到顶部
   useEffect(() => {
