@@ -65,3 +65,9 @@ figcaption {
 iframe.vds-youtube[data-no-controls] {
   position: absolute;
 }
+
+html[class$="dark"] .shiki,
+html[class$="dark"] .shiki span {
+  background-color: var(--shiki-dark-bg) !important;
+  color: var(--shiki-dark) !important;
+}

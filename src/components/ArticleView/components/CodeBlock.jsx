@@ -12,7 +12,10 @@ export default function CodeBlock({ code, language }) {
     async function highlight() {
       const highlighted = await codeToHtml(code, {
         lang: language || "text",
-        theme: "github-dark",
+        themes: {
+          light: "catppuccin-latte",
+          dark: "github-dark",
+        },
       });
       setHtml(highlighted);
     }
@@ -33,7 +36,7 @@ export default function CodeBlock({ code, language }) {
 
   return (
     <div className="code-block relative group">
-      <span className="text-xs absolute right-2 top-1 text-white/70 opacity-100 group-hover:opacity-0 transition-opacity">
+      <span className="text-xs absolute right-2 top-1 text-default-500 opacity-100 group-hover:opacity-0 transition-opacity">
         {language}
       </span>
       <Tooltip size="sm" closeDelay="0" content="复制">
@@ -46,9 +49,9 @@ export default function CodeBlock({ code, language }) {
           onPress={handleCopy}
         >
           {isCopied ? (
-            <Check className="size-4 text-white" />
+            <Check className="size-4 text-default-500" />
           ) : (
-            <Copy className="size-4 text-white" />
+            <Copy className="size-4 text-default-500" />
           )}
         </Button>
       </Tooltip>

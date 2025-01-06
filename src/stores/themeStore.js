@@ -1,4 +1,5 @@
 import { persistentAtom } from "@nanostores/persistent";
+import { computed } from "nanostores";
 
 const defaultValue = {
   themeMode: "system",
@@ -79,3 +80,14 @@ export function initTheme() {
     }
   });
 }
+
+// 当前实际运用的主题模式 light ｜ dark
+export const currentThemeMode = computed([themeState], ($themeState) => {
+  const { themeMode } = $themeState;
+  if (themeMode === "system") {
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  }
+  return themeMode;
+});
