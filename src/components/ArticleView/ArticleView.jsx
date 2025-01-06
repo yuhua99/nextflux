@@ -17,6 +17,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import VideoPlayer from "@/components/ArticleView/components/VideoPlayer.jsx";
 import PlayAndPause from "@/components/ArticleView/components/PlayAndPause.jsx";
 import { themeState } from "@/stores/themeStore.js";
+import CodeBlock from "@/components/ArticleView/components/CodeBlock.jsx";
 
 const ArticleView = () => {
   const { articleId } = useParams();
@@ -287,6 +288,29 @@ const ArticleView = () => {
 
                         // YouTube iframe 显示打开链接的按钮
                         return <VideoPlayer src={src} provider="youtube" />;
+                      }
+                      if (domNode.type === "tag" && domNode.name === "pre") {
+                        const codeNode = domNode.children.find(
+                          (child) =>
+                            child.type === "tag" && child.name === "code",
+                        );
+
+                        if (codeNode) {
+                          const className = codeNode.attribs.class || "";
+                          const language =
+                            className
+                              .split(/\s+/)
+                              .find(
+                                (cls) =>
+                                  cls.startsWith("language-") ||
+                                  cls.startsWith("lang-"),
+                              )
+                              ?.replace(/^(language-|lang-)/, "") || "text";
+
+                          const code = codeNode.children[0].data;
+
+                          return <CodeBlock code={code} language={language} />;
+                        }
                       }
                     },
                   })}
