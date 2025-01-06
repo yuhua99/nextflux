@@ -1,11 +1,12 @@
 import { codeToHtml } from "shiki";
 import { useEffect, useState } from "react";
 import { Button, Tooltip } from "@nextui-org/react";
-import { Copy } from "lucide-react";
+import { Check, Copy } from "lucide-react";
 import { toast } from "sonner";
 
 export default function CodeBlock({ code, language }) {
   const [html, setHtml] = useState("");
+  const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
     async function highlight() {
@@ -22,7 +23,8 @@ export default function CodeBlock({ code, language }) {
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(code);
-      toast.success("已复制");
+      setIsCopied(true);
+      setTimeout(() => setIsCopied(false), 3000);
     } catch (err) {
       console.error("复制失败:", err);
       toast.error("复制失败");
@@ -38,11 +40,16 @@ export default function CodeBlock({ code, language }) {
         <Button
           className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity"
           size="sm"
+          isDisabled={isCopied}
           variant="light"
           isIconOnly
           onPress={handleCopy}
         >
-          <Copy className="size-4 text-white" />
+          {isCopied ? (
+            <Check className="size-4 text-white" />
+          ) : (
+            <Copy className="size-4 text-white" />
+          )}
         </Button>
       </Tooltip>
       <div dangerouslySetInnerHTML={{ __html: html }} />

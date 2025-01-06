@@ -19,8 +19,7 @@ import minifluxAPI from "@/api/miniflux";
 import { forceSync } from "@/stores/syncStore";
 import { cn } from "@/lib/utils";
 import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
-import { Copy } from "lucide-react";
-import { toast } from "sonner";
+import { Check, Copy } from "lucide-react";
 
 export default function EditFeedModal() {
   const { feedId } = useParams();
@@ -29,6 +28,7 @@ export default function EditFeedModal() {
   const $editFeedModalOpen = useStore(editFeedModalOpen);
   const [loading, setLoading] = useState(false);
   const [feedUrl, setFeedUrl] = useState("");
+  const [isCopied, setIsCopied] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
     category_id: "",
@@ -190,13 +190,19 @@ export default function EditFeedModal() {
                 <Button
                   size="sm"
                   isIconOnly
+                  isDisabled={isCopied}
                   variant="flat"
                   startContent={
-                    <Copy className="size-4 shrink-0 text-default-500" />
+                    isCopied ? (
+                      <Check className="size-4 shrink-0 text-default-500" />
+                    ) : (
+                      <Copy className="size-4 shrink-0 text-default-500" />
+                    )
                   }
                   onPress={() => {
                     navigator.clipboard.writeText(feedUrl);
-                    toast.success("已复制");
+                    setIsCopied(true);
+                    setTimeout(() => setIsCopied(false), 3000);
                   }}
                 />
               </div>
