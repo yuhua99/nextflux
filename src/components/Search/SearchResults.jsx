@@ -18,7 +18,7 @@ export default function SearchResults({ results, keyword, onSelect }) {
     return (
       <div className="flex flex-col items-center gap-2 w-full justify-center h-full text-default-400">
         <FolderSearch className="size-16" />
-        无结果
+        无相关结果
       </div>
     );
   }
