@@ -67,7 +67,13 @@ export default function App() {
                     fullWidth
                     classNames={{ tab: "py-0 h-6", cursor: "bg-content1" }}
                     selectedKey={activeTab}
-                    onSelectionChange={(key) => setActiveTab(key)}
+                    onSelectionChange={(key) => {
+                      setActiveTab(key);
+                      const modalBody = document.querySelector('.modal-body');
+                      if (modalBody) {
+                        modalBody.scrollTop = 0;
+                      }
+                    }}
                   >
                     <Tab key="general" title="通用" />
                     <Tab key="appearance" title="外观" />
