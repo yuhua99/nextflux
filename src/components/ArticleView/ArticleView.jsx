@@ -206,7 +206,7 @@ const ArticleView = () => {
               >
                 <motion.div
                   className={cn(
-                    "article-content prose dark:prose-invert max-w-none",
+                    "article-content prose dark:prose-invert max-w-none prose-pre:rounded-lg prose-pre:shadow-small",
                     getFontSizeClass(fontSize),
                     isStoneTheme() ? "prose-stone" : "",
                   )}

@@ -33,6 +33,23 @@ p {
   @apply whitespace-pre-wrap
 }
 
+
+/*https://github.com/shikijs/shiki/issues/3*/
+.line-numbers code {
+  counter-increment: step 0;
+  counter-reset: step;
+}
+
+.line-numbers code .line::before {
+  color: hsl(var(--nextui-default-400));
+  content: counter(step);
+  counter-increment: step;
+  display: inline-block;
+  margin-right: 1.5rem;
+  text-align: right;
+  width: 1rem;
+}
+
 .article-content figure {
   @apply my-4 !w-auto
 }

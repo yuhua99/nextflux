@@ -3,10 +3,14 @@ import { useEffect, useState } from "react";
 import { Button, Tooltip } from "@nextui-org/react";
 import { Check, Copy } from "lucide-react";
 import { toast } from "sonner";
+import { settingsState } from "@/stores/settingsStore.js";
+import { useStore } from "@nanostores/react";
+import { cn } from "@/lib/utils.js";
 
 export default function CodeBlock({ code, language }) {
   const [html, setHtml] = useState("");
   const [isCopied, setIsCopied] = useState(false);
+  const { showLineNumbers } = useStore(settingsState);
 
   useEffect(() => {
     async function highlight() {
@@ -35,7 +39,12 @@ export default function CodeBlock({ code, language }) {
   };
 
   return (
-    <div className="code-block relative group">
+    <div
+      className={cn(
+        "code-block relative group",
+        showLineNumbers ? "line-numbers" : "",
+      )}
+    >
       <span className="text-xs absolute right-2 top-1 text-default-500 opacity-100 group-hover:opacity-0 transition-opacity">
         {language}
       </span>

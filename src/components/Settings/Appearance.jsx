@@ -14,6 +14,7 @@ import {
   Rss,
   Square,
   Text,
+  ListOrdered,
 } from "lucide-react";
 import Theme from "./components/Theme";
 
@@ -25,6 +26,7 @@ export default function Appearance() {
     showFavicon,
     showTextPreview,
     showReadingTime,
+    showLineNumbers,
   } = useStore(settingsState);
   return (
     <>
@@ -86,6 +88,14 @@ export default function Appearance() {
           icon={<Clock className="shrink-0 size-4 text-default-500" />}
           settingName="showReadingTime"
           settingValue={showReadingTime}
+        />
+      </ItemWrapper>
+      <ItemWrapper title="代码块">
+        <SwitchItem
+          label="显示行号"
+          icon={<ListOrdered className="shrink-0 size-4 text-default-500" />}
+          settingName="showLineNumbers"
+          settingValue={showLineNumbers}
         />
       </ItemWrapper>
     </>
