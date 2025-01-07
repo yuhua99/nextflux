@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/sidebar";
 import { useSidebar } from "@/components/ui/sidebar.jsx";
 import FeedIcon from "@/components/ui/FeedIcon";
+import { settingsState } from "@/stores/settingsStore";
 
 const FeedsGroup = () => {
   const $feedsByCategory = useStore(feedsByCategory);
@@ -34,7 +35,7 @@ const FeedsGroup = () => {
   const $getFeedCount = useStore(getFeedCount);
   const { isMobile, setOpenMobile } = useSidebar();
   const { categoryId, feedId } = useParams();
-
+  const { defaultExpandCategory } = useStore(settingsState);
   return (
     <SidebarGroup>
       <SidebarGroupLabel>订阅源</SidebarGroupLabel>
@@ -43,9 +44,12 @@ const FeedsGroup = () => {
           {$feedsByCategory.map((category) => (
             <Collapsible
               key={category.id}
-              defaultOpen={category.feeds.some(
-                (feed) => parseInt(feedId) === feed.id,
-              )}
+              defaultOpen={
+                defaultExpandCategory ||
+                category.feeds.some(
+                  (feed) => parseInt(feedId) === feed.id,
+                )
+              }
             >
               <SidebarMenuItem key={`menu-${category.id}`}>
                 <SidebarMenuButton

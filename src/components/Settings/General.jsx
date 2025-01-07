@@ -5,6 +5,7 @@ import {
   ClockArrowUp,
   Eye,
   RefreshCw,
+  FolderOpen,
 } from "lucide-react";
 import { useStore } from "@nanostores/react";
 import {
@@ -15,8 +16,13 @@ import {
 import { Divider } from "@nextui-org/react";
 
 export default function General() {
-  const { sortDirection, showHiddenFeeds, markAsReadOnScroll, syncInterval } =
-    useStore(settingsState);
+  const {
+    sortDirection,
+    showHiddenFeeds,
+    markAsReadOnScroll,
+    syncInterval,
+    defaultExpandCategory,
+  } = useStore(settingsState);
 
   return (
     <>
@@ -41,6 +47,13 @@ export default function General() {
           icon={<Eye className="shrink-0 size-4 text-default-500" />}
           settingName="showHiddenFeeds"
           settingValue={showHiddenFeeds}
+        />
+        <Divider />
+        <SwitchItem
+          label="默认展开分类"
+          icon={<FolderOpen className="shrink-0 size-4 text-default-500" />}
+          settingName="defaultExpandCategory"
+          settingValue={defaultExpandCategory}
         />
       </ItemWrapper>
       <ItemWrapper title="文章列表">
