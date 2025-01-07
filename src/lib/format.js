@@ -22,3 +22,5 @@ export const formatPublishDate = (date) => {
 
 export const generateReadableDate = (dateString) =>
   dayjs(dateString).format("YYYY年MM月DD日 HH:mm · dddd");
+
+export const formatDate = (dateString) => dayjs(dateString).format("YYYY-MM-DD");

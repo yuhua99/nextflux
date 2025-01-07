@@ -12,6 +12,7 @@ import Shortcuts from "@/components/Settings/Shortcuts.jsx";
 import AddFeedModal from "@/components/FeedList/components/AddFeedModal.jsx";
 import AddCategoryModal from "@/components/FeedList/components/AddCategoryModal.jsx";
 import { useHotkeys } from "@/hooks/useHotkeys.js";
+import SearchModal from "@/components/Search/SearchModal.jsx";
 
 function App() {
   const { syncInterval } = useStore(settingsState);
@@ -35,6 +36,7 @@ function App() {
       <Shortcuts />
       <AddFeedModal />
       <AddCategoryModal />
+      <SearchModal />
     </SidebarProvider>
   );
 }

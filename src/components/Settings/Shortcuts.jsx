@@ -22,14 +22,15 @@ export default function Shortcuts() {
       { key: "V", desc: "在浏览器中查看" },
     ],
     global: [
-      { key: "B", desc: "切换侧边栏", kbdKey: ["option"] },
+      { key: "B", desc: "切换侧边栏", kbdKey: ["ctrl"] },
 
       {
         key: "/",
         desc: "查看/隐藏快捷键",
-        kbdKey: ["option"],
+        kbdKey: ["ctrl"],
       },
       { key: "R", desc: "刷新" },
+      { key: "F", desc: "全局搜索" },
     ],
   };
   const isOpen = useStore(shortcutsModalOpen);

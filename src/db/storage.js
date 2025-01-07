@@ -234,6 +234,30 @@ class Storage {
     const store = tx.objectStore("categories");
     await store.clear();
   }
+
+  // 搜索文章
+  async searchArticles(keyword) {
+    const tx = this.db.transaction("articles", "readonly");
+    const store = tx.objectStore("articles");
+
+    return new Promise((resolve, reject) => {
+      const request = store.getAll();
+      request.onsuccess = () => {
+        const articles = request.result;
+        const results = articles.filter(article => {
+          const searchText = [
+            article.title,
+            article.content,
+            article.author
+          ].join(" ").toLowerCase();
+          
+          return searchText.includes(keyword.toLowerCase());
+        });
+        resolve(results);
+      };
+      request.onerror = () => reject(request.error);
+    });
+  }
 }
 
 export default new Storage();

@@ -5,6 +5,7 @@ import { activeArticle, filteredArticles } from "@/stores/articlesStore";
 import { handleMarkStatus, handleToggleStar } from "@/handlers/articleHandlers";
 import { forceSync } from "@/stores/syncStore";
 import { shortcutsModalOpen } from "@/stores/modalStore";
+import { searchModalOpen } from "@/stores/searchStore";
 
 export function useHotkeys() {
   const navigate = useNavigate();
@@ -35,6 +36,11 @@ export function useHotkeys() {
       }
 
       switch (e.key.toLowerCase()) {
+        case "f": // 搜索
+          e.preventDefault();
+          searchModalOpen.set(true);
+          break;
+
         case "j": // 下一篇
           if (articleId && currentIndex < $articles.length - 1) {
             const nextArticle = $articles[currentIndex + 1];
