@@ -83,6 +83,7 @@ iframe.vds-youtube[data-no-controls] {
   position: absolute;
 }
 
+/*代码主题跟随系统当前使用主题*/
 html[class$="dark"] .shiki,
 html[class$="dark"] .shiki span {
   background-color: var(--shiki-dark-bg) !important;
