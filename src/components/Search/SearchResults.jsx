@@ -2,9 +2,59 @@ import { ScrollShadow } from "@nextui-org/react";
 import { FolderSearch, Inbox } from "lucide-react";
 import FeedIcon from "@/components/ui/FeedIcon.jsx";
 import { formatDate } from "@/lib/format.js";
+import { useEffect, useRef, useState } from "react";
 
 export default function SearchResults({ results, keyword, onSelect }) {
-  // 如果没有关键词,显示搜索历史
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+  const listRef = useRef(null);
+
+  // 处理键盘事件
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (results.length === 0) return;
+
+      switch (e.key) {
+        case "ArrowDown":
+          e.preventDefault();
+          setSelectedIndex((prev) =>
+            prev < results.length - 1 ? prev + 1 : prev,
+          );
+          break;
+        case "ArrowUp":
+          e.preventDefault();
+          setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));
+          break;
+        case "Enter":
+          e.preventDefault();
+          if (selectedIndex >= 0) {
+            onSelect(results[selectedIndex]);
+          }
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [results, selectedIndex, onSelect]);
+
+  // 确保选中项在视野内
+  useEffect(() => {
+    if (selectedIndex >= 0 && listRef.current) {
+      const selectedElement = listRef.current.children[selectedIndex];
+      if (selectedElement) {
+        selectedElement.scrollIntoView({
+          block: "nearest",
+          behavior: "instant",
+        });
+      }
+    }
+  }, [selectedIndex]);
+
+  // 重置搜索时重置选中项
+  useEffect(() => {
+    setSelectedIndex(0);
+  }, [keyword]);
+
   if (!keyword) {
     return (
       <div className="flex flex-col items-center gap-2 w-full justify-center h-full text-default-400">
@@ -25,12 +75,15 @@ export default function SearchResults({ results, keyword, onSelect }) {
 
   return (
     <ScrollShadow>
-      <div className="p-2">
-        {results.map((article) => (
+      <div ref={listRef} className="p-2">
+        {results.map((article, index) => (
           <div
             key={article.id}
-            className="flex items-center justify-between gap-2 px-2 py-2 text-sm hover:bg-default rounded-lg cursor-pointer"
+            className={`flex items-center justify-between gap-2 px-2 py-2 text-sm rounded-lg cursor-pointer ${
+              index === selectedIndex ? "bg-default" : "hover:bg-default"
+            }`}
             onClick={() => onSelect(article)}
+            onMouseEnter={() => setSelectedIndex(index)}
           >
             <div className="flex items-center gap-2">
               <FeedIcon url={article.url} />
