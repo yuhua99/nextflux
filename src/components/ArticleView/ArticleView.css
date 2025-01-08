@@ -29,8 +29,12 @@ p {
 }
 
 /*code 相关样式 */
-.article-content code {
+.article-content code:not(pre code) {
   @apply whitespace-pre-wrap
+}
+
+.article-content pre code {
+  @apply whitespace-pre md:whitespace-pre-wrap;
 }
 
 
