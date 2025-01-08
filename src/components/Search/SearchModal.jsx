@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { useStore } from "@nanostores/react";
 import { Input, Kbd, Modal, ModalContent } from "@nextui-org/react";
 import { Search as SearchIcon } from "lucide-react";
-import { search, searchModalOpen, searchResults } from "@/stores/searchStore";
+import {
+  articlesCache,
+  loadArticlesCache,
+  search,
+  searchModalOpen,
+  searchResults,
+} from "@/stores/searchStore";
 import SearchResults from "./SearchResults";
 import { useNavigate } from "react-router-dom";
 
@@ -25,17 +31,22 @@ export default function SearchModal() {
     setKeyword("");
   };
 
-  // 关闭弹窗时清空搜索
+  // 打开时加载全部文章，关闭时清空搜索
   useEffect(() => {
+    if (isOpen) {
+      loadArticlesCache();
+    }
     if (!isOpen) {
       setKeyword("");
       searchResults.set([]);
+      articlesCache.set([]);
     }
   }, [isOpen]);
 
   return (
     <Modal
       isOpen={isOpen}
+      hideCloseButton
       onOpenChange={(open) => searchModalOpen.set(open)}
       backdrop="transparent"
       disableAnimation
@@ -62,7 +73,7 @@ export default function SearchModal() {
               ESC
             </Kbd>
           }
-          onChange={(e) => handleSearch(e.target.value)}
+          onValueChange={(value) => handleSearch(value)}
         />
         <SearchResults
           results={$searchResults}
