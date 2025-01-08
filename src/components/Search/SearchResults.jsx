@@ -1,8 +1,8 @@
-import { ScrollShadow } from "@nextui-org/react";
 import { FolderSearch, Inbox } from "lucide-react";
 import FeedIcon from "@/components/ui/FeedIcon.jsx";
 import { formatDate } from "@/lib/format.js";
 import { useEffect, useRef, useState } from "react";
+import { Virtuoso } from "react-virtuoso";
 
 export default function SearchResults({ results, keyword, onSelect }) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -40,13 +40,10 @@ export default function SearchResults({ results, keyword, onSelect }) {
   // 确保选中项在视野内
   useEffect(() => {
     if (selectedIndex >= 0 && listRef.current) {
-      const selectedElement = listRef.current.children[selectedIndex];
-      if (selectedElement) {
-        selectedElement.scrollIntoView({
-          block: "nearest",
-          behavior: "instant",
-        });
-      }
+      listRef.current.scrollIntoView({
+        index: selectedIndex,
+        behavior: "instant",
+      });
     }
   }, [selectedIndex]);
 
@@ -74,27 +71,33 @@ export default function SearchResults({ results, keyword, onSelect }) {
   }
 
   return (
-    <ScrollShadow>
-      <div ref={listRef} className="p-2">
-        {results.map((article, index) => (
-          <div
-            key={article.id}
-            className={`flex items-center justify-between gap-2 px-2 py-2 text-sm rounded-lg cursor-pointer ${
-              index === selectedIndex ? "bg-default" : "hover:bg-default"
-            }`}
-            onClick={() => onSelect(article)}
-            onMouseEnter={() => setSelectedIndex(index)}
-          >
-            <div className="flex items-center gap-2">
-              <FeedIcon url={article.url} />
-              <div className="flex-1 line-clamp-1">{article.title}</div>
-            </div>
-            <div className="shrink-0 line-clamp-1 text-xs text-default-400">
-              {formatDate(article.published_at)}
-            </div>
+    <Virtuoso
+      ref={listRef}
+      className="h-full mx-2"
+      totalCount={results.length}
+      data={results}
+      components={{
+        Header: () => <div className="header h-2"></div>,
+        Footer: () => <div className="footer h-2"></div>,
+      }}
+      itemContent={(index, article) => (
+        <div
+          key={article.id}
+          className={`flex items-center justify-between gap-2 px-2 py-2 text-sm rounded-lg cursor-pointer ${
+            index === selectedIndex ? "bg-default" : "hover:bg-default"
+          }`}
+          onClick={() => onSelect(article)}
+          onMouseEnter={() => setSelectedIndex(index)}
+        >
+          <div className="flex items-center gap-2">
+            <FeedIcon url={article.url} />
+            <div className="flex-1 line-clamp-1">{article.title}</div>
           </div>
-        ))}
-      </div>
-    </ScrollShadow>
+          <div className="shrink-0 line-clamp-1 text-xs text-default-400">
+            {formatDate(article.published_at)}
+          </div>
+        </div>
+      )}
+    />
   );
 }
