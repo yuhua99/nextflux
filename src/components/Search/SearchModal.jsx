@@ -21,14 +21,17 @@ import {
 } from "@/stores/searchStore";
 import SearchResults from "./SearchResults";
 import { useNavigate } from "react-router-dom";
+import { settingsState } from "@/stores/settingsStore";
 
 export default function SearchModal() {
   const navigate = useNavigate();
   const isOpen = useStore(searchModalOpen);
   const $searchResults = useStore(searchResults);
   const $feedSearchResults = useStore(feedSearchResults);
+  const { showHiddenFeeds } = useStore(settingsState);
   const [keyword, setKeyword] = useState("");
   const [searchType, setSearchType] = useState("articles");
+  const [isComposing, setIsComposing] = useState(false);
 
   // 处理搜索
   const handleSearch = useCallback(
@@ -43,8 +46,10 @@ export default function SearchModal() {
   );
 
   useEffect(() => {
-    handleSearch(keyword);
-  }, [keyword, searchType, handleSearch]);
+    if (!isComposing) {
+      handleSearch(keyword);
+    }
+  }, [keyword, searchType, handleSearch, showHiddenFeeds, isComposing]);
 
   // 处理选择结果
   const handleSelect = (item) => {
@@ -90,7 +95,7 @@ export default function SearchModal() {
           <Input
             autoFocus
             placeholder={
-              searchType === "articles" ? "搜索文章..." : "搜索订阅源..."
+              searchType === "articles" ? "搜索文章..." : "搜索订阅..."
             }
             size="lg"
             value={keyword}
@@ -109,6 +114,8 @@ export default function SearchModal() {
               </Kbd>
             }
             onValueChange={(value) => setKeyword(value)}
+            onCompositionStart={() => setIsComposing(true)}
+            onCompositionEnd={() => setIsComposing(false)}
           />
         </div>
         <SearchResults
@@ -118,6 +125,7 @@ export default function SearchModal() {
           keyword={keyword}
           onSelect={handleSelect}
           type={searchType}
+          isComposing={isComposing}
         />
         <div className="p-1.5 border-t flex items-center justify-between">
           <Tabs

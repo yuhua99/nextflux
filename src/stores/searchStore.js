@@ -1,6 +1,7 @@
 import { atom } from "nanostores";
 import storage from "@/db/storage";
 import { feeds } from "@/stores/feedsStore";
+import { settingsState } from "@/stores/settingsStore";
 
 // 搜索弹窗开关状态
 export const searchModalOpen = atom(false);
@@ -29,13 +30,25 @@ export async function search(keyword) {
 
   searching.set(true);
   try {
+    const showHiddenFeeds = settingsState.get().showHiddenFeeds;
+    const visibleFeedIds = feeds
+      .get()
+      .filter((feed) => showHiddenFeeds || !feed.hide_globally)
+      .map((feed) => feed.id);
+
     const results = articlesCache.get().filter((article) => {
+      // 首先检查文章所属的feed是否可见
+      if (!visibleFeedIds.includes(article.feedId)) {
+        return false;
+      }
+
       const searchText = [article.title, article.content, article.author]
         .join(" ")
         .toLowerCase();
 
       return searchText.includes(keyword.toLowerCase());
     });
+
     searchResults.set(results);
   } catch (error) {
     console.error("搜索失败:", error);
@@ -53,12 +66,19 @@ export async function searchFeeds(keyword) {
 
   searching.set(true);
   try {
+    const showHiddenFeeds = settingsState.get().showHiddenFeeds;
     const results = feeds.get().filter((feed) => {
+      // 先检查feed是否应该显示
+      if (!showHiddenFeeds && feed.hide_globally) {
+        return false;
+      }
+
       const searchText = [feed.title, feed.url, feed.categoryName]
         .join(" ")
         .toLowerCase();
       return searchText.includes(keyword.toLowerCase());
     });
+
     feedSearchResults.set(results);
   } catch (error) {
     console.error("搜索失败:", error);

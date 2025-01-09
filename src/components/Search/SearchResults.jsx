@@ -9,6 +9,7 @@ export default function SearchResults({
   keyword,
   onSelect,
   type = "articles",
+  isComposing,
 }) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const listRef = useRef(null);
@@ -30,6 +31,11 @@ export default function SearchResults({
           setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));
           break;
         case "Enter":
+          // 检查是否正在进行中文输入
+          if (e.isComposing) {
+            return;
+          }
+
           e.preventDefault();
           if (selectedIndex >= 0) {
             onSelect(results[selectedIndex]);
@@ -66,7 +72,7 @@ export default function SearchResults({
     );
   }
 
-  if (results.length === 0) {
+  if (!isComposing && results.length === 0) {
     return (
       <div className="flex flex-col items-center gap-2 w-full justify-center h-full text-default-400">
         <FolderSearch className="size-16" />
