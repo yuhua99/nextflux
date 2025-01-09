@@ -6,11 +6,13 @@ import { toast } from "sonner";
 import { settingsState } from "@/stores/settingsStore.js";
 import { useStore } from "@nanostores/react";
 import { cn } from "@/lib/utils.js";
+import { themeState } from "@/stores/themeStore.js";
 
 export default function CodeBlock({ code, language }) {
   const [html, setHtml] = useState("");
   const [isCopied, setIsCopied] = useState(false);
-  const { showLineNumbers } = useStore(settingsState);
+  const { showLineNumbers, forceDarkCodeTheme } = useStore(settingsState);
+  const { darkTheme } = useStore(themeState);
 
   useEffect(() => {
     async function highlight() {
@@ -41,6 +43,7 @@ export default function CodeBlock({ code, language }) {
   return (
     <div
       className={cn(
+        forceDarkCodeTheme ? `${darkTheme} force-dark-code-theme` : "",
         "code-block relative group",
         showLineNumbers ? "line-numbers" : "",
       )}

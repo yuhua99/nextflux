@@ -11,10 +11,11 @@ import {
   CircleDashed,
   Clock,
   LayoutList,
+  ListOrdered,
   Rss,
   Square,
+  SquareCode,
   Text,
-  ListOrdered,
 } from "lucide-react";
 import Theme from "./components/Theme";
 
@@ -27,6 +28,7 @@ export default function Appearance() {
     showTextPreview,
     showReadingTime,
     showLineNumbers,
+    forceDarkCodeTheme,
   } = useStore(settingsState);
   return (
     <>
@@ -96,6 +98,13 @@ export default function Appearance() {
           icon={<ListOrdered className="shrink-0 size-4 text-default-500" />}
           settingName="showLineNumbers"
           settingValue={showLineNumbers}
+        />
+        <Divider />
+        <SwitchItem
+          label="强制深色模式"
+          icon={<SquareCode className="shrink-0 size-4 text-default-500" />}
+          settingName="forceDarkCodeTheme"
+          settingValue={forceDarkCodeTheme}
         />
       </ItemWrapper>
     </>

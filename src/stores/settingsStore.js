@@ -22,6 +22,7 @@ const defaultValue = {
   autoHideToolbar: false,
   syncInterval: "15", // 添加同步间隔设置，默认15分钟
   showLineNumbers: false,
+  forceDarkCodeTheme: false,
   defaultExpandCategory: false, // 默认展开分类
 };
 
