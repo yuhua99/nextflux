@@ -2,7 +2,6 @@ import { atom, computed } from "nanostores";
 import storage from "../db/storage";
 import minifluxAPI from "../api/miniflux";
 import { starredCounts, unreadCounts } from "./feedsStore.js";
-import { forceSync } from "@/stores/syncStore.js";
 import { settingsState } from "./settingsStore";
 
 export const filteredArticles = atom([]);
@@ -216,9 +215,6 @@ export async function markAllAsRead(type = "all", id = null) {
   );
 
   try {
-    // 强制同步以确保本地数据是最新的
-    await forceSync();
-
     // 并行执行更新
     await Promise.all(
       [
