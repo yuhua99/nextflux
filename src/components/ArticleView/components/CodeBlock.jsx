@@ -48,7 +48,12 @@ export default function CodeBlock({ code, language }) {
         showLineNumbers ? "line-numbers" : "",
       )}
     >
-      <span className="text-xs absolute right-2 top-1 text-default-500 opacity-100 group-hover:opacity-0 transition-opacity">
+      <span
+        className={cn(
+          "text-xs absolute right-2 top-1 text-default-500 opacity-100 group-hover:opacity-0 transition-opacity",
+          language === "text" ? "hidden" : "",
+        )}
+      >
         {language}
       </span>
       <Tooltip size="sm" closeDelay="0" content="复制">
