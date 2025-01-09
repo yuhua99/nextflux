@@ -1,11 +1,21 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useStore } from "@nanostores/react";
-import { Input, Kbd, Modal, ModalContent } from "@nextui-org/react";
+import {
+  Divider,
+  Input,
+  Kbd,
+  Modal,
+  ModalContent,
+  Tab,
+  Tabs,
+} from "@nextui-org/react";
 import { Search as SearchIcon } from "lucide-react";
 import {
   articlesCache,
+  feedSearchResults,
   loadArticlesCache,
   search,
+  searchFeeds,
   searchModalOpen,
   searchResults,
 } from "@/stores/searchStore";
@@ -16,32 +26,52 @@ export default function SearchModal() {
   const navigate = useNavigate();
   const isOpen = useStore(searchModalOpen);
   const $searchResults = useStore(searchResults);
+  const $feedSearchResults = useStore(feedSearchResults);
   const [keyword, setKeyword] = useState("");
+  const [searchType, setSearchType] = useState("articles");
 
   // 处理搜索
-  const handleSearch = async (value) => {
-    setKeyword(value);
-    await search(value);
-  };
+  const handleSearch = useCallback(
+    async (value) => {
+      if (searchType === "articles") {
+        await search(value);
+      } else {
+        await searchFeeds(value);
+      }
+    },
+    [searchType],
+  );
+
+  useEffect(() => {
+    handleSearch(keyword);
+  }, [keyword, searchType, handleSearch]);
 
   // 处理选择结果
-  const handleSelect = (article) => {
-    navigate(`/article/${article.id}`);
+  const handleSelect = (item) => {
+    if (searchType === "articles") {
+      navigate(`/article/${item.id}`);
+    } else {
+      navigate(`/feed/${item.id}`);
+    }
     searchModalOpen.set(false);
     setKeyword("");
   };
 
-  // 打开时加载全部文章，关闭时清空搜索
+  // 打开时加载缓存，关闭时清空搜索
   useEffect(() => {
     if (isOpen) {
-      loadArticlesCache();
+      if (searchType === "articles") {
+        loadArticlesCache();
+      }
     }
     if (!isOpen) {
       setKeyword("");
       searchResults.set([]);
+      feedSearchResults.set([]);
       articlesCache.set([]);
+      setSearchType("articles");
     }
-  }, [isOpen]);
+  }, [isOpen, searchType]);
 
   return (
     <Modal
@@ -56,30 +86,72 @@ export default function SearchModal() {
       }}
     >
       <ModalContent>
-        <Input
-          autoFocus
-          placeholder="搜索文章..."
-          size="lg"
-          value={keyword}
-          radius="none"
-          classNames={{
-            mainWrapper: "border-b",
-            inputWrapper:
-              "shadow-none bg-transparent data-[hover=true]:bg-transparent group-data-[focus=true]:bg-transparent group-data-[focus-visible=true]:ring-0 group-data-[focus-visible=true]:ring-transparent group-data-[focus-visible=true]:ring-offset-0 group-data-[focus-visible=true]:ring-offset-transparent",
-          }}
-          startContent={<SearchIcon className="size-6 text-default-400" />}
-          endContent={
-            <Kbd classNames={{ content: "font-mono text-xs text-default-400" }}>
-              ESC
-            </Kbd>
-          }
-          onValueChange={(value) => handleSearch(value)}
-        />
+        <div className="flex flex-col">
+          <Input
+            autoFocus
+            placeholder={
+              searchType === "articles" ? "搜索文章..." : "搜索订阅源..."
+            }
+            size="lg"
+            value={keyword}
+            radius="none"
+            classNames={{
+              mainWrapper: "border-b",
+              inputWrapper:
+                "h-14 shadow-none bg-transparent data-[hover=true]:bg-transparent group-data-[focus=true]:bg-transparent group-data-[focus-visible=true]:ring-0 group-data-[focus-visible=true]:ring-transparent group-data-[focus-visible=true]:ring-offset-0 group-data-[focus-visible=true]:ring-offset-transparent",
+            }}
+            startContent={<SearchIcon className="size-6 text-default-400" />}
+            endContent={
+              <Kbd
+                classNames={{ content: "font-mono text-xs text-default-400" }}
+              >
+                ESC
+              </Kbd>
+            }
+            onValueChange={(value) => setKeyword(value)}
+          />
+        </div>
         <SearchResults
-          results={$searchResults}
+          results={
+            searchType === "articles" ? $searchResults : $feedSearchResults
+          }
           keyword={keyword}
           onSelect={handleSelect}
+          type={searchType}
         />
+        <div className="p-1.5 border-t flex items-center justify-between">
+          <Tabs
+            selectedKey={searchType}
+            onSelectionChange={setSearchType}
+            radius="md"
+            classNames={{
+              tabList: "bg-default/40 backdrop-blur-md gap-0",
+              tab: "h-auto px-2",
+              cursor: "w-full bg-default-400/90 shadow-none dark:bg-primary",
+              tabContent:
+                "text-xs text-default-500 font-semibold group-data-[selected=true]:text-default-50 dark:group-data-[selected=true]:text-foreground",
+            }}
+          >
+            <Tab key="articles" title="文章" />
+            <Tab key="feeds" title="订阅" />
+          </Tabs>
+          <div className="flex items-center gap-1 px-1">
+            <Kbd keys="up" classNames={{ abbr: "text-xs text-default-500" }} />
+            <Kbd
+              keys="down"
+              classNames={{ abbr: "text-xs text-default-500" }}
+            />
+            <span className="text-xs text-default-500 font-semibold">
+              切换条目
+            </span>
+            <Divider orientation="vertical" className="h-5 mx-1" />
+            <Kbd
+              keys="enter"
+              classNames={{ abbr: "text-xs text-default-500" }}
+            />
+            <span className="text-xs text-default-500 font-semibold">打开</span>
+          </div>
+        </div>
       </ModalContent>
     </Modal>
   );

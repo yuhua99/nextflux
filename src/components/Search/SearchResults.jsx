@@ -4,7 +4,12 @@ import { formatDate } from "@/lib/format.js";
 import { useEffect, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
 
-export default function SearchResults({ results, keyword, onSelect }) {
+export default function SearchResults({
+  results,
+  keyword,
+  onSelect,
+  type = "articles",
+}) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const listRef = useRef(null);
 
@@ -80,21 +85,22 @@ export default function SearchResults({ results, keyword, onSelect }) {
         Header: () => <div className="header h-2"></div>,
         Footer: () => <div className="footer h-2"></div>,
       }}
-      itemContent={(index, article) => (
+      itemContent={(index, item) => (
         <div
-          key={article.id}
+          key={item.id}
           className={`flex items-center justify-between gap-2 px-2 py-2 text-sm rounded-lg cursor-pointer ${
             index === selectedIndex ? "bg-default" : "hover:bg-default"
           }`}
-          onClick={() => onSelect(article)}
-          onMouseEnter={() => setSelectedIndex(index)}
+          onClick={() => onSelect(item)}
         >
           <div className="flex items-center gap-2">
-            <FeedIcon url={article.url} />
-            <div className="flex-1 line-clamp-1">{article.title}</div>
+            <FeedIcon url={type === "articles" ? item.url : item.site_url} />
+            <div className="flex-1 line-clamp-1">{item.title}</div>
           </div>
-          <div className="shrink-0 line-clamp-1 text-xs text-default-400">
-            {formatDate(article.published_at)}
+          <div className="shrink-0 line-clamp-1 text-xs text-default-400 font-mono">
+            {type === "articles"
+              ? formatDate(item.published_at)
+              : item.categoryName}
           </div>
         </div>
       )}
