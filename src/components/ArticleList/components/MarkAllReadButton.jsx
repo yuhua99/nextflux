@@ -10,13 +10,13 @@ import { handleMarkAllRead } from "@/handlers/articleHandlers";
 import { CircleCheck } from "lucide-react";
 import { isSyncing } from "@/stores/syncStore.js";
 import { useStore } from "@nanostores/react";
-import { filter } from "@/stores/articlesStore.js";
+import { filter, unreadArticlesCount } from "@/stores/articlesStore.js";
 
 export default function MarkAllReadButton() {
   const { feedId, categoryId } = useParams();
   const $isSyncing = useStore(isSyncing);
   const $filter = useStore(filter);
-
+  const $unreadArticlesCount = useStore(unreadArticlesCount);
   return (
     <Dropdown>
       <DropdownTrigger>
@@ -25,7 +25,7 @@ export default function MarkAllReadButton() {
           radius="full"
           variant="light"
           isIconOnly
-          isDisabled={$filter === "starred"}
+          isDisabled={$filter === "starred" || $unreadArticlesCount === 0}
           isLoading={$isSyncing}
         >
           <CircleCheck className="size-4 text-default-500" />

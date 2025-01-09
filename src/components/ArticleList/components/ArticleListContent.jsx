@@ -5,6 +5,7 @@ import { filter } from "@/stores/articlesStore.js";
 import { useStore } from "@nanostores/react";
 import { Virtuoso } from "react-virtuoso";
 import { AnimatePresence, motion } from "framer-motion";
+import MarkAllReadButtonAlt from "./MarkAllReadButtonAlt";
 
 const ArticleItem = memo(({ article, isLast }) => (
   <div className="mx-2">
@@ -42,7 +43,11 @@ export default function ArticleListContent({ articles }) {
           totalCount={articles.length}
           components={{
             Header: () => <div className="vlist-header h-2"></div>,
-            Footer: () => <div className="vlist-footer h-16"></div>,
+            Footer: () => (
+              <div className="vlist-footer h-24 pt-2 px-2">
+                <MarkAllReadButtonAlt />
+              </div>
+            ),
           }}
           itemContent={(index, article) => (
             <ArticleItem

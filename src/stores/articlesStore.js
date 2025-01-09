@@ -1,4 +1,4 @@
-import { atom } from "nanostores";
+import { atom, computed } from "nanostores";
 import storage from "../db/storage";
 import minifluxAPI from "../api/miniflux";
 import { starredCounts, unreadCounts } from "./feedsStore.js";
@@ -10,6 +10,11 @@ export const activeArticle = atom(null);
 export const loading = atom(false);
 export const error = atom(null);
 export const filter = atom("all");
+
+// 当前文章列表中的未读计数
+export const unreadArticlesCount = computed([filteredArticles], ($articles) => {
+  return $articles.filter((article) => article.status !== "read").length;
+});
 
 // 加载文章列表
 export async function loadArticles(sourceId = null, type = "feed") {

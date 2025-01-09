@@ -2,7 +2,11 @@ import { useParams } from "react-router-dom";
 import { useStore } from "@nanostores/react";
 import { SidebarTrigger } from "@/components/ui/sidebar.jsx";
 import { Divider } from "@nextui-org/react";
-import { filter, filteredArticles } from "@/stores/articlesStore.js";
+import {
+  filter,
+  filteredArticles,
+  unreadArticlesCount,
+} from "@/stores/articlesStore.js";
 import { feeds } from "@/stores/feedsStore.js";
 import MarkAllReadButton from "./MarkAllReadButton";
 import { isSyncing } from "@/stores/syncStore.js";
@@ -14,7 +18,7 @@ export default function ArticleListHeader() {
   const $feeds = useStore(feeds);
   const $isSyncing = useStore(isSyncing);
   const $articles = useStore(filteredArticles);
-
+  const $unreadArticlesCount = useStore(unreadArticlesCount);
   // 获取标题文本
   const getTitleText = () => {
     if (feedId) {
@@ -48,10 +52,9 @@ export default function ArticleListHeader() {
       }
       case "unread":
       case "all": {
-        const unreadCount = $articles.filter(
-          (article) => article.status !== "read",
-        ).length;
-        return unreadCount > 0 ? `${unreadCount} 篇未读` : "无未读";
+        return $unreadArticlesCount > 0
+          ? `${$unreadArticlesCount} 篇未读`
+          : "无未读";
       }
       default:
         return "";
