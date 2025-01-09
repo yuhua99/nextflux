@@ -57,7 +57,7 @@ body {
   }
 
   .vlist-footer {
-    margin-bottom: env(safe-area-inset-bottom) !important;
+    height: calc(env(safe-area-inset-bottom) + 96px) !important;
   }
 
   .action-buttons {
