@@ -17,10 +17,21 @@ import { authState, logout } from "@/stores/authStore.js";
 import { settingsModalOpen } from "@/stores/settingsStore.js";
 import { shortcutsModalOpen } from "@/stores/modalStore.js";
 import { useSidebar } from "@/components/ui/sidebar.jsx";
+import AlertDialog from "@/components/ui/AlertDialog.jsx";
+import { useState } from "react";
 
 export default function ProfileButton() {
   const { username, serverUrl } = authState.get();
   const { isMobile, setOpenMobile } = useSidebar();
+  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error("退出登录失败:", error);
+    }
+  };
 
   return (
     <div className="profile-button flex items-center gap-4">
@@ -82,12 +93,21 @@ export default function ProfileButton() {
             textValue="logout"
             color="danger"
             startContent={<LogOut className="size-4" />}
-            onPress={() => logout()}
+            onPress={() => setLogoutDialogOpen(true)}
           >
             注销
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
+
+      <AlertDialog
+        title="确认注销"
+        content="确定要注销当前账号吗？注销后本地数据及设置将清空。"
+        isOpen={logoutDialogOpen}
+        onConfirm={handleLogout}
+        onClose={() => setLogoutDialogOpen(false)}
+        confirmText="注销"
+      />
     </div>
   );
 }
