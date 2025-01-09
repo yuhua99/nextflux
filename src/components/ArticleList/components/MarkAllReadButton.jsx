@@ -6,31 +6,16 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
-import { markAllAsRead } from "@/stores/articlesStore";
+import { handleMarkAllRead } from "@/handlers/articleHandlers";
 import { CircleCheck } from "lucide-react";
 import { isSyncing } from "@/stores/syncStore.js";
 import { useStore } from "@nanostores/react";
+import { filter } from "@/stores/articlesStore.js";
 
 export default function MarkAllReadButton() {
   const { feedId, categoryId } = useParams();
   const $isSyncing = useStore(isSyncing);
-
-  const handleMarkAllRead = async (type) => {
-    try {
-      switch (type) {
-        case "feed":
-          await markAllAsRead("feed", feedId);
-          break;
-        case "category":
-          await markAllAsRead("category", categoryId);
-          break;
-        default:
-          await markAllAsRead();
-      }
-    } catch (err) {
-      console.error("标记已读失败:", err);
-    }
-  };
+  const $filter = useStore(filter);
 
   return (
     <Dropdown>
@@ -40,6 +25,7 @@ export default function MarkAllReadButton() {
           radius="full"
           variant="light"
           isIconOnly
+          isDisabled={$filter === "starred"}
           isLoading={$isSyncing}
         >
           <CircleCheck className="size-4 text-default-500" />
@@ -53,9 +39,9 @@ export default function MarkAllReadButton() {
           startContent={<CircleCheck className="size-4" />}
           onPress={() => {
             if (feedId) {
-              handleMarkAllRead("feed");
+              handleMarkAllRead("feed", feedId);
             } else if (categoryId) {
-              handleMarkAllRead("category");
+              handleMarkAllRead("category", categoryId);
             } else {
               handleMarkAllRead();
             }
