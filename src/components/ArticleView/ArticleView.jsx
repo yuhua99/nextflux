@@ -290,26 +290,41 @@ const ArticleView = () => {
                         return <VideoPlayer src={src} provider="youtube" />;
                       }
                       if (domNode.type === "tag" && domNode.name === "pre") {
+                        // 1. 首先检查是否有code子节点
                         const codeNode = domNode.children.find(
-                          (child) =>
-                            child.type === "tag" && child.name === "code",
+                          (child) => child.type === "tag" && child.name === "code"
                         );
 
                         if (codeNode) {
-                          const className = codeNode.attribs.class || "";
+                          // 2. 处理带有code标签的情况
+                          const className = codeNode.attribs?.class || "";
                           const language =
                             className
                               .split(/\s+/)
-                              .find(
-                                (cls) =>
-                                  cls.startsWith("language-") ||
-                                  cls.startsWith("lang-"),
-                              )
+                              .find((cls) => cls.startsWith("language-") || cls.startsWith("lang-"))
                               ?.replace(/^(language-|lang-)/, "") || "text";
 
                           const code = codeNode.children[0].data;
-
                           return <CodeBlock code={code} language={language} />;
+                        } else {
+                          // 3. 处理直接在pre标签中的文本
+                          const code = domNode.children
+                            .map((child) => {
+                              if (child.type === "text") {
+                                return child.data;
+                              } else if (child.type === "tag" && child.name === "br") {
+                                return "\n";
+                              }
+                              return "";
+                            })
+                            .join("");
+
+                          // 如果内容为空则不处理
+                          if (!code.trim()) {
+                            return domNode;
+                          }
+
+                          return <CodeBlock code={code} language="text" />;
                         }
                       }
                     },
