@@ -1,17 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { login } from "@/stores/authStore";
+import { login, authState } from "@/stores/authStore";
 import { Button, Form, Input, Link } from "@nextui-org/react";
 import { Eye, EyeClosed } from "lucide-react";
 import { toast } from "sonner";
+import { useStore } from "@nanostores/react";
 
 export default function LoginPage() {
   const navigate = useNavigate();
+  const $auth = useStore(authState);
   const [serverUrl, setServerUrl] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if ($auth.serverUrl && $auth.username && $auth.password) {
+      navigate("/");
+    }
+  }, [$auth.serverUrl, $auth.username, $auth.password, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
