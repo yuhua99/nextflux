@@ -12,6 +12,7 @@ export default function SearchResults({
   isComposing,
 }) {
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [hoverEffect, setHoverEffect] = useState(true);
   const listRef = useRef(null);
 
   // 处理键盘事件
@@ -25,10 +26,12 @@ export default function SearchResults({
           setSelectedIndex((prev) =>
             prev < results.length - 1 ? prev + 1 : prev,
           );
+          setHoverEffect(false);
           break;
         case "ArrowUp":
           e.preventDefault();
           setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));
+          setHoverEffect(false);
           break;
         case "Enter":
           // 检查是否正在进行中文输入
@@ -95,9 +98,14 @@ export default function SearchResults({
         <div
           key={item.id}
           className={`flex items-center justify-between gap-2 px-2 py-2 text-sm rounded-lg cursor-pointer ${
-            index === selectedIndex ? "bg-default" : "hover:bg-default"
+            index === selectedIndex
+              ? "bg-default/90"
+              : hoverEffect
+                ? "hover:bg-default/80"
+                : ""
           }`}
           onClick={() => onSelect(item)}
+          onMouseMove={() => setHoverEffect(true)}
         >
           <div className="flex items-center gap-2">
             <FeedIcon url={type === "articles" ? item.url : item.site_url} />
