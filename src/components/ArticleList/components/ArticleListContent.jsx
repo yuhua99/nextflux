@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect, useRef } from "react";
 import ArticleCard from "./ArticleCard";
 import { useParams } from "react-router-dom";
 import { filter } from "@/stores/articlesStore.js";
@@ -6,6 +6,7 @@ import { useStore } from "@nanostores/react";
 import { Virtuoso } from "react-virtuoso";
 import { AnimatePresence, motion } from "framer-motion";
 import MarkAllReadButtonAlt from "./MarkAllReadButtonAlt";
+import { useIsMobile } from "@/hooks/use-mobile.jsx";
 
 const ArticleItem = memo(({ article, isLast }) => (
   <div className="mx-2">
@@ -16,9 +17,26 @@ const ArticleItem = memo(({ article, isLast }) => (
 ArticleItem.displayName = "ArticleItem";
 
 export default function ArticleListContent({ articles }) {
-  const { feedId, categoryId } = useParams();
+  const { feedId, categoryId, articleId } = useParams();
   const $filter = useStore(filter);
+  const { isMedium } = useIsMobile();
   let info = [feedId, categoryId, $filter].filter(Boolean).join("-");
+  const listRef = useRef(null);
+
+  useEffect(() => {
+    if (isMedium) {
+      return;
+    }
+    const index = articles.findIndex(
+      (article) => article.id === parseInt(articleId),
+    );
+    if (index >= 0) {
+      listRef.current?.scrollIntoView({
+        index: index,
+        behavior: "smooth",
+      });
+    }
+  }, [articleId, articles, isMedium]);
 
   return (
     <AnimatePresence mode="wait">
@@ -38,6 +56,7 @@ export default function ArticleListContent({ articles }) {
         className="article-list-content flex-1"
       >
         <Virtuoso
+          ref={listRef}
           className="v-list h-full"
           data={articles}
           totalCount={articles.length}
