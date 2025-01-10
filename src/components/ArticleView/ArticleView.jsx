@@ -16,7 +16,7 @@ import { settingsState } from "@/stores/settingsStore";
 import { AnimatePresence, motion } from "framer-motion";
 import VideoPlayer from "@/components/ArticleView/components/VideoPlayer.jsx";
 import PlayAndPause from "@/components/ArticleView/components/PlayAndPause.jsx";
-import { themeState } from "@/stores/themeStore.js";
+import { currentThemeMode, themeState } from "@/stores/themeStore.js";
 import CodeBlock from "@/components/ArticleView/components/CodeBlock.jsx";
 
 const ArticleView = () => {
@@ -34,36 +34,26 @@ const ArticleView = () => {
     titleFontSize,
     titleAlignType,
   } = useStore(settingsState);
-  const { themeMode, lightTheme, darkTheme } = useStore(themeState);
-  const systemMode = window.matchMedia("(prefers-color-scheme: dark)").matches
-    ? "dark"
-    : "light";
+  const { lightTheme } = useStore(themeState);
+  const $currentThemeMode = useStore(currentThemeMode);
+  const scrollAreaRef = useRef(null);
+
   // 判断当前是否实际使用了stone主题
   const isStoneTheme = () => {
-    if (themeMode === "system") {
-      return (
-        (systemMode === "light" && lightTheme === "stone") ||
-        (systemMode === "dark" && darkTheme === "stone-dark")
-      );
-    }
-    if (themeMode === "light") {
-      return lightTheme === "stone";
-    }
-    if (themeMode === "dark") {
-      return darkTheme === "stone-dark";
-    }
+    return lightTheme === "stone" && $currentThemeMode === "light";
   };
-  const scrollAreaRef = useRef(null);
 
   // 监听文章ID变化,滚动到顶部
   useEffect(() => {
     if (scrollAreaRef.current) {
       const viewport = scrollAreaRef.current;
       if (viewport) {
-        viewport.scrollTo({
-          top: 0,
-          behavior: "instant", // 使用 instant 避免与动画冲突
-        });
+        setTimeout(() => {
+          viewport.scrollTo({
+            top: 0,
+            behavior: "instant", // 使用 instant 避免与动画冲突
+          });
+        }, 300);
       }
     }
   }, [articleId]);
@@ -292,7 +282,8 @@ const ArticleView = () => {
                       if (domNode.type === "tag" && domNode.name === "pre") {
                         // 1. 首先检查是否有code子节点
                         const codeNode = domNode.children.find(
-                          (child) => child.type === "tag" && child.name === "code"
+                          (child) =>
+                            child.type === "tag" && child.name === "code",
                         );
 
                         if (codeNode) {
@@ -301,7 +292,11 @@ const ArticleView = () => {
                           const language =
                             className
                               .split(/\s+/)
-                              .find((cls) => cls.startsWith("language-") || cls.startsWith("lang-"))
+                              .find(
+                                (cls) =>
+                                  cls.startsWith("language-") ||
+                                  cls.startsWith("lang-"),
+                              )
                               ?.replace(/^(language-|lang-)/, "") || "text";
 
                           const code = codeNode.children[0].data;
@@ -312,7 +307,10 @@ const ArticleView = () => {
                             .map((child) => {
                               if (child.type === "text") {
                                 return child.data;
-                              } else if (child.type === "tag" && child.name === "br") {
+                              } else if (
+                                child.type === "tag" &&
+                                child.name === "br"
+                              ) {
                                 return "\n";
                               }
                               return "";

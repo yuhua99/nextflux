@@ -69,9 +69,9 @@ export default function App() {
                     selectedKey={activeTab}
                     onSelectionChange={(key) => {
                       setActiveTab(key);
-                      const modalBody = document.querySelector('.modal-body');
+                      const modalBody = document.querySelector(".modal-body");
                       if (modalBody) {
-                        modalBody.scrollTop = 0;
+                        setTimeout(() => (modalBody.scrollTop = 0), 200);
                       }
                     }}
                   >

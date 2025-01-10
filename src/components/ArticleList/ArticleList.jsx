@@ -93,7 +93,9 @@ const ArticleList = () => {
     if (scrollAreaRef.current) {
       const viewport = scrollAreaRef.current.querySelector(".v-list");
       if (viewport) {
-        viewport.scrollTop = 0;
+        setTimeout(() => {
+          viewport.scrollTop = 0;
+        }, 300);
       }
     }
   }, [feedId, categoryId, $filter]);
