@@ -54,7 +54,7 @@ export default function SearchModal() {
   // 处理选择结果
   const handleSelect = (item) => {
     if (searchType === "articles") {
-      navigate(`/article/${item.id}`);
+      navigate(`/feed/${item.feedId}/article/${item.id}`);
     } else {
       navigate(`/feed/${item.id}`);
     }
@@ -132,6 +132,7 @@ export default function SearchModal() {
             selectedKey={searchType}
             onSelectionChange={setSearchType}
             radius="md"
+            keyboardActivation="manual"
             classNames={{
               tabList: "bg-default/40 backdrop-blur-md gap-0",
               tab: "h-auto px-2",
