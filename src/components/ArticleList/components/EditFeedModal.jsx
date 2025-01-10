@@ -176,14 +176,14 @@ export default function EditFeedModal() {
                 <div className="flex flex-col w-full">
                   <div className="text-sm">隐藏订阅源</div>
                   <div className="text-xs text-default-500">
-                    隐藏订阅源默认不显示在订阅源列表中
+                    默认不显示该订阅源及其文章
                   </div>
                 </div>
               </Switch>
               <div className="flex items-center gap-2 bg-content2 rounded-lg px-3 py-1 border-default-200 hover:border-default-400 border-2 shadow-sm transition-colors">
-                <div className="flex flex-col w-full">
+                <div className="flex flex-col flex-1 overflow-hidden">
                   <div className="text-sm">订阅源地址</div>
-                  <div className="text-xs text-default-500 line-clamp-1">
+                  <div className="text-xs text-default-500 w-full truncate">
                     {feedUrl}
                   </div>
                 </div>
