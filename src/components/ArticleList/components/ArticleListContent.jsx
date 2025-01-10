@@ -23,20 +23,20 @@ export default function ArticleListContent({ articles }) {
   let info = [feedId, categoryId, $filter].filter(Boolean).join("-");
   const listRef = useRef(null);
 
+  const index = articles.findIndex(
+    (article) => article.id === parseInt(articleId),
+  );
   useEffect(() => {
     if (isMedium) {
       return;
     }
-    const index = articles.findIndex(
-      (article) => article.id === parseInt(articleId),
-    );
     if (index >= 0) {
       listRef.current?.scrollIntoView({
         index: index,
         behavior: "smooth",
       });
     }
-  }, [articleId, articles, isMedium]);
+  }, [articleId, articles, isMedium, index]);
 
   return (
     <AnimatePresence mode="wait">
@@ -60,6 +60,10 @@ export default function ArticleListContent({ articles }) {
           className="v-list h-full"
           data={articles}
           totalCount={articles.length}
+          initialTopMostItemIndex={{
+            index: articleId ? index : 0,
+            behavior: "instant",
+          }}
           components={{
             Header: () => <div className="vlist-header h-2"></div>,
             Footer: () => (
