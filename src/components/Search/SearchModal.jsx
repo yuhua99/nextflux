@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useStore } from "@nanostores/react";
 import {
   Divider,
@@ -32,7 +32,7 @@ export default function SearchModal() {
   const [keyword, setKeyword] = useState("");
   const [searchType, setSearchType] = useState("articles");
   const [isComposing, setIsComposing] = useState(false);
-
+  const inputRef = useRef(null);
   // 处理搜索
   const handleSearch = useCallback(
     async (value) => {
@@ -93,6 +93,7 @@ export default function SearchModal() {
       <ModalContent>
         <div className="flex flex-col">
           <Input
+            ref={inputRef}
             autoFocus
             placeholder={
               searchType === "articles" ? "搜索文章..." : "搜索订阅..."
@@ -130,7 +131,12 @@ export default function SearchModal() {
         <div className="p-1.5 border-t flex items-center justify-between">
           <Tabs
             selectedKey={searchType}
-            onSelectionChange={setSearchType}
+            onSelectionChange={(key) => {
+              setSearchType(key);
+              if (inputRef.current) {
+                inputRef.current.focus();
+              }
+            }}
             radius="md"
             keyboardActivation="manual"
             classNames={{
