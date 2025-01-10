@@ -54,7 +54,7 @@ const FeedListSidebar = () => {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <ScrollShadow className="h-full" size={20}>
+        <ScrollShadow className="h-full" size={10}>
           <ArticlesGroup />
           <FeedsGroup />
         </ScrollShadow>
