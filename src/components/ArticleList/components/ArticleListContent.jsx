@@ -1,12 +1,15 @@
 import { memo, useEffect, useRef } from "react";
 import ArticleCard from "./ArticleCard";
 import { useParams } from "react-router-dom";
-import { filter } from "@/stores/articlesStore.js";
+import { filter, unreadArticlesCount } from "@/stores/articlesStore.js";
 import { useStore } from "@nanostores/react";
 import { Virtuoso } from "react-virtuoso";
 import { AnimatePresence, motion } from "framer-motion";
-import MarkAllReadButtonAlt from "./MarkAllReadButtonAlt";
 import { useIsMobile } from "@/hooks/use-mobile.jsx";
+import { Button } from "@nextui-org/react";
+import { CheckCheck, Loader2 } from "lucide-react";
+import { handleMarkAllRead } from "@/handlers/articleHandlers";
+import { isSyncing } from "@/stores/syncStore.js";
 
 const ArticleItem = memo(({ article, isLast }) => (
   <div className="mx-2">
@@ -19,6 +22,8 @@ ArticleItem.displayName = "ArticleItem";
 export default function ArticleListContent({ articles }) {
   const { feedId, categoryId, articleId } = useParams();
   const $filter = useStore(filter);
+  const $unreadArticlesCount = useStore(unreadArticlesCount);
+  const $isSyncing = useStore(isSyncing);
   const { isMedium } = useIsMobile();
   let info = [feedId, categoryId, $filter].filter(Boolean).join("-");
   const listRef = useRef(null);
@@ -59,16 +64,54 @@ export default function ArticleListContent({ articles }) {
           ref={listRef}
           className="v-list h-full"
           data={articles}
-          totalCount={articles.length}
-          initialTopMostItemIndex={{
-            index: articleId ? index : 0,
-            behavior: "instant",
+          context={{
+            feedId,
+            categoryId,
+            $filter,
+            $unreadArticlesCount,
+            $isSyncing,
+            handleMarkAllRead,
           }}
+          totalCount={articles.length}
           components={{
             Header: () => <div className="vlist-header h-2"></div>,
-            Footer: () => (
+            Footer: ({
+              context: {
+                feedId,
+                categoryId,
+                $filter,
+                $unreadArticlesCount,
+                $isSyncing,
+                handleMarkAllRead,
+              },
+            }) => (
               <div className="vlist-footer h-24 pt-2 px-2">
-                <MarkAllReadButtonAlt />
+                <Button
+                  size="sm"
+                  variant="flat"
+                  isDisabled={
+                    $filter === "starred" || $unreadArticlesCount === 0
+                  }
+                  fullWidth
+                  startContent={
+                    $isSyncing ? (
+                      <Loader2 className="size-4 animate-spin" />
+                    ) : (
+                      <CheckCheck className="size-4" />
+                    )
+                  }
+                  onPress={() => {
+                    if (feedId) {
+                      handleMarkAllRead("feed", feedId);
+                    } else if (categoryId) {
+                      handleMarkAllRead("category", categoryId);
+                    } else {
+                      handleMarkAllRead();
+                    }
+                  }}
+                >
+                  全部标记为已读
+                </Button>
               </div>
             ),
           }}
