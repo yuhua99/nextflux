@@ -37,7 +37,7 @@ export default function AudioPlayer({ source }) {
   return (
     <motion.div
       layout
-      className={cn("mb-2 px-2", expand ? "w-full max-w-96" : "")}
+      className={cn("mb-2 px-2 max-w-96", expand ? "w-full" : "")}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
@@ -73,7 +73,6 @@ export default function AudioPlayer({ source }) {
       >
         <MediaProvider />
         <Controls.Root className="w-full">
-          <div className="flex-1 w-full" />
           <Controls.Group
             className={cn(
               "flex w-full items-center gap-2",
@@ -108,49 +107,65 @@ export default function AudioPlayer({ source }) {
               </Card>
             </motion.div>
             {expand && (
-              <Button
-                color="danger"
-                radius="full"
-                size="sm"
-                startContent={<Square className="size-3 fill-current" />}
-                variant="flat"
-                onPress={() => {
-                  resetAudio();
-                }}
+              <motion.div
+                initial={{ opacity: 0, y: "100%" }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: "100%" }}
+                transition={{ delay: 0.1 }}
+                className="flex flex-col items-center gap-2"
               >
-                停止播放
-              </Button>
-            )}
-            {expand && (
-              <div className="w-full text-center">
-                <div className="font-semibold text-sm line-clamp-1">
-                  {title}
+                <Button
+                  color="danger"
+                  radius="full"
+                  size="sm"
+                  startContent={<Square className="size-3 fill-current" />}
+                  variant="flat"
+                  onPress={() => {
+                    resetAudio();
+                  }}
+                >
+                  停止播放
+                </Button>
+                <div className="w-full text-center">
+                  <div className="font-semibold text-sm line-clamp-1">
+                    {title}
+                  </div>
+                  <div className="text-default-500 text-sm line-clamp-1">
+                    {artist}
+                  </div>
                 </div>
-                <div className="text-default-500 text-sm line-clamp-1">
-                  {artist}
+                <Time />
+                <div className="button-group flex items-center w-full justify-between">
+                  <SpeedSubmenu />
+                  <Buttons.SeekBackward variant="light" size="sm" />
+                  <Buttons.Play variant="flat" />
+                  <Buttons.SeekForward variant="light" size="sm" />
+                  <Buttons.Jump variant="light" size="sm" />
                 </div>
-              </div>
+              </motion.div>
             )}
-            {expand && <Time />}
-            <motion.div
-              layout
-              transition={{
-                duration: 0.4,
-                type: "spring",
-                bounce: 0.2,
-                ease: "linear",
-              }}
-              className={cn(
-                "button-group flex items-center w-full",
-                expand ? "justify-between" : "gap-1",
-              )}
-            >
-              {expand && <SpeedSubmenu />}
-              <Buttons.SeekBackward variant="light" size="sm" />
-              <Buttons.Play variant="light" size="sm" />
-              <Buttons.SeekForward variant="light" size="sm" />
-              {expand && <Buttons.Jump variant="light" size="sm" />}
-            </motion.div>
+            {!expand && (
+              <motion.div
+                initial={{ opacity: 0, y: "-100%" }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: "-100%" }}
+                transition={{
+                  delay: 0.1,
+                }}
+                className="flex items-center gap-1"
+              >
+                <div className="w-full text-left">
+                  <div className="font-semibold text-sm line-clamp-1">
+                    {title}
+                  </div>
+                  <div className="text-default-500 text-sm line-clamp-1">
+                    {artist}
+                  </div>
+                </div>
+                <Buttons.Play variant="light" size="sm" />
+                <Buttons.SeekForward variant="light" size="sm" />
+              </motion.div>
+            )}
           </Controls.Group>
         </Controls.Root>
       </MediaPlayer>
