@@ -1,5 +1,11 @@
 import { PlayButton, SeekButton, useMediaState } from "@vidstack/react";
-import { FileText, PauseIcon, PlayIcon, RedoDot, UndoDot } from "lucide-react";
+import {
+  FileSymlink,
+  PauseIcon,
+  PlayIcon,
+  RedoDot,
+  UndoDot,
+} from "lucide-react";
 import { Button } from "@nextui-org/react";
 import { activeAudio } from "@/stores/audioStore.js";
 import { useStore } from "@nanostores/react";
@@ -70,7 +76,7 @@ export function Jump({ variant, size }) {
       className="text-default-500"
       onPress={() => navigate(`/article/${$activeAudio?.entry_id}`)}
     >
-      <FileText className="size-4" />
+      <FileSymlink className="size-4" />
     </Button>
   );
 }

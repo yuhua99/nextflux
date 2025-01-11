@@ -37,7 +37,7 @@ export default function AudioPlayer({ source }) {
   return (
     <motion.div
       layout
-      className={cn("mb-2 px-2 max-w-96", expand ? "w-full" : "")}
+      className="mb-2 px-2 max-w-80 w-full"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 20 }}
@@ -76,7 +76,7 @@ export default function AudioPlayer({ source }) {
           <Controls.Group
             className={cn(
               "flex w-full items-center gap-2",
-              expand ? "flex-col p-8" : "p-2",
+              expand ? "flex-col p-6" : "p-2",
             )}
           >
             <motion.div
@@ -112,7 +112,7 @@ export default function AudioPlayer({ source }) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: "100%" }}
                 transition={{ delay: 0.1 }}
-                className="flex flex-col items-center gap-2"
+                className="flex flex-col items-center gap-2 w-full"
               >
                 <Button
                   color="danger"
@@ -152,7 +152,7 @@ export default function AudioPlayer({ source }) {
                 transition={{
                   delay: 0.1,
                 }}
-                className="flex items-center gap-1"
+                className="flex items-center gap-1 w-full"
               >
                 <div className="w-full text-left">
                   <div className="font-semibold text-sm line-clamp-1">
