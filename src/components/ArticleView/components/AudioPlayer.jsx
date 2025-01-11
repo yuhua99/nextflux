@@ -135,7 +135,7 @@ export default function AudioPlayer({ source }) {
                   </div>
                 </div>
                 <Time />
-                <div className="button-group flex items-center w-full justify-between">
+                <div className="button-group flex items-center w-full justify-between mb-2">
                   <SpeedSubmenu />
                   <Buttons.SeekBackward variant="light" size="sm" />
                   <Buttons.Play variant="flat" />
