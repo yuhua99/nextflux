@@ -41,7 +41,7 @@ export default function ArticleListContent({ articles }) {
         behavior: "smooth",
       });
     }
-  }, [articleId, articles, isMedium, index]);
+  }, [articleId, isMedium, index]);
 
   return (
     <AnimatePresence mode="wait">
