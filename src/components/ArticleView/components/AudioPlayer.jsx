@@ -52,6 +52,7 @@ export default function AudioPlayer({ source }) {
         className="shadow-custom w-full bg-content1/80 backdrop-blur-lg dark:bg-content2/80 rounded-xl"
         paused={paused}
         autoPlay={true}
+        keyDisabled
         onPlay={() => {
           audioState.setKey("loading", false);
           audioState.setKey("paused", false);
@@ -152,7 +153,8 @@ export default function AudioPlayer({ source }) {
                 transition={{
                   delay: 0.1,
                 }}
-                className="flex items-center gap-1 w-full"
+                className="flex items-center gap-1 w-full cursor-pointer"
+                onClick={() => setExpand(true)}
               >
                 <div className="w-full text-left">
                   <div className="font-semibold text-sm line-clamp-1">
