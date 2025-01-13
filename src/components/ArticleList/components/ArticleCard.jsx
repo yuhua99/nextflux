@@ -9,8 +9,10 @@ import { useStore } from "@nanostores/react";
 import { settingsState } from "@/stores/settingsStore";
 import { Ripple, useRipple } from "@nextui-org/react";
 import FeedIcon from "@/components/ui/FeedIcon.jsx";
+import { useTranslation } from "react-i18next";
 
 export default function ArticleCard({ article }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { articleId } = useParams();
   const cardRef = useRef(null);
@@ -161,8 +163,8 @@ export default function ArticleCard({ article }) {
                   <Clock className="size-3 shrink-0" />
                   <span className="line-clamp-1">
                     {article.reading_time === 0
-                      ? "不到 1 分钟"
-                      : `${article.reading_time} 分钟`}
+                      ? t("common.lessThanAMinute")
+                      : `${article.reading_time} ${t("common.minute")}`}
                   </span>
                 </div>
               )}

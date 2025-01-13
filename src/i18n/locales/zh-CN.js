@@ -32,6 +32,9 @@ export default {
     article: "文章",
     feed: "订阅",
     category: "分类",
+    neverSync: "从未同步",
+    minute: "分钟",
+    lessThanAMinute: "不到 1 分钟",
   },
   sidebar: {
     addCategory: "新建分类",

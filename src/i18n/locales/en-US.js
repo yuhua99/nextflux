@@ -32,6 +32,9 @@ export default {
     article: "Articles",
     feed: "Feeds",
     category: "Categories",
+    neverSync: "Never synced",
+    minute: "min",
+    lessThanAMinute: "less than 1 min",
   },
   sidebar: {
     addCategory: "New category",
