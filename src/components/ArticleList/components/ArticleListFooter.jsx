@@ -24,6 +24,7 @@ export default function ArticleListFooter() {
         radius="full"
         classNames={{
           tabList: "bg-content3/90 backdrop-blur-md",
+          tab: "h-auto px-2",
           cursor: "w-full bg-default-400/90 shadow-none dark:bg-primary",
           tabContent:
             "text-default-500 font-semibold group-data-[selected=true]:text-default-50 dark:group-data-[selected=true]:text-foreground",
