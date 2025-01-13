@@ -9,10 +9,12 @@ import {
 import { audioState } from "@/stores/audioStore.js";
 import { useStore } from "@nanostores/react";
 import { CircleGauge } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function SpeedMenu() {
   const { playbackRate } = useStore(audioState);
   const options = ["0.5", "1.0", "1.25", "1.5", "2.0"];
+  const { t } = useTranslation();
   return (
     <Dropdown>
       <DropdownTrigger>
@@ -40,10 +42,13 @@ export default function SpeedMenu() {
           audioState.setKey("playbackRate", values.currentKey)
         }
       >
-        <DropdownSection title="播放速度" classNames={{ base: "mb-0" }}>
+        <DropdownSection
+          title={t("player.Speed")}
+          classNames={{ base: "mb-0" }}
+        >
           {options.map((option) => (
             <DropdownItem key={option}>
-              {option === "1.0" ? "正常" : option + " 倍"}
+              {option === "1.0" ? t("common.normal") : option + " x"}
             </DropdownItem>
           ))}
         </DropdownSection>

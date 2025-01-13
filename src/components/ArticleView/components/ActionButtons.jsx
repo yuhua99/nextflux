@@ -26,8 +26,10 @@ import Confetti from "@/components/ui/Confetti";
 import { settingsState } from "@/stores/settingsStore.js";
 import { useEffect, useRef, useState } from "react";
 import minifluxAPI from "@/api/miniflux";
+import { useTranslation } from "react-i18next";
 
 export default function ActionButtons({ parentRef }) {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const $articles = useStore(filteredArticles);
   const $activeArticle = useStore(activeArticle);
@@ -132,9 +134,8 @@ export default function ActionButtons({ parentRef }) {
     >
       <NavbarContent className="flex items-center space-between">
         <div className="flex items-center gap-3">
-          <Tooltip content="关闭">
+          <Tooltip content={t("common.close")}>
             <Button
-              content="关闭"
               onPress={handleClose}
               size="sm"
               radius="full"
@@ -142,11 +143,11 @@ export default function ActionButtons({ parentRef }) {
               isIconOnly
             >
               <ArrowLeft className="h-4 w-4 text-default-500" />
-              <span className="sr-only">关闭</span>
+              <span className="sr-only">{t("common.close")}</span>
             </Button>
           </Tooltip>
           <Divider orientation="vertical" className="h-6" />
-          <Tooltip content="上一篇">
+          <Tooltip content={t("common.previous")}>
             <Button
               onPress={handlePrevious}
               className="hidden md:flex"
@@ -157,10 +158,10 @@ export default function ActionButtons({ parentRef }) {
               isIconOnly
             >
               <Reply className="h-4 w-4 text-default-500" />
-              <span className="sr-only">上一篇</span>
+              <span className="sr-only">{t("common.previous")}</span>
             </Button>
           </Tooltip>
-          <Tooltip content="下一篇">
+          <Tooltip content={t("common.next")}>
             <Button
               onPress={handleNext}
               className="hidden md:flex"
@@ -171,14 +172,16 @@ export default function ActionButtons({ parentRef }) {
               isIconOnly
             >
               <Forward className="h-4 w-4 text-default-500" />
-              <span className="sr-only">下一篇</span>
+              <span className="sr-only">{t("common.next")}</span>
             </Button>
           </Tooltip>
         </div>
         <div className="ml-auto flex items-center gap-3">
           <Tooltip
             content={
-              $activeArticle?.status === "read" ? "标记为未读" : "标记为已读"
+              $activeArticle?.status === "read"
+                ? t("common.unread")
+                : t("common.read")
             }
           >
             <Button
@@ -195,12 +198,16 @@ export default function ActionButtons({ parentRef }) {
               )}
               <span className="sr-only">
                 {$activeArticle?.status === "read"
-                  ? "标记为未读"
-                  : "标记为已读"}
+                  ? t("common.unread")
+                  : t("common.read")}
               </span>
             </Button>
           </Tooltip>
-          <Tooltip content={$activeArticle?.starred ? "取消收藏" : "收藏"}>
+          <Tooltip
+            content={
+              $activeArticle?.starred ? t("common.unstar") : t("common.star")
+            }
+          >
             <Button
               ref={buttonRef}
               size="sm"
@@ -217,11 +224,19 @@ export default function ActionButtons({ parentRef }) {
                 className={`size-4 text-default-500 ${$activeArticle?.starred ? "fill-current" : ""}`}
               />
               <span className="sr-only">
-                {$activeArticle?.starred ? "取消收藏" : "收藏"}
+                {$activeArticle?.starred
+                  ? t("common.unstar")
+                  : t("common.star")}
               </span>
             </Button>
           </Tooltip>
-          <Tooltip content={showOriginal ? "获取全文" : "显示摘要"}>
+          <Tooltip
+            content={
+              showOriginal
+                ? t("articleView.getFullText")
+                : t("articleView.showSummary")
+            }
+          >
             <Button
               onPress={handleToggleContent}
               size="sm"
@@ -232,11 +247,13 @@ export default function ActionButtons({ parentRef }) {
             >
               <FileText className="size-4 text-default-500" />
               <span className="sr-only">
-                {showOriginal ? "获取全文" : "显示摘要"}
+                {showOriginal
+                  ? t("articleView.getFullText")
+                  : t("articleView.showSummary")}
               </span>
             </Button>
           </Tooltip>
-          <Tooltip content="分享">
+          <Tooltip content={t("common.share")}>
             <Button
               size="sm"
               radius="full"
@@ -245,7 +262,7 @@ export default function ActionButtons({ parentRef }) {
               onPress={handleShare}
             >
               <Share className="size-4 text-default-500" />
-              <span className="sr-only">分享</span>
+              <span className="sr-only">{t("common.share")}</span>
             </Button>
           </Tooltip>
         </div>

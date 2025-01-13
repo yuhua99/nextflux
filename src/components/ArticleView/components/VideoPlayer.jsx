@@ -7,48 +7,7 @@ import {
 } from "@vidstack/react/player/layouts/plyr";
 import { Chip } from "@nextui-org/react";
 import { toast } from "sonner";
-
-const CHINESE = {
-  "Current time": "当前时间",
-  "Disable captions": "禁用字幕",
-  "Enable captions": "启用字幕",
-  "Enter Fullscreen": "进入全屏",
-  "Enter PiP": "进入画中画",
-  "Exit Fullscreen": "退出全屏",
-  "Exit PiP": "退出画中画",
-  "Go back to previous menu": "返回上一菜单",
-  Ad: "广告",
-  AirPlay: "AirPlay",
-  All: "全部",
-  Audio: "音频",
-  Auto: "自动",
-  Buffered: "缓冲",
-  Captions: "字幕",
-  Default: "默认",
-  Disabled: "禁用",
-  Download: "下载",
-  Duration: "持续时间",
-  Enabled: "启用",
-  End: "结束",
-  Forward: "前进",
-  LIVE: "直播",
-  Loop: "循环",
-  Mute: "静音",
-  Normal: "正常",
-  Pause: "暂停",
-  Play: "播放",
-  Played: "已播放",
-  Quality: "质量",
-  Reset: "重置",
-  Restart: "重新开始",
-  Rewind: "倒退",
-  Seek: "搜索",
-  Settings: "设置",
-  Speed: "速度",
-  Start: "开始",
-  Unmute: "取消静音",
-  Volume: "音量",
-};
+import { useTranslation } from "react-i18next";
 
 // 处理 YouTube URL
 const getYouTubeId = (url) => {
@@ -58,6 +17,7 @@ const getYouTubeId = (url) => {
 };
 
 export default function VideoPlayer({ videoTitle, src, provider }) {
+  const { t } = useTranslation();
   const videoId = getYouTubeId(src);
   const userAgent = window.navigator.userAgent.toLowerCase();
   const isIOSDevice =
@@ -78,7 +38,7 @@ export default function VideoPlayer({ videoTitle, src, provider }) {
         </MediaProvider>
         <PlyrLayout
           icons={plyrLayoutIcons}
-          translations={CHINESE}
+          translations={t("player")}
           controls={[
             "play-large",
             ...(isIOSDevice
@@ -102,7 +62,7 @@ export default function VideoPlayer({ videoTitle, src, provider }) {
             );
           }}
         >
-          在新窗口中打开
+          {t("common.openInNewWindow")}
         </Chip>
       </div>
     </div>

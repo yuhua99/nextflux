@@ -11,8 +11,10 @@ import { Time } from "./shared/sliders.jsx";
 import { Square } from "lucide-react";
 import cover from "@/assets/cover.jpg";
 import SpeedSubmenu from "@/components/ArticleView/components/shared/speed.jsx";
+import { useTranslation } from "react-i18next";
 
 export default function AudioPlayer({ source }) {
+  const { t } = useTranslation();
   const location = useLocation();
   const [time, setTime] = useState(0);
   const [expand, setExpand] = useState(false);
@@ -125,7 +127,7 @@ export default function AudioPlayer({ source }) {
                     resetAudio();
                   }}
                 >
-                  停止播放
+                  {t("articleView.stopPlay")}
                 </Button>
                 <div className="w-full text-center">
                   <div className="font-semibold text-sm line-clamp-1">

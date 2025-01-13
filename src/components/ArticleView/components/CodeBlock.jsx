@@ -7,8 +7,10 @@ import { settingsState } from "@/stores/settingsStore.js";
 import { useStore } from "@nanostores/react";
 import { cn } from "@/lib/utils.js";
 import { themeState } from "@/stores/themeStore.js";
+import { useTranslation } from "react-i18next";
 
 export default function CodeBlock({ code, language }) {
+  const { t } = useTranslation();
   const [html, setHtml] = useState("");
   const [isCopied, setIsCopied] = useState(false);
   const { showLineNumbers, forceDarkCodeTheme } = useStore(settingsState);
@@ -36,7 +38,7 @@ export default function CodeBlock({ code, language }) {
       setTimeout(() => setIsCopied(false), 3000);
     } catch (err) {
       console.error("复制失败:", err);
-      toast.error("复制失败");
+      toast.error(t("common.copyFailed"));
     }
   };
 
@@ -56,7 +58,7 @@ export default function CodeBlock({ code, language }) {
       >
         {language}
       </span>
-      <Tooltip size="sm" closeDelay="0" content="复制">
+      <Tooltip size="sm" closeDelay="0" content={t("common.copy")}>
         <Button
           className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity"
           size="sm"

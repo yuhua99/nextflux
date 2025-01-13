@@ -2,8 +2,10 @@ import { PhotoView } from "react-photo-view";
 import { useRef, useState } from "react";
 import { ImageOff } from "lucide-react";
 import { Image } from "@nextui-org/react";
+import { useTranslation } from "react-i18next";
 
 export default function ArticleImage({ imgNode }) {
+  const { t } = useTranslation();
   const [error, setError] = useState(false);
   const imgRef = useRef(null);
 
@@ -48,7 +50,7 @@ export default function ArticleImage({ imgNode }) {
       <div className="!max-w-[calc(100%+40px)] -mx-5 h-full min-h-[200px] bg-content2 flex items-center justify-center">
         <div className="flex flex-col items-center gap-2 text-default-500">
           <ImageOff className="size-5" />
-          <span className="text-sm">图片加载失败</span>
+          <span className="text-sm">{t("articleView.imageError")}</span>
         </div>
       </div>
     );
