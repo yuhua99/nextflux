@@ -175,8 +175,9 @@ export function KeyboardItem({ desc, kbdKey, keyStr }) {
       </div>
       <Kbd
         classNames={{
-          base: "min-w-10",
-          content: "w-full",
+          base: "min-w-8",
+          abbr: "font-mono text-xs text-default-400",
+          content: "w-full font-mono text-xs text-default-400",
         }}
         keys={kbdKey}
       >
