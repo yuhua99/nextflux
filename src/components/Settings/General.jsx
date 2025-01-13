@@ -4,8 +4,8 @@ import {
   ClockArrowDown,
   ClockArrowUp,
   Eye,
-  RefreshCw,
   FolderOpen,
+  RefreshCw,
 } from "lucide-react";
 import { useStore } from "@nanostores/react";
 import {
@@ -14,6 +14,8 @@ import {
   SwitchItem,
 } from "@/components/ui/settingItem.jsx";
 import { Divider } from "@nextui-org/react";
+import Language from "@/components/Settings/components/Language.jsx";
+import { useTranslation } from "react-i18next";
 
 export default function General() {
   const {
@@ -23,42 +25,43 @@ export default function General() {
     syncInterval,
     defaultExpandCategory,
   } = useStore(settingsState);
-
+  const { t } = useTranslation();
   return (
     <>
-      <ItemWrapper title="同步">
+      <Language />
+      <ItemWrapper title={t('settings.general.sync')}>
         <SelItem
-          label="自动同步间隔"
+          label={t('settings.general.syncInterval')}
           icon={<RefreshCw className="shrink-0 size-4 text-default-500" />}
           settingName="syncInterval"
           settingValue={syncInterval}
           options={[
-            { value: "0", label: "关闭" },
-            { value: "5", label: "5分钟" },
-            { value: "15", label: "15分钟" },
-            { value: "30", label: "30分钟" },
-            { value: "60", label: "1小时" },
+            { value: "0", label: t('settings.general.syncOff') },
+            { value: "5", label: t('settings.general.sync5min') },
+            { value: "15", label: t('settings.general.sync15min') },
+            { value: "30", label: t('settings.general.sync30min') },
+            { value: "60", label: t('settings.general.sync1hour') },
           ]}
         />
       </ItemWrapper>
-      <ItemWrapper title="订阅源">
+      <ItemWrapper title={t('settings.general.feeds')}>
         <SwitchItem
-          label="显示隐藏的订阅源"
+          label={t('settings.general.showHiddenFeeds')}
           icon={<Eye className="shrink-0 size-4 text-default-500" />}
           settingName="showHiddenFeeds"
           settingValue={showHiddenFeeds}
         />
         <Divider />
         <SwitchItem
-          label="默认展开分类"
+          label={t('settings.general.defaultExpandCategory')}
           icon={<FolderOpen className="shrink-0 size-4 text-default-500" />}
           settingName="defaultExpandCategory"
           settingValue={defaultExpandCategory}
         />
       </ItemWrapper>
-      <ItemWrapper title="文章列表">
+      <ItemWrapper title={t('settings.general.articleList')}>
         <SelItem
-          label="排序"
+          label={t('settings.general.sortItems')}
           icon={
             sortDirection === "desc" ? (
               <ClockArrowDown className="shrink-0 size-4 text-default-500" />
@@ -69,13 +72,13 @@ export default function General() {
           settingName="sortDirection"
           settingValue={sortDirection}
           options={[
-            { value: "desc", label: "新文章优先" },
-            { value: "asc", label: "旧文章优先" },
+            { value: "desc", label: t('settings.general.sortDesc') },
+            { value: "asc", label: t('settings.general.sortAsc') },
           ]}
         />
         <Divider />
         <SwitchItem
-          label="滚动标记为已读"
+          label={t('settings.general.markAsReadOnScroll')}
           icon={<CircleCheck className="shrink-0 size-4 text-default-500" />}
           settingName="markAsReadOnScroll"
           settingValue={markAsReadOnScroll}

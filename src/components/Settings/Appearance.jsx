@@ -18,7 +18,7 @@ import {
   Text,
 } from "lucide-react";
 import Theme from "./components/Theme";
-
+import { useTranslation } from "react-i18next";
 export default function Appearance() {
   const {
     feedIconShape,
@@ -30,12 +30,13 @@ export default function Appearance() {
     showLineNumbers,
     forceDarkCodeTheme,
   } = useStore(settingsState);
+  const { t } = useTranslation();
   return (
     <>
       <Theme />
-      <ItemWrapper title="订阅源图标">
+      <ItemWrapper title={t('settings.appearance.favicons')}>
         <SelItem
-          label="形状"
+          label={t('settings.appearance.shape')}
           icon={
             feedIconShape === "circle" ? (
               <Circle className="shrink-0 size-4 text-default-500" />
@@ -46,62 +47,62 @@ export default function Appearance() {
           settingName="feedIconShape"
           settingValue={feedIconShape}
           options={[
-            { value: "circle", label: "圆形" },
-            { value: "square", label: "方形" },
+            { value: "circle", label: t('settings.appearance.circle') },
+            { value: "square", label: t('settings.appearance.square') },
           ]}
         />
         <Divider />
         <SwitchItem
-          label="使用灰阶图标"
+          label={t('settings.appearance.grayscale')}
           icon={<CircleDashed className="shrink-0 size-4 text-default-500" />}
           settingName="useGrayIcon"
           settingValue={useGrayIcon}
         />
       </ItemWrapper>
-      <ItemWrapper title="文章卡片">
+      <ItemWrapper title={t('settings.appearance.articleList')}>
         <SelItem
-          label="缩略图"
+          label={t('settings.appearance.imagePreviews')}
           icon={<LayoutList className="shrink-0 size-4 text-default-500" />}
           settingName="cardImageSize"
           settingValue={cardImageSize}
           options={[
-            { value: "none", label: "不显示" },
-            { value: "small", label: "小" },
-            { value: "large", label: "大" },
+            { value: "none", label: t('settings.appearance.none') },
+            { value: "small", label: t('settings.appearance.small') },
+            { value: "large", label: t('settings.appearance.large') },
           ]}
         />
         <Divider />
         <SwitchItem
-          label="显示订阅源图标"
+          label={t('settings.appearance.showFavicon')}
           icon={<Rss className="shrink-0 size-4 text-default-500" />}
           settingName="showFavicon"
           settingValue={showFavicon}
         />
         <Divider />
         <SwitchItem
-          label="显示内容预览"
+          label={t('settings.appearance.showTextPreview')}
           icon={<Text className="shrink-0 size-4 text-default-500" />}
           settingName="showTextPreview"
           settingValue={showTextPreview}
         />
         <Divider />
         <SwitchItem
-          label="显示预计阅读时间"
+          label={t('settings.appearance.showReadingTime')}
           icon={<Clock className="shrink-0 size-4 text-default-500" />}
           settingName="showReadingTime"
           settingValue={showReadingTime}
         />
       </ItemWrapper>
-      <ItemWrapper title="代码块">
+      <ItemWrapper title={t('settings.appearance.codeBlock')}>
         <SwitchItem
-          label="显示行号"
+          label={t('settings.appearance.showLineNumbers')}
           icon={<ListOrdered className="shrink-0 size-4 text-default-500" />}
           settingName="showLineNumbers"
           settingValue={showLineNumbers}
         />
         <Divider />
         <SwitchItem
-          label="强制深色模式"
+          label={t('settings.appearance.forceDarkCodeTheme')}
           icon={<SquareCode className="shrink-0 size-4 text-default-500" />}
           settingName="forceDarkCodeTheme"
           settingValue={forceDarkCodeTheme}

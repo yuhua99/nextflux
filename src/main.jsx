@@ -1,3 +1,4 @@
+import "./i18n";
 import { initTheme } from "@/stores/themeStore";
 import { createRoot } from "react-dom/client";
 import "./index.css";

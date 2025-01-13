@@ -14,11 +14,13 @@ import General from "@/components/Settings/General.jsx";
 import Appearance from "@/components/Settings/Appearance.jsx";
 import Readability from "@/components/Settings/Readability.jsx";
 import { Cog, X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function App() {
   const isOpen = useStore(settingsModalOpen);
   const [activeTab, setActiveTab] = useState("general");
+  const { t } = useTranslation();
   return (
     <>
       <Modal
@@ -44,7 +46,7 @@ export default function App() {
                 <div className="flex gap-2 justify-between">
                   <div className="flex items-center gap-2">
                     <Cog className="size-4" />
-                    <span className="text-base font-medium">设置</span>
+                    <span className="text-base font-medium">{t('settings.title')}</span>
                   </div>
                   <Button
                     size="sm"
@@ -75,9 +77,9 @@ export default function App() {
                       }
                     }}
                   >
-                    <Tab key="general" title="通用" />
-                    <Tab key="appearance" title="外观" />
-                    <Tab key="readability" title="阅读" />
+                    <Tab key="general" title={t('settings.general.title')} />
+                    <Tab key="appearance" title={t('settings.appearance.title')} />
+                    <Tab key="readability" title={t('settings.readability.title')} />
                   </Tabs>
                 </div>
               </ModalHeader>

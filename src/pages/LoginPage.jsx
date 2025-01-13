@@ -5,6 +5,7 @@ import { Button, Form, Input, Link } from "@nextui-org/react";
 import { Eye, EyeClosed } from "lucide-react";
 import { toast } from "sonner";
 import { useStore } from "@nanostores/react";
+import { useTranslation } from 'react-i18next';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if ($auth.serverUrl && $auth.username && $auth.password) {
@@ -91,9 +93,9 @@ export default function LoginPage() {
             onChange={(e) => setPassword(e.target.value)}
           />
           <div>
-            <span className="text-sm text-default-500">需要更多信息？</span>
+            <span className="text-sm text-default-500">{t('auth.needMoreInfo')}</span>
             <Link href="https://miniflux.app" size="sm">
-              前往 Miniflux 官网
+              {t('auth.visitMiniflux')}
             </Link>
           </div>
           <Button
@@ -102,7 +104,7 @@ export default function LoginPage() {
             type="submit"
             isLoading={loading}
           >
-            登 录
+            {t('auth.login')}
           </Button>
         </Form>
       </div>

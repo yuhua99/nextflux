@@ -16,24 +16,26 @@ import {
   DropdownTrigger,
 } from "@nextui-org/react";
 import { setTheme, themes, themeState } from "@/stores/themeStore";
+import { useTranslation } from "react-i18next";
 
 export default function Theme() {
+  const { t } = useTranslation();
   const { themeMode, lightTheme, darkTheme } = useStore(themeState);
 
   const mode = [
     {
       id: "system",
-      name: "跟随系统",
+      name: t('settings.appearance.system'),
       icon: <Monitor className="shrink-0 size-4 text-default-500" />,
     },
     {
       id: "light",
-      name: "浅色",
+      name: t('settings.appearance.light'),
       icon: <Sun className="shrink-0 size-4 text-default-500" />,
     },
     {
       id: "dark",
-      name: "深色",
+      name: t('settings.appearance.dark'),
       icon: <MoonStar className="shrink-0 size-4 text-default-500" />,
     },
   ];
@@ -41,11 +43,11 @@ export default function Theme() {
   const bgColor = "bg-content1 dark:bg-content2/30";
 
   return (
-    <ItemWrapper title="主题">
+    <ItemWrapper title={t('settings.appearance.theme')}>
       <div className={`flex justify-between items-center gap-2 ${bgColor} p-2`}>
         <div className="flex items-center gap-2">
           <Paintbrush className="shrink-0 size-4 text-default-500" />
-          <div className="text-sm text-foreground">模式</div>
+          <div className="text-sm text-foreground">{t('settings.appearance.mode')}</div>
         </div>
         <Dropdown>
           <DropdownTrigger>
@@ -78,7 +80,7 @@ export default function Theme() {
       <div className={`flex justify-between items-center gap-2 ${bgColor} p-2`}>
         <div className="flex items-center gap-2">
           <Sun className="shrink-0 size-4 text-default-500" />
-          <div className="text-sm text-foreground">浅色主题</div>
+          <div className="text-sm text-foreground">{t('settings.appearance.lightTheme')}</div>
         </div>
         <Dropdown>
           <DropdownTrigger>
@@ -88,7 +90,7 @@ export default function Theme() {
               size="sm"
               endContent={<ChevronsUpDown className="size-4" />}
             >
-              {themes.light.find((item) => item.id === lightTheme)?.name}
+              {t(`settings.appearance.themes.${themes.light.find((item) => item.id === lightTheme)?.id}`)}
             </Button>
           </DropdownTrigger>
           <DropdownMenu
@@ -115,7 +117,7 @@ export default function Theme() {
                   ></div>
                 }
               >
-                {item.name}
+                {t(`settings.appearance.themes.${item.id}`)}
               </DropdownItem>
             ))}
           </DropdownMenu>
@@ -125,7 +127,7 @@ export default function Theme() {
       <div className={`flex justify-between items-center gap-2 ${bgColor} p-2`}>
         <div className="flex items-center gap-2">
           <MoonStar className="shrink-0 size-4 text-default-500" />
-          <div className="text-sm text-foreground">深色主题</div>
+          <div className="text-sm text-foreground">{t('settings.appearance.darkTheme')}</div>
         </div>
         <Dropdown>
           <DropdownTrigger>
@@ -135,7 +137,7 @@ export default function Theme() {
               size="sm"
               endContent={<ChevronsUpDown className="size-4" />}
             >
-              {themes.dark.find((item) => item.id === darkTheme)?.name}
+              {t(`settings.appearance.themes.${themes.dark.find((item) => item.id === darkTheme)?.id}`)}
             </Button>
           </DropdownTrigger>
           <DropdownMenu
@@ -162,7 +164,7 @@ export default function Theme() {
                   ></div>
                 }
               >
-                {item.name}
+                {t(`settings.appearance.themes.${item.id}`)}
               </DropdownItem>
             ))}
           </DropdownMenu>
