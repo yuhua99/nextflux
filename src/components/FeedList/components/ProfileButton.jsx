@@ -19,8 +19,10 @@ import { shortcutsModalOpen } from "@/stores/modalStore.js";
 import { useSidebar } from "@/components/ui/sidebar.jsx";
 import AlertDialog from "@/components/ui/AlertDialog.jsx";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function ProfileButton() {
+  const { t } = useTranslation();
   const { username, serverUrl } = authState.get();
   const { isMobile, setOpenMobile } = useSidebar();
   const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
@@ -65,7 +67,7 @@ export default function ProfileButton() {
               isMobile && setOpenMobile(false);
             }}
           >
-            设置
+            {t("sidebar.profile.settings")}
           </DropdownItem>
           <DropdownItem
             key="shortcuts"
@@ -76,7 +78,7 @@ export default function ProfileButton() {
               isMobile && setOpenMobile(false);
             }}
           >
-            快捷键
+            {t("sidebar.shortcuts.title")}
           </DropdownItem>
           <DropdownItem
             key="open_miniflux"
@@ -86,7 +88,7 @@ export default function ProfileButton() {
               window.open(serverUrl, "_blank");
             }}
           >
-            打开 Miniflux
+            {t("sidebar.profile.openMiniflux")}
           </DropdownItem>
           <DropdownItem
             key="logout"
@@ -95,18 +97,19 @@ export default function ProfileButton() {
             startContent={<LogOut className="size-4" />}
             onPress={() => setLogoutDialogOpen(true)}
           >
-            注销
+            {t("sidebar.profile.logout")}
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
 
       <AlertDialog
-        title="确认注销"
-        content="确定要注销当前账号吗？注销后本地数据及设置将清空。"
+        title={t("sidebar.profile.logout")}
+        content={t("sidebar.profile.logoutConfirmDescription")}
         isOpen={logoutDialogOpen}
         onConfirm={handleLogout}
         onClose={() => setLogoutDialogOpen(false)}
-        confirmText="注销"
+        confirmText={t("sidebar.profile.logout")}
+        cancelText={t("common.cancel")}
       />
     </div>
   );

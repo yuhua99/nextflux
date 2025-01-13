@@ -7,8 +7,9 @@ import { useState } from "react";
 import minifluxAPI from "@/api/miniflux.js";
 import { forceSync } from "@/stores/syncStore.js";
 import { toast } from "sonner";
-
+import { useTranslation } from "react-i18next";
 export default function CategoryChip({ category }) {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const $feeds = useStore(feeds);
   const hasFeeds = $feeds.some((feed) => feed.categoryId === category.id);
@@ -18,7 +19,7 @@ export default function CategoryChip({ category }) {
       setLoading(true);
       await minifluxAPI.deleteCategory(categoryId);
       await forceSync();
-      toast.success("删除成功");
+      toast.success(t("common.success"));
     } catch (error) {
       console.error("删除分类失败:", error);
     } finally {

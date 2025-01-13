@@ -25,7 +25,42 @@ export default {
       close: "Close",
       read: "Read",
       unread: "Unread",
-      normal: "Normal"
+      normal: "Normal",
+      success: "Success",
+      error: "Error",
+      article: "Articles",
+      feed: "Feeds",
+      category: "Categories",
+    },
+    sidebar:{
+        addCategory: "New category",
+        categoryName: "Title",
+        categoryNamePlaceholder: "Please enter category title",
+        categoryNameRequired: "Please enter category title",
+        addFeed: {
+            title: "New feed",
+            feedUrl: "Feed URL",
+            feedTitle: "Title",
+            feedCategory: "Category",
+            feedCrawler: "Fetch original content",
+            feedCrawlerDescription: "Try to fetch original content automatically",
+            feedTitlePlaceholder: "Please enter feed title",
+            feedCategoryPlaceholder: "Please select category",
+            feedCategoryRequired: "Please select category",
+            feedUrlPlaceholder: "Please enter feed URL",
+            feedUrlRequired: "Please enter feed URL",
+        },
+        profile: {
+            settings: "Settings",
+            openMiniflux: "Open Miniflux",
+            logout: "Logout",
+            logoutConfirmDescription: "Are you sure you want to logout?",
+        },
+        shortcuts: {
+            title: "Shortcuts",
+        },
+        importOPML: "Import OPML",
+
     },
     articleList: {
       emptyPlaceholder: "No articles selected",

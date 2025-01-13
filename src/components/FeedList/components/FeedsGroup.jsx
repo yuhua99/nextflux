@@ -7,12 +7,13 @@ import {
   SidebarMenu,
 } from "@/components/ui/sidebar";
 import FeedsGroupContent from "@/components/FeedList/components/FeedsGroupContent.jsx";
-
+import { useTranslation } from "react-i18next";
 const FeedsGroup = () => {
+  const { t } = useTranslation();
   const $feedsByCategory = useStore(feedsByCategory);
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>订阅源</SidebarGroupLabel>
+      <SidebarGroupLabel>{t("common.feed")}</SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu>
           {$feedsByCategory.map((category) => (

@@ -20,8 +20,10 @@ import ProfileButton from "@/components/FeedList/components/ProfileButton.jsx";
 import logo from "@/assets/logo.png";
 import storage from "@/db/storage.js";
 import AddFeedButton from "@/components/FeedList/components/AddFeedButton.jsx";
+import { useTranslation } from "react-i18next";
 
 const FeedListSidebar = () => {
+  const { t } = useTranslation();
   const $lastSync = useStore(lastSync);
   const $isSyncing = useStore(isSyncing);
   const { showHiddenFeeds } = useStore(settingsState);
@@ -44,7 +46,7 @@ const FeedListSidebar = () => {
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">ReactFlux</span>
                 <span className="truncate text-xs text-default-400">
-                  {$isSyncing ? "同步中..." : formatLastSync($lastSync)}
+                  {$isSyncing ? t("common.syncing") : formatLastSync($lastSync)}
                 </span>
               </div>
               <SyncButton />

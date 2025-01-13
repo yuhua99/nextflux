@@ -19,8 +19,10 @@ import { forceSync } from "@/stores/syncStore";
 import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
 import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 export default function AddFeedModal() {
+  const { t } = useTranslation();
   const $categories = useStore(categories);
   const $addFeedModalOpen = useStore(addFeedModalOpen);
   const [loading, setLoading] = useState(false);
@@ -78,7 +80,7 @@ export default function AddFeedModal() {
       <ModalContent>
         <form onSubmit={handleSubmit}>
           <ModalHeader>
-            <div>添加订阅源</div>
+            <div>{t("sidebar.addFeed.title")}</div>
             <MiniCloseButton onClose={onClose} />
           </ModalHeader>
           <ModalBody>
@@ -86,11 +88,11 @@ export default function AddFeedModal() {
               <Input
                 isRequired
                 size="sm"
-                label="订阅地址"
+                label={t("sidebar.addFeed.feedUrl")}
                 variant="faded"
                 name="feed_url"
-                placeholder="请输入订阅地址"
-                errorMessage="请输入订阅地址"
+                placeholder={t("sidebar.addFeed.feedUrlPlaceholder")}
+                errorMessage={t("sidebar.addFeed.feedUrlRequired")}
                 value={formData.feed_url}
                 onValueChange={(value) =>
                   setFormData({ ...formData, feed_url: value })
@@ -99,11 +101,11 @@ export default function AddFeedModal() {
               <Select
                 isRequired
                 size="sm"
-                label="分类"
+                label={t("sidebar.addFeed.feedCategory")}
                 variant="faded"
                 name="category_id"
-                placeholder="请选择分类"
-                errorMessage="请选择分类"
+                placeholder={t("sidebar.addFeed.feedCategoryPlaceholder")}
+                errorMessage={t("sidebar.addFeed.feedCategoryRequired")}
                 selectedKeys={[formData.category_id?.toString()]}
                 onChange={(e) =>
                   setFormData({
@@ -135,9 +137,9 @@ export default function AddFeedModal() {
                 }
               >
                 <div className="flex flex-col w-full">
-                  <div className="text-sm">获取全文</div>
-                  <div className="text-xs text-default-500">
-                    自动尝试抓取全文内容
+                  <div className="text-sm line-clamp-1">{t("sidebar.addFeed.feedCrawler")}</div>
+                  <div className="text-xs text-default-500 line-clamp-1">
+                    {t("sidebar.addFeed.feedCrawlerDescription")}
                   </div>
                 </div>
               </Switch>
@@ -145,10 +147,10 @@ export default function AddFeedModal() {
           </ModalBody>
           <ModalFooter>
             <Button color="default" variant="flat" onPress={onClose} size="sm">
-              取消
+              {t("common.cancel")}
             </Button>
             <Button color="primary" type="submit" isLoading={loading} size="sm">
-              添加
+              {t("common.save")}
             </Button>
           </ModalFooter>
         </form>

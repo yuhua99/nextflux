@@ -13,8 +13,10 @@ import {
 } from "@/components/ui/sidebar.jsx";
 import { Link, useParams } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 const ArticlesGroup = () => {
+  const { t } = useTranslation();
   const $filter = useStore(filter);
   const $totalUnreadCount = useStore(totalUnreadCount);
   const $totalStarredCount = useStore(totalStarredCount);
@@ -26,19 +28,19 @@ const ArticlesGroup = () => {
       case "unread":
         return {
           icon: <CircleDot />,
-          text: "未读",
+          text: t("articleList.unread"),
           count: $totalUnreadCount,
         };
       case "starred":
         return {
           icon: <Star />,
-          text: "收藏",
+          text: t("articleList.starred"),
           count: $totalStarredCount,
         };
       default:
         return {
           icon: <Infinity />,
-          text: "全部文章",
+          text: t("articleList.all"),
           count: $totalUnreadCount,
         };
     }
@@ -47,7 +49,7 @@ const ArticlesGroup = () => {
   const { icon, text, count } = getDisplayInfo();
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>文章</SidebarGroupLabel>
+      <SidebarGroupLabel>{t("common.article")}</SidebarGroupLabel>
       <SidebarMenu>
         <SidebarMenuItem
           className={cn(!feedId && !categoryId && "bg-default rounded-md")}

@@ -17,8 +17,10 @@ import { MiniCloseButton } from "@/components/ui/MiniCloseButton";
 import { categories } from "@/stores/feedsStore";
 import { toast } from "sonner";
 import CategoryChip from "./CategoryChip.jsx";
+import { useTranslation } from "react-i18next";
 
 export default function AddCategoryModal() {
+  const { t } = useTranslation();
   const $addCategoryModalOpen = useStore(addCategoryModalOpen);
   const $categories = useStore(categories);
   const [loading, setLoading] = useState(false);
@@ -36,7 +38,7 @@ export default function AddCategoryModal() {
       await minifluxAPI.createCategory(title);
       await forceSync();
       onClose();
-      toast.success("添加成功");
+      toast.success(t("common.success"));
     } catch (error) {
       console.error("添加分类失败:", error);
     } finally {
@@ -61,18 +63,18 @@ export default function AddCategoryModal() {
       <ModalContent>
         <form onSubmit={handleSubmit}>
           <ModalHeader>
-            <div>添加分类</div>
+            <div>{t("sidebar.addCategory")}</div>
             <MiniCloseButton onClose={onClose} />
           </ModalHeader>
           <ModalBody>
             <Input
               isRequired
               size="sm"
-              label="分类名称"
+              label={t("sidebar.categoryName")}
               variant="faded"
               name="title"
-              placeholder="请输入分类名称"
-              errorMessage="请输入分类名称"
+              placeholder={t("sidebar.categoryNamePlaceholder")}
+              errorMessage={t("sidebar.categoryNameRequired")}
               value={title}
               onValueChange={setTitle}
             />
@@ -85,10 +87,10 @@ export default function AddCategoryModal() {
           </ModalBody>
           <ModalFooter>
             <Button color="default" variant="flat" onPress={onClose} size="sm">
-              取消
+              {t("common.cancel")}
             </Button>
             <Button color="primary" type="submit" isLoading={loading} size="sm">
-              添加
+              {t("common.save")}
             </Button>
           </ModalFooter>
         </form>
