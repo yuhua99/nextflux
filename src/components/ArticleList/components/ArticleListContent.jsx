@@ -10,6 +10,7 @@ import { Button } from "@nextui-org/react";
 import { CheckCheck, Loader2 } from "lucide-react";
 import { handleMarkAllRead } from "@/handlers/articleHandlers";
 import { isSyncing } from "@/stores/syncStore.js";
+import { useTranslation } from "react-i18next";
 
 const ArticleItem = memo(({ article, isLast }) => (
   <div className="mx-2">
@@ -20,6 +21,7 @@ const ArticleItem = memo(({ article, isLast }) => (
 ArticleItem.displayName = "ArticleItem";
 
 export default function ArticleListContent({ articles }) {
+  const { t } = useTranslation();
   const { feedId, categoryId, articleId } = useParams();
   const $filter = useStore(filter);
   const $unreadArticlesCount = useStore(unreadArticlesCount);
@@ -110,7 +112,7 @@ export default function ArticleListContent({ articles }) {
                     }
                   }}
                 >
-                  全部标记为已读
+                  {t("articleList.markAllRead")}
                 </Button>
               </div>
             ),

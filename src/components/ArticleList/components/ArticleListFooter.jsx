@@ -5,8 +5,10 @@ import { useStore } from "@nanostores/react";
 import AudioPlayer from "@/components/ArticleView/components/AudioPlayer.jsx";
 import { activeAudio } from "@/stores/audioStore.js";
 import { AnimatePresence } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 export default function ArticleListFooter() {
+  const { t } = useTranslation();
   const $filter = useStore(filter);
   const $activeAudio = useStore(activeAudio);
 
@@ -36,7 +38,7 @@ export default function ArticleListFooter() {
           title={
             <div className="flex items-center space-x-1.5">
               <Star className="size-3" />
-              <span>收藏</span>
+              <span>{t("articleList.starred")}</span>
             </div>
           }
         />
@@ -45,7 +47,7 @@ export default function ArticleListFooter() {
           title={
             <div className="flex items-center space-x-1.5">
               <CircleDot className="size-3" />
-              <span>未读</span>
+              <span>{t("articleList.unread")}</span>
             </div>
           }
         />
@@ -54,7 +56,7 @@ export default function ArticleListFooter() {
           title={
             <div className="flex items-center space-x-1.5">
               <Infinity className="size-3" />
-              <span>全部</span>
+              <span>{t("articleList.all")}</span>
             </div>
           }
         />

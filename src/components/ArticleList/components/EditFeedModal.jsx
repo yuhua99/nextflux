@@ -20,8 +20,10 @@ import { forceSync } from "@/stores/syncStore";
 import { cn } from "@/lib/utils";
 import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
 import { Check, Copy } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function EditFeedModal() {
+  const { t } = useTranslation();
   const { feedId } = useParams();
   const $feeds = useStore(feeds);
   const $categories = useStore(categories);
@@ -94,7 +96,7 @@ export default function EditFeedModal() {
       <ModalContent>
         <form onSubmit={handleSubmit}>
           <ModalHeader>
-            <div>编辑订阅源</div>
+            <div>{t("articleList.editFeed.title")}</div>
             <MiniCloseButton onClose={onClose} />
           </ModalHeader>
           <ModalBody>
@@ -102,11 +104,11 @@ export default function EditFeedModal() {
               <Input
                 isRequired
                 size="sm"
-                label="订阅名称"
+                label={t("articleList.editFeed.feedTitle")}
                 variant="faded"
                 name="title"
-                placeholder="请输入订阅名称"
-                errorMessage="请输入订阅名称"
+                placeholder={t("articleList.editFeed.feedTitlePlaceholder")}
+                errorMessage={t("articleList.editFeed.feedTitleRequired")}
                 value={formData.title}
                 onValueChange={(value) =>
                   setFormData({ ...formData, title: value })
@@ -115,11 +117,11 @@ export default function EditFeedModal() {
               <Select
                 isRequired
                 size="sm"
-                label="分类"
+                label={t("articleList.editFeed.feedCategory")}
                 variant="faded"
                 name="category_id"
-                placeholder="请选择分类"
-                errorMessage="请选择分类"
+                placeholder={t("articleList.editFeed.feedCategoryPlaceholder")}
+                errorMessage={t("articleList.editFeed.feedCategoryRequired")}
                 selectedKeys={[formData.category_id?.toString()]}
                 onChange={(e) =>
                   setFormData({
@@ -151,9 +153,9 @@ export default function EditFeedModal() {
                 }
               >
                 <div className="flex flex-col w-full">
-                  <div className="text-sm">获取全文</div>
-                  <div className="text-xs text-default-500">
-                    自动尝试抓取全文内容
+                  <div className="text-sm line-clamp-1">{t("articleList.editFeed.feedCrawler")}</div>
+                  <div className="text-xs text-default-500 line-clamp-1">
+                    {t("articleList.editFeed.feedCrawlerDescription")}
                   </div>
                 </div>
               </Switch>
@@ -174,15 +176,15 @@ export default function EditFeedModal() {
                 }
               >
                 <div className="flex flex-col w-full">
-                  <div className="text-sm">隐藏订阅源</div>
-                  <div className="text-xs text-default-500">
-                    默认不显示该订阅源及其文章
+                  <div className="text-sm line-clamp-1">{t("articleList.editFeed.feedHide")}</div>
+                  <div className="text-xs text-default-500 line-clamp-1">
+                    {t("articleList.editFeed.feedHideDescription")}
                   </div>
                 </div>
               </Switch>
               <div className="flex items-center gap-2 bg-content2 rounded-lg px-3 py-1 border-default-200 hover:border-default-400 border-2 shadow-sm transition-colors">
                 <div className="flex flex-col flex-1 overflow-hidden">
-                  <div className="text-sm">订阅源地址</div>
+                  <div className="text-sm">{t("articleList.editFeed.feedUrl")}</div>
                   <div className="text-xs text-default-500 w-full truncate">
                     {feedUrl}
                   </div>
@@ -210,10 +212,10 @@ export default function EditFeedModal() {
           </ModalBody>
           <ModalFooter>
             <Button color="default" variant="flat" onPress={onClose} size="sm">
-              取消
+              {t("common.cancel")}
             </Button>
             <Button color="primary" type="submit" isLoading={loading} size="sm">
-              保存
+              {t("common.save")}
             </Button>
           </ModalFooter>
         </form>

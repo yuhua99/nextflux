@@ -11,8 +11,9 @@ import { CircleCheck } from "lucide-react";
 import { isSyncing } from "@/stores/syncStore.js";
 import { useStore } from "@nanostores/react";
 import { filter, unreadArticlesCount } from "@/stores/articlesStore.js";
-
+import { useTranslation } from "react-i18next";
 export default function MarkAllReadButton() {
+  const { t } = useTranslation();
   const { feedId, categoryId } = useParams();
   const $isSyncing = useStore(isSyncing);
   const $filter = useStore(filter);
@@ -31,7 +32,7 @@ export default function MarkAllReadButton() {
           <CircleCheck className="size-4 text-default-500" />
         </Button>
       </DropdownTrigger>
-      <DropdownMenu aria-label="标记为已读" variant="flat">
+      <DropdownMenu aria-label="markAllAsRead" variant="flat">
         <DropdownItem
           key="markAsRead"
           className="text-danger"
@@ -47,11 +48,7 @@ export default function MarkAllReadButton() {
             }
           }}
         >
-          {feedId
-            ? "标记当前订阅源为已读"
-            : categoryId
-              ? "标记当前分类为已读"
-              : "标记所有文章为已读"}
+          {t("articleList.markAllRead")}
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>

@@ -11,6 +11,7 @@ import { feeds } from "@/stores/feedsStore.js";
 import MarkAllReadButton from "./MarkAllReadButton";
 import { isSyncing } from "@/stores/syncStore.js";
 import MenuButton from "./MenuButton";
+import { useTranslation } from "react-i18next";
 
 export default function ArticleListHeader() {
   const { feedId, categoryId } = useParams();
@@ -19,25 +20,26 @@ export default function ArticleListHeader() {
   const $isSyncing = useStore(isSyncing);
   const $articles = useStore(filteredArticles);
   const $unreadArticlesCount = useStore(unreadArticlesCount);
+  const { t } = useTranslation();
   // 获取标题文本
   const getTitleText = () => {
     if (feedId) {
       const feed = $feeds.find((f) => f.id === parseInt(feedId));
-      return feed?.title || "未知订阅源";
+      return feed?.title || "";
     }
 
     if (categoryId) {
       const feed = $feeds.find((f) => f.categoryId === parseInt(categoryId));
-      return feed?.categoryName || "未知分类";
+      return feed?.categoryName || "";
     }
 
     switch ($filter) {
       case "unread":
-        return "未读";
+        return t("articleList.unread");
       case "starred":
-        return "收藏";
+        return t("articleList.starred");
       default:
-        return "全部文章";
+        return t("articleList.all");
     }
   };
 
@@ -48,13 +50,13 @@ export default function ArticleListHeader() {
         const starredCount = $articles.filter(
           (article) => article.starred,
         ).length;
-        return starredCount > 0 ? `${starredCount} 篇收藏` : "无收藏";
+        return starredCount > 0 ? `${starredCount} ${t("articleList.starredItems")}` : `${t("articleList.noStarred")}`;
       }
       case "unread":
       case "all": {
         return $unreadArticlesCount > 0
-          ? `${$unreadArticlesCount} 篇未读`
-          : "无未读";
+          ? `${$unreadArticlesCount} ${t("articleList.unreadItems")}`
+          : `${t("articleList.noUnread")}`;
       }
       default:
         return "";
@@ -68,7 +70,7 @@ export default function ArticleListHeader() {
         <div className="grid flex-1 text-left text-sm leading-tight">
           <span className="truncate font-semibold">{getTitleText()}</span>
           <span className="truncate text-xs text-default-400">
-            {$isSyncing ? "同步中..." : getFilteredCount()}
+            {$isSyncing ? t("common.syncing") : getFilteredCount()}
           </span>
         </div>
         <div className="ml-auto">

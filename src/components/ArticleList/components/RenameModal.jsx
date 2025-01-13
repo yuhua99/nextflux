@@ -16,8 +16,10 @@ import { useStore } from "@nanostores/react";
 import { useParams } from "react-router-dom";
 import { categories } from "@/stores/feedsStore";
 import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
+import { useTranslation } from "react-i18next";
 
 export default function RenameModal() {
+  const { t } = useTranslation();
   const $categories = useStore(categories);
   const { categoryId } = useParams();
   const [newTitle, setNewTitle] = useState("");
@@ -65,7 +67,7 @@ export default function RenameModal() {
     >
       <ModalContent>
         <ModalHeader>
-          <div>重命名分类</div>
+          <div>{t("articleList.renameCategory.title")}</div>
           <MiniCloseButton onClose={onClose} />
         </ModalHeader>
         <ModalBody>
@@ -79,11 +81,11 @@ export default function RenameModal() {
               <Input
                 isRequired
                 size="sm"
-                label="分类名称"
+                label={t("articleList.renameCategory.categoryName")}
                 variant="faded"
                 name="title"
-                placeholder="请输入分类名称"
-                errorMessage="请输入分类名称"
+                placeholder={t("articleList.renameCategory.categoryNamePlaceholder")}
+                errorMessage={t("articleList.renameCategory.categoryNameRequired")}
                 value={newTitle}
                 onValueChange={setNewTitle}
               />
@@ -92,7 +94,7 @@ export default function RenameModal() {
         </ModalBody>
         <ModalFooter>
           <Button color="default" variant="flat" onPress={onClose} size="sm">
-            取消
+            {t("common.cancel")}
           </Button>
           <Button
             color="primary"
@@ -100,7 +102,7 @@ export default function RenameModal() {
             isLoading={loading}
             size="sm"
           >
-            确定
+            {t("common.save")}
           </Button>
         </ModalFooter>
       </ModalContent>

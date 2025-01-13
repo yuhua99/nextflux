@@ -15,10 +15,11 @@ import {
   renameModalOpen,
   unsubscribeModalOpen,
 } from "@/stores/modalStore.js";
+import { useTranslation } from "react-i18next";
 
 export default function MenuButton() {
   const { feedId, categoryId } = useParams();
-
+  const { t } = useTranslation();
   return (
     <>
       <Dropdown>
@@ -40,7 +41,7 @@ export default function MenuButton() {
               onPress={() => editFeedModalOpen.set(true)}
               startContent={<FilePen className="size-4" />}
             >
-              编辑订阅
+              {t("articleList.editFeed.title")}
             </DropdownItem>
             <DropdownItem
               key="delete"
@@ -50,7 +51,7 @@ export default function MenuButton() {
               onPress={() => unsubscribeModalOpen.set(true)}
               startContent={<Trash2 className="size-4" />}
             >
-              取消订阅
+              {t("articleList.unsubscribe")}
             </DropdownItem>
           </DropdownMenu>
         )}
@@ -61,7 +62,7 @@ export default function MenuButton() {
               onPress={() => renameModalOpen.set(true)}
               startContent={<FolderPen className="size-4" />}
             >
-              重命名分类
+              {t("articleList.renameCategory.title")}
             </DropdownItem>
           </DropdownMenu>
         )}

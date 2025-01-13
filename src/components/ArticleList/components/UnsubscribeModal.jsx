@@ -5,7 +5,10 @@ import { useStore } from "@nanostores/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { feeds } from "@/stores/feedsStore";
 import AlertDialog from "@/components/ui/AlertDialog.jsx";
+import { useTranslation } from "react-i18next"; 
+
 export default function UnsubscribeModal() {
+  const { t } = useTranslation();
   const $feeds = useStore(feeds);
   const { feedId } = useParams();
   const $unsubscribeModalOpen = useStore(unsubscribeModalOpen);
@@ -29,11 +32,13 @@ export default function UnsubscribeModal() {
 
   return (
     <AlertDialog
-      title="取消订阅"
-      content={`确定要取消订阅「${feedTitle}」吗？此操作无法撤销。`}
+      title={t("articleList.unsubscribe")}
+      content={`${t("articleList.unsubscribeDescription")}「${feedTitle}」`}
       isOpen={$unsubscribeModalOpen}
       onConfirm={handleUnsubscribe}
       onClose={onClose}
+      confirmText={t("common.confirm")}
+      cancelText={t("common.cancel")}
     />
   );
 }
