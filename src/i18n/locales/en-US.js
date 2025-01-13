@@ -155,6 +155,15 @@ export default {
         Unmute: "Unmute",
         Volume: "Volume",
     },
+    search: {
+      title: "Search",
+      searchPlaceholder: "Please enter keywords",
+      searchResultsPlaceholder: "No results",
+      searchArticlesPlaceholder: "Search articles...",
+      searchFeedsPlaceholder: "Search feeds...",
+      toggleItem: "Toggle item",
+      open: "Open",
+    },
     auth: {
       login: "Login",
       username: "Username",

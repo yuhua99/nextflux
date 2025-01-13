@@ -3,6 +3,7 @@ import FeedIcon from "@/components/ui/FeedIcon.jsx";
 import { formatDate } from "@/lib/format.js";
 import { useEffect, useRef, useState } from "react";
 import { Virtuoso } from "react-virtuoso";
+import { useTranslation } from "react-i18next";
 
 export default function SearchResults({
   results,
@@ -11,6 +12,7 @@ export default function SearchResults({
   type = "articles",
   isComposing,
 }) {
+  const { t } = useTranslation();
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [hoverEffect, setHoverEffect] = useState(true);
   const listRef = useRef(null);
@@ -70,7 +72,7 @@ export default function SearchResults({
     return (
       <div className="flex flex-col items-center gap-2 w-full justify-center h-full text-default-400">
         <Inbox className="size-16" />
-        请输入关键词
+        {t("search.searchPlaceholder")}
       </div>
     );
   }
@@ -79,7 +81,7 @@ export default function SearchResults({
     return (
       <div className="flex flex-col items-center gap-2 w-full justify-center h-full text-default-400">
         <FolderSearch className="size-16" />
-        无相关结果
+        {t("search.searchResultsPlaceholder")}
       </div>
     );
   }

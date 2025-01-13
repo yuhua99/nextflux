@@ -155,6 +155,15 @@ export default {
         Unmute: "取消静音",
         Volume: "音量",
     },
+    search: {
+        title: "搜索",
+        searchPlaceholder: "请输入关键词",
+        searchResultsPlaceholder: "无相关结果",
+        searchArticlesPlaceholder: "搜索文章...",
+        searchFeedsPlaceholder: "搜索订阅...",
+        toggleItem: "切换条目",
+        open: "打开",
+      },
     auth: {
         login: "登录",
         username: "用户名",

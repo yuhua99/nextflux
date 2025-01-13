@@ -22,8 +22,10 @@ import {
 import SearchResults from "./SearchResults";
 import { useNavigate } from "react-router-dom";
 import { settingsState } from "@/stores/settingsStore";
+import { useTranslation } from "react-i18next";
 
 export default function SearchModal() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const isOpen = useStore(searchModalOpen);
   const $searchResults = useStore(searchResults);
@@ -96,7 +98,7 @@ export default function SearchModal() {
             ref={inputRef}
             autoFocus
             placeholder={
-              searchType === "articles" ? "搜索文章..." : "搜索订阅..."
+              searchType === "articles" ? t("search.searchArticlesPlaceholder") : t("search.searchFeedsPlaceholder")
             }
             size="lg"
             value={keyword}
@@ -147,8 +149,8 @@ export default function SearchModal() {
                 "text-xs text-default-500 font-semibold group-data-[selected=true]:text-default-50 dark:group-data-[selected=true]:text-foreground",
             }}
           >
-            <Tab key="articles" title="文章" />
-            <Tab key="feeds" title="订阅" />
+            <Tab key="articles" title={t("common.article")} />
+            <Tab key="feeds" title={t("common.feed")} />
           </Tabs>
           <div className="flex items-center gap-1 px-1">
             <Kbd keys="up" classNames={{ abbr: "text-xs text-default-500" }} />
@@ -157,14 +159,14 @@ export default function SearchModal() {
               classNames={{ abbr: "text-xs text-default-500" }}
             />
             <span className="text-xs text-default-500 font-semibold">
-              切换条目
+              {t("search.toggleItem")}
             </span>
             <Divider orientation="vertical" className="h-5 mx-1" />
             <Kbd
               keys="enter"
               classNames={{ abbr: "text-xs text-default-500" }}
             />
-            <span className="text-xs text-default-500 font-semibold">打开</span>
+            <span className="text-xs text-default-500 font-semibold">{t("search.open")}</span>
           </div>
         </div>
       </ModalContent>
