@@ -10,27 +10,29 @@ import {
 import { shortcutsModalOpen } from "@/stores/modalStore.js";
 import { useStore } from "@nanostores/react";
 import { Keyboard, X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function Shortcuts() {
+  const { t } = useTranslation();
   const shortcuts = {
     article: [
-      { key: "J", desc: "下一篇文章" },
-      { key: "K", desc: "上一篇文章" },
-      { key: "M", desc: "标记已读/未读" },
-      { key: "S", desc: "收藏/取消收藏" },
-      { key: "ESC", desc: "关闭文章" },
-      { key: "V", desc: "在浏览器中查看" },
+      { key: "J", desc: t("sidebar.shortcuts.next") },
+      { key: "K", desc: t("sidebar.shortcuts.previous") },
+      { key: "M", desc: t("sidebar.shortcuts.toggleRead") },
+      { key: "S", desc: t("sidebar.shortcuts.toggleStar") },
+      { key: "ESC", desc: t("sidebar.shortcuts.close") },
+      { key: "V", desc: t("sidebar.shortcuts.viewInBrowser") },
     ],
     global: [
-      { key: "B", desc: "切换侧边栏", kbdKey: ["ctrl"] },
+      { key: "B", desc: t("sidebar.shortcuts.toggleSidebar"), kbdKey: ["ctrl"] },
 
       {
         key: "/",
-        desc: "查看/隐藏快捷键",
+        desc: t("sidebar.shortcuts.toggleShortcuts"),
         kbdKey: ["ctrl"],
       },
-      { key: "R", desc: "刷新" },
-      { key: "F", desc: "全局搜索" },
+      { key: "R", desc: t("sidebar.shortcuts.refresh") },
+      { key: "F", desc: t("sidebar.shortcuts.search") },
     ],
   };
   const isOpen = useStore(shortcutsModalOpen);
@@ -58,7 +60,7 @@ export default function Shortcuts() {
                 <div className="flex gap-2 justify-between">
                   <div className="flex items-center gap-2">
                     <Keyboard className="size-4" />
-                    <span className="text-base font-medium">快捷键</span>
+                    <span className="text-base font-medium">{t("sidebar.shortcuts.title")}</span>
                   </div>
                   <Button
                     size="sm"
@@ -75,7 +77,7 @@ export default function Shortcuts() {
               </ModalHeader>
               <ModalBody>
                 <div className="p-3 overflow-y-auto flex flex-col gap-4">
-                  <ItemWrapper title="全局">
+                  <ItemWrapper title={t("sidebar.shortcuts.global")}>
                     {shortcuts.global.map((shortcut, index) => (
                       <>
                         <KeyboardItem
@@ -88,7 +90,7 @@ export default function Shortcuts() {
                       </>
                     ))}
                   </ItemWrapper>
-                  <ItemWrapper title="文章详情">
+                  <ItemWrapper title={t("sidebar.shortcuts.article")}>
                     {shortcuts.article.map((shortcut, index) => (
                       <>
                         <KeyboardItem

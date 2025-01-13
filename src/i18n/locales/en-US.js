@@ -58,6 +58,18 @@ export default {
         },
         shortcuts: {
             title: "Shortcuts",
+            previous: "Previous article",
+            next: "Next article",
+            toggleRead: "Toggle read/unread",
+            toggleStar: "Toggle star/unstar",
+            close: "Close article",
+            viewInBrowser: "View in browser",
+            toggleSidebar: "Toggle sidebar",
+            toggleShortcuts: "Toggle shortcuts",
+            refresh: "Refresh",
+            search: "Global search",
+            global: "GLOBAL",
+            article: "ARTICLE",
         },
         importOPML: "Import OPML",
 
