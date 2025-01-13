@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login, authState } from "@/stores/authStore";
+import { authState, login } from "@/stores/authStore";
 import { Button, Form, Input, Link } from "@nextui-org/react";
 import { Eye, EyeClosed } from "lucide-react";
 import { toast } from "sonner";
 import { useStore } from "@nanostores/react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-content2 p-4">
       <div className="w-full max-w-sm space-y-6 p-6 bg-content1 rounded-lg shadow-custom">
         <h1 className="text-2xl font-semibold tracking-tight">
-          登录到您的服务器
+          {t("auth.login")}
         </h1>
 
         <Form
@@ -53,9 +53,9 @@ export default function LoginPage() {
           <Input
             isRequired
             labelPlacement="outside"
-            label="服务器地址"
+            label={t("auth.serverUrl")}
             name="serverUrl"
-            placeholder="请输入 Miniflux 服务器地址"
+            placeholder={t("auth.serverUrlPlaceholder")}
             type="text"
             variant="faded"
             value={serverUrl}
@@ -64,9 +64,9 @@ export default function LoginPage() {
           <Input
             isRequired
             labelPlacement="outside"
-            label="用户名"
+            label={t("auth.username")}
             name="username"
-            placeholder="请输入用户名"
+            placeholder={t("auth.usernamePlaceholder")}
             type="text"
             variant="faded"
             value={username}
@@ -84,18 +84,20 @@ export default function LoginPage() {
                 )}
               </button>
             }
-            label="密码"
+            label={t("auth.password")}
             name="password"
-            placeholder="请输入密码"
+            placeholder={t("auth.passwordPlaceholder")}
             type={isVisible ? "text" : "password"}
             variant="faded"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
           <div>
-            <span className="text-sm text-default-500">{t('auth.needMoreInfo')}</span>
+            <span className="text-sm text-default-500">
+              {t("auth.needMoreInfo")}
+            </span>
             <Link href="https://miniflux.app" size="sm">
-              {t('auth.visitMiniflux')}
+              {t("auth.visitMiniflux")}
             </Link>
           </div>
           <Button
@@ -104,7 +106,7 @@ export default function LoginPage() {
             type="submit"
             isLoading={loading}
           >
-            {t('auth.login')}
+            {t("common.login")}
           </Button>
         </Form>
       </div>
