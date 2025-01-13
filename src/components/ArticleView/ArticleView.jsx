@@ -189,7 +189,7 @@ const ArticleView = () => {
               {audioEnclosure && <PlayAndPause source={audioEnclosure} />}
               <PhotoProvider
                 bannerVisible={false}
-                maskOpacity={0.5}
+                maskOpacity={0.8}
                 loop={false}
                 speed={() => 300}
                 easing={(type) =>
