@@ -18,8 +18,11 @@ import VideoPlayer from "@/components/ArticleView/components/VideoPlayer.jsx";
 import PlayAndPause from "@/components/ArticleView/components/PlayAndPause.jsx";
 import { currentThemeMode, themeState } from "@/stores/themeStore.js";
 import CodeBlock from "@/components/ArticleView/components/CodeBlock.jsx";
+import { useTranslation } from "react-i18next";
+
 
 const ArticleView = () => {
+  const { t } = useTranslation();
   const { articleId } = useParams();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -177,7 +180,7 @@ const ArticleView = () => {
                   {cleanTitle($activeArticle?.title)}
                 </h1>
                 <div className="text-default-400 text-sm">
-                  <time dateTime={$activeArticle?.published_at}>
+                  <time dateTime={$activeArticle?.published_at} key={t.language}>
                     {generateReadableDate($activeArticle?.published_at)}
                   </time>
                 </div>
