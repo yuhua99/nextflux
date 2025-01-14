@@ -69,6 +69,7 @@ export default function AddCategoryModal() {
           <ModalBody>
             <Input
               isRequired
+              labelPlacement="outside"
               size="sm"
               label={t("sidebar.categoryName")}
               variant="faded"

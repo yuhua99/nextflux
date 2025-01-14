@@ -1,5 +1,6 @@
 import {
   Button,
+  Checkbox,
   Input,
   Modal,
   ModalBody,
@@ -8,7 +9,6 @@ import {
   ModalHeader,
   Select,
   SelectItem,
-  Switch,
 } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import { useStore } from "@nanostores/react";
@@ -17,7 +17,6 @@ import { editFeedModalOpen } from "@/stores/modalStore";
 import { useParams } from "react-router-dom";
 import minifluxAPI from "@/api/miniflux";
 import { forceSync } from "@/stores/syncStore";
-import { cn } from "@/lib/utils";
 import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
 import { Check, Copy } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -103,6 +102,7 @@ export default function EditFeedModal() {
             <div className="flex flex-col gap-4">
               <Input
                 isRequired
+                labelPlacement="outside"
                 size="sm"
                 label={t("articleList.editFeed.feedTitle")}
                 variant="faded"
@@ -116,6 +116,7 @@ export default function EditFeedModal() {
               />
               <Select
                 isRequired
+                labelPlacement="outside"
                 size="sm"
                 label={t("articleList.editFeed.feedCategory")}
                 variant="faded"
@@ -136,78 +137,69 @@ export default function EditFeedModal() {
                   </SelectItem>
                 ))}
               </Select>
-              <Switch
+              <div>
+                <div className="text-xs ml-0.5 mb-1">
+                  {t("articleList.editFeed.feedUrl")}
+                </div>
+                <div className="flex items-center gap-2 bg-content2 rounded-lg pl-3 pr-1 py-1 border-default-200 hover:border-default-400 border-2 shadow-sm transition-colors">
+                  <div className="flex flex-col flex-1 overflow-hidden">
+                    <div className="text-sm text-default-400 w-full truncate">
+                      {feedUrl}
+                    </div>
+                  </div>
+                  <Button
+                    size="sm"
+                    className="!h-5"
+                    isIconOnly
+                    isDisabled={isCopied}
+                    variant="flat"
+                    startContent={
+                      isCopied ? (
+                        <Check className="size-3 shrink-0 text-default-500" />
+                      ) : (
+                        <Copy className="size-3 shrink-0 text-default-500" />
+                      )
+                    }
+                    onPress={() => {
+                      navigator.clipboard.writeText(feedUrl);
+                      setIsCopied(true);
+                      setTimeout(() => setIsCopied(false), 3000);
+                    }}
+                  />
+                </div>
+              </div>
+              <Checkbox
                 name="crawler"
                 size="sm"
-                classNames={{
-                  base: cn(
-                    "inline-flex flex-row-reverse w-full max-w-md bg-content2 items-center shadow-sm transition-colors",
-                    "justify-between cursor-pointer rounded-lg gap-2 py-1 pr-3 border-2 border-default-200",
-                    "data-[hover=true]:border-default-400 data-[selected=true]:border-primary",
-                  ),
-                  label: "ms-3",
-                }}
+                classNames={{ base: "w-full max-w-full", label: "mt-4" }}
                 isSelected={formData.crawler}
                 onValueChange={(value) =>
                   setFormData({ ...formData, crawler: value })
                 }
               >
-                <div className="flex flex-col w-full">
-                  <div className="text-sm line-clamp-1">{t("articleList.editFeed.feedCrawler")}</div>
-                  <div className="text-xs text-default-500 line-clamp-1">
-                    {t("articleList.editFeed.feedCrawlerDescription")}
-                  </div>
+                <div className="line-clamp-1">
+                  {t("articleList.editFeed.feedCrawler")}
                 </div>
-              </Switch>
-              <Switch
+                <div className="text-xs text-default-400 line-clamp-1">
+                  {t("articleList.editFeed.feedCrawlerDescription")}
+                </div>
+              </Checkbox>
+              <Checkbox
                 name="hide_globally"
                 size="sm"
-                classNames={{
-                  base: cn(
-                    "inline-flex flex-row-reverse w-full max-w-md bg-content2 items-center shadow-sm transition-colors",
-                    "justify-between cursor-pointer rounded-lg gap-2 py-1 pr-3 border-2 border-default-200",
-                    "data-[hover=true]:border-default-400 data-[selected=true]:border-primary",
-                  ),
-                  label: "ms-3",
-                }}
+                classNames={{ base: "w-full max-w-full", label: "mt-4" }}
                 isSelected={formData.hide_globally}
                 onValueChange={(value) =>
                   setFormData({ ...formData, hide_globally: value })
                 }
               >
-                <div className="flex flex-col w-full">
-                  <div className="text-sm line-clamp-1">{t("articleList.editFeed.feedHide")}</div>
-                  <div className="text-xs text-default-500 line-clamp-1">
-                    {t("articleList.editFeed.feedHideDescription")}
-                  </div>
+                <div className="line-clamp-1">
+                  {t("articleList.editFeed.feedHide")}
                 </div>
-              </Switch>
-              <div className="flex items-center gap-2 bg-content2 rounded-lg px-3 py-1 border-default-200 hover:border-default-400 border-2 shadow-sm transition-colors">
-                <div className="flex flex-col flex-1 overflow-hidden">
-                  <div className="text-sm">{t("articleList.editFeed.feedUrl")}</div>
-                  <div className="text-xs text-default-500 w-full truncate">
-                    {feedUrl}
-                  </div>
+                <div className="text-xs text-default-400 line-clamp-1">
+                  {t("articleList.editFeed.feedHideDescription")}
                 </div>
-                <Button
-                  size="sm"
-                  isIconOnly
-                  isDisabled={isCopied}
-                  variant="flat"
-                  startContent={
-                    isCopied ? (
-                      <Check className="size-4 shrink-0 text-default-500" />
-                    ) : (
-                      <Copy className="size-4 shrink-0 text-default-500" />
-                    )
-                  }
-                  onPress={() => {
-                    navigator.clipboard.writeText(feedUrl);
-                    setIsCopied(true);
-                    setTimeout(() => setIsCopied(false), 3000);
-                  }}
-                />
-              </div>
+              </Checkbox>
             </div>
           </ModalBody>
           <ModalFooter>

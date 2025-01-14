@@ -1,5 +1,6 @@
 import {
   Button,
+  Checkbox,
   Input,
   Modal,
   ModalBody,
@@ -8,7 +9,6 @@ import {
   ModalHeader,
   Select,
   SelectItem,
-  Switch,
 } from "@nextui-org/react";
 import { useState } from "react";
 import { useStore } from "@nanostores/react";
@@ -18,7 +18,6 @@ import minifluxAPI from "@/api/miniflux";
 import { forceSync } from "@/stores/syncStore";
 import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
 import { useNavigate } from "react-router-dom";
-import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
 export default function AddFeedModal() {
@@ -87,6 +86,7 @@ export default function AddFeedModal() {
             <div className="flex flex-col gap-4">
               <Input
                 isRequired
+                labelPlacement="outside"
                 size="sm"
                 label={t("sidebar.addFeed.feedUrl")}
                 variant="faded"
@@ -100,6 +100,7 @@ export default function AddFeedModal() {
               />
               <Select
                 isRequired
+                labelPlacement="outside"
                 size="sm"
                 label={t("sidebar.addFeed.feedCategory")}
                 variant="faded"
@@ -120,29 +121,22 @@ export default function AddFeedModal() {
                   </SelectItem>
                 ))}
               </Select>
-              <Switch
+              <Checkbox
                 name="crawler"
                 size="sm"
-                classNames={{
-                  base: cn(
-                    "inline-flex flex-row-reverse w-full max-w-md bg-content2 items-center shadow-sm transition-colors",
-                    "justify-between cursor-pointer rounded-lg gap-2 py-1 pr-3 border-2 border-default-200",
-                    "data-[hover=true]:border-default-400 data-[selected=true]:border-primary",
-                  ),
-                  label: "ms-3",
-                }}
+                classNames={{ base: "w-full max-w-full", label: "mt-4" }}
                 isSelected={formData.crawler}
                 onValueChange={(value) =>
                   setFormData({ ...formData, crawler: value })
                 }
               >
-                <div className="flex flex-col w-full">
-                  <div className="text-sm line-clamp-1">{t("sidebar.addFeed.feedCrawler")}</div>
-                  <div className="text-xs text-default-500 line-clamp-1">
-                    {t("sidebar.addFeed.feedCrawlerDescription")}
-                  </div>
+                <div className="line-clamp-1">
+                  {t("sidebar.addFeed.feedCrawler")}
                 </div>
-              </Switch>
+                <div className="text-xs text-default-400 line-clamp-1">
+                  {t("sidebar.addFeed.feedCrawlerDescription")}
+                </div>
+              </Checkbox>
             </div>
           </ModalBody>
           <ModalFooter>

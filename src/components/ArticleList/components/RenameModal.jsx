@@ -77,15 +77,20 @@ export default function RenameModal() {
             validationBehavior="native"
             onSubmit={(e) => handleRename(e)}
           >
-            <div className="flex flex-col gap-4 w-full">
+            <div className="flex flex-col gap-4 w-full mb-3">
               <Input
                 isRequired
+                labelPlacement="outside"
                 size="sm"
                 label={t("articleList.renameCategory.categoryName")}
                 variant="faded"
                 name="title"
-                placeholder={t("articleList.renameCategory.categoryNamePlaceholder")}
-                errorMessage={t("articleList.renameCategory.categoryNameRequired")}
+                placeholder={t(
+                  "articleList.renameCategory.categoryNamePlaceholder",
+                )}
+                errorMessage={t(
+                  "articleList.renameCategory.categoryNameRequired",
+                )}
                 value={newTitle}
                 onValueChange={setNewTitle}
               />
