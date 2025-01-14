@@ -58,7 +58,7 @@ export default {
       settings: "Settings",
       openMiniflux: "Open Miniflux",
       logout: "Logout",
-      logoutConfirmDescription: "Are you sure you want to logout?",
+      logoutConfirmDescription: "Are you sure you want to logout? All local data and settings will be deleted.",
     },
     shortcuts: {
       title: "Shortcuts",
