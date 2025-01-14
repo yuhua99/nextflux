@@ -18,7 +18,8 @@ const ArticleList = () => {
   const $filteredArticles = useStore(filteredArticles);
   const $lastSync = useStore(lastSync);
   const $filter = useStore(filter);
-  const { sortDirection, showHiddenFeeds } = useStore(settingsState);
+  const { sortDirection, showHiddenFeeds, showUnreadByDefault } =
+    useStore(settingsState);
   const location = useLocation();
   const scrollAreaRef = useRef(null);
 
@@ -47,6 +48,13 @@ const ArticleList = () => {
       }
     }
   }, [feedId, categoryId, $filter]);
+
+  // 组件挂载时设置默认过滤器
+  useEffect(() => {
+    if (!feedId && !categoryId && showUnreadByDefault) {
+      filter.set("unread");
+    }
+  }, []);
 
   return (
     <div className="main-content flex bg-content2">

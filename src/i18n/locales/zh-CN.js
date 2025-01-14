@@ -200,6 +200,7 @@ export default {
       sortDesc: "新文章优先",
       sortAsc: "旧文章优先",
       markAsReadOnScroll: "滚动时标记为已读",
+      showUnreadByDefault: "默认显示未读文章",
     },
     appearance: {
       title: "外观",

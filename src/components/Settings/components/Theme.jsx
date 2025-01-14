@@ -25,17 +25,17 @@ export default function Theme() {
   const mode = [
     {
       id: "system",
-      name: t('settings.appearance.system'),
+      name: t("settings.appearance.system"),
       icon: <Monitor className="shrink-0 size-4 text-default-500" />,
     },
     {
       id: "light",
-      name: t('settings.appearance.light'),
+      name: t("settings.appearance.light"),
       icon: <Sun className="shrink-0 size-4 text-default-500" />,
     },
     {
       id: "dark",
-      name: t('settings.appearance.dark'),
+      name: t("settings.appearance.dark"),
       icon: <MoonStar className="shrink-0 size-4 text-default-500" />,
     },
   ];
@@ -43,11 +43,13 @@ export default function Theme() {
   const bgColor = "bg-content1 dark:bg-content2/30";
 
   return (
-    <ItemWrapper title={t('settings.appearance.theme')}>
+    <ItemWrapper title={t("settings.appearance.theme")}>
       <div className={`flex justify-between items-center gap-2 ${bgColor} p-2`}>
         <div className="flex items-center gap-2">
           <Paintbrush className="shrink-0 size-4 text-default-500" />
-          <div className="text-sm text-foreground">{t('settings.appearance.mode')}</div>
+          <div className="text-sm text-foreground line-clamp-1">
+            {t("settings.appearance.mode")}
+          </div>
         </div>
         <Dropdown>
           <DropdownTrigger>
@@ -55,7 +57,7 @@ export default function Theme() {
               className="capitalize"
               variant="flat"
               size="sm"
-              endContent={<ChevronsUpDown className="size-4" />}
+              endContent={<ChevronsUpDown className="size-4 shrink-0" />}
             >
               {mode.find((item) => item.id === themeMode)?.name}
             </Button>
@@ -80,7 +82,9 @@ export default function Theme() {
       <div className={`flex justify-between items-center gap-2 ${bgColor} p-2`}>
         <div className="flex items-center gap-2">
           <Sun className="shrink-0 size-4 text-default-500" />
-          <div className="text-sm text-foreground">{t('settings.appearance.lightTheme')}</div>
+          <div className="text-sm text-foreground line-clamp-1">
+            {t("settings.appearance.lightTheme")}
+          </div>
         </div>
         <Dropdown>
           <DropdownTrigger>
@@ -88,9 +92,11 @@ export default function Theme() {
               className="capitalize"
               variant="flat"
               size="sm"
-              endContent={<ChevronsUpDown className="size-4" />}
+              endContent={<ChevronsUpDown className="size-4 shrink-0" />}
             >
-              {t(`settings.appearance.themes.${themes.light.find((item) => item.id === lightTheme)?.id}`)}
+              {t(
+                `settings.appearance.themes.${themes.light.find((item) => item.id === lightTheme)?.id}`,
+              )}
             </Button>
           </DropdownTrigger>
           <DropdownMenu
@@ -127,7 +133,9 @@ export default function Theme() {
       <div className={`flex justify-between items-center gap-2 ${bgColor} p-2`}>
         <div className="flex items-center gap-2">
           <MoonStar className="shrink-0 size-4 text-default-500" />
-          <div className="text-sm text-foreground">{t('settings.appearance.darkTheme')}</div>
+          <div className="text-sm text-foreground line-clamp-1">
+            {t("settings.appearance.darkTheme")}
+          </div>
         </div>
         <Dropdown>
           <DropdownTrigger>
@@ -135,9 +143,11 @@ export default function Theme() {
               className="capitalize"
               variant="flat"
               size="sm"
-              endContent={<ChevronsUpDown className="size-4" />}
+              endContent={<ChevronsUpDown className="size-4 shrink-0" />}
             >
-              {t(`settings.appearance.themes.${themes.dark.find((item) => item.id === darkTheme)?.id}`)}
+              {t(
+                `settings.appearance.themes.${themes.dark.find((item) => item.id === darkTheme)?.id}`,
+              )}
             </Button>
           </DropdownTrigger>
           <DropdownMenu

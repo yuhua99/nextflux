@@ -1,6 +1,7 @@
 import { settingsState } from "@/stores/settingsStore";
 import {
   CircleCheck,
+  CircleDot,
   ClockArrowDown,
   ClockArrowUp,
   Eye,
@@ -24,44 +25,45 @@ export default function General() {
     markAsReadOnScroll,
     syncInterval,
     defaultExpandCategory,
+    showUnreadByDefault,
   } = useStore(settingsState);
   const { t } = useTranslation();
   return (
     <>
       <Language />
-      <ItemWrapper title={t('settings.general.sync')}>
+      <ItemWrapper title={t("settings.general.sync")}>
         <SelItem
-          label={t('settings.general.syncInterval')}
+          label={t("settings.general.syncInterval")}
           icon={<RefreshCw className="shrink-0 size-4 text-default-500" />}
           settingName="syncInterval"
           settingValue={syncInterval}
           options={[
-            { value: "0", label: t('settings.general.syncOff') },
-            { value: "5", label: t('settings.general.sync5min') },
-            { value: "15", label: t('settings.general.sync15min') },
-            { value: "30", label: t('settings.general.sync30min') },
-            { value: "60", label: t('settings.general.sync1hour') },
+            { value: "0", label: t("settings.general.syncOff") },
+            { value: "5", label: t("settings.general.sync5min") },
+            { value: "15", label: t("settings.general.sync15min") },
+            { value: "30", label: t("settings.general.sync30min") },
+            { value: "60", label: t("settings.general.sync1hour") },
           ]}
         />
       </ItemWrapper>
-      <ItemWrapper title={t('settings.general.feeds')}>
+      <ItemWrapper title={t("settings.general.feeds")}>
         <SwitchItem
-          label={t('settings.general.showHiddenFeeds')}
+          label={t("settings.general.showHiddenFeeds")}
           icon={<Eye className="shrink-0 size-4 text-default-500" />}
           settingName="showHiddenFeeds"
           settingValue={showHiddenFeeds}
         />
         <Divider />
         <SwitchItem
-          label={t('settings.general.defaultExpandCategory')}
+          label={t("settings.general.defaultExpandCategory")}
           icon={<FolderOpen className="shrink-0 size-4 text-default-500" />}
           settingName="defaultExpandCategory"
           settingValue={defaultExpandCategory}
         />
       </ItemWrapper>
-      <ItemWrapper title={t('settings.general.articleList')}>
+      <ItemWrapper title={t("settings.general.articleList")}>
         <SelItem
-          label={t('settings.general.sortItems')}
+          label={t("settings.general.sortItems")}
           icon={
             sortDirection === "desc" ? (
               <ClockArrowDown className="shrink-0 size-4 text-default-500" />
@@ -72,13 +74,20 @@ export default function General() {
           settingName="sortDirection"
           settingValue={sortDirection}
           options={[
-            { value: "desc", label: t('settings.general.sortDesc') },
-            { value: "asc", label: t('settings.general.sortAsc') },
+            { value: "desc", label: t("settings.general.sortDesc") },
+            { value: "asc", label: t("settings.general.sortAsc") },
           ]}
         />
         <Divider />
         <SwitchItem
-          label={t('settings.general.markAsReadOnScroll')}
+          label={t("settings.general.showUnreadByDefault")}
+          icon={<CircleDot className="shrink-0 size-4 text-default-500" />}
+          settingName="showUnreadByDefault"
+          settingValue={showUnreadByDefault}
+        />
+        <Divider />
+        <SwitchItem
+          label={t("settings.general.markAsReadOnScroll")}
           icon={<CircleCheck className="shrink-0 size-4 text-default-500" />}
           settingName="markAsReadOnScroll"
           settingValue={markAsReadOnScroll}

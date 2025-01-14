@@ -77,7 +77,7 @@ export const SwitchItem = ({
     >
       <div className="flex items-center gap-2">
         {icon}
-        <div className="text-sm text-foreground">{label}</div>
+        <div className="text-sm text-foreground line-clamp-1">{label}</div>
       </div>
       <Switch
         isSelected={settingValue}
@@ -93,7 +93,7 @@ export function SelItem({ label, icon, settingName, settingValue, options }) {
     <div className={`flex justify-between items-center gap-2 ${bgColor} p-2`}>
       <div className="flex items-center gap-2">
         {icon}
-        <div className="text-sm text-foreground">{label}</div>
+        <div className="text-sm text-foreground line-clamp-1">{label}</div>
       </div>
       <Dropdown>
         <DropdownTrigger>
@@ -101,7 +101,7 @@ export function SelItem({ label, icon, settingName, settingValue, options }) {
             className="capitalize"
             variant="flat"
             size="sm"
-            endContent={<ChevronsUpDown className="size-4" />}
+            endContent={<ChevronsUpDown className="size-4 shrink-0" />}
           >
             {options.find((opt) => opt.value === settingValue.toString())
               ?.label || settingValue}

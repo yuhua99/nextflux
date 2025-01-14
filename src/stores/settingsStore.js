@@ -24,6 +24,7 @@ const defaultValue = {
   showLineNumbers: false,
   forceDarkCodeTheme: false,
   defaultExpandCategory: false, // 默认展开分类
+  showUnreadByDefault: false,
 };
 
 export const settingsState = persistentAtom("settings", defaultValue, {

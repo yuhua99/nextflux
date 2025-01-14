@@ -22,7 +22,7 @@ export default function Language() {
       <div className="flex justify-between items-center gap-2 bg-content1 dark:bg-content2/30 p-2">
         <div className="flex items-center gap-2">
           <Earth className="shrink-0 size-4 text-default-500" />
-          <div className="text-sm text-foreground">
+          <div className="text-sm text-foreground line-clamp-1">
             {t("settings.general.interfaceLanguage")}
           </div>
         </div>
@@ -32,7 +32,7 @@ export default function Language() {
               className="capitalize"
               variant="flat"
               size="sm"
-              endContent={<ChevronsUpDown className="size-4" />}
+              endContent={<ChevronsUpDown className="size-4 shrink-0" />}
             >
               {languages.find((lang) => lang.id === i18n.language)?.name}
             </Button>

@@ -200,6 +200,7 @@ export default {
       sortDesc: "Newest first",
       sortAsc: "Oldest first",
       markAsReadOnScroll: "Mark as read on scroll",
+      showUnreadByDefault: "Show unread articles by default",
     },
     appearance: {
       title: "Appearance",
