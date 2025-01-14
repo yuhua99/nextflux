@@ -3,7 +3,6 @@ import {
   AlignCenter,
   AlignJustify,
   AlignLeft,
-  AlignRight,
   AlignStartVertical,
   CaseSensitive,
   PanelTopDashed,
@@ -23,7 +22,6 @@ import { Button, Divider } from "@nextui-org/react";
 import { resetSettings } from "@/stores/settingsStore.js";
 import { useTranslation } from "react-i18next";
 
-
 export default function Readability() {
   const {
     lineHeight,
@@ -37,41 +35,49 @@ export default function Readability() {
   } = useStore(settingsState);
   const { t } = useTranslation();
   const fontOptions = [
-    { label: t('settings.readability.systemFont'), value: "system-ui", style: { fontFamily: "system-ui" } },
     {
-      label: t('settings.readability.sansSerif'),
+      label: t("settings.readability.systemFont"),
+      value: "system-ui",
+      style: { fontFamily: "system-ui" },
+    },
+    {
+      label: t("settings.readability.sansSerif"),
       value: "sans-serif",
       style: { fontFamily: "sans-serif" },
     },
-    { label: t('settings.readability.serif'), value: "serif", style: { fontFamily: "serif" } },
     {
-      label: t('settings.readability.notoSerifSC'),
+      label: t("settings.readability.serif"),
+      value: "serif",
+      style: { fontFamily: "serif" },
+    },
+    {
+      label: t("settings.readability.notoSerifSC"),
       value: "'Noto Serif SC'",
       style: { fontFamily: "'Noto Serif SC', serif" },
     },
     {
-      label: t('settings.readability.notoSansSC'),
+      label: t("settings.readability.notoSansSC"),
       value: "'Noto Sans SC'",
       style: { fontFamily: "'Noto Sans SC', sans-serif" },
     },
     {
-      label: t('settings.readability.lxgwWenKai'),
+      label: t("settings.readability.lxgwWenKai"),
       value: "'LXGW WenKai'",
       style: { fontFamily: "'LXGW WenKai', serif" },
     },
   ];
   return (
     <>
-      <ItemWrapper title={t('settings.readability.text')}>
+      <ItemWrapper title={t("settings.readability.text")}>
         <SwitchItem
-          label={t('settings.readability.autoHideToolbar')}
+          label={t("settings.readability.autoHideToolbar")}
           icon={<PanelTopDashed className="shrink-0 size-4 text-default-500" />}
           settingName="autoHideToolbar"
           settingValue={autoHideToolbar}
         />
         <Divider />
         <SelItem
-          label={t('settings.readability.font')}
+          label={t("settings.readability.font")}
           icon={<Type className="shrink-0 size-4 text-default-500" />}
           settingName="fontFamily"
           settingValue={fontFamily}
@@ -79,14 +85,14 @@ export default function Readability() {
         />
         <Divider />
         <SwitchItem
-          label={t('settings.readability.textAlignJustify')}
+          label={t("settings.readability.textAlignJustify")}
           icon={<AlignJustify className="shrink-0 size-4 text-default-500" />}
           settingName="alignJustify"
           settingValue={alignJustify}
         />
         <Divider />
         <SliderItem
-          label={t('settings.readability.lineHeight')}
+          label={t("settings.readability.lineHeight")}
           icon={<UnfoldVertical className="shrink-0 size-4 text-default-500" />}
           settingName="lineHeight"
           settingValue={lineHeight}
@@ -96,7 +102,7 @@ export default function Readability() {
         />
         <Divider />
         <SliderItem
-          label={t('settings.readability.fontSize')}
+          label={t("settings.readability.fontSize")}
           icon={<CaseSensitive className="shrink-0 size-4 text-default-500" />}
           settingName="fontSize"
           settingValue={fontSize}
@@ -106,7 +112,7 @@ export default function Readability() {
         />
         <Divider />
         <SliderItem
-          label={t('settings.readability.maxWidth')}
+          label={t("settings.readability.maxWidth")}
           icon={
             <UnfoldHorizontal className="shrink-0 size-4 text-default-500" />
           }
@@ -117,9 +123,9 @@ export default function Readability() {
           step={5}
         />
       </ItemWrapper>
-      <ItemWrapper title={t('settings.readability.articleTitle')}>
+      <ItemWrapper title={t("settings.readability.articleTitle")}>
         <GroupItem
-          label={t('settings.readability.titleAlign')}
+          label={t("settings.readability.titleAlign")}
           icon={
             <AlignStartVertical className="shrink-0 size-4 text-default-500" />
           }
@@ -128,12 +134,11 @@ export default function Readability() {
           options={[
             { value: "left", icon: <AlignLeft className="size-4" /> },
             { value: "center", icon: <AlignCenter className="size-4" /> },
-            { value: "right", icon: <AlignRight className="size-4" /> },
           ]}
         />
         <Divider />
         <SliderItem
-          label={t('settings.readability.titleFontSize')}
+          label={t("settings.readability.titleFontSize")}
           icon={<CaseSensitive className="shrink-0 size-4 text-default-500" />}
           settingName="titleFontSize"
           settingValue={titleFontSize}
@@ -143,7 +148,7 @@ export default function Readability() {
         />
       </ItemWrapper>
       <Button color="danger" variant="flat" onPress={resetSettings}>
-        {t('settings.readability.reset')}
+        {t("settings.readability.reset")}
       </Button>
     </>
   );
