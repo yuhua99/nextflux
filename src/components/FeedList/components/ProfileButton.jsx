@@ -13,27 +13,16 @@ import {
   Keyboard,
   LogOut,
 } from "lucide-react";
-import { authState, logout } from "@/stores/authStore.js";
+import { authState } from "@/stores/authStore.js";
 import { settingsModalOpen } from "@/stores/settingsStore.js";
-import { shortcutsModalOpen } from "@/stores/modalStore.js";
+import { logoutModalOpen, shortcutsModalOpen } from "@/stores/modalStore.js";
 import { useSidebar } from "@/components/ui/sidebar.jsx";
-import AlertDialog from "@/components/ui/AlertDialog.jsx";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export default function ProfileButton() {
   const { t } = useTranslation();
   const { username, serverUrl } = authState.get();
   const { isMobile, setOpenMobile } = useSidebar();
-  const [logoutDialogOpen, setLogoutDialogOpen] = useState(false);
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-    } catch (error) {
-      console.error("退出登录失败:", error);
-    }
-  };
 
   return (
     <div className="profile-button flex items-center gap-4">
@@ -95,22 +84,15 @@ export default function ProfileButton() {
             textValue="logout"
             color="danger"
             startContent={<LogOut className="size-4" />}
-            onPress={() => setLogoutDialogOpen(true)}
+            onPress={() => {
+              logoutModalOpen.set(true);
+              isMobile && setOpenMobile(false);
+            }}
           >
             {t("sidebar.profile.logout")}
           </DropdownItem>
         </DropdownMenu>
       </Dropdown>
-
-      <AlertDialog
-        title={t("sidebar.profile.logout")}
-        content={t("sidebar.profile.logoutConfirmDescription")}
-        isOpen={logoutDialogOpen}
-        onConfirm={handleLogout}
-        onClose={() => setLogoutDialogOpen(false)}
-        confirmText={t("sidebar.profile.logout")}
-        cancelText={t("common.cancel")}
-      />
     </div>
   );
 }

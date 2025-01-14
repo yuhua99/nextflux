@@ -4,9 +4,9 @@ import {
   ModalBody,
   ModalContent,
   ModalFooter,
-  ModalHeader,
 } from "@nextui-org/react";
 import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
+import { TriangleAlert } from "lucide-react";
 import { useState } from "react";
 
 export default function AlertDialog({
@@ -35,25 +35,33 @@ export default function AlertDialog({
 
   return (
     <Modal
-      placement="center"
       radius="md"
       size="sm"
       isOpen={isOpen}
       hideCloseButton
       onClose={onClose}
       classNames={{
-        header: "px-4 py-3 flex justify-between text-base font-medium",
-        body: "px-4 py-1",
-        footer: "px-4 py-4",
+        base: "alert-dialog relative",
+        body: "px-4 py-4 items-center sm:flex-row sm:items-start",
+        footer: "px-4 py-4 flex flex-col sm:flex-row",
       }}
     >
       <ModalContent>
-        <ModalHeader>
-          <div>{title}</div>
-          <MiniCloseButton onClose={onClose} />
-        </ModalHeader>
         <ModalBody>
-          <p className="text-sm text-default-500">{content}</p>
+          <div className="absolute right-3 top-3">
+            <MiniCloseButton onClose={onClose} />
+          </div>
+          <div className="danger-icon size-10 rounded-full bg-danger-50 content-center shrink-0">
+            <TriangleAlert className="text-danger mx-auto mb-1" />
+          </div>
+          <div className="info space-y-3 w-full">
+            <div className="font-semibold text-center sm:text-left">
+              {title}
+            </div>
+            <div className="text-sm text-default-500 text-center sm:text-left">
+              {content}
+            </div>
+          </div>
         </ModalBody>
         <ModalFooter>
           <Button color="default" variant="flat" onPress={onClose} size="sm">

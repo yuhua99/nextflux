@@ -64,7 +64,7 @@ body {
     padding-top: calc(env(safe-area-inset-top) + 10px) !important;
   }
 
-  .settings-modal {
+  .settings-modal, .alert-dialog {
     margin-bottom: calc(env(safe-area-inset-bottom) + 8px) !important;
   }
 

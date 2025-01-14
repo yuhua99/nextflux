@@ -13,6 +13,7 @@ import AddFeedModal from "@/components/FeedList/components/AddFeedModal.jsx";
 import AddCategoryModal from "@/components/FeedList/components/AddCategoryModal.jsx";
 import { useHotkeys } from "@/hooks/useHotkeys.js";
 import SearchModal from "@/components/Search/SearchModal.jsx";
+import LogoutModal from "@/components/FeedList/components/LogoutModal.jsx";
 
 function App() {
   const { syncInterval } = useStore(settingsState);
@@ -37,6 +38,7 @@ function App() {
       <AddFeedModal />
       <AddCategoryModal />
       <SearchModal />
+      <LogoutModal />
     </SidebarProvider>
   );
 }

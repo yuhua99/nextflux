@@ -6,3 +6,4 @@ export const unsubscribeModalOpen = atom(false);
 export const renameModalOpen = atom(false);
 export const addCategoryModalOpen = atom(false);
 export const shortcutsModalOpen = atom(false);
+export const logoutModalOpen = atom(false);
