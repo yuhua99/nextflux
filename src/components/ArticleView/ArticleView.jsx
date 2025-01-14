@@ -19,7 +19,7 @@ import PlayAndPause from "@/components/ArticleView/components/PlayAndPause.jsx";
 import { currentThemeMode, themeState } from "@/stores/themeStore.js";
 import CodeBlock from "@/components/ArticleView/components/CodeBlock.jsx";
 import { useTranslation } from "react-i18next";
-
+import { ExternalLink } from "lucide-react";
 
 const ArticleView = () => {
   const { t } = useTranslation();
@@ -106,11 +106,16 @@ const ArticleView = () => {
               variant="flat"
               size="sm"
               classNames={{ base: "cursor-pointer my-2" }}
-              onClick={() => {
-                window.open(domNode.attribs.href, "_blank");
-              }}
+              endContent={<ExternalLink className="size-4 text-primary pr-1" />}
             >
-              {hostname}...
+              <a
+                href={domNode.attribs.href}
+                className="!border-none"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                {hostname}
+              </a>
             </Chip>
           </div>
         </>
@@ -175,12 +180,20 @@ const ArticleView = () => {
                   style={{
                     fontSize: `${titleFontSize * fontSize}px`,
                   }}
-                  onClick={() => window.open($activeArticle?.url, "_blank")}
                 >
-                  {cleanTitle($activeArticle?.title)}
+                  <a
+                    href={$activeArticle?.url}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    {cleanTitle($activeArticle?.title)}
+                  </a>
                 </h1>
                 <div className="text-default-400 text-sm">
-                  <time dateTime={$activeArticle?.published_at} key={t.language}>
+                  <time
+                    dateTime={$activeArticle?.published_at}
+                    key={t.language}
+                  >
                     {generateReadableDate($activeArticle?.published_at)}
                   </time>
                 </div>

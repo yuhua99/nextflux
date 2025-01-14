@@ -8,7 +8,7 @@ import {
 import { Chip } from "@nextui-org/react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-
+import { ExternalLink } from "lucide-react";
 // 处理 YouTube URL
 const getYouTubeId = (url) => {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -53,16 +53,20 @@ export default function VideoPlayer({ videoTitle, src, provider }) {
           variant="flat"
           size="sm"
           classNames={{ base: "cursor-pointer my-2" }}
-          onClick={() => {
-            window.open(
+          endContent={<ExternalLink className="size-4 text-primary pr-1" />}
+        >
+          <a
+            href={
               provider === "youtube"
                 ? `https://www.youtube.com/watch?v=${videoId}`
-                : src,
-              "_blank",
-            );
-          }}
-        >
-          {t("common.openInNewWindow")}
+                : src
+            }
+            className="!border-none"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            {t("common.openInNewWindow")}
+          </a>
         </Chip>
       </div>
     </div>
