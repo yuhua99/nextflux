@@ -23,6 +23,7 @@ import SearchResults from "./SearchResults";
 import { useNavigate } from "react-router-dom";
 import { settingsState } from "@/stores/settingsStore";
 import { useTranslation } from "react-i18next";
+import { filter } from "@/stores/articlesStore.js";
 
 export default function SearchModal() {
   const { t } = useTranslation();
@@ -60,6 +61,7 @@ export default function SearchModal() {
     } else {
       navigate(`/feed/${item.id}`);
     }
+    filter.set("all");
     searchModalOpen.set(false);
     setKeyword("");
   };
@@ -88,8 +90,9 @@ export default function SearchModal() {
       backdrop="transparent"
       disableAnimation
       placement="center"
+      size="2xl"
       classNames={{
-        base: "max-w-xl m-2 max-h-[80vh] h-[440px] bg-content2/80 backdrop-blur-lg shadow-large",
+        base: "m-2 max-h-[80vh] h-[440px] bg-content2/80 backdrop-blur-lg shadow-large",
       }}
     >
       <ModalContent>
@@ -98,7 +101,9 @@ export default function SearchModal() {
             ref={inputRef}
             autoFocus
             placeholder={
-              searchType === "articles" ? t("search.searchArticlesPlaceholder") : t("search.searchFeedsPlaceholder")
+              searchType === "articles"
+                ? t("search.searchArticlesPlaceholder")
+                : t("search.searchFeedsPlaceholder")
             }
             size="lg"
             value={keyword}
@@ -166,7 +171,9 @@ export default function SearchModal() {
               keys="enter"
               classNames={{ abbr: "text-xs text-default-500" }}
             />
-            <span className="text-xs text-default-500 font-semibold">{t("search.open")}</span>
+            <span className="text-xs text-default-500 font-semibold">
+              {t("search.open")}
+            </span>
           </div>
         </div>
       </ModalContent>
