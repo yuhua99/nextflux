@@ -18,7 +18,8 @@ export const articlesCache = atom([]);
 
 export async function loadArticlesCache() {
   const articles = await storage.getArticles();
-  articlesCache.set(articles);
+  // 按照发布时间排序
+  articlesCache.set(articles.sort((a, b) => new Date(b.published_at) - new Date(a.published_at)));
 }
 
 // 执行文章搜索
