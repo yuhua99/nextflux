@@ -210,7 +210,7 @@ const ArticleView = () => {
               >
                 <div
                   className={cn(
-                    "article-content prose dark:prose-invert max-w-none prose-pre:rounded-lg prose-pre:shadow-small",
+                    "article-content prose dark:prose-invert max-w-none prose-pre:rounded-lg prose-pre:shadow-small prose-h1:text-[1.5em] prose-h2:text-[1.25em] prose-h3:text-[1.125em] prose-h4:text-[1em]",
                     getFontSizeClass(fontSize),
                     isStoneTheme() ? "prose-stone" : "",
                   )}
