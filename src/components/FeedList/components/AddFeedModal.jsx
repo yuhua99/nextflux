@@ -124,7 +124,10 @@ export default function AddFeedModal() {
               <Checkbox
                 name="crawler"
                 size="sm"
-                classNames={{ base: "w-full max-w-full", label: "mt-4" }}
+                classNames={{
+                  base: "w-full max-w-full p-0 mx-0 -mt-4 mb-1",
+                  label: "mt-4",
+                }}
                 isSelected={formData.crawler}
                 onValueChange={(value) =>
                   setFormData({ ...formData, crawler: value })

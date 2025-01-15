@@ -171,7 +171,10 @@ export default function EditFeedModal() {
               <Checkbox
                 name="crawler"
                 size="sm"
-                classNames={{ base: "w-full max-w-full", label: "mt-4" }}
+                classNames={{
+                  base: "w-full max-w-full p-0 mx-0 -mt-4  mb-1",
+                  label: "mt-4",
+                }}
                 isSelected={formData.crawler}
                 onValueChange={(value) =>
                   setFormData({ ...formData, crawler: value })
@@ -187,7 +190,10 @@ export default function EditFeedModal() {
               <Checkbox
                 name="hide_globally"
                 size="sm"
-                classNames={{ base: "w-full max-w-full", label: "mt-4" }}
+                classNames={{
+                  base: "w-full max-w-full p-0 mx-0 -mt-4  mb-1",
+                  label: "mt-4",
+                }}
                 isSelected={formData.hide_globally}
                 onValueChange={(value) =>
                   setFormData({ ...formData, hide_globally: value })
