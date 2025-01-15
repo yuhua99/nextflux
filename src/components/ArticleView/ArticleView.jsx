@@ -158,7 +158,7 @@ const ArticleView = () => {
             className="article-scroll-area h-full bg-background rounded-none md:rounded-lg shadow-none md:shadow-custom"
           >
             <ActionButtons parentRef={scrollAreaRef} />
-            <AnimatePresence>
+            <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={articleId}
                 initial={{ y: 50, opacity: 0 }}
