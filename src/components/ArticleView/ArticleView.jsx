@@ -137,7 +137,7 @@ const ArticleView = () => {
   );
 
   return (
-    <AnimatePresence mode="popLayout">
+    <AnimatePresence mode="popLayout" initial={false}>
       <motion.div
         key={articleId || "empty"}
         className={cn(
