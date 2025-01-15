@@ -48,7 +48,14 @@ export default function SpeedMenu() {
         >
           {options.map((option) => (
             <DropdownItem key={option}>
-              {option === "1.0" ? t("common.normal") : option + " x"}
+              {option === "1.0" ? (
+                t("common.normal")
+              ) : (
+                <span>
+                  {option}
+                  <span className="text-default-400">x</span>
+                </span>
+              )}
             </DropdownItem>
           ))}
         </DropdownSection>

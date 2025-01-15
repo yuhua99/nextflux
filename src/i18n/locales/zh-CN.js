@@ -153,7 +153,7 @@ export default {
     Rewind: "倒退",
     Seek: "搜索",
     Settings: "设置",
-    Speed: "速度",
+    Speed: "播放速度",
     Start: "开始",
     Unmute: "取消静音",
     Volume: "音量",
