@@ -59,7 +59,7 @@ const ArticleList = () => {
     <div className="main-content flex bg-content2">
       <div
         ref={scrollAreaRef}
-        className="w-full relative max-w-[100vw] md:w-[21rem] md:max-w-[30%] md:min-w-[18rem] h-[100dvh] bg-content2 flex flex-col md:border-r"
+        className="w-full relative max-w-[100vw] md:w-[21rem] md:max-w-[30%] md:min-w-[18rem] h-[100dvh] bg-content2 flex flex-col"
       >
         <ArticleListHeader />
         <ArticleListContent articles={$filteredArticles} />

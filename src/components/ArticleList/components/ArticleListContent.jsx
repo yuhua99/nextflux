@@ -46,7 +46,7 @@ export default function ArticleListContent({ articles }) {
   }, [articleId, isMedium, index]);
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="wait" initial={false}>
       <motion.div
         key={info}
         initial={{ y: 50, opacity: 0 }}

@@ -9,7 +9,7 @@ import { generateReadableDate } from "@/lib/format.js";
 import { activeArticle, filteredArticles } from "@/stores/articlesStore.js";
 import { Chip, Divider, ScrollShadow } from "@nextui-org/react";
 import EmptyPlaceholder from "@/components/ArticleList/components/EmptyPlaceholder";
-import { cleanTitle, cn, getFontSizeClass } from "@/lib/utils";
+import { cleanTitle, getFontSizeClass } from "@/lib/utils";
 import ArticleImage from "@/components/ArticleView/components/ArticleImage.jsx";
 import parse from "html-react-parser";
 import { settingsState } from "@/stores/settingsStore";
@@ -20,6 +20,8 @@ import { currentThemeMode, themeState } from "@/stores/themeStore.js";
 import CodeBlock from "@/components/ArticleView/components/CodeBlock.jsx";
 import { useTranslation } from "react-i18next";
 import { ExternalLink } from "lucide-react";
+import { cn } from "@/lib/utils.js";
+import { useIsMobile } from "@/hooks/use-mobile.jsx";
 
 const ArticleView = () => {
   const { t } = useTranslation();
@@ -40,7 +42,7 @@ const ArticleView = () => {
   const { lightTheme } = useStore(themeState);
   const $currentThemeMode = useStore(currentThemeMode);
   const scrollAreaRef = useRef(null);
-
+  const { isMedium } = useIsMobile();
   // 判断当前是否实际使用了stone主题
   const isStoneTheme = () => {
     return lightTheme === "stone" && $currentThemeMode === "light";
@@ -134,44 +136,34 @@ const ArticleView = () => {
     enclosure.mime_type?.startsWith("audio/"),
   );
 
-  if (loading || !$activeArticle || error) {
-    return <EmptyPlaceholder />;
-  }
-
   return (
-    <div
-      className={cn(
-        "flex-1 bg-content2 p-0 md:p-2 h-screen fixed md:static inset-0 z-50",
-        "animate-in slide-in-from-right motion-reduce:animate-none",
-      )}
-    >
-      <ScrollShadow
-        ref={scrollAreaRef}
-        isEnabled={false}
-        className="article-scroll-area h-full bg-background rounded-none md:rounded-lg shadow-none md:shadow-custom"
+    <AnimatePresence mode="popLayout">
+      <motion.div
+        key={articleId || "empty"}
+        className={cn(
+          "flex-1 bg-content2 p-0 md:pr-2 md:py-2 h-screen fixed md:static inset-0 z-50",
+          !articleId ? "hidden md:flex md:flex-1" : "",
+        )}
+        initial={{ opacity: 0, x: "100%" }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={isMedium ? {} : { opacity: 1, x: 0, scale: 0.8 }}
+        transition={{ duration: 0.3, type: "spring", bounce: 0 }}
       >
-        <ActionButtons parentRef={scrollAreaRef} />
-        <div
-          className="article-view-content px-5 pt-5 pb-20 w-full mx-auto"
-          style={{
-            maxWidth: `${maxWidth}ch`,
-            fontFamily: fontFamily,
-          }}
-        >
-          <AnimatePresence initial={false} mode="wait">
-            <motion.div
-              key={$activeArticle?.id}
-              initial={{ y: 50, opacity: 0 }}
-              animate={{
-                y: 0,
-                opacity: 1,
-                transition: {
-                  type: "spring",
-                  bounce: 0.3,
-                  opacity: { delay: 0.05 },
-                },
+        {loading || !$activeArticle || error ? (
+          <EmptyPlaceholder />
+        ) : (
+          <ScrollShadow
+            ref={scrollAreaRef}
+            isEnabled={false}
+            className="article-scroll-area h-full bg-background rounded-none md:rounded-lg shadow-none md:shadow-custom"
+          >
+            <ActionButtons parentRef={scrollAreaRef} />
+            <div
+              className="article-view-content px-5 pt-5 pb-20 w-full mx-auto"
+              style={{
+                maxWidth: `${maxWidth}ch`,
+                fontFamily: fontFamily,
               }}
-              exit={{ y: -20, opacity: 0 }}
             >
               <header
                 className="article-header"
@@ -216,7 +208,7 @@ const ArticleView = () => {
                     : "cubic-bezier(0.25, 0.8, 0.25, 1)"
                 }
               >
-                <motion.div
+                <div
                   className={cn(
                     "article-content prose dark:prose-invert max-w-none prose-pre:rounded-lg prose-pre:shadow-small",
                     getFontSizeClass(fontSize),
@@ -226,18 +218,6 @@ const ArticleView = () => {
                     lineHeight: lineHeight + "em",
                     textAlign: alignJustify ? "justify" : "left",
                   }}
-                  key={$activeArticle?.id}
-                  initial={{ y: 50, opacity: 0 }}
-                  animate={{
-                    y: 0,
-                    opacity: 1,
-                    transition: {
-                      type: "spring",
-                      bounce: 0.3,
-                      opacity: { delay: 0.05 },
-                    },
-                  }}
-                  exit={{ y: -20, opacity: 0 }}
                 >
                   {parse($activeArticle?.content, {
                     replace(domNode) {
@@ -349,13 +329,13 @@ const ArticleView = () => {
                       }
                     },
                   })}
-                </motion.div>
+                </div>
               </PhotoProvider>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </ScrollShadow>
-    </div>
+            </div>
+          </ScrollShadow>
+        )}
+      </motion.div>
+    </AnimatePresence>
   );
 };
 
