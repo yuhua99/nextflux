@@ -6,7 +6,7 @@ export function cn(...inputs) {
 }
 
 export function extractFirstImage(article) {
-  if (!article.content) return null;
+  if (!article?.content) return null;
 
   // 检查附件中的图片
   if (article.enclosures?.length > 0) {
