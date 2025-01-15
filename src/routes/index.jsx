@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "@/App";
 import ArticleList from "@/components/ArticleList/ArticleList";
-import ArticleView from "@/components/ArticleView/ArticleView";
 import LoginPage from "@/pages/LoginPage";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
@@ -32,33 +31,27 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <ArticleList />,
-        children: [
-          {
-            path: "article/:articleId",
-            element: <ArticleView />,
-          },
-        ],
       },
       {
         path: "feed/:feedId",
-        element: <ArticleList />,
-        children: [
-          {
-            path: "article/:articleId",
-            element: <ArticleView />,
-          },
-        ],
+        element: <ArticleList />
+      },
+      {
+        path: "feed/:feedId/article/:articleId",
+        element: <ArticleList />
       },
       {
         path: "category/:categoryId",
-        element: <ArticleList />,
-        children: [
-          {
-            path: "article/:articleId",
-            element: <ArticleView />,
-          },
-        ],
+        element: <ArticleList />
       },
+      {
+        path: "category/:categoryId/article/:articleId",
+        element: <ArticleList />
+      },
+      {
+        path: "article/:articleId",
+        element: <ArticleList />
+      }
     ],
   },
-], routerConfig); 
+], routerConfig);

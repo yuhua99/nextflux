@@ -6,12 +6,12 @@ import {
   filteredArticles,
   loadArticles,
 } from "@/stores/articlesStore.js";
-import { Outlet, useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ArticleListHeader from "./components/ArticleListHeader";
 import ArticleListContent from "./components/ArticleListContent";
 import ArticleListFooter from "./components/ArticleListFooter";
-import EmptyPlaceholder from "./components/EmptyPlaceholder";
 import { settingsState } from "@/stores/settingsStore.js";
+import ArticleView from "@/components/ArticleView/ArticleView.jsx";
 
 const ArticleList = () => {
   const { feedId, categoryId } = useParams();
@@ -20,7 +20,6 @@ const ArticleList = () => {
   const $filter = useStore(filter);
   const { sortDirection, showHiddenFeeds, showUnreadByDefault } =
     useStore(settingsState);
-  const location = useLocation();
   const scrollAreaRef = useRef(null);
 
   useEffect(() => {
@@ -66,11 +65,7 @@ const ArticleList = () => {
         <ArticleListContent articles={$filteredArticles} />
         <ArticleListFooter />
       </div>
-      {!location.pathname.includes("/article/") ? (
-        <EmptyPlaceholder />
-      ) : (
-        <Outlet />
-      )}
+      <ArticleView />
     </div>
   );
 };

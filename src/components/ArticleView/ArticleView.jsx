@@ -63,6 +63,11 @@ const ArticleView = () => {
 
   useEffect(() => {
     const loadArticleByArticleId = async () => {
+      if (!articleId) {
+        activeArticle.set(null);
+        return;
+      }
+
       if (articleId && $filteredArticles.length > 0) {
         setLoading(true);
         setError(null);
