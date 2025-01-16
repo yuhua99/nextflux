@@ -28,22 +28,49 @@ const FeedsGroupContent = ({ category }) => {
   const { isMobile, setOpenMobile } = useSidebar();
   const { categoryId, feedId } = useParams();
   const { defaultExpandCategory } = useStore(settingsState);
-  const [open, setOpen] = useState(defaultExpandCategory);
+  
+  // 从本地存储获取展开状态
+  const getStoredExpandState = () => {
+    const stored = localStorage.getItem('categoryExpanded');
+    return stored ? JSON.parse(stored) : {};
+  };
+
+  // 初始状态从本地存储获取,如果没有则使用默认值
+  const [open, setOpen] = useState(() => {
+    const stored = getStoredExpandState();
+    return stored[category.id] ?? defaultExpandCategory;
+  });
+
+  // 保存展开状态到本地存储
+  const updateExpandState = (isOpen) => {
+    const stored = getStoredExpandState();
+    stored[category.id] = isOpen;
+    localStorage.setItem('categoryExpanded', JSON.stringify(stored));
+    setOpen(isOpen);
+  };
 
   useEffect(() => {
-    const open = category.feeds.some((feed) => parseInt(feedId) === feed.id);
-    setOpen(open || defaultExpandCategory);
     if (feedId) {
-      const feedItem = document.querySelector(".active-feed");
-      feedItem?.scrollIntoView({ behavior: "instant", block: "nearest" });
+      const shouldExpand = category.feeds.some(
+        (feed) => parseInt(feedId) === feed.id
+      );
+      // 只在需要展开时更新状态
+      if (shouldExpand) {
+        updateExpandState(true);
+      }
+      // 滚动到活动的 feed
+      if (shouldExpand) {
+        const feedItem = document.querySelector(".active-feed");
+        feedItem?.scrollIntoView({ behavior: "instant", block: "nearest" });
+      }
     }
-  }, [feedId, category, defaultExpandCategory]);
+  }, [feedId, category.id]);
 
   return (
     <Collapsible
       key={category.id}
       open={open}
-      onOpenChange={(value) => setOpen(value)}
+      onOpenChange={updateExpandState}
     >
       <SidebarMenuItem key={`menu-${category.id}`}>
         <SidebarMenuButton
