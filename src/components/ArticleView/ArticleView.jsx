@@ -159,7 +159,7 @@ const ArticleView = () => {
             isMedium
               ? {}
               : articleId
-                ? { opacity: 1, x: "100%", scale: 1 }
+                ? { opacity: 0, x: "100%", scale: 1 }
                 : { opacity: 0, x: 0, scale: 0.8 }
           }
           transition={{
