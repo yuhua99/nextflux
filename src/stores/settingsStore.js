@@ -25,6 +25,7 @@ const defaultValue = {
   forceDarkCodeTheme: false,
   defaultExpandCategory: false, // 默认展开分类
   showUnreadByDefault: false,
+  reduceMotion: false,
 };
 
 export const settingsState = persistentAtom("settings", defaultValue, {

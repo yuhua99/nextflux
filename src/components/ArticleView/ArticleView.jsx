@@ -13,7 +13,7 @@ import { cleanTitle, getFontSizeClass } from "@/lib/utils";
 import ArticleImage from "@/components/ArticleView/components/ArticleImage.jsx";
 import parse from "html-react-parser";
 import { settingsState } from "@/stores/settingsStore";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import VideoPlayer from "@/components/ArticleView/components/VideoPlayer.jsx";
 import PlayAndPause from "@/components/ArticleView/components/PlayAndPause.jsx";
 import { currentThemeMode, themeState } from "@/stores/themeStore.js";
@@ -38,6 +38,7 @@ const ArticleView = () => {
     fontFamily,
     titleFontSize,
     titleAlignType,
+    reduceMotion,
   } = useStore(settingsState);
   const { lightTheme } = useStore(themeState);
   const $currentThemeMode = useStore(currentThemeMode);
@@ -53,15 +54,18 @@ const ArticleView = () => {
     if (scrollAreaRef.current) {
       const viewport = scrollAreaRef.current;
       if (viewport) {
-        setTimeout(() => {
-          viewport.scrollTo({
-            top: 0,
-            behavior: "instant", // 使用 instant 避免与动画冲突
-          });
-        }, 300);
+        setTimeout(
+          () => {
+            viewport.scrollTo({
+              top: 0,
+              behavior: "instant", // 使用 instant 避免与动画冲突
+            });
+          },
+          reduceMotion ? 1 : 300,
+        );
       }
     }
-  }, [articleId]);
+  }, [articleId, reduceMotion]);
 
   useEffect(() => {
     const loadArticleByArticleId = async () => {
@@ -138,242 +142,251 @@ const ArticleView = () => {
 
   return (
     <AnimatePresence mode="popLayout" initial={false}>
-      <motion.div
-        key={articleId ? "content" : "empty"}
-        className={cn(
-          "flex-1 bg-content2 p-0 md:pr-2 md:py-2 h-screen fixed md:static inset-0 z-50",
-          !articleId ? "hidden md:flex md:flex-1" : "",
-        )}
-        initial={
-          articleId
-            ? { opacity: 1, x: "100%" }
-            : { opacity: 0, x: 0, scale: 0.8 }
-        }
-        animate={{ opacity: 1, x: 0, scale: 1 }}
-        exit={
-          isMedium
-            ? {}
-            : articleId
-              ? { opacity: 1, x: "100%", scale: 1 }
+      <MotionConfig reducedMotion={reduceMotion ? "always" : "never"}>
+        <motion.div
+          key={articleId ? "content" : "empty"}
+          className={cn(
+            "flex-1 bg-content2 p-0 md:pr-2 md:py-2 h-screen fixed md:static inset-0 z-50",
+            !articleId ? "hidden md:flex md:flex-1" : "",
+          )}
+          initial={
+            articleId
+              ? { opacity: 1, x: "100%" }
               : { opacity: 0, x: 0, scale: 0.8 }
-        }
-        transition={{
-          duration: 0.5,
-          type: "spring",
-          bounce: 0,
-          ease: "easeInOut",
-        }}
-      >
-        {loading || !$activeArticle || error ? (
-          <EmptyPlaceholder />
-        ) : (
-          <ScrollShadow
-            ref={scrollAreaRef}
-            isEnabled={false}
-            className="article-scroll-area h-full bg-background rounded-none md:rounded-lg shadow-none md:shadow-custom"
-          >
-            <ActionButtons parentRef={scrollAreaRef} />
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={articleId}
-                initial={{ y: 50, opacity: 0 }}
-                animate={{
-                  y: 0,
-                  opacity: 1,
-                  transition: {
-                    type: "spring",
-                    bounce: 0.3,
-                    opacity: { delay: 0.05 },
-                  },
-                }}
-                exit={{ y: -50, opacity: 0 }}
-                className="article-view-content px-5 pt-5 pb-20 w-full mx-auto"
-                style={{
-                  maxWidth: `${maxWidth}ch`,
-                  fontFamily: fontFamily,
-                }}
-              >
-                <header
-                  className="article-header"
-                  style={{ textAlign: titleAlignType }}
+          }
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          exit={
+            isMedium
+              ? {}
+              : articleId
+                ? { opacity: 1, x: "100%", scale: 1 }
+                : { opacity: 0, x: 0, scale: 0.8 }
+          }
+          transition={{
+            duration: 0.5,
+            type: "spring",
+            bounce: 0,
+            ease: "easeInOut",
+          }}
+        >
+          {loading || !$activeArticle || error ? (
+            <EmptyPlaceholder />
+          ) : (
+            <ScrollShadow
+              ref={scrollAreaRef}
+              isEnabled={false}
+              className="article-scroll-area h-full bg-background rounded-none md:rounded-lg shadow-none md:shadow-custom"
+            >
+              <ActionButtons parentRef={scrollAreaRef} />
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={articleId}
+                  initial={reduceMotion ? false : { y: 50, opacity: 0 }}
+                  animate={{
+                    y: 0,
+                    opacity: 1,
+                    transition: {
+                      type: "spring",
+                      bounce: 0.3,
+                      opacity: { delay: 0.05 },
+                    },
+                  }}
+                  exit={reduceMotion ? false : { y: -50, opacity: 0 }}
+                  className="article-view-content px-5 pt-5 pb-20 w-full mx-auto"
+                  style={{
+                    maxWidth: `${maxWidth}ch`,
+                    fontFamily: fontFamily,
+                  }}
                 >
-                  <div className="text-default-500 text-sm">
-                    {$activeArticle?.feed?.title}
-                  </div>
-                  <h1
-                    className="font-semibold my-2 hover:cursor-pointer leading-tight"
-                    style={{
-                      fontSize: `${titleFontSize * fontSize}px`,
-                    }}
+                  <header
+                    className="article-header"
+                    style={{ textAlign: titleAlignType }}
                   >
-                    <a
-                      href={$activeArticle?.url}
-                      rel="noopener noreferrer"
-                      target="_blank"
+                    <div className="text-default-500 text-sm">
+                      {$activeArticle?.feed?.title}
+                    </div>
+                    <h1
+                      className="font-semibold my-2 hover:cursor-pointer leading-tight"
+                      style={{
+                        fontSize: `${titleFontSize * fontSize}px`,
+                      }}
                     >
-                      {cleanTitle($activeArticle?.title)}
-                    </a>
-                  </h1>
-                  <div className="text-default-400 text-sm">
-                    <time
-                      dateTime={$activeArticle?.published_at}
-                      key={t.language}
-                    >
-                      {generateReadableDate($activeArticle?.published_at)}
-                    </time>
-                  </div>
-                </header>
-                <Divider className="my-4" />
-                {audioEnclosure && <PlayAndPause source={audioEnclosure} />}
-                <PhotoProvider
-                  bannerVisible={false}
-                  maskOpacity={0.8}
-                  loop={false}
-                  speed={() => 300}
-                  easing={(type) =>
-                    type !== 2
-                      ? "cubic-bezier(0.34, 1.3, 0.64, 1)"
-                      : "cubic-bezier(0.25, 0.8, 0.25, 1)"
-                  }
-                >
-                  <div
-                    className={cn(
-                      "article-content prose dark:prose-invert max-w-none",
-                      "prose-pre:rounded-lg prose-pre:shadow-small",
-                      "prose-h1:text-[1.5em] prose-h2:text-[1.25em] prose-h3:text-[1.125em] prose-h4:text-[1em]",
-                      getFontSizeClass(fontSize),
-                      isStoneTheme() ? "prose-stone" : "",
-                    )}
-                    style={{
-                      lineHeight: lineHeight + "em",
-                      textAlign: alignJustify ? "justify" : "left",
-                    }}
+                      <a
+                        href={$activeArticle?.url}
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        {cleanTitle($activeArticle?.title)}
+                      </a>
+                    </h1>
+                    <div className="text-default-400 text-sm">
+                      <time
+                        dateTime={$activeArticle?.published_at}
+                        key={t.language}
+                      >
+                        {generateReadableDate($activeArticle?.published_at)}
+                      </time>
+                    </div>
+                  </header>
+                  <Divider className="my-4" />
+                  {audioEnclosure && <PlayAndPause source={audioEnclosure} />}
+                  <PhotoProvider
+                    bannerVisible={false}
+                    maskOpacity={0.8}
+                    loop={false}
+                    speed={() => 300}
+                    easing={(type) =>
+                      type !== 2
+                        ? "cubic-bezier(0.34, 1.3, 0.64, 1)"
+                        : "cubic-bezier(0.25, 0.8, 0.25, 1)"
+                    }
                   >
-                    {parse($activeArticle?.content, {
-                      replace(domNode) {
-                        if (domNode.type === "tag" && domNode.name === "img") {
-                          return <ArticleImage imgNode={domNode} />;
-                        }
-                        if (domNode.type === "tag" && domNode.name === "a") {
-                          return domNode.children.length > 0
-                            ? handleLinkWithImg(domNode)
-                            : domNode;
-                        }
-                        if (
-                          domNode.type === "tag" &&
-                          domNode.name === "video"
-                        ) {
-                          // 获取视频的 src 属性
-                          const videoSrc =
-                            domNode.attribs?.src ||
-                            domNode.children?.find(
-                              (child) =>
-                                child.type === "tag" && child.name === "source",
-                            )?.attribs?.src;
-
-                          if (videoSrc) {
-                            return (
-                              <VideoPlayer src={videoSrc} provider="video" />
-                            );
+                    <div
+                      className={cn(
+                        "article-content prose dark:prose-invert max-w-none",
+                        "prose-pre:rounded-lg prose-pre:shadow-small",
+                        "prose-h1:text-[1.5em] prose-h2:text-[1.25em] prose-h3:text-[1.125em] prose-h4:text-[1em]",
+                        getFontSizeClass(fontSize),
+                        isStoneTheme() ? "prose-stone" : "",
+                      )}
+                      style={{
+                        lineHeight: lineHeight + "em",
+                        textAlign: alignJustify ? "justify" : "left",
+                      }}
+                    >
+                      {parse($activeArticle?.content, {
+                        replace(domNode) {
+                          if (
+                            domNode.type === "tag" &&
+                            domNode.name === "img"
+                          ) {
+                            return <ArticleImage imgNode={domNode} />;
                           }
-                          return domNode;
-                        }
-                        if (
-                          domNode.type === "tag" &&
-                          domNode.name === "iframe"
-                        ) {
-                          const { src } = domNode.attribs;
-
-                          // 判断是否为 YouTube iframe
-                          const isYouTube =
-                            src &&
-                            (src.includes("youtube.com/embed") ||
-                              src.includes("youtu.be") ||
-                              src.includes("youtube-nocookie.com/embed"));
-
-                          // 判断是否为 Bilibili iframe
-                          const isBilibili = src && src.includes("bilibili");
-
-                          // 如果不是 YouTube iframe,直接返回原始节点
-                          if (!isYouTube && !isBilibili) {
-                            return domNode;
+                          if (domNode.type === "tag" && domNode.name === "a") {
+                            return domNode.children.length > 0
+                              ? handleLinkWithImg(domNode)
+                              : domNode;
                           }
+                          if (
+                            domNode.type === "tag" &&
+                            domNode.name === "video"
+                          ) {
+                            // 获取视频的 src 属性
+                            const videoSrc =
+                              domNode.attribs?.src ||
+                              domNode.children?.find(
+                                (child) =>
+                                  child.type === "tag" &&
+                                  child.name === "source",
+                              )?.attribs?.src;
 
-                          // 如果是 Bilibili iframe, 组装新的iframe，不使用VideoPlayer组件
-                          if (isBilibili) {
-                            // 获取bilibili视频 bvid
-                            const bvid = src.match(/bvid=([^&]+)/)?.[1];
-                            if (bvid) {
+                            if (videoSrc) {
                               return (
-                                <iframe
-                                  src={`//bilibili.com/blackboard/html5mobileplayer.html?isOutside=true&bvid=${bvid}&p=1&hideCoverInfo=1&danmaku=0`}
-                                  allowFullScreen={true}
-                                ></iframe>
+                                <VideoPlayer src={videoSrc} provider="video" />
                               );
                             }
                             return domNode;
                           }
+                          if (
+                            domNode.type === "tag" &&
+                            domNode.name === "iframe"
+                          ) {
+                            const { src } = domNode.attribs;
 
-                          // YouTube iframe 显示打开链接的按钮
-                          return <VideoPlayer src={src} provider="youtube" />;
-                        }
-                        if (domNode.type === "tag" && domNode.name === "pre") {
-                          // 1. 首先检查是否有code子节点
-                          const codeNode = domNode.children.find(
-                            (child) =>
-                              child.type === "tag" && child.name === "code",
-                          );
+                            // 判断是否为 YouTube iframe
+                            const isYouTube =
+                              src &&
+                              (src.includes("youtube.com/embed") ||
+                                src.includes("youtu.be") ||
+                                src.includes("youtube-nocookie.com/embed"));
 
-                          if (codeNode) {
-                            // 2. 处理带有code标签的情况
-                            const className = codeNode.attribs?.class || "";
-                            const language =
-                              className
-                                .split(/\s+/)
-                                .find(
-                                  (cls) =>
-                                    cls.startsWith("language-") ||
-                                    cls.startsWith("lang-"),
-                                )
-                                ?.replace(/^(language-|lang-)/, "") || "text";
+                            // 判断是否为 Bilibili iframe
+                            const isBilibili = src && src.includes("bilibili");
 
-                            const code = codeNode.children[0].data;
-                            return (
-                              <CodeBlock code={code} language={language} />
-                            );
-                          } else {
-                            // 3. 处理直接在pre标签中的文本
-                            const code = domNode.children
-                              .map((child) => {
-                                if (child.type === "text") {
-                                  return child.data;
-                                } else if (
-                                  child.type === "tag" &&
-                                  child.name === "br"
-                                ) {
-                                  return "\n";
-                                }
-                                return "";
-                              })
-                              .join("");
-
-                            // 如果内容为空则不处理
-                            if (!code.trim()) {
+                            // 如果不是 YouTube iframe,直接返回原始节点
+                            if (!isYouTube && !isBilibili) {
                               return domNode;
                             }
 
-                            return <CodeBlock code={code} language="text" />;
+                            // 如果是 Bilibili iframe, 组装新的iframe，不使用VideoPlayer组件
+                            if (isBilibili) {
+                              // 获取bilibili视频 bvid
+                              const bvid = src.match(/bvid=([^&]+)/)?.[1];
+                              if (bvid) {
+                                return (
+                                  <iframe
+                                    src={`//bilibili.com/blackboard/html5mobileplayer.html?isOutside=true&bvid=${bvid}&p=1&hideCoverInfo=1&danmaku=0`}
+                                    allowFullScreen={true}
+                                  ></iframe>
+                                );
+                              }
+                              return domNode;
+                            }
+
+                            // YouTube iframe 显示打开链接的按钮
+                            return <VideoPlayer src={src} provider="youtube" />;
                           }
-                        }
-                      },
-                    })}
-                  </div>
-                </PhotoProvider>
-              </motion.div>
-            </AnimatePresence>
-          </ScrollShadow>
-        )}
-      </motion.div>
+                          if (
+                            domNode.type === "tag" &&
+                            domNode.name === "pre"
+                          ) {
+                            // 1. 首先检查是否有code子节点
+                            const codeNode = domNode.children.find(
+                              (child) =>
+                                child.type === "tag" && child.name === "code",
+                            );
+
+                            if (codeNode) {
+                              // 2. 处理带有code标签的情况
+                              const className = codeNode.attribs?.class || "";
+                              const language =
+                                className
+                                  .split(/\s+/)
+                                  .find(
+                                    (cls) =>
+                                      cls.startsWith("language-") ||
+                                      cls.startsWith("lang-"),
+                                  )
+                                  ?.replace(/^(language-|lang-)/, "") || "text";
+
+                              const code = codeNode.children[0].data;
+                              return (
+                                <CodeBlock code={code} language={language} />
+                              );
+                            } else {
+                              // 3. 处理直接在pre标签中的文本
+                              const code = domNode.children
+                                .map((child) => {
+                                  if (child.type === "text") {
+                                    return child.data;
+                                  } else if (
+                                    child.type === "tag" &&
+                                    child.name === "br"
+                                  ) {
+                                    return "\n";
+                                  }
+                                  return "";
+                                })
+                                .join("");
+
+                              // 如果内容为空则不处理
+                              if (!code.trim()) {
+                                return domNode;
+                              }
+
+                              return <CodeBlock code={code} language="text" />;
+                            }
+                          }
+                        },
+                      })}
+                    </div>
+                  </PhotoProvider>
+                </motion.div>
+              </AnimatePresence>
+            </ScrollShadow>
+          )}
+        </motion.div>
+      </MotionConfig>
     </AnimatePresence>
   );
 };

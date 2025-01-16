@@ -18,7 +18,7 @@ const ArticleList = () => {
   const $filteredArticles = useStore(filteredArticles);
   const $lastSync = useStore(lastSync);
   const $filter = useStore(filter);
-  const { sortDirection, showHiddenFeeds, showUnreadByDefault } =
+  const { sortDirection, showHiddenFeeds, showUnreadByDefault, reduceMotion } =
     useStore(settingsState);
   const scrollAreaRef = useRef(null);
 
@@ -41,12 +41,15 @@ const ArticleList = () => {
     if (scrollAreaRef.current) {
       const viewport = scrollAreaRef.current.querySelector(".v-list");
       if (viewport) {
-        setTimeout(() => {
-          viewport.scrollTop = 0;
-        }, 300);
+        setTimeout(
+          () => {
+            viewport.scrollTop = 0;
+          },
+          reduceMotion ? 1 : 300,
+        );
       }
     }
-  }, [feedId, categoryId, $filter]);
+  }, [feedId, categoryId, $filter, reduceMotion]);
 
   // 组件挂载时设置默认过滤器
   useEffect(() => {

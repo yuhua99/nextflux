@@ -233,6 +233,8 @@ export default {
       codeBlock: "代码块",
       showLineNumbers: "显示行号",
       forceDarkCodeTheme: "强制深色主题",
+      motion: "动画",
+      reduceMotion: "减弱动画效果",
     },
     readability: {
       title: "阅读",

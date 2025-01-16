@@ -233,6 +233,8 @@ export default {
       codeBlock: "CODE BLOCK",
       showLineNumbers: "Show line numbers",
       forceDarkCodeTheme: "Force dark code",
+      motion: "ANIMATIONS",
+      reduceMotion: "Reduce animation effects",
     },
     readability: {
       title: "Reading",
