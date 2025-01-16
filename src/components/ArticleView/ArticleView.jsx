@@ -144,10 +144,25 @@ const ArticleView = () => {
           "flex-1 bg-content2 p-0 md:pr-2 md:py-2 h-screen fixed md:static inset-0 z-50",
           !articleId ? "hidden md:flex md:flex-1" : "",
         )}
-        initial={{ opacity: 0, x: "100%" }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={isMedium ? {} : { opacity: 1, x: 0, scale: 0.8 }}
-        transition={{ duration: 0.3, type: "spring", bounce: 0 }}
+        initial={
+          articleId
+            ? { opacity: 1, x: "100%" }
+            : { opacity: 0, x: 0, scale: 0.8 }
+        }
+        animate={{ opacity: 1, x: 0, scale: 1 }}
+        exit={
+          isMedium
+            ? {}
+            : articleId
+              ? { opacity: 1, x: "100%", scale: 1 }
+              : { opacity: 0, x: 0, scale: 0.8 }
+        }
+        transition={{
+          duration: 0.5,
+          type: "spring",
+          bounce: 0,
+          ease: "easeInOut",
+        }}
       >
         {loading || !$activeArticle || error ? (
           <EmptyPlaceholder />
