@@ -18,7 +18,7 @@ const ArticleList = () => {
   const $filteredArticles = useStore(filteredArticles);
   const $lastSync = useStore(lastSync);
   const $filter = useStore(filter);
-  const { sortDirection, showHiddenFeeds, showUnreadByDefault, reduceMotion } =
+  const { sortDirection, showHiddenFeeds, showUnreadByDefault } =
     useStore(settingsState);
   const scrollAreaRef = useRef(null);
 
@@ -35,21 +35,6 @@ const ArticleList = () => {
 
     loadAndFilterArticles();
   }, [feedId, categoryId, $lastSync, $filter, sortDirection, showHiddenFeeds]);
-
-  // 监听 feedId、categoryId 和 filter 变化，滚动到顶部
-  useEffect(() => {
-    if (scrollAreaRef.current) {
-      const viewport = scrollAreaRef.current.querySelector(".v-list");
-      if (viewport) {
-        setTimeout(
-          () => {
-            viewport.scrollTop = 0;
-          },
-          reduceMotion ? 1 : 300,
-        );
-      }
-    }
-  }, [feedId, categoryId, $filter, reduceMotion]);
 
   // 组件挂载时设置默认过滤器
   useEffect(() => {

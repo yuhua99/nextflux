@@ -47,11 +47,11 @@ export default function ArticleListContent({ articles }) {
   }, [articleId, isMedium, index]);
 
   return (
-    <AnimatePresence mode="wait" initial={false}>
-      <MotionConfig reducedMotion={reduceMotion ? "always" : "never"}>
+    <MotionConfig reducedMotion={reduceMotion ? "always" : "never"}>
+      <AnimatePresence mode="wait" initial={false}>
         <motion.div
           key={info}
-          initial={{ y: 50, opacity: 0 }}
+          initial={reduceMotion ? { opacity: 0 } : { y: 50, opacity: 0 }}
           animate={{
             y: 0,
             opacity: 1,
@@ -61,7 +61,7 @@ export default function ArticleListContent({ articles }) {
               opacity: { delay: 0.05 },
             },
           }}
-          exit={{ y: -50, opacity: 0 }}
+          exit={reduceMotion ? { opacity: 0 } : { y: -50, opacity: 0 }}
           className="article-list-content flex-1"
         >
           <Virtuoso
@@ -128,7 +128,7 @@ export default function ArticleListContent({ articles }) {
             )}
           />
         </motion.div>
-      </MotionConfig>
-    </AnimatePresence>
+      </AnimatePresence>
+    </MotionConfig>
   );
 }

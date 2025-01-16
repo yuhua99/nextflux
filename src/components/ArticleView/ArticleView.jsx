@@ -141,8 +141,8 @@ const ArticleView = () => {
   );
 
   return (
-    <AnimatePresence mode="popLayout" initial={false}>
-      <MotionConfig reducedMotion={reduceMotion ? "always" : "never"}>
+    <MotionConfig reducedMotion={reduceMotion ? "always" : "never"}>
+      <AnimatePresence mode="popLayout" initial={false}>
         <motion.div
           key={articleId ? "content" : "empty"}
           className={cn(
@@ -181,7 +181,7 @@ const ArticleView = () => {
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={articleId}
-                  initial={reduceMotion ? false : { y: 50, opacity: 0 }}
+                  initial={reduceMotion ? {} : { y: 50, opacity: 0 }}
                   animate={{
                     y: 0,
                     opacity: 1,
@@ -191,7 +191,7 @@ const ArticleView = () => {
                       opacity: { delay: 0.05 },
                     },
                   }}
-                  exit={reduceMotion ? false : { y: -50, opacity: 0 }}
+                  exit={reduceMotion ? {} : { y: -50, opacity: 0 }}
                   className="article-view-content px-5 pt-5 pb-20 w-full mx-auto"
                   style={{
                     maxWidth: `${maxWidth}ch`,
@@ -386,8 +386,8 @@ const ArticleView = () => {
             </ScrollShadow>
           )}
         </motion.div>
-      </MotionConfig>
-    </AnimatePresence>
+      </AnimatePresence>
+    </MotionConfig>
   );
 };
 
