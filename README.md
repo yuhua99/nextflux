@@ -1,4 +1,4 @@
-# Reactflux
+# Nextflux
 
 A modern RSS reader client for Miniflux built with React + Vite.
 

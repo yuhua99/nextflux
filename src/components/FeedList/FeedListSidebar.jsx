@@ -44,7 +44,7 @@ const FeedListSidebar = () => {
             <div className="flex items-center gap-2">
               <Image src={logo} alt="logo" className="size-8" radius="none" />
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">ReactFlux</span>
+                <span className="truncate font-semibold">Nextflux</span>
                 <span className="truncate text-xs text-default-400">
                   {$isSyncing ? t("common.syncing") : formatLastSync($lastSync)}
                 </span>
