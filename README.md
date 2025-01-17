@@ -77,6 +77,26 @@ A modern RSS reader client for Miniflux built with React + Vite.
         <td><img src=images/stone.png width=600/></td>
         <td><img src=images/responsive.png width=600/></td>
     </tr>
+    <tr>
+        <td>Search
+        </td>
+        <td>Dark Mode
+        </td>
+    </tr>
+    <tr>
+        <td><img src=images/search.png width=600/></td>
+        <td><img src=images/dark.png width=600/></td>
+    </tr>
+    <tr>
+        <td>Mobile
+        </td>
+        <td>Windows
+        </td>
+    </tr>
+    <tr>
+        <td><img src=images/mobile.png width=600/></td>
+        <td><img src=images/windows.png width=600/></td>
+    </tr>
 </table>
 
 ## 🛠️ Tech Stack
