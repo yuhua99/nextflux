@@ -50,22 +50,12 @@ A modern RSS reader client for Miniflux built with React + Vite.
      <tr>
         <td>Feed Management
         </td>
-        <td>General Settings
+        <td>Settings
         </td>
     </tr>
     <tr>
         <td><img src=images/feed.png width=600/></td>
-        <td><img src=images/general.png width=600/></td>
-    </tr>
-    <tr>
-      <td>Appearance
-      </td>
-      <td>Reading
-      </td>
-    </tr>
-    <tr>
-        <td><img src=images/appearance.png width=600 /></td>
-        <td><img src=images/reading.png width=600 /></td>
+        <td><img src=images/settings.png width=600/></td>
     </tr>
     <tr>
         <td>Stone theme
@@ -109,6 +99,25 @@ A modern RSS reader client for Miniflux built with React + Vite.
 - IndexedDB
 - Nanostores
 - DayJS
+
+## 🚀 Deployment
+
+### Docker Deployment
+
+Run with Docker using the following command:
+
+```bash
+docker run -d --name nextflux -p 80:80 --restart unless-stopped electh/nextflux:latest
+```
+### Cloudflare Pages Deployment
+
+1. Fork this repository to your GitHub account
+2. Create a new project in Cloudflare Pages
+3. Select your forked repository
+4. Select Framework preset: `React(Vite)`
+5. Set build command: `npm run build`
+6. Set build output directory: `dist`
+7. Deploy and access through the Cloudflare-assigned domain
 
 ## 📝 Configuration
 
