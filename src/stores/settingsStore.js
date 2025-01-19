@@ -26,6 +26,7 @@ const defaultValue = {
   defaultExpandCategory: false, // 默认展开分类
   showUnreadByDefault: false,
   reduceMotion: false,
+  useNativeVideoPlayer: false,
 };
 
 export const settingsState = persistentAtom("settings", defaultValue, {

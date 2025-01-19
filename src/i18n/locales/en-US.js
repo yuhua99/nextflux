@@ -235,6 +235,8 @@ export default {
       forceDarkCodeTheme: "Force dark code",
       motion: "ANIMATIONS",
       reduceMotion: "Reduce animation effects",
+      videoPlayer: "VIDEO PLAYER",
+      useNativeVideoPlayer: "Use browser's native video player"
     },
     readability: {
       title: "Reading",

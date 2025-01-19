@@ -235,6 +235,8 @@ export default {
       forceDarkCodeTheme: "强制深色主题",
       motion: "动画",
       reduceMotion: "减弱动画效果",
+      videoPlayer: "视频播放器",
+      useNativeVideoPlayer: "使用浏览器原生播放器"
     },
     readability: {
       title: "阅读",

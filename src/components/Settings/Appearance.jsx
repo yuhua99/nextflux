@@ -17,6 +17,7 @@ import {
   Square,
   SquareCode,
   Text,
+  MonitorPlay,
 } from "lucide-react";
 import Theme from "./components/Theme";
 import { useTranslation } from "react-i18next";
@@ -32,6 +33,7 @@ export default function Appearance() {
     showLineNumbers,
     forceDarkCodeTheme,
     reduceMotion,
+    useNativeVideoPlayer,
   } = useStore(settingsState);
   const { t } = useTranslation();
   return (
@@ -96,6 +98,14 @@ export default function Appearance() {
           settingValue={showReadingTime}
         />
       </ItemWrapper>
+      <ItemWrapper title={t("settings.appearance.videoPlayer")}>
+        <SwitchItem
+          label={t("settings.appearance.useNativeVideoPlayer")}
+          icon={<MonitorPlay className="shrink-0 size-4 text-default-500" />}
+          settingName="useNativeVideoPlayer"
+          settingValue={useNativeVideoPlayer}
+        />
+      </ItemWrapper>
       <ItemWrapper title={t("settings.appearance.codeBlock")}>
         <SwitchItem
           label={t("settings.appearance.showLineNumbers")}
@@ -119,6 +129,7 @@ export default function Appearance() {
           settingValue={reduceMotion}
         />
       </ItemWrapper>
+      
     </>
   );
 }

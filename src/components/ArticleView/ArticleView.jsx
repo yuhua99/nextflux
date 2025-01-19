@@ -39,6 +39,7 @@ const ArticleView = () => {
     titleFontSize,
     titleAlignType,
     reduceMotion,
+    useNativeVideoPlayer,
   } = useStore(settingsState);
   const { lightTheme } = useStore(themeState);
   const $currentThemeMode = useStore(currentThemeMode);
@@ -280,7 +281,7 @@ const ArticleView = () => {
                                   child.name === "source",
                               )?.attribs?.src;
 
-                            if (videoSrc) {
+                            if (videoSrc && !useNativeVideoPlayer) {
                               return (
                                 <VideoPlayer src={videoSrc} provider="video" />
                               );
@@ -304,7 +305,11 @@ const ArticleView = () => {
                             const isBilibili = src && src.includes("bilibili");
 
                             // 如果不是 YouTube iframe,直接返回原始节点
-                            if (!isYouTube && !isBilibili) {
+                            if (
+                              !isYouTube &&
+                              !isBilibili ||
+                              useNativeVideoPlayer
+                            ) {
                               return domNode;
                             }
 
