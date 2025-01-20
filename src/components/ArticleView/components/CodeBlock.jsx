@@ -1,5 +1,5 @@
 import { codeToHtml } from "shiki";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Button, Tooltip } from "@nextui-org/react";
 import { Check, Copy } from "lucide-react";
 import { toast } from "sonner";
@@ -8,6 +8,7 @@ import { useStore } from "@nanostores/react";
 import { cn } from "@/lib/utils.js";
 import { themeState } from "@/stores/themeStore.js";
 import { useTranslation } from "react-i18next";
+import { useInView } from "framer-motion";
 
 export default function CodeBlock({ code, language }) {
   const { t } = useTranslation();
@@ -15,6 +16,8 @@ export default function CodeBlock({ code, language }) {
   const [isCopied, setIsCopied] = useState(false);
   const { showLineNumbers, forceDarkCodeTheme } = useStore(settingsState);
   const { darkTheme } = useStore(themeState);
+  const codeRef = useRef(null);
+  const isInView = useInView(codeRef, { once: true });
 
   useEffect(() => {
     async function highlight() {
@@ -27,9 +30,10 @@ export default function CodeBlock({ code, language }) {
       });
       setHtml(highlighted);
     }
-
-    highlight();
-  }, [code, language]);
+    if (isInView) {
+      highlight();
+    }
+  }, [code, language, isInView]);
 
   const handleCopy = async () => {
     try {
@@ -49,6 +53,7 @@ export default function CodeBlock({ code, language }) {
         "code-block relative group",
         showLineNumbers ? "line-numbers" : "",
       )}
+      ref={codeRef}
     >
       <span
         className={cn(
@@ -74,7 +79,7 @@ export default function CodeBlock({ code, language }) {
           )}
         </Button>
       </Tooltip>
-      <div dangerouslySetInnerHTML={{ __html: html }} />
+      {isInView && <div dangerouslySetInnerHTML={{ __html: html }} />}
     </div>
   );
 }

@@ -44,7 +44,7 @@ export default function ArticleListContent({ articles }) {
         behavior: "instant",
       });
     }
-  }, [articleId, isMedium, index]);
+  }, [isMedium, index]);
 
   return (
     <MotionConfig reducedMotion={reduceMotion ? "always" : "never"}>
