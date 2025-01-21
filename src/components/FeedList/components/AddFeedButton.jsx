@@ -13,11 +13,12 @@ import minifluxAPI from "@/api/miniflux";
 import { toast } from "sonner";
 import { forceSync } from "@/stores/syncStore";
 import { useTranslation } from "react-i18next";
+
 export default function AddFeedButton() {
   const { t } = useTranslation();
   const { isMobile, setOpenMobile } = useSidebar();
   const fileInputRef = useRef(null);
-  
+
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -44,7 +45,7 @@ export default function AddFeedButton() {
         onChange={handleFileChange}
         className="hidden"
       />
-      
+
       <Dropdown>
         <DropdownTrigger>
           <Button size="sm" radius="full" variant="light" isIconOnly>
@@ -60,10 +61,10 @@ export default function AddFeedButton() {
               isMobile && setOpenMobile(false);
             }}
           >
-            {t("sidebar.addFeed.title")}
+            {t("sidebar.addFeed")}
           </DropdownItem>
           <DropdownItem
-            key="importOPML" 
+            key="importOPML"
             startContent={<Upload className="size-4" />}
             onPress={() => {
               fileInputRef.current?.click();

@@ -71,6 +71,9 @@ async function syncFeeds() {
         categoryId: feed.category.id,
         categoryName: feed.category.title,
         parsing_error_count: feed.parsing_error_count,
+        keeplist_rules: feed.keeplist_rules,
+        blocklist_rules: feed.blocklist_rules,
+        rewrite_rules: feed.rewrite_rules,
       });
     }
 

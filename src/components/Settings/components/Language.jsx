@@ -10,8 +10,8 @@ import {
 } from "@nextui-org/react";
 
 const languages = [
-  { id: "zh-CN", name: "简体中文", flag: "🇨🇳" },
-  { id: "en-US", name: "English", flag: "🇺🇸" },
+  { id: "zh-CN", name: "简体中文" },
+  { id: "en-US", name: "English" },
 ];
 
 export default function Language() {
@@ -47,9 +47,7 @@ export default function Language() {
             }}
           >
             {languages.map((lang) => (
-              <DropdownItem key={lang.id} startContent={lang.flag}>
-                {lang.name}
-              </DropdownItem>
+              <DropdownItem key={lang.id}>{lang.name}</DropdownItem>
             ))}
           </DropdownMenu>
         </Dropdown>

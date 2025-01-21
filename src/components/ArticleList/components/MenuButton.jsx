@@ -41,7 +41,7 @@ export default function MenuButton() {
               onPress={() => editFeedModalOpen.set(true)}
               startContent={<FilePen className="size-4" />}
             >
-              {t("articleList.editFeed.title")}
+              {t("articleList.editFeed")}
             </DropdownItem>
             <DropdownItem
               key="delete"
