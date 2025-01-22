@@ -254,4 +254,9 @@ export default {
       reset: "重 置",
     },
   },
+  error: {
+    description404: "页面不存在",
+    description500: "系统发生错误",
+    backToHome: "返回主页",
+  },
 };

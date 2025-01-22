@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import App from "@/App";
 import ArticleList from "@/components/ArticleList/ArticleList";
 import LoginPage from "@/pages/LoginPage";
+import ErrorPage from "@/pages/ErrorPage";
 import ProtectedRoute from "@/components/ProtectedRoute";
 
 const routerConfig = {
@@ -27,6 +28,7 @@ export const router = createBrowserRouter([
         <App />
       </ProtectedRoute>
     ),
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",

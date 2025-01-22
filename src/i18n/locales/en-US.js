@@ -255,4 +255,9 @@ export default {
       reset: "Reset",
     },
   },
+  error: {
+    description404: "Page not found",
+    description500: "Internal server error",
+    backToHome: "Back to Home",
+  },
 };
