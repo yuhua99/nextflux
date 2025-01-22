@@ -20,7 +20,7 @@ import { currentThemeMode, themeState } from "@/stores/themeStore.js";
 import CodeBlock from "@/components/ArticleView/components/CodeBlock.jsx";
 import { useTranslation } from "react-i18next";
 import { ExternalLink } from "lucide-react";
-import { cn } from "@/lib/utils.js";
+import { cn, getHostname } from "@/lib/utils.js";
 import { useIsMobile } from "@/hooks/use-mobile.jsx";
 
 const ArticleView = () => {
@@ -107,8 +107,7 @@ const ArticleView = () => {
     );
 
     if (imgNode) {
-      const hostname =
-        new URL(domNode.attribs.href).hostname || domNode.attribs.href;
+      const hostname = getHostname(domNode.attribs.href);
       return (
         <>
           <ArticleImage imgNode={imgNode} />

@@ -79,3 +79,12 @@ export function extractTextFromHtml(html) {
     })
     .trim();
 }
+
+// 获取链接的hostname
+export function getHostname(href) {
+  try {
+    return new URL(href).hostname;
+  } catch {
+    return href;
+  }
+}

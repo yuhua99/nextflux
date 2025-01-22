@@ -24,6 +24,7 @@ import { useNavigate } from "react-router-dom";
 import { settingsState } from "@/stores/settingsStore";
 import { useTranslation } from "react-i18next";
 import { filter } from "@/stores/articlesStore.js";
+import { handleMarkStatus } from "@/handlers/articleHandlers";
 
 export default function SearchModal() {
   const { t } = useTranslation();
@@ -58,6 +59,7 @@ export default function SearchModal() {
   const handleSelect = (item) => {
     if (searchType === "articles") {
       navigate(`/feed/${item.feedId}/article/${item.id}`);
+      handleMarkStatus(item);
     } else {
       navigate(`/feed/${item.id}`);
     }
