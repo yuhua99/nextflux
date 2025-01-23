@@ -107,7 +107,7 @@ A modern RSS reader client for Miniflux built with React + Vite.
 Run with Docker using the following command:
 
 ```bash
-docker run -d --name nextflux -p 80:80 --restart unless-stopped electh/nextflux:latest
+docker run -d --name nextflux -p 3000:3000 --restart unless-stopped electh/nextflux:latest
 ```
 ### Cloudflare Pages Deployment
 

@@ -1,31 +1,36 @@
-FROM node:20-alpine AS builder
+# Stage 1: Build the React application
+# Specify the version to ensure consistent builds
+FROM node:22-alpine AS build
 
-# 设置工作目录
+# Install git and pnpm
+RUN apk add --no-cache git
+
+# Set the working directory in the container
 WORKDIR /app
 
-# 复制 package.json 和 package-lock.json
-COPY package*.json ./
+# Copy the package.json and package-lock.json files
+COPY package.json package-lock.json ./
 
-# 安装依赖
+# Install dependencies using npm
 RUN npm ci
 
-# 复制源代码
+# Copy the rest of the code
 COPY . .
 
-# 构建应用
+# Build the project
 RUN npm run build
 
-# 使用 nginx 作为生产环境服务器
-FROM nginx:alpine
+# Stage 2: Run the server using Caddy
+# Specify the version for consistency
+FROM caddy:2-alpine
 
-# 复制构建产物到 nginx 目录
-COPY --from=builder /app/dist /usr/share/nginx/html
+# Copy built assets from the builder stage
+COPY --from=build /app/dist /srv
 
-# 复制自定义 nginx 配置
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Caddy will pick up the Caddyfile automatically
+COPY Caddyfile /etc/caddy/Caddyfile
 
-# 暴露 80 端口
-EXPOSE 80
+# Expose the port Caddy listens on
+EXPOSE 3000
 
-# 启动 nginx
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile", "--adapter", "caddyfile"]
