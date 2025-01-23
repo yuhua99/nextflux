@@ -59,7 +59,9 @@ export default function SearchModal() {
   const handleSelect = (item) => {
     if (searchType === "articles") {
       navigate(`/feed/${item.feedId}/article/${item.id}`);
-      handleMarkStatus(item);
+      if (item.status !== "read") {
+        handleMarkStatus(item);
+      }
     } else {
       navigate(`/feed/${item.id}`);
     }
