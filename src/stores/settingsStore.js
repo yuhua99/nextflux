@@ -8,7 +8,7 @@ const defaultValue = {
   maxWidth: 65, // 单位为ch
   alignJustify: false,
   fontFamily: "system-ui",
-  titleFontSize: 1.8, // 标题相对于正文大小的倍数
+  titleFontSize: 1.6, // 标题相对于正文大小的倍数
   titleAlignType: "left",
   feedIconShape: "square", // circle, square
   useGrayIcon: false,

@@ -43,7 +43,7 @@ export default function AlertDialog({
       classNames={{
         base: "alert-dialog relative",
         body: "px-4 py-4 items-center sm:flex-row sm:items-start",
-        footer: "px-4 py-4 flex flex-col sm:flex-row",
+        footer: "px-4 py-4 flex flex-col-reverse sm:flex-row",
       }}
     >
       <ModalContent>

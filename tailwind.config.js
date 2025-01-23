@@ -2,6 +2,7 @@
 import { nextui } from "@nextui-org/react";
 import animate from "tailwindcss-animate";
 import typography from "@tailwindcss/typography";
+import safe from "tailwindcss-safe-area";
 
 export default {
   content: [
@@ -159,5 +160,6 @@ export default {
     }),
     animate,
     typography,
+    safe,
   ],
 };

@@ -146,7 +146,7 @@ const ArticleView = () => {
         <motion.div
           key={articleId ? "content" : "empty"}
           className={cn(
-            "flex-1 bg-content2 p-0 md:pr-2 md:py-2 h-screen fixed md:static inset-0 z-50",
+            "flex-1 bg-content2 p-0 md:pr-2 md:py-2 h-screen fixed md:static inset-0 z-20",
             !articleId ? "hidden md:flex md:flex-1" : "",
           )}
           initial={
@@ -305,8 +305,7 @@ const ArticleView = () => {
 
                             // 如果不是 YouTube iframe,直接返回原始节点
                             if (
-                              !isYouTube &&
-                              !isBilibili ||
+                              (!isYouTube && !isBilibili) ||
                               useNativeVideoPlayer
                             ) {
                               return domNode;

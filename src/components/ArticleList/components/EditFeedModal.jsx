@@ -5,11 +5,6 @@ import {
   Checkbox,
   Input,
   Link,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
   ScrollShadow,
   Select,
   SelectItem,
@@ -22,9 +17,9 @@ import { editFeedModalOpen } from "@/stores/modalStore";
 import { useParams } from "react-router-dom";
 import minifluxAPI from "@/api/miniflux";
 import { forceSync } from "@/stores/syncStore";
-import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
-import { Check, Copy, Plus } from "lucide-react";
+import { Check, Copy, Minus, Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import CustomModal from "@/components/ui/CustomModal.jsx";
 
 export default function EditFeedModal() {
   const { t } = useTranslation();
@@ -92,238 +87,222 @@ export default function EditFeedModal() {
     }
   };
 
-  return (
-    <Modal
-      isOpen={$editFeedModalOpen}
-      onClose={onClose}
-      placement="center"
-      scrollBehavior="inside"
-      radius="md"
-      size="sm"
-      hideCloseButton
-      classNames={{
-        header: "px-4 py-3 flex justify-between text-base font-medium",
-        body: "px-4 py-1",
-        footer: "px-4 py-4",
-      }}
-    >
-      <ModalContent>
-        <ModalHeader>
-          <div>{t("articleList.editFeed")}</div>
-          <MiniCloseButton onClose={onClose} />
-        </ModalHeader>
-        <ScrollShadow size={10}>
-          <form onSubmit={handleSubmit} className="w-full overflow-y-auto">
-            <ModalBody>
-              <div className="flex flex-col gap-4">
-                <Input
-                  isRequired
-                  labelPlacement="outside"
-                  size="sm"
-                  label={t("feed.feedTitle")}
-                  variant="faded"
-                  name="title"
-                  placeholder={t("feed.feedTitlePlaceholder")}
-                  errorMessage={t("feed.feedTitleRequired")}
-                  value={formData.title}
-                  onValueChange={(value) =>
-                    setFormData({ ...formData, title: value })
-                  }
-                />
-                <Select
-                  isRequired
-                  labelPlacement="outside"
-                  size="sm"
-                  label={t("feed.feedCategory")}
-                  variant="faded"
-                  name="category_id"
-                  placeholder={t("feed.feedCategoryPlaceholder")}
-                  errorMessage={t("feed.feedCategoryRequired")}
-                  selectedKeys={[formData.category_id?.toString()]}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      category_id: parseInt(e.target.value),
-                    })
-                  }
-                >
-                  {$categories.map((category) => (
-                    <SelectItem key={category.id} value={category.id}>
-                      {category.title}
-                    </SelectItem>
-                  ))}
-                </Select>
-                <div>
-                  <div className="text-xs ml-0.5 mb-1">{t("feed.feedUrl")}</div>
-                  <div className="flex items-center gap-2 bg-content2 rounded-lg pl-3 pr-1 py-1 border-default-200 hover:border-default-400 border-2 shadow-sm transition-colors">
-                    <div className="flex flex-col flex-1 overflow-hidden">
-                      <div className="text-sm text-default-400 w-full truncate">
-                        {feedUrl}
-                      </div>
-                    </div>
-                    <Button
-                      size="sm"
-                      className="!h-5"
-                      isIconOnly
-                      isDisabled={isCopied}
-                      variant="flat"
-                      startContent={
-                        isCopied ? (
-                          <Check className="size-3 shrink-0 text-default-500" />
-                        ) : (
-                          <Copy className="size-3 shrink-0 text-default-500" />
-                        )
-                      }
-                      onPress={() => {
-                        navigator.clipboard.writeText(feedUrl);
-                        setIsCopied(true);
-                        setTimeout(() => setIsCopied(false), 3000);
-                      }}
-                    />
-                  </div>
-                </div>
-                <Checkbox
-                  name="crawler"
-                  size="sm"
-                  classNames={{
-                    base: "w-full max-w-full p-0 mx-0 -mt-4  mb-1",
-                    label: "mt-4",
-                  }}
-                  isSelected={formData.crawler}
-                  onValueChange={(value) =>
-                    setFormData({ ...formData, crawler: value })
-                  }
-                >
-                  <div className="line-clamp-1">{t("feed.feedCrawler")}</div>
-                  <div className="text-xs text-default-400 line-clamp-1">
-                    {t("feed.feedCrawlerDescription")}
-                  </div>
-                </Checkbox>
-                <Checkbox
-                  name="hide_globally"
-                  size="sm"
-                  classNames={{
-                    base: "w-full max-w-full p-0 mx-0 -mt-4  mb-1",
-                    label: "mt-4",
-                  }}
-                  isSelected={formData.hide_globally}
-                  onValueChange={(value) =>
-                    setFormData({ ...formData, hide_globally: value })
-                  }
-                >
-                  <div className="line-clamp-1">{t("feed.feedHide")}</div>
-                  <div className="text-xs text-default-400 line-clamp-1">
-                    {t("feed.feedHideDescription")}
-                  </div>
-                </Checkbox>
-                <Accordion
-                  isCompact
-                  hideIndicator
-                  className="p-0"
-                  itemClasses={{
-                    base: "p-0",
-                    trigger: "p-0 gap-1 cursor-pointer",
-                    title: "text-default-500 text-sm",
-                    content: "flex flex-col gap-4 pt-4 pb-0",
-                  }}
-                >
-                  <AccordionItem
-                    key="advanced"
-                    aria-label="advanced"
-                    startContent={<Plus className="size-4 text-default-500" />}
-                    title={t("feed.advancedOptions")}
-                  >
-                    <Input
-                      labelPlacement="outside"
-                      size="sm"
-                      label={
-                        <Link
-                          isExternal
-                          showAnchorIcon
-                          color="foreground"
-                          href="https://miniflux.app/docs/rules.html#feed-filtering-rules"
-                          className="text-xs"
-                        >
-                          {t("feed.feedKeeplistRules")}
-                        </Link>
-                      }
-                      variant="faded"
-                      name="keeplist_rules"
-                      placeholder={t("feed.feedKeeplistRulesPlaceholder")}
-                      value={formData.keeplist_rules}
-                      onValueChange={(value) =>
-                        setFormData({ ...formData, keeplist_rules: value })
-                      }
-                    />
-                    <Input
-                      labelPlacement="outside"
-                      size="sm"
-                      label={
-                        <Link
-                          isExternal
-                          showAnchorIcon
-                          color="foreground"
-                          href="https://miniflux.app/docs/rules.html#feed-filtering-rules"
-                          className="text-xs"
-                        >
-                          {t("feed.feedBlocklistRules")}
-                        </Link>
-                      }
-                      variant="faded"
-                      name="blocklist_rules"
-                      placeholder={t("feed.feedBlocklistRulesPlaceholder")}
-                      value={formData.blocklist_rules}
-                      onValueChange={(value) =>
-                        setFormData({ ...formData, blocklist_rules: value })
-                      }
-                    />
-                    <Textarea
-                      labelPlacement="outside"
-                      size="sm"
-                      label={
-                        <Link
-                          isExternal
-                          showAnchorIcon
-                          color="foreground"
-                          href="https://miniflux.app/docs/rules.html#rewrite-rules"
-                          className="text-xs"
-                        >
-                          {t("feed.feedRewriteRules")}
-                        </Link>
-                      }
-                      variant="faded"
-                      name="rewrite_rules"
-                      placeholder={t("feed.feedRewriteRulesPlaceholder")}
-                      value={formData.rewrite_rules}
-                      onValueChange={(value) =>
-                        setFormData({ ...formData, rewrite_rules: value })
-                      }
-                    />
-                  </AccordionItem>
-                </Accordion>
+  const content = (
+    <ScrollShadow size={10} className="w-full overflow-y-auto px-4 pb-4">
+      <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
+        <Input
+          isRequired
+          labelPlacement="outside"
+          size="sm"
+          label={t("feed.feedTitle")}
+          variant="faded"
+          name="title"
+          placeholder={t("feed.feedTitlePlaceholder")}
+          errorMessage={t("feed.feedTitleRequired")}
+          value={formData.title}
+          onValueChange={(value) => setFormData({ ...formData, title: value })}
+        />
+        <Select
+          isRequired
+          labelPlacement="outside"
+          size="sm"
+          label={t("feed.feedCategory")}
+          variant="faded"
+          name="category_id"
+          placeholder={t("feed.feedCategoryPlaceholder")}
+          errorMessage={t("feed.feedCategoryRequired")}
+          selectedKeys={[formData.category_id?.toString()]}
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              category_id: parseInt(e.target.value),
+            })
+          }
+        >
+          {$categories.map((category) => (
+            <SelectItem key={category.id} value={category.id}>
+              {category.title}
+            </SelectItem>
+          ))}
+        </Select>
+        <div>
+          <div className="text-xs ml-0.5 mb-1">{t("feed.feedUrl")}</div>
+          <div className="flex items-center gap-2 bg-content2 rounded-lg pl-3 pr-1 py-1 border-default-200 hover:border-default-400 border-2 shadow-sm transition-colors">
+            <div className="flex flex-col flex-1 overflow-hidden">
+              <div className="text-sm text-default-400 w-full truncate">
+                {feedUrl}
               </div>
-            </ModalBody>
-            <ModalFooter>
-              <Button
-                color="default"
-                variant="flat"
-                onPress={onClose}
-                size="sm"
-              >
-                {t("common.cancel")}
-              </Button>
-              <Button
-                color="primary"
-                type="submit"
-                isLoading={loading}
-                size="sm"
-              >
-                {t("common.save")}
-              </Button>
-            </ModalFooter>
-          </form>
-        </ScrollShadow>
-      </ModalContent>
-    </Modal>
+            </div>
+            <Button
+              size="sm"
+              className="!h-5"
+              isIconOnly
+              isDisabled={isCopied}
+              variant="flat"
+              startContent={
+                isCopied ? (
+                  <Check className="size-3 shrink-0 text-default-500" />
+                ) : (
+                  <Copy className="size-3 shrink-0 text-default-500" />
+                )
+              }
+              onPress={() => {
+                navigator.clipboard.writeText(feedUrl);
+                setIsCopied(true);
+                setTimeout(() => setIsCopied(false), 3000);
+              }}
+            />
+          </div>
+        </div>
+        <Checkbox
+          name="crawler"
+          size="sm"
+          classNames={{
+            base: "w-full max-w-full p-0 mx-0 -mt-4  mb-1",
+            label: "mt-4",
+          }}
+          isSelected={formData.crawler}
+          onValueChange={(value) =>
+            setFormData({ ...formData, crawler: value })
+          }
+        >
+          <div className="line-clamp-1">{t("feed.feedCrawler")}</div>
+          <div className="text-xs text-default-400 line-clamp-1">
+            {t("feed.feedCrawlerDescription")}
+          </div>
+        </Checkbox>
+        <Checkbox
+          name="hide_globally"
+          size="sm"
+          classNames={{
+            base: "w-full max-w-full p-0 mx-0 -mt-4  mb-1",
+            label: "mt-4",
+          }}
+          isSelected={formData.hide_globally}
+          onValueChange={(value) =>
+            setFormData({ ...formData, hide_globally: value })
+          }
+        >
+          <div className="line-clamp-1">{t("feed.feedHide")}</div>
+          <div className="text-xs text-default-400 line-clamp-1">
+            {t("feed.feedHideDescription")}
+          </div>
+        </Checkbox>
+        <Accordion
+          isCompact
+          hideIndicator
+          className="p-0"
+          itemClasses={{
+            base: "p-0",
+            trigger: "p-0 gap-1 cursor-pointer group",
+            title: "text-default-500 text-sm",
+            content: "flex flex-col gap-4 pt-4 pb-0",
+          }}
+        >
+          <AccordionItem
+            key="advanced"
+            aria-label="advanced"
+            startContent={
+              <>
+                <Plus className="size-4 text-default-500 group-data-[open=true]:hidden" />
+                <Minus className="size-4 text-default-500 hidden group-data-[open=true]:block" />
+              </>
+            }
+            title={t("feed.advancedOptions")}
+          >
+            <Input
+              labelPlacement="outside"
+              size="sm"
+              label={
+                <Link
+                  isExternal
+                  showAnchorIcon
+                  color="foreground"
+                  href="https://miniflux.app/docs/rules.html#feed-filtering-rules"
+                  className="text-xs"
+                >
+                  {t("feed.feedKeeplistRules")}
+                </Link>
+              }
+              variant="faded"
+              name="keeplist_rules"
+              placeholder={t("feed.feedKeeplistRulesPlaceholder")}
+              value={formData.keeplist_rules}
+              onValueChange={(value) =>
+                setFormData({ ...formData, keeplist_rules: value })
+              }
+            />
+            <Input
+              labelPlacement="outside"
+              size="sm"
+              label={
+                <Link
+                  isExternal
+                  showAnchorIcon
+                  color="foreground"
+                  href="https://miniflux.app/docs/rules.html#feed-filtering-rules"
+                  className="text-xs"
+                >
+                  {t("feed.feedBlocklistRules")}
+                </Link>
+              }
+              variant="faded"
+              name="blocklist_rules"
+              placeholder={t("feed.feedBlocklistRulesPlaceholder")}
+              value={formData.blocklist_rules}
+              onValueChange={(value) =>
+                setFormData({ ...formData, blocklist_rules: value })
+              }
+            />
+            <Textarea
+              labelPlacement="outside"
+              size="sm"
+              label={
+                <Link
+                  isExternal
+                  showAnchorIcon
+                  color="foreground"
+                  href="https://miniflux.app/docs/rules.html#rewrite-rules"
+                  className="text-xs"
+                >
+                  {t("feed.feedRewriteRules")}
+                </Link>
+              }
+              variant="faded"
+              name="rewrite_rules"
+              placeholder={t("feed.feedRewriteRulesPlaceholder")}
+              value={formData.rewrite_rules}
+              onValueChange={(value) =>
+                setFormData({ ...formData, rewrite_rules: value })
+              }
+            />
+          </AccordionItem>
+        </Accordion>
+        <div className="flex flex-col gap-2 w-full">
+          <Button
+            color="primary"
+            fullWidth
+            variant="flat"
+            type="submit"
+            isLoading={loading}
+            size="sm"
+          >
+            {t("common.save")}
+          </Button>
+          <Button fullWidth onPress={onClose} size="sm" variant="flat">
+            {t("common.cancel")}
+          </Button>
+        </div>
+      </form>
+    </ScrollShadow>
+  );
+
+  return (
+    <CustomModal
+      open={$editFeedModalOpen}
+      onOpenChange={onClose}
+      title={t("articleList.editFeed")}
+      content={content}
+    />
   );
 }

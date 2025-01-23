@@ -1,23 +1,14 @@
-import {
-  Button,
-  Divider,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-} from "@nextui-org/react";
+import { Button, Divider, Input } from "@nextui-org/react";
 import { useState } from "react";
 import { addCategoryModalOpen } from "@/stores/modalStore";
 import { useStore } from "@nanostores/react";
 import minifluxAPI from "@/api/miniflux";
 import { forceSync } from "@/stores/syncStore";
-import { MiniCloseButton } from "@/components/ui/MiniCloseButton";
 import { categories } from "@/stores/feedsStore";
 import { toast } from "sonner";
 import CategoryChip from "./CategoryChip.jsx";
 import { useTranslation } from "react-i18next";
+import CustomModal from "@/components/ui/CustomModal.jsx";
 
 export default function AddCategoryModal() {
   const { t } = useTranslation();
@@ -46,56 +37,53 @@ export default function AddCategoryModal() {
     }
   };
 
-  return (
-    <Modal
-      isOpen={$addCategoryModalOpen}
-      onClose={onClose}
-      placement="center"
-      radius="md"
-      size="sm"
-      hideCloseButton
-      classNames={{
-        header: "px-4 py-3 flex justify-between text-base font-medium",
-        body: "px-4 py-1",
-        footer: "px-4 py-4",
-      }}
+  const content = (
+    <form
+      onSubmit={handleSubmit}
+      className="justify-center items-center flex flex-col gap-4 px-4 pb-4"
     >
-      <ModalContent>
-        <form onSubmit={handleSubmit}>
-          <ModalHeader>
-            <div>{t("sidebar.addCategory")}</div>
-            <MiniCloseButton onClose={onClose} />
-          </ModalHeader>
-          <ModalBody>
-            <Input
-              isRequired
-              labelPlacement="outside"
-              size="sm"
-              label={t("sidebar.categoryName")}
-              variant="faded"
-              name="title"
-              placeholder={t("sidebar.categoryNamePlaceholder")}
-              errorMessage={t("sidebar.categoryNameRequired")}
-              value={title}
-              onValueChange={setTitle}
-            />
-            <Divider className="my-2" />
-            <div className="flex flex-wrap gap-2 p-3 bg-content2 rounded-lg">
-              {$categories.map((category) => (
-                <CategoryChip key={category.id} category={category} />
-              ))}
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            <Button color="default" variant="flat" onPress={onClose} size="sm">
-              {t("common.cancel")}
-            </Button>
-            <Button color="primary" type="submit" isLoading={loading} size="sm">
-              {t("common.save")}
-            </Button>
-          </ModalFooter>
-        </form>
-      </ModalContent>
-    </Modal>
+      <Input
+        isRequired
+        labelPlacement="outside"
+        size="sm"
+        label={t("sidebar.categoryName")}
+        variant="faded"
+        name="title"
+        placeholder={t("sidebar.categoryNamePlaceholder")}
+        errorMessage={t("sidebar.categoryNameRequired")}
+        value={title}
+        onValueChange={setTitle}
+      />
+      <Divider className="my-2" />
+      <div className="flex flex-wrap gap-2 p-3 bg-content2 rounded-lg">
+        {$categories.map((category) => (
+          <CategoryChip key={category.id} category={category} />
+        ))}
+      </div>
+      <div className="flex flex-col gap-2 w-full">
+        <Button
+          color="primary"
+          type="submit"
+          isLoading={loading}
+          size="sm"
+          variant="flat"
+          fullWidth
+        >
+          {t("common.save")}
+        </Button>
+        <Button fullWidth onPress={onClose} size="sm" variant="flat">
+          {t("common.cancel")}
+        </Button>
+      </div>
+    </form>
+  );
+
+  return (
+    <CustomModal
+      open={$addCategoryModalOpen}
+      onOpenChange={onClose}
+      title={t("sidebar.addCategory")}
+      content={content}
+    />
   );
 }
