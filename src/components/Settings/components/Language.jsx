@@ -7,7 +7,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 const languages = [
   { id: "zh-CN", name: "简体中文" },

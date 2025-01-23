@@ -4,7 +4,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { EllipsisVertical, FilePen, FolderPen, Trash2 } from "lucide-react";
 import { useParams } from "react-router-dom";
 import RenameModal from "./RenameModal";

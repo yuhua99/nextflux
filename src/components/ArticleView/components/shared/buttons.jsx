@@ -6,7 +6,7 @@ import {
   RedoDot,
   UndoDot,
 } from "lucide-react";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import { activeAudio } from "@/stores/audioStore.js";
 import { useStore } from "@nanostores/react";
 import { useNavigate } from "react-router-dom";

@@ -18,7 +18,7 @@ import {
   SliderItem,
   SwitchItem,
 } from "@/components/ui/settingItem.jsx";
-import { Button, Divider } from "@nextui-org/react";
+import { Button, Divider } from "@heroui/react";
 import { resetSettings } from "@/stores/settingsStore.js";
 import { useTranslation } from "react-i18next";
 

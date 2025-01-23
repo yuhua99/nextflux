@@ -4,7 +4,7 @@ import {
   ModalBody,
   ModalContent,
   ModalFooter,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
 import { TriangleAlert } from "lucide-react";
 import { useState } from "react";

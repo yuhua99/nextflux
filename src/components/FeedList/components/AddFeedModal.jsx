@@ -9,7 +9,7 @@ import {
   Select,
   SelectItem,
   Textarea,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useState } from "react";
 import { useStore } from "@nanostores/react";
 import { categories } from "@/stores/feedsStore";

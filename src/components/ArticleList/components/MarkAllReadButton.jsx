@@ -5,13 +5,14 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { handleMarkAllRead } from "@/handlers/articleHandlers";
 import { CircleCheck } from "lucide-react";
 import { isSyncing } from "@/stores/syncStore.js";
 import { useStore } from "@nanostores/react";
 import { filter, unreadArticlesCount } from "@/stores/articlesStore.js";
 import { useTranslation } from "react-i18next";
+
 export default function MarkAllReadButton() {
   const { t } = useTranslation();
   const { feedId, categoryId } = useParams();

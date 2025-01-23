@@ -14,7 +14,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { setTheme, themes, themeState } from "@/stores/themeStore";
 import { useTranslation } from "react-i18next";
 

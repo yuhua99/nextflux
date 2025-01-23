@@ -5,7 +5,7 @@ import {
   DropdownMenu,
   DropdownSection,
   DropdownTrigger,
-} from "@nextui-org/react"; // Re-use styles across other submenus.
+} from "@heroui/react"; // Re-use styles across other submenus.
 import { audioState } from "@/stores/audioStore.js";
 import { useStore } from "@nanostores/react";
 import { CircleGauge } from "lucide-react";

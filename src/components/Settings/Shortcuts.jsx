@@ -6,7 +6,7 @@ import {
   ModalBody,
   ModalContent,
   ModalHeader,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { shortcutsModalOpen } from "@/stores/modalStore.js";
 import { useStore } from "@nanostores/react";
 import { Keyboard, X } from "lucide-react";
@@ -24,7 +24,11 @@ export default function Shortcuts() {
       { key: "V", desc: t("sidebar.shortcuts.viewInBrowser") },
     ],
     global: [
-      { key: "B", desc: t("sidebar.shortcuts.toggleSidebar"), kbdKey: ["ctrl"] },
+      {
+        key: "B",
+        desc: t("sidebar.shortcuts.toggleSidebar"),
+        kbdKey: ["ctrl"],
+      },
 
       {
         key: "/",
@@ -60,7 +64,9 @@ export default function Shortcuts() {
                 <div className="flex gap-2 justify-between">
                   <div className="flex items-center gap-2">
                     <Keyboard className="size-4" />
-                    <span className="text-base font-medium">{t("sidebar.shortcuts.title")}</span>
+                    <span className="text-base font-medium">
+                      {t("sidebar.shortcuts.title")}
+                    </span>
                   </div>
                   <Button
                     size="sm"

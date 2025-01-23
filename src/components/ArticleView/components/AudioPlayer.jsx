@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { audioState, resetAudio } from "@/stores/audioStore.js";
 import { useStore } from "@nanostores/react";
 import * as Buttons from "./shared/buttons";
-import { Button, Card, Image } from "@nextui-org/react";
+import { Button, Card, Image } from "@heroui/react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils.js";
 import { Time } from "./shared/sliders.jsx";

@@ -8,7 +8,7 @@ import {
   ModalContent,
   Tab,
   Tabs,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { Search as SearchIcon } from "lucide-react";
 import {
   articlesCache,

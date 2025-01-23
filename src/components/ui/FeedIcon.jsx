@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Image } from "@nextui-org/react";
+import { Image } from "@heroui/react";
 import { Rss } from "lucide-react";
 import { settingsState } from "@/stores/settingsStore";
 import { useStore } from "@nanostores/react";

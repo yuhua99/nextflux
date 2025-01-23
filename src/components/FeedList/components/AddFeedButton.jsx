@@ -4,7 +4,7 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { CirclePlus, FolderPlus, Rss, Upload } from "lucide-react";
 import { addCategoryModalOpen, addFeedModalOpen } from "@/stores/modalStore";
 import { useSidebar } from "@/components/ui/sidebar.jsx";

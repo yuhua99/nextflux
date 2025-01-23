@@ -10,7 +10,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Image, ScrollShadow } from "@nextui-org/react";
+import { Image, ScrollShadow } from "@heroui/react";
 import { formatLastSync } from "@/lib/format";
 import { settingsState } from "@/stores/settingsStore.js";
 import ArticlesGroup from "@/components/FeedList/components/ArticlesGroup.jsx";

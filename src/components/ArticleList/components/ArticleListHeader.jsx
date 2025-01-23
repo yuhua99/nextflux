@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useStore } from "@nanostores/react";
 import { SidebarTrigger } from "@/components/ui/sidebar.jsx";
-import { Divider } from "@nextui-org/react";
+import { Divider } from "@heroui/react";
 import {
   filter,
   filteredArticles,
@@ -50,7 +50,9 @@ export default function ArticleListHeader() {
         const starredCount = $articles.filter(
           (article) => article.starred,
         ).length;
-        return starredCount > 0 ? `${starredCount} ${t("articleList.starredItems")}` : `${t("articleList.noStarred")}`;
+        return starredCount > 0
+          ? `${starredCount} ${t("articleList.starredItems")}`
+          : `${t("articleList.noStarred")}`;
       }
       case "unread":
       case "all": {

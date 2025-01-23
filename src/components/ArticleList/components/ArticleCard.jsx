@@ -7,7 +7,7 @@ import { handleMarkStatus } from "@/handlers/articleHandlers.js";
 import { useEffect, useMemo, useRef } from "react";
 import { useStore } from "@nanostores/react";
 import { settingsState } from "@/stores/settingsStore";
-import { Ripple, useRipple } from "@nextui-org/react";
+import { Ripple, useRipple } from "@heroui/react";
 import FeedIcon from "@/components/ui/FeedIcon.jsx";
 import { useTranslation } from "react-i18next";
 

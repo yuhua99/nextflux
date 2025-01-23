@@ -1,4 +1,4 @@
-import { Chip } from "@nextui-org/react";
+import { Chip } from "@heroui/react";
 import { cn } from "@/lib/utils.js";
 import { Loader2, X } from "lucide-react";
 import { feeds } from "@/stores/feedsStore.js";
@@ -8,6 +8,7 @@ import minifluxAPI from "@/api/miniflux.js";
 import { forceSync } from "@/stores/syncStore.js";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
+
 export default function CategoryChip({ category }) {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);

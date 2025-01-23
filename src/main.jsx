@@ -3,7 +3,7 @@ import { initTheme } from "@/stores/themeStore";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import { router } from "@/routes/index.jsx";
-import { NextUIProvider } from "@nextui-org/react";
+import { HeroUIProvider } from "@heroui/react";
 import { RouterProvider } from "react-router";
 import { Toaster } from "sonner";
 
@@ -11,7 +11,7 @@ import { Toaster } from "sonner";
 initTheme();
 
 createRoot(document.getElementById("root")).render(
-  <NextUIProvider>
+  <HeroUIProvider>
     <RouterProvider
       router={router}
       future={{
@@ -24,5 +24,5 @@ createRoot(document.getElementById("root")).render(
       }}
     />
     <Toaster theme="system" richColors position="bottom-center" />
-  </NextUIProvider>,
+  </HeroUIProvider>,
 );

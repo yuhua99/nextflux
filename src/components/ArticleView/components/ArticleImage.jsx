@@ -1,7 +1,7 @@
 import { PhotoView } from "react-photo-view";
 import { useRef, useState } from "react";
 import { ImageOff } from "lucide-react";
-import { Image } from "@nextui-org/react";
+import { Image } from "@heroui/react";
 import { useTranslation } from "react-i18next";
 
 export default function ArticleImage({ imgNode }) {

@@ -12,13 +12,7 @@ import {
   handleMarkStatus,
   handleToggleStar,
 } from "@/handlers/articleHandlers.js";
-import {
-  Button,
-  Divider,
-  Navbar,
-  NavbarContent,
-  Tooltip,
-} from "@nextui-org/react";
+import { Button, Divider, Navbar, NavbarContent, Tooltip } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "@nanostores/react";
 import { activeArticle, filteredArticles } from "@/stores/articlesStore";

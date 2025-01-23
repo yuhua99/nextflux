@@ -1,4 +1,4 @@
-import { Button, Form, Input } from "@nextui-org/react";
+import { Button, Form, Input } from "@heroui/react";
 import { useEffect, useState } from "react";
 import minifluxAPI from "@/api/miniflux";
 import { forceSync } from "@/stores/syncStore";

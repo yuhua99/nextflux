@@ -1,6 +1,6 @@
 import { codeToHtml } from "shiki";
-import { useEffect, useState, useRef } from "react";
-import { Button, Tooltip } from "@nextui-org/react";
+import { useEffect, useRef, useState } from "react";
+import { Button, Tooltip } from "@heroui/react";
 import { Check, Copy } from "lucide-react";
 import { toast } from "sonner";
 import { settingsState } from "@/stores/settingsStore.js";
@@ -30,6 +30,7 @@ export default function CodeBlock({ code, language }) {
       });
       setHtml(highlighted);
     }
+
     if (isInView) {
       highlight();
     }

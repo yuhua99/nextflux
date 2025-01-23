@@ -7,7 +7,7 @@ import "./ArticleView.css";
 import ActionButtons from "@/components/ArticleView/components/ActionButtons.jsx";
 import { generateReadableDate } from "@/lib/format.js";
 import { activeArticle, filteredArticles } from "@/stores/articlesStore.js";
-import { Chip, Divider, ScrollShadow } from "@nextui-org/react";
+import { Chip, Divider, ScrollShadow } from "@heroui/react";
 import EmptyPlaceholder from "@/components/ArticleList/components/EmptyPlaceholder";
 import { cleanTitle, getFontSizeClass } from "@/lib/utils";
 import ArticleImage from "@/components/ArticleView/components/ArticleImage.jsx";

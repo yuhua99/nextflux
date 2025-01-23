@@ -1,4 +1,4 @@
-import { Button, Card, CardHeader, Image } from "@nextui-org/react";
+import { Button, Card, CardHeader, Image } from "@heroui/react";
 import { activeAudio, audioState } from "@/stores/audioStore.js";
 import { activeArticle } from "@/stores/articlesStore.js";
 import { useStore } from "@nanostores/react";

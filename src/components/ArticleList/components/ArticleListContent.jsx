@@ -6,7 +6,7 @@ import { useStore } from "@nanostores/react";
 import { Virtuoso } from "react-virtuoso";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import { useIsMobile } from "@/hooks/use-mobile.jsx";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import { CheckCheck, Loader2 } from "lucide-react";
 import { handleMarkAllRead } from "@/handlers/articleHandlers";
 import { isSyncing } from "@/stores/syncStore.js";

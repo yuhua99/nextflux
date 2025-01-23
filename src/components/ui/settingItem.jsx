@@ -11,7 +11,7 @@ import {
   Switch,
   Tab,
   Tabs,
-} from "@nextui-org/react";
+} from "@heroui/react";
 
 import { ChevronsUpDown } from "lucide-react";
 

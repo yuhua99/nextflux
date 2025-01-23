@@ -1,5 +1,5 @@
 import { useStore } from "@nanostores/react";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import { forceSync, isOnline, isSyncing } from "@/stores/syncStore.js";
 import { RefreshCw } from "lucide-react";
 

@@ -1,5 +1,5 @@
 import { useRouteError } from "react-router-dom";
-import { Button } from "@nextui-org/react";
+import { Button } from "@heroui/react";
 import { useTranslation } from "react-i18next";
 import { House } from "lucide-react";
 

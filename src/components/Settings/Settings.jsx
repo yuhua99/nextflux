@@ -6,7 +6,7 @@ import {
   ModalHeader,
   Tab,
   Tabs,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { useState } from "react";
 import { settingsModalOpen, settingsState } from "@/stores/settingsStore.js";
 import { useStore } from "@nanostores/react";

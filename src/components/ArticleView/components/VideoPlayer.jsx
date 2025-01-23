@@ -5,7 +5,7 @@ import {
   PlyrLayout,
   plyrLayoutIcons,
 } from "@vidstack/react/player/layouts/plyr";
-import { Chip } from "@nextui-org/react";
+import { Chip } from "@heroui/react";
 import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { ExternalLink } from "lucide-react";

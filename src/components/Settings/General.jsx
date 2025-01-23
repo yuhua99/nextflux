@@ -14,7 +14,7 @@ import {
   SelItem,
   SwitchItem,
 } from "@/components/ui/settingItem.jsx";
-import { Divider } from "@nextui-org/react";
+import { Divider } from "@heroui/react";
 import Language from "@/components/Settings/components/Language.jsx";
 import { useTranslation } from "react-i18next";
 

@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Image } from "@nextui-org/react";
+import { Image } from "@heroui/react";
 import { cn } from "@/lib/utils.js";
 import { settingsState } from "@/stores/settingsStore";
 import { useStore } from "@nanostores/react";

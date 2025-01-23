@@ -1,4 +1,4 @@
-import { Button, Divider, Input } from "@nextui-org/react";
+import { Button, Divider, Input } from "@heroui/react";
 import { useState } from "react";
 import { addCategoryModalOpen } from "@/stores/modalStore";
 import { useStore } from "@nanostores/react";

@@ -1,6 +1,6 @@
 import { filter } from "@/stores/articlesStore";
 import { CircleDot, Infinity, Star } from "lucide-react";
-import { Tab, Tabs } from "@nextui-org/react";
+import { Tab, Tabs } from "@heroui/react";
 import { useStore } from "@nanostores/react";
 import AudioPlayer from "@/components/ArticleView/components/AudioPlayer.jsx";
 import { activeAudio } from "@/stores/audioStore.js";

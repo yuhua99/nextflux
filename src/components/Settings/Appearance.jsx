@@ -1,5 +1,5 @@
 import { settingsState } from "@/stores/settingsStore";
-import { Divider } from "@nextui-org/react";
+import { Divider } from "@heroui/react";
 import { useStore } from "@nanostores/react";
 import {
   ItemWrapper,
@@ -13,11 +13,11 @@ import {
   Clock,
   LayoutList,
   ListOrdered,
+  MonitorPlay,
   Rss,
   Square,
   SquareCode,
   Text,
-  MonitorPlay,
 } from "lucide-react";
 import Theme from "./components/Theme";
 import { useTranslation } from "react-i18next";
@@ -129,7 +129,6 @@ export default function Appearance() {
           settingValue={reduceMotion}
         />
       </ItemWrapper>
-      
     </>
   );
 }

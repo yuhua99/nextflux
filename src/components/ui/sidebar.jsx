@@ -5,13 +5,7 @@ import { PanelLeft } from "lucide-react";
 
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
-import {
-  Button,
-  Divider,
-  Drawer,
-  DrawerContent,
-  Input,
-} from "@nextui-org/react";
+import { Button, Divider, Drawer, DrawerContent, Input } from "@heroui/react";
 
 const SIDEBAR_COOKIE_NAME = "sidebar:state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;

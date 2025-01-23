@@ -7,7 +7,7 @@ import {
   Modal,
   ModalContent,
   ModalHeader,
-} from "@nextui-org/react";
+} from "@heroui/react";
 import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
 
 export default function CustomModal({ open, onOpenChange, title, content }) {

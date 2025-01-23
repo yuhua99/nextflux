@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { authState, login } from "@/stores/authStore";
-import { Button, Form, Input, Link } from "@nextui-org/react";
+import { Button, Form, Input, Link } from "@heroui/react";
 import { Eye, EyeClosed } from "lucide-react";
 import { toast } from "sonner";
 import { useStore } from "@nanostores/react";
