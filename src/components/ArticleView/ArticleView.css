@@ -45,7 +45,7 @@ p {
 }
 
 .line-numbers code .line::before {
-  color: hsl(var(--nextui-default-400));
+  color: hsl(var(--heroui-default-400));
   content: counter(step);
   counter-increment: step;
   display: inline-block;
@@ -73,12 +73,12 @@ figcaption {
 /*Plyr 自定义样式*/
 .plyr {
   --plyr-audio-border: none;
-  --plyr-audio-control-color: hsl(var(--nextui-content4-foreground));
-  --plyr-audio-controls-background: hsl(var(--nextui-content1));
-  --plyr-color-main: hsl(var(--nextui-primary));
+  --plyr-audio-control-color: hsl(var(--heroui-content4-foreground));
+  --plyr-audio-controls-background: hsl(var(--heroui-content1));
+  --plyr-color-main: hsl(var(--heroui-primary));
   --plyr-tooltip-arrow-size: 0;
-  --plyr-tooltip-background: hsl(var(--nextui-content1));
-  --plyr-tooltip-color: hsl(var(--nextui-content1-foreground));
+  --plyr-tooltip-background: hsl(var(--heroui-content1));
+  --plyr-tooltip-color: hsl(var(--heroui-content1-foreground));
   --plyr-tooltip-shadow: var(--shadow-custom);
 }
 

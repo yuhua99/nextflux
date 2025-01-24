@@ -64,6 +64,7 @@ export default {
     categoryNameRequired: "请输入分类标题",
     addFeed: "新增订阅",
     profile: {
+      about: "关于",
       settings: "设置",
       openMiniflux: "访问 Miniflux",
       logout: "注销",
@@ -259,4 +260,8 @@ export default {
     description500: "系统发生错误",
     backToHome: "返回主页",
   },
+  about: {
+    title: "关于",
+  },
 };
+

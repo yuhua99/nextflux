@@ -114,7 +114,7 @@ export default function ArticleCard({ article }) {
       <Ripple
         ripples={ripples}
         onClear={onClear}
-        color="hsl(var(--nextui-content4))"
+        color="hsl(var(--heroui-content4))"
       />
       <div
         className={cn(

@@ -11,11 +11,12 @@ import {
   Cog,
   ExternalLink,
   Keyboard,
+  Info,
   LogOut,
 } from "lucide-react";
 import { authState } from "@/stores/authStore.js";
 import { settingsModalOpen } from "@/stores/settingsStore.js";
-import { logoutModalOpen, shortcutsModalOpen } from "@/stores/modalStore.js";
+import { logoutModalOpen, shortcutsModalOpen, aboutModalOpen } from "@/stores/modalStore.js";
 import { useSidebar } from "@/components/ui/sidebar.jsx";
 import { useTranslation } from "react-i18next";
 
@@ -47,6 +48,17 @@ export default function ProfileButton() {
           </Button>
         </DropdownTrigger>
         <DropdownMenu aria-label="Profile Actions" variant="flat">
+          <DropdownItem
+            key="about"
+            textValue="about"
+            startContent={<Info className="size-4" />}
+            onPress={() => {
+              aboutModalOpen.set(true);
+              isMobile && setOpenMobile(false);
+            }}
+          >
+            {t("sidebar.profile.about")}
+          </DropdownItem>
           <DropdownItem
             key="settings"
             textValue="settings"

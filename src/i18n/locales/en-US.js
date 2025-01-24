@@ -260,4 +260,7 @@ export default {
     description500: "Internal server error",
     backToHome: "Back to Home",
   },
+  about: {
+    title: "About",
+  },
 };

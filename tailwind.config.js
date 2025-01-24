@@ -38,8 +38,8 @@ export default {
           },
         },
         pulse: {
-          "0%, 100%": { backgroundColor: "hsl(var(--nextui-content2))" },
-          "50%": { backgroundColor: "hsl(var(--nextui-content4))" },
+          "0%, 100%": { backgroundColor: "hsl(var(--heroui-content2))" },
+          "50%": { backgroundColor: "hsl(var(--heroui-content4))" },
         },
       },
       animation: {
