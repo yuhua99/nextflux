@@ -4,3 +4,6 @@ dist
 .gitignore
 .env
 *.log
+images
+Dockerfile
+compose.yml

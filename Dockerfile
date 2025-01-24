@@ -2,9 +2,6 @@
 # Specify the version to ensure consistent builds
 FROM node:22-alpine AS build
 
-# Install git and pnpm
-RUN apk add --no-cache git
-
 # Set the working directory in the container
 WORKDIR /app
 
