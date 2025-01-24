@@ -64,6 +64,7 @@ export default {
     categoryNamePlaceholder: "Please enter category title",
     categoryNameRequired: "Please enter category title",
     profile: {
+      about: "About",
       settings: "Settings",
       openMiniflux: "Open Miniflux",
       logout: "Logout",
