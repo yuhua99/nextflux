@@ -8,16 +8,17 @@ import { useStore } from "@nanostores/react";
 import { cn } from "@/lib/utils.js";
 import { themeState } from "@/stores/themeStore.js";
 import { useTranslation } from "react-i18next";
-import { useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 
 export default function CodeBlock({ code, language }) {
   const { t } = useTranslation();
   const [html, setHtml] = useState("");
   const [isCopied, setIsCopied] = useState(false);
-  const { showLineNumbers, forceDarkCodeTheme } = useStore(settingsState);
+  const { showLineNumbers, forceDarkCodeTheme, reduceMotion } =
+    useStore(settingsState);
   const { darkTheme } = useStore(themeState);
   const codeRef = useRef(null);
-  const isInView = useInView(codeRef, { once: true });
+  const isInView = useInView(codeRef, { once: true, margin: "200px" });
 
   useEffect(() => {
     async function highlight() {
@@ -80,7 +81,17 @@ export default function CodeBlock({ code, language }) {
           )}
         </Button>
       </Tooltip>
-      {isInView && <div dangerouslySetInnerHTML={{ __html: html }} />}
+      {isInView && (
+        <motion.div
+          initial={reduceMotion ? {} : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{
+            duration: 0.5,
+            ease: "easeInOut",
+          }}
+          dangerouslySetInnerHTML={{ __html: html }}
+        />
+      )}
     </div>
   );
 }

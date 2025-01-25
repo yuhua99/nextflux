@@ -9,7 +9,7 @@
 }
 
 .article-content li,
-p {
+.article-content p {
   @apply !my-4
 }
 

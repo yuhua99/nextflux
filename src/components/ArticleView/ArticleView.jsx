@@ -339,6 +339,36 @@ const ArticleView = () => {
                                 child.type === "tag" && child.name === "code",
                             );
 
+                            // 递归获取所有文本内容的辅助函数
+                            const getTextContent = (node) => {
+                              if (!node) return "";
+                              if (node.type === "text") return node.data;
+                              if (node.type === "tag") {
+                                if (node.name === "br") return "\n";
+                                // 处理其他标签内的文本
+                                const childText = node.children
+                                  .map((child) => getTextContent(child))
+                                  .join("");
+                                // 对于块级元素,在前后添加换行
+                                if (
+                                  [
+                                    "p",
+                                    "div",
+                                    "h1",
+                                    "h2",
+                                    "h3",
+                                    "h4",
+                                    "h5",
+                                    "h6",
+                                  ].includes(node.name)
+                                ) {
+                                  return `${childText}\n`;
+                                }
+                                return childText;
+                              }
+                              return "";
+                            };
+
                             if (codeNode) {
                               // 2. 处理带有code标签的情况
                               const className = codeNode.attribs?.class || "";
@@ -352,28 +382,23 @@ const ArticleView = () => {
                                   )
                                   ?.replace(/^(language-|lang-)/, "") || "text";
 
-                              const code = codeNode.children[0].data;
-                              return (
+                              const code = getTextContent(codeNode)
+                                .replace(/\n{3,}/g, "\n\n") // 将连续3个及以上换行替换为2个
+                                .trim();
+
+                              return code ? (
                                 <CodeBlock code={code} language={language} />
+                              ) : (
+                                domNode
                               );
                             } else {
                               // 3. 处理直接在pre标签中的文本
-                              const code = domNode.children
-                                .map((child) => {
-                                  if (child.type === "text") {
-                                    return child.data;
-                                  } else if (
-                                    child.type === "tag" &&
-                                    child.name === "br"
-                                  ) {
-                                    return "\n";
-                                  }
-                                  return "";
-                                })
-                                .join("");
+                              const code = getTextContent(domNode)
+                                .replace(/\n{3,}/g, "\n\n")
+                                .trim();
 
                               // 如果内容为空则不处理
-                              if (!code.trim()) {
+                              if (!code) {
                                 return domNode;
                               }
 
