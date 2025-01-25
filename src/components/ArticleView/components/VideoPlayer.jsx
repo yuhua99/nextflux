@@ -6,9 +6,9 @@ import {
   plyrLayoutIcons,
 } from "@vidstack/react/player/layouts/plyr";
 import { Chip } from "@heroui/react";
-import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, VideoOff } from "lucide-react";
+import { useState } from "react";
 // 处理 YouTube URL
 const getYouTubeId = (url) => {
   const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -18,20 +18,31 @@ const getYouTubeId = (url) => {
 
 export default function VideoPlayer({ videoTitle, src, provider }) {
   const { t } = useTranslation();
+  const [error, setError] = useState(false);
   const videoId = getYouTubeId(src);
   const userAgent = window.navigator.userAgent.toLowerCase();
   const isIOSDevice =
     /iphone|ipod|ipad|macintosh/.test(userAgent) && "ontouchend" in document;
   const videoSrc =
     provider === "youtube" ? `https://www.youtube.com/embed/${videoId}` : src;
+  if (error) {
+    return (
+      <div className="w-full mb-4 aspect-video bg-content3 rounded-lg flex items-center justify-center shadow-custom">
+        <div className="flex flex-col items-center gap-2 text-default-500">
+          <VideoOff className="size-5" />
+          <span className="text-sm">{t("articleView.videoError")}</span>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="mb-4">
-      <MediaPlayer
-        className="rounded-lg shadow-custom overflow-hidden bg-black"
-        src={videoSrc}
-        title={videoTitle}
-        preload="none"
-        onError={(detail) => toast.error(detail.message)}
+        <MediaPlayer
+          className="rounded-lg shadow-custom overflow-hidden bg-black"
+          src={videoSrc}
+          title={videoTitle}
+          preload="none"
+          onError={() => setError(true)}
       >
         <MediaProvider>
           <Poster className="vds-poster" />
@@ -45,8 +56,9 @@ export default function VideoPlayer({ videoTitle, src, provider }) {
               ? []
               : ["play", "progress", "current-time", "duration", "fullscreen"]),
           ]}
-        />
-      </MediaPlayer>
+          />
+        </MediaPlayer>
+
       <div className="flex justify-center">
         <Chip
           color="primary"
@@ -67,8 +79,8 @@ export default function VideoPlayer({ videoTitle, src, provider }) {
           >
             {t("common.openInNewWindow")}
           </a>
-        </Chip>
-      </div>
+          </Chip>
+        </div>
     </div>
   );
 }

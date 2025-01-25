@@ -109,6 +109,7 @@ export default {
   },
   articleView: {
     imageError: "加载图片失败",
+    videoError: "加载视频失败",
     stopPlay: "停止播放",
     getFullText: "阅读模式",
     showSummary: "隐藏阅读模式",

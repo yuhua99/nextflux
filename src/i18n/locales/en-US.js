@@ -110,6 +110,7 @@ export default {
   },
   articleView: {
     imageError: "Error loading image",
+    videoError: "Error loading video",
     stopPlay: "STOP",
     getFullText: "Reader view",
     showSummary: "Hide reader view",
