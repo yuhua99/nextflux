@@ -37,53 +37,50 @@ export default function AddCategoryModal() {
     }
   };
 
-  const content = (
-    <form
-      onSubmit={handleSubmit}
-      className="justify-center items-center flex flex-col gap-4 px-4 pb-4"
-    >
-      <Input
-        isRequired
-        labelPlacement="outside"
-        size="sm"
-        label={t("sidebar.categoryName")}
-        variant="faded"
-        name="title"
-        placeholder={t("sidebar.categoryNamePlaceholder")}
-        errorMessage={t("sidebar.categoryNameRequired")}
-        value={title}
-        onValueChange={setTitle}
-      />
-      <Divider className="my-2" />
-      <div className="flex flex-wrap gap-2 p-3 bg-content2 rounded-lg">
-        {$categories.map((category) => (
-          <CategoryChip key={category.id} category={category} />
-        ))}
-      </div>
-      <div className="flex flex-col gap-2 w-full">
-        <Button
-          color="primary"
-          type="submit"
-          isLoading={loading}
-          size="sm"
-          variant="flat"
-          fullWidth
-        >
-          {t("common.save")}
-        </Button>
-        <Button fullWidth onPress={onClose} size="sm" variant="flat">
-          {t("common.cancel")}
-        </Button>
-      </div>
-    </form>
-  );
-
   return (
     <CustomModal
       open={$addCategoryModalOpen}
       onOpenChange={onClose}
       title={t("sidebar.addCategory")}
-      content={content}
-    />
+    >
+      <form
+        onSubmit={handleSubmit}
+        className="justify-center items-center flex flex-col gap-4 px-4 pb-4"
+      >
+        <Input
+          isRequired
+          labelPlacement="outside"
+          size="sm"
+          label={t("sidebar.categoryName")}
+          variant="faded"
+          name="title"
+          placeholder={t("sidebar.categoryNamePlaceholder")}
+          errorMessage={t("sidebar.categoryNameRequired")}
+          value={title}
+          onValueChange={setTitle}
+        />
+        <Divider className="my-2" />
+        <div className="flex flex-wrap gap-2 p-3 bg-content2 rounded-lg">
+          {$categories.map((category) => (
+            <CategoryChip key={category.id} category={category} />
+          ))}
+        </div>
+        <div className="flex flex-col md:flex-row-reverse gap-2 w-full">
+          <Button
+            color="primary"
+            type="submit"
+            isLoading={loading}
+            size="sm"
+            variant="flat"
+            fullWidth
+          >
+            {t("common.save")}
+          </Button>
+          <Button fullWidth onPress={onClose} size="sm" variant="flat">
+            {t("common.cancel")}
+          </Button>
+        </div>
+      </form>
+    </CustomModal>
   );
 }

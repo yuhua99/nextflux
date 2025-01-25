@@ -263,6 +263,6 @@ export default {
   },
   about: {
     title: "关于",
+    acknowledgments: "致 谢",
   },
 };
-

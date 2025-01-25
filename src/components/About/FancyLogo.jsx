@@ -6,7 +6,7 @@ export const FancyLogo = ({ since }) => {
   const boundingRef = useRef(null);
 
   return (
-    <div className="flex flex-col [perspective:800px] p-5 bg-content2 rounded-md">
+    <div className="flex flex-col [perspective:800px] p-5 bg-content2">
       <div
         onMouseLeave={() => {
           boundingRef.current = null;
@@ -28,9 +28,13 @@ export const FancyLogo = ({ since }) => {
           ev.currentTarget.style.setProperty("--x", `${xPercentage * 100}%`);
           ev.currentTarget.style.setProperty("--y", `${yPercentage * 100}%`);
         }}
-        className="group relative w-full flex flex-col gap-6 py-6 items-center overflow-hidden rounded-md bg-gradient-to-b from-[#EAFFED] to-[#C6F7C9] p-4 text-[#01A977] transition-transform ease-out hover:[transform:rotateX(var(--x-rotation))_rotateY(var(--y-rotation))_scale(1.05)]"
+        className="group relative w-full flex flex-col gap-6 py-6 items-center overflow-hidden rounded-lg bg-gradient-to-b from-[#EAFFED] to-[#C6F7C9] p-4 text-[#01A977] transition-transform ease-out hover:[transform:rotateX(var(--x-rotation))_rotateY(var(--y-rotation))_scale(1.05)]"
       >
-        <Image src={logo} alt="logo" classNames={{ wrapper: "size-24", image: "aspect-square" }} />
+        <Image
+          src={logo}
+          alt="logo"
+          classNames={{ wrapper: "size-24", image: "aspect-square" }}
+        />
         <footer className="flex items-end">
           <span className="flex rounded-sm border border-current px-1 py-px text-xs uppercase">
             NEXTFLUX{" "}

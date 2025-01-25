@@ -10,7 +10,7 @@ import {
 } from "@heroui/react";
 import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
 
-export default function CustomModal({ open, onOpenChange, title, content }) {
+export default function CustomModal({ open, onOpenChange, title, children }) {
   const { isMedium } = useIsMobile();
   if (isMedium) {
     return (
@@ -44,7 +44,7 @@ export default function CustomModal({ open, onOpenChange, title, content }) {
           {() => (
             <div className="max-w-sm w-full">
               <DrawerHeader>{title}</DrawerHeader>
-              <DrawerBody>{content}</DrawerBody>
+              <DrawerBody>{children}</DrawerBody>
             </div>
           )}
         </DrawerContent>
@@ -70,7 +70,7 @@ export default function CustomModal({ open, onOpenChange, title, content }) {
           <div>{title}</div>
           <MiniCloseButton onClose={onOpenChange} />
         </ModalHeader>
-        {content}
+        {children}
       </ModalContent>
     </Modal>
   );

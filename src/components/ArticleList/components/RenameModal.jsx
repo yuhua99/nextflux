@@ -41,48 +41,45 @@ export default function RenameModal() {
     }
   };
 
-  const content = (
-    <Form
-      className="w-full justify-center items-center flex flex-col gap-4 px-4 pb-4"
-      validationBehavior="native"
-      onSubmit={(e) => handleRename(e)}
-    >
-      <Input
-        isRequired
-        labelPlacement="outside"
-        size="sm"
-        label={t("articleList.renameCategory.categoryName")}
-        variant="faded"
-        name="title"
-        placeholder={t("articleList.renameCategory.categoryNamePlaceholder")}
-        errorMessage={t("articleList.renameCategory.categoryNameRequired")}
-        value={newTitle}
-        onValueChange={setNewTitle}
-      />
-      <div className="flex flex-col gap-2 w-full">
-        <Button
-          color="primary"
-          fullWidth
-          type="submit"
-          variant="flat"
-          isLoading={loading}
-          size="sm"
-        >
-          {t("common.save")}
-        </Button>
-        <Button fullWidth onPress={onClose} size="sm" variant="flat">
-          {t("common.cancel")}
-        </Button>
-      </div>
-    </Form>
-  );
-
   return (
     <CustomModal
       open={$renameModalOpen}
       onOpenChange={onClose}
       title={t("articleList.renameCategory.title")}
-      content={content}
-    />
+    >
+      <Form
+        className="w-full justify-center items-center flex flex-col gap-4 px-4 pb-4"
+        validationBehavior="native"
+        onSubmit={(e) => handleRename(e)}
+      >
+        <Input
+          isRequired
+          labelPlacement="outside"
+          size="sm"
+          label={t("articleList.renameCategory.categoryName")}
+          variant="faded"
+          name="title"
+          placeholder={t("articleList.renameCategory.categoryNamePlaceholder")}
+          errorMessage={t("articleList.renameCategory.categoryNameRequired")}
+          value={newTitle}
+          onValueChange={setNewTitle}
+        />
+        <div className="flex flex-col md:flex-row-reverse gap-2 w-full">
+          <Button
+            color="primary"
+            fullWidth
+            type="submit"
+            variant="flat"
+            isLoading={loading}
+            size="sm"
+          >
+            {t("common.save")}
+          </Button>
+          <Button fullWidth onPress={onClose} size="sm" variant="flat">
+            {t("common.cancel")}
+          </Button>
+        </div>
+      </Form>
+    </CustomModal>
   );
 }

@@ -264,5 +264,6 @@ export default {
   },
   about: {
     title: "About",
+    acknowledgments: "Acknowledgments",
   },
 };
