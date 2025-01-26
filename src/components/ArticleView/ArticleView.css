@@ -98,7 +98,7 @@ div.force-dark-code-theme .shiki span {
 
 /*image gallery*/
 .PhotoView-Slider__BannerWrap {
-  @apply pt-safe-offset-4 pl-safe-offset-4 h-auto
+  @apply pt-safe-or-4 pl-safe-or-4 h-auto
 }
 
 /*图片计数显示*/
