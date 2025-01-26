@@ -231,7 +231,7 @@ const ArticleView = () => {
                   <Divider className="my-4" />
                   {audioEnclosure && <PlayAndPause source={audioEnclosure} />}
                   <PhotoProvider
-                    bannerVisible={false}
+                    bannerVisible={true}
                     maskOpacity={0.8}
                     loop={false}
                     speed={() => 300}

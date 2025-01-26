@@ -95,3 +95,38 @@ div.force-dark-code-theme .shiki span {
   background-color: var(--shiki-dark-bg) !important;
   color: var(--shiki-dark) !important;
 }
+
+/*image gallery*/
+.PhotoView-Slider__BannerWrap {
+  @apply p-4 h-auto
+}
+
+/*图片计数显示*/
+.PhotoView-Slider__Counter {
+  @apply hidden;
+}
+
+/*顶部工具栏*/
+.PhotoView-Slider__BannerWrap {
+  @apply bg-transparent;
+}
+
+/*关闭按钮*/
+.PhotoView-Slider__toolbarIcon {
+  @apply p-2 bg-black/50 rounded-full;
+}
+
+.PhotoView-Slider__BannerRight svg {
+  @apply size-8
+}
+
+/*导航按钮容器*/
+.PhotoView-Slider__ArrowLeft, .PhotoView-Slider__ArrowRight {
+  @apply hidden w-auto px-4 md:flex animate-in fade-in zoom-in
+}
+
+/*导航按钮*/
+.PhotoView-Slider__ArrowLeft svg, .PhotoView-Slider__ArrowRight svg {
+  @apply bg-black/50 rounded-full p-2 size-4;
+}
+
