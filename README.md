@@ -6,7 +6,7 @@ A modern RSS reader client for [Miniflux](https://github.com/miniflux/v2) built 
 
 ## ✨ Features
 
-- 🚀 Fast and responsive UI built with NextUI
+- 🚀 Fast and responsive UI built with HeroUI (Previously NextUI)
 - 🌐 Connect to your Miniflux server
 - 🔄 Automatic background sync with configurable intervals
 - 📱 Mobile-friendly with PWA support
@@ -14,15 +14,15 @@ A modern RSS reader client for [Miniflux](https://github.com/miniflux/v2) built 
 - 🌍 i18n support (English & Chinese)
 - 👀 Mark as read on scroll
 - 🎯 Rich reading experience
-  - Custom font settings
-  - Image gallery with touch gestures support
-  - Podcast support
-  - Video player support
+    - Custom font settings
+    - Image gallery with touch gestures support
+    - Podcast support
+    - Video player support
 - ⌨️ Keyboard shortcuts
 - 📊 Feed management
-  - OPML import
-  - Category organization
-  - Feed hiding
+    - OPML import
+    - Category organization
+    - Feed hiding
 
 ## 📸 Screenshot Galleries
 
@@ -94,7 +94,7 @@ A modern RSS reader client for [Miniflux](https://github.com/miniflux/v2) built 
 - React 18
 - Vite
 - TailwindCSS
-- NextUI
+- HeroUI (Previously NextUI)
 - i18next
 - IndexedDB
 - Nanostores
@@ -102,7 +102,7 @@ A modern RSS reader client for [Miniflux](https://github.com/miniflux/v2) built 
 
 ## 🚀 Deployment
 
-### Docker Deployment
+### Docker Deployment (standalone)
 
 Run with Docker using the following command:
 
@@ -110,15 +110,7 @@ Run with Docker using the following command:
 docker run -d --name nextflux -p 3000:3000 --restart unless-stopped electh/nextflux:latest
 ```
 
-### Docker Compose Deployment
-
-To deploy with Miniflux, copy [docker compose file](./compose.yml) and replace the passwords, then run:
-
-```bash
-docker compose up -d
-```
-
-### Cloudflare Pages Deployment
+### Cloudflare Pages Deployment (standalone)
 
 1. Fork this repository to your GitHub account
 2. Create a new project in Cloudflare Pages
@@ -127,6 +119,14 @@ docker compose up -d
 5. Set build command: `npm run build`
 6. Set build output directory: `dist`
 7. Deploy and access through the Cloudflare-assigned domain
+
+### Docker Compose Deployment (with Miniflux)
+
+To deploy with Miniflux, copy [docker compose file](./compose.yml) and replace the passwords, then run:
+
+```bash
+docker compose up -d
+```
 
 ## 📝 Configuration
 
@@ -154,4 +154,30 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Do whatever the heck you want with it—just don’t come crying to me if it messes up your stuff. Just kidding (or not),
+but seriously, it’s all yours.
+
+## 📚 FAQ
+
+### 1. My scrollbar looks like shit in Windows—how do I fix this?
+
+If you’re using Microsoft Edge, head over to the `edge://flags` page and enable the `Fluent overlay scrollbars` option.
+Chrome might have something similar lurking around.
+
+### 2. Are there any plans to support Fever or Google Reader APIs?
+
+Nope, sorry folks. For now, I’m all in on the Miniflux API—gotta pick my battles.
+
+### 3. Why does it resemble Reeder so much?
+
+Reeder is a fantastic RSS reader. Since my design skills are about as good as a potato's, I took some "inspiration" from
+its UI style, slapped it on, and called it a day.
+
+### 4. I want some fancy AI features like article summarization and translation.
+
+There are so many chrome extensions that can do this. I'm not sure if I want to build this into the app. Tell me what you think by opening an issue.
+
+
+
+
+
