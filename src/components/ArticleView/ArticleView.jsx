@@ -6,7 +6,11 @@ import "react-photo-view/dist/react-photo-view.css";
 import "./ArticleView.css";
 import ActionButtons from "@/components/ArticleView/components/ActionButtons.jsx";
 import { generateReadableDate } from "@/lib/format.js";
-import { activeArticle, filteredArticles } from "@/stores/articlesStore.js";
+import {
+  activeArticle,
+  filteredArticles,
+  imageGalleryActive,
+} from "@/stores/articlesStore.js";
 import { Chip, Divider, ScrollShadow } from "@heroui/react";
 import EmptyPlaceholder from "@/components/ArticleList/components/EmptyPlaceholder";
 import { cleanTitle, getFontSizeClass } from "@/lib/utils";
@@ -232,6 +236,10 @@ const ArticleView = () => {
                   {audioEnclosure && <PlayAndPause source={audioEnclosure} />}
                   <PhotoProvider
                     bannerVisible={true}
+                    onVisibleChange={(visible) => {
+                      imageGalleryActive.set(visible);
+                      console.log(visible);
+                    }}
                     maskOpacity={0.8}
                     loop={false}
                     speed={() => 300}

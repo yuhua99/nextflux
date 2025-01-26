@@ -9,6 +9,7 @@ export const activeArticle = atom(null);
 export const loading = atom(false);
 export const error = atom(null);
 export const filter = atom("all");
+export const imageGalleryActive = atom(false);
 
 // 当前文章列表中的未读计数
 export const unreadArticlesCount = computed([filteredArticles], ($articles) => {

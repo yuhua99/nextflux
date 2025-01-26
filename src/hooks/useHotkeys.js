@@ -1,7 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useStore } from "@nanostores/react";
-import { activeArticle, filteredArticles } from "@/stores/articlesStore";
+import {
+  activeArticle,
+  filteredArticles,
+  imageGalleryActive,
+} from "@/stores/articlesStore";
 import { handleMarkStatus, handleToggleStar } from "@/handlers/articleHandlers";
 import { forceSync } from "@/stores/syncStore";
 import { shortcutsModalOpen } from "@/stores/modalStore";
@@ -11,6 +15,7 @@ export function useHotkeys() {
   const navigate = useNavigate();
   const $articles = useStore(filteredArticles);
   const $activeArticle = useStore(activeArticle);
+  const $imageGalleryActive = useStore(imageGalleryActive);
   const { articleId } = useParams();
 
   // 获取当前文章在列表中的索引
@@ -80,7 +85,11 @@ export function useHotkeys() {
           break;
 
         case "escape": // 关闭文章
-          navigate(basePath || "/");
+          if ($imageGalleryActive) {
+            return;
+          } else {
+            navigate(basePath || "/");
+          }
           break;
 
         case "v": // 在新标签页打开原文
@@ -100,5 +109,13 @@ export function useHotkeys() {
     return () => {
       target.removeEventListener("keydown", handleKeyDown);
     };
-  }, [$activeArticle, currentIndex, $articles, basePath, navigate, articleId]);
+  }, [
+    $activeArticle,
+    currentIndex,
+    $articles,
+    basePath,
+    navigate,
+    articleId,
+    $imageGalleryActive,
+  ]);
 }
