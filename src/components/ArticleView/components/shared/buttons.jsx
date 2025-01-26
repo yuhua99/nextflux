@@ -1,18 +1,14 @@
 import { PlayButton, SeekButton, useMediaState } from "@vidstack/react";
-import {
-  FileSymlink,
-  PauseIcon,
-  PlayIcon,
-  RedoDot,
-  UndoDot,
-} from "lucide-react";
+import { FileSymlink, RedoDot, UndoDot } from "lucide-react";
 import { Button } from "@heroui/react";
 import { activeAudio } from "@/stores/audioStore.js";
 import { useStore } from "@nanostores/react";
 import { useNavigate } from "react-router-dom";
+import { plyrLayoutIcons } from "@vidstack/react/player/layouts/plyr";
 
 export function Play({ variant, size }) {
   const isPaused = useMediaState("paused");
+  const { Play, Pause } = plyrLayoutIcons;
   return (
     <PlayButton asChild>
       <Button
@@ -23,9 +19,9 @@ export function Play({ variant, size }) {
         className="text-default-500"
       >
         {isPaused ? (
-          <PlayIcon className="size-4 fill-current" />
+          <Play className="size-4 fill-current ml-0.5" />
         ) : (
-          <PauseIcon className="size-4 fill-current" />
+          <Pause className="size-4 fill-current" />
         )}
       </Button>
     </PlayButton>

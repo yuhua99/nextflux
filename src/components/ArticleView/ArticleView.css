@@ -98,7 +98,7 @@ div.force-dark-code-theme .shiki span {
 
 /*image gallery*/
 .PhotoView-Slider__BannerWrap {
-  @apply p-4 h-auto
+  @apply pt-safe-offset-4 pl-safe-offset-4 h-auto
 }
 
 /*图片计数显示*/
@@ -122,7 +122,7 @@ div.force-dark-code-theme .shiki span {
 
 /*导航按钮容器*/
 .PhotoView-Slider__ArrowLeft, .PhotoView-Slider__ArrowRight {
-  @apply hidden w-auto px-4 md:flex animate-in fade-in zoom-in
+  @apply hidden w-auto px-safe-offset-4 md:flex animate-in fade-in zoom-in
 }
 
 /*导航按钮*/

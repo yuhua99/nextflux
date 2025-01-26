@@ -2,16 +2,17 @@ import { Button, Card, CardHeader, Image } from "@heroui/react";
 import { activeAudio, audioState } from "@/stores/audioStore.js";
 import { activeArticle } from "@/stores/articlesStore.js";
 import { useStore } from "@nanostores/react";
-import { Pause, Play } from "lucide-react";
 import { cn, extractFirstImage } from "@/lib/utils.js";
 import cover from "@/assets/cover.jpg";
 import { useEffect, useState } from "react";
+import { plyrLayoutIcons } from "@vidstack/react/player/layouts/plyr";
 
 export default function PlayAndPause({ source }) {
   const { paused, loading } = useStore(audioState);
   const $activeArticle = useStore(activeArticle);
   const $activeAudio = useStore(activeAudio);
   const [currentPlaying, setCurrentPlaying] = useState(false);
+  const { Play, Pause } = plyrLayoutIcons;
 
   useEffect(() => {
     setCurrentPlaying(!paused && $activeAudio?.id === source.id);
@@ -43,7 +44,7 @@ export default function PlayAndPause({ source }) {
               );
             }}
           >
-            <Play className="size-4 fill-current" />
+            <Play className="size-4 fill-current ml-0.5" />
           </Button>
         ) : (
           <Button
