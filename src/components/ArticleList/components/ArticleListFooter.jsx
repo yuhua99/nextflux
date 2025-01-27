@@ -1,5 +1,5 @@
 import { filter } from "@/stores/articlesStore";
-import { CircleDot, Infinity, Star } from "lucide-react";
+import { CircleDot, Star, Text } from "lucide-react";
 import { Tab, Tabs } from "@heroui/react";
 import { useStore } from "@nanostores/react";
 import AudioPlayer from "@/components/ArticleView/components/AudioPlayer.jsx";
@@ -38,7 +38,7 @@ export default function ArticleListFooter() {
           key="starred"
           title={
             <div className="flex items-center space-x-1.5">
-              <Star className="size-3" />
+              <Star className="size-3 fill-current" />
               <span>{t("articleList.starred")}</span>
             </div>
           }
@@ -47,7 +47,7 @@ export default function ArticleListFooter() {
           key="unread"
           title={
             <div className="flex items-center space-x-1.5">
-              <CircleDot className="size-3" />
+              <CircleDot className="size-3 p-[1px] fill-current" />
               <span>{t("articleList.unread")}</span>
             </div>
           }
@@ -56,7 +56,7 @@ export default function ArticleListFooter() {
           key="all"
           title={
             <div className="flex items-center space-x-1.5">
-              <Infinity className="size-3" />
+              <Text strokeWidth={4} className="size-3" />
               <span>{t("articleList.all")}</span>
             </div>
           }

@@ -186,9 +186,9 @@ export default function ActionButtons({ parentRef }) {
               isIconOnly
             >
               {$activeArticle?.status === "read" ? (
-                <Circle className="size-4 text-default-500" />
+                <Circle className="size-4 text-default-500 p-0.5" />
               ) : (
-                <CircleDot className="size-4 text-default-500" />
+                <CircleDot className="size-4 text-default-500 p-0.5 fill-current" />
               )}
               <span className="sr-only">
                 {$activeArticle?.status === "read"

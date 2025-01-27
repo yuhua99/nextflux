@@ -28,10 +28,10 @@ const FeedsGroupContent = ({ category }) => {
   const { isMobile, setOpenMobile } = useSidebar();
   const { categoryId, feedId } = useParams();
   const { defaultExpandCategory } = useStore(settingsState);
-  
+
   // 从本地存储获取展开状态
   const getStoredExpandState = () => {
-    const stored = localStorage.getItem('categoryExpanded');
+    const stored = localStorage.getItem("categoryExpanded");
     return stored ? JSON.parse(stored) : {};
   };
 
@@ -45,14 +45,14 @@ const FeedsGroupContent = ({ category }) => {
   const updateExpandState = (isOpen) => {
     const stored = getStoredExpandState();
     stored[category.id] = isOpen;
-    localStorage.setItem('categoryExpanded', JSON.stringify(stored));
+    localStorage.setItem("categoryExpanded", JSON.stringify(stored));
     setOpen(isOpen);
   };
 
   useEffect(() => {
     if (feedId) {
       const shouldExpand = category.feeds.some(
-        (feed) => parseInt(feedId) === feed.id
+        (feed) => parseInt(feedId) === feed.id,
       );
       // 只在需要展开时更新状态
       if (shouldExpand) {
@@ -67,11 +67,7 @@ const FeedsGroupContent = ({ category }) => {
   }, [feedId, category.id]);
 
   return (
-    <Collapsible
-      key={category.id}
-      open={open}
-      onOpenChange={updateExpandState}
-    >
+    <Collapsible key={category.id} open={open} onOpenChange={updateExpandState}>
       <SidebarMenuItem key={`menu-${category.id}`}>
         <SidebarMenuButton
           className={cn(categoryId === category.id && "bg-default rounded-md")}
@@ -81,7 +77,7 @@ const FeedsGroupContent = ({ category }) => {
             to={`/category/${category.id}`}
             onClick={() => isMobile && setOpenMobile(false)}
           >
-            <span className={"pl-6"}>{category.title}</span>
+            <span className={"pl-6 font-medium"}>{category.title}</span>
           </Link>
         </SidebarMenuButton>
         <CollapsibleTrigger asChild>

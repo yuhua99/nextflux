@@ -46,7 +46,7 @@ const ArticlesGroup = () => {
     }
   };
 
-  const { icon, text, count } = getDisplayInfo();
+  const { text, count } = getDisplayInfo();
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>{t("common.article")}</SidebarGroupLabel>
@@ -56,8 +56,8 @@ const ArticlesGroup = () => {
         >
           <SidebarMenuButton asChild>
             <Link to="/" onClick={() => isMobile && setOpenMobile(false)}>
-              {icon}
-              <span>{text}</span>
+              {/*{icon}*/}
+              <span className="font-semibold">{text}</span>
             </Link>
           </SidebarMenuButton>
           <SidebarMenuBadge>{count !== 0 && count}</SidebarMenuBadge>

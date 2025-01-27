@@ -103,7 +103,7 @@ export default function ArticleCard({ article }) {
       ref={cardRef}
       className={cn(
         "cursor-pointer select-none overflow-hidden p-2 rounded-lg",
-        "relative transform-gpu transition duration-200",
+        "relative transform-gpu transition-background duration-200",
         "bg-transparent contain-content",
         "hover:bg-background/70",
         parseInt(articleId) === article.id && "bg-background/70 shadow-custom",
@@ -118,7 +118,7 @@ export default function ArticleCard({ article }) {
       />
       <div
         className={cn(
-          "card-content flex flex-col gap-1",
+          "card-content flex flex-col gap-1 transition-opacity",
           article.status === "read" &&
             article.starred === false &&
             "opacity-50",
