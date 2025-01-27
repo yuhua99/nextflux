@@ -65,8 +65,8 @@ export default function ArticleListHeader() {
   };
 
   return (
-    <div className="px-2">
-      <div className="article-list-header w-full z-10 bg-content2 border-b py-2 standalone:pt-safe-or-2">
+    <div className="px-2 z-10 bg-content2">
+      <div className="article-list-header w-full border-b py-2 standalone:pt-safe-or-2">
         <div className="flex items-center gap-2">
           <SidebarTrigger />
           <div className="grid flex-1 text-left text-sm leading-tight">

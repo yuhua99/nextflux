@@ -41,7 +41,7 @@ export default function ArticleListContent({ articles }) {
     if (index >= 0) {
       listRef.current?.scrollIntoView({
         index: index,
-        behavior: "instant",
+        behavior: "smooth",
       });
     }
   }, [isMedium, index]);
