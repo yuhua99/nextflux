@@ -26,6 +26,7 @@ import { useTranslation } from "react-i18next";
 import { ExternalLink } from "lucide-react";
 import { cn, getHostname } from "@/lib/utils.js";
 import { useIsMobile } from "@/hooks/use-mobile.jsx";
+import FeedIcon from "@/components/ui/FeedIcon.jsx";
 
 const ArticleView = () => {
   const { t } = useTranslation();
@@ -206,7 +207,8 @@ const ArticleView = () => {
                     className="article-header"
                     style={{ textAlign: titleAlignType }}
                   >
-                    <div className="text-default-500 text-sm">
+                    <div className="text-default-500 text-sm flex items-center gap-1">
+                      <FeedIcon url={$activeArticle?.feed?.site_url} />
                       {$activeArticle?.feed?.title}
                     </div>
                     <h1

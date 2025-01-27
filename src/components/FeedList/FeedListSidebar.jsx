@@ -38,7 +38,7 @@ const FeedListSidebar = () => {
 
   return (
     <Sidebar variant="sidebar" className="sidebar">
-      <SidebarHeader className="sidebar-header">
+      <SidebarHeader className="sidebar-header standalone:pt-safe-or-2">
         <SidebarMenu>
           <SidebarMenuItem>
             <div className="flex items-center gap-2">

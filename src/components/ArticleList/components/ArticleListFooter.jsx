@@ -13,7 +13,7 @@ export default function ArticleListFooter() {
   const $activeAudio = useStore(activeAudio);
 
   return (
-    <div className="article-list-footer absolute bottom-0 w-full bg-transparent flex flex-col items-center justify-center pb-4">
+    <div className="article-list-footer absolute bottom-0 w-full bg-transparent flex flex-col items-center justify-center pb-4 standalone:pb-safe">
       <AnimatePresence initial={false} mode="wait">
         {$activeAudio && <AudioPlayer source={$activeAudio} />}
       </AnimatePresence>

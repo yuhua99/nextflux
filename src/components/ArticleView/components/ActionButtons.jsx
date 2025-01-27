@@ -119,7 +119,7 @@ export default function ActionButtons({ parentRef }) {
 
   return (
     <Navbar
-      className="action-buttons py-2.5"
+      className="action-buttons py-2.5 standalone:pt-safe-or-2.5"
       maxWidth="full"
       isBordered
       shouldHideOnScroll={autoHideToolbar}

@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useStore } from "@nanostores/react";
 import { SidebarTrigger } from "@/components/ui/sidebar.jsx";
-import { Divider } from "@heroui/react";
 import {
   filter,
   filteredArticles,
@@ -66,21 +65,22 @@ export default function ArticleListHeader() {
   };
 
   return (
-    <div className="article-list-header w-full px-3 z-10 bg-content2">
-      <div className="flex items-center gap-2">
-        <SidebarTrigger className="my-2.5" />
-        <div className="grid flex-1 text-left text-sm leading-tight">
-          <span className="truncate font-semibold">{getTitleText()}</span>
-          <span className="truncate text-xs text-default-400">
-            {$isSyncing ? t("common.syncing") : getFilteredCount()}
-          </span>
+    <div className="px-2">
+      <div className="article-list-header w-full z-10 bg-content2 border-b py-2 standalone:pt-safe-or-2">
+        <div className="flex items-center gap-2">
+          <SidebarTrigger />
+          <div className="grid flex-1 text-left text-sm leading-tight">
+            <span className="truncate font-semibold">{getTitleText()}</span>
+            <span className="truncate text-xs text-default-400">
+              {$isSyncing ? t("common.syncing") : getFilteredCount()}
+            </span>
+          </div>
+          <div className="ml-auto">
+            <MarkAllReadButton />
+          </div>
+          <MenuButton />
         </div>
-        <div className="ml-auto">
-          <MarkAllReadButton />
-        </div>
-        <MenuButton />
       </div>
-      <Divider className="w-auto" />
     </div>
   );
 }

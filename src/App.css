@@ -44,31 +44,7 @@ body {
     min-height: 100lvh;
   }
 
-  .sidebar-header {
-    padding-top: calc(env(safe-area-inset-top) + 8px) !important;
-  }
-
-  .article-list-header {
-    padding-top: env(safe-area-inset-top) !important;
-  }
-
-  .article-list-footer {
-    padding-bottom: calc(env(safe-area-inset-bottom) + 8px) !important;
-  }
-
   .vlist-footer {
     height: calc(env(safe-area-inset-bottom) + 96px) !important;
-  }
-
-  .action-buttons {
-    padding-top: calc(env(safe-area-inset-top) + 10px) !important;
-  }
-
-  .settings-modal, .alert-dialog {
-    margin-bottom: calc(env(safe-area-inset-bottom) + 8px) !important;
-  }
-
-  .profile-button {
-    padding-bottom: env(safe-area-inset-bottom) !important;
   }
 }

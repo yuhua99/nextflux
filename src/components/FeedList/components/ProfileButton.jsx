@@ -10,13 +10,17 @@ import {
   ChevronsUpDown,
   Cog,
   ExternalLink,
-  Keyboard,
   Info,
+  Keyboard,
   LogOut,
 } from "lucide-react";
 import { authState } from "@/stores/authStore.js";
 import { settingsModalOpen } from "@/stores/settingsStore.js";
-import { logoutModalOpen, shortcutsModalOpen, aboutModalOpen } from "@/stores/modalStore.js";
+import {
+  aboutModalOpen,
+  logoutModalOpen,
+  shortcutsModalOpen,
+} from "@/stores/modalStore.js";
 import { useSidebar } from "@/components/ui/sidebar.jsx";
 import { useTranslation } from "react-i18next";
 
@@ -26,7 +30,7 @@ export default function ProfileButton() {
   const { isMobile, setOpenMobile } = useSidebar();
 
   return (
-    <div className="profile-button flex items-center gap-4">
+    <div className="profile-button standalone:pb-safe flex items-center gap-4">
       <Dropdown>
         <DropdownTrigger>
           <Button
