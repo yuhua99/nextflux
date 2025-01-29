@@ -6,12 +6,14 @@ import { router } from "@/routes/index.jsx";
 import { HeroUIProvider } from "@heroui/react";
 import { RouterProvider } from "react-router";
 import { Toaster } from "sonner";
+import SplashScreen from "@/components/SplashScreen";
 
 // 初始化主题
 initTheme();
 
 createRoot(document.getElementById("root")).render(
   <HeroUIProvider>
+    <SplashScreen />
     <RouterProvider
       router={router}
       future={{
