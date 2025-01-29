@@ -21,6 +21,7 @@ import {
 import { Button, Divider } from "@heroui/react";
 import { resetSettings } from "@/stores/settingsStore.js";
 import { useTranslation } from "react-i18next";
+import SettingIcon from "@/components/ui/SettingIcon";
 
 export default function Readability() {
   const {
@@ -71,14 +72,22 @@ export default function Readability() {
       <ItemWrapper title={t("settings.readability.text")}>
         <SwitchItem
           label={t("settings.readability.autoHideToolbar")}
-          icon={<PanelTopDashed className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="amber">
+              <PanelTopDashed />
+            </SettingIcon>
+          }
           settingName="autoHideToolbar"
           settingValue={autoHideToolbar}
         />
         <Divider />
         <SelItem
           label={t("settings.readability.font")}
-          icon={<Type className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="blue">
+              <Type />
+            </SettingIcon>
+          }
           settingName="fontFamily"
           settingValue={fontFamily}
           options={fontOptions}
@@ -86,14 +95,22 @@ export default function Readability() {
         <Divider />
         <SwitchItem
           label={t("settings.readability.textAlignJustify")}
-          icon={<AlignJustify className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="green">
+              <AlignJustify />
+            </SettingIcon>
+          }
           settingName="alignJustify"
           settingValue={alignJustify}
         />
         <Divider />
         <SliderItem
           label={t("settings.readability.lineHeight")}
-          icon={<UnfoldVertical className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="purple">
+              <UnfoldVertical />
+            </SettingIcon>
+          }
           settingName="lineHeight"
           settingValue={lineHeight}
           max={2.5}
@@ -103,7 +120,11 @@ export default function Readability() {
         <Divider />
         <SliderItem
           label={t("settings.readability.fontSize")}
-          icon={<CaseSensitive className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="purple">
+              <CaseSensitive />
+            </SettingIcon>
+          }
           settingName="fontSize"
           settingValue={fontSize}
           max={24}
@@ -114,7 +135,9 @@ export default function Readability() {
         <SliderItem
           label={t("settings.readability.maxWidth")}
           icon={
-            <UnfoldHorizontal className="shrink-0 size-4 text-default-500" />
+            <SettingIcon variant="purple">
+              <UnfoldHorizontal />
+            </SettingIcon>
           }
           settingName="maxWidth"
           settingValue={maxWidth}
@@ -127,7 +150,9 @@ export default function Readability() {
         <GroupItem
           label={t("settings.readability.titleAlign")}
           icon={
-            <AlignStartVertical className="shrink-0 size-4 text-default-500" />
+            <SettingIcon variant="green">
+              <AlignStartVertical />
+            </SettingIcon>
           }
           settingName="titleAlignType"
           settingValue={titleAlignType}
@@ -139,7 +164,11 @@ export default function Readability() {
         <Divider />
         <SliderItem
           label={t("settings.readability.titleFontSize")}
-          icon={<CaseSensitive className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="purple">
+              <CaseSensitive />
+            </SettingIcon>
+          }
           settingName="titleFontSize"
           settingValue={titleFontSize}
           max={3.0}

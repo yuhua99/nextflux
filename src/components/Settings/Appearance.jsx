@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import Theme from "./components/Theme";
 import { useTranslation } from "react-i18next";
+import SettingIcon from "@/components/ui/SettingIcon";
 
 export default function Appearance() {
   const {
@@ -43,11 +44,9 @@ export default function Appearance() {
         <SelItem
           label={t("settings.appearance.shape")}
           icon={
-            feedIconShape === "circle" ? (
-              <Circle className="shrink-0 size-4 text-default-500" />
-            ) : (
-              <Square className="shrink-0 size-4 text-default-500" />
-            )
+            <SettingIcon variant="blue">
+              {feedIconShape === "circle" ? <Circle /> : <Square />}
+            </SettingIcon>
           }
           settingName="feedIconShape"
           settingValue={feedIconShape}
@@ -59,7 +58,11 @@ export default function Appearance() {
         <Divider />
         <SwitchItem
           label={t("settings.appearance.grayscale")}
-          icon={<CircleDashed className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="default">
+              <CircleDashed />
+            </SettingIcon>
+          }
           settingName="useGrayIcon"
           settingValue={useGrayIcon}
         />
@@ -67,7 +70,11 @@ export default function Appearance() {
       <ItemWrapper title={t("settings.appearance.articleList")}>
         <SelItem
           label={t("settings.appearance.imagePreviews")}
-          icon={<LayoutList className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="green">
+              <LayoutList />
+            </SettingIcon>
+          }
           settingName="cardImageSize"
           settingValue={cardImageSize}
           options={[
@@ -79,21 +86,33 @@ export default function Appearance() {
         <Divider />
         <SwitchItem
           label={t("settings.appearance.showFavicon")}
-          icon={<Rss className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="green">
+              <Rss />
+            </SettingIcon>
+          }
           settingName="showFavicon"
           settingValue={showFavicon}
         />
         <Divider />
         <SwitchItem
           label={t("settings.appearance.showTextPreview")}
-          icon={<Text className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="green">
+              <Text />
+            </SettingIcon>
+          }
           settingName="showTextPreview"
           settingValue={showTextPreview}
         />
         <Divider />
         <SwitchItem
           label={t("settings.appearance.showReadingTime")}
-          icon={<Clock className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="green">
+              <Clock />
+            </SettingIcon>
+          }
           settingName="showReadingTime"
           settingValue={showReadingTime}
         />
@@ -101,7 +120,11 @@ export default function Appearance() {
       <ItemWrapper title={t("settings.appearance.videoPlayer")}>
         <SwitchItem
           label={t("settings.appearance.useNativeVideoPlayer")}
-          icon={<MonitorPlay className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="red">
+              <MonitorPlay />
+            </SettingIcon>
+          }
           settingName="useNativeVideoPlayer"
           settingValue={useNativeVideoPlayer}
         />
@@ -109,14 +132,22 @@ export default function Appearance() {
       <ItemWrapper title={t("settings.appearance.codeBlock")}>
         <SwitchItem
           label={t("settings.appearance.showLineNumbers")}
-          icon={<ListOrdered className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="default">
+              <ListOrdered />
+            </SettingIcon>
+          }
           settingName="showLineNumbers"
           settingValue={showLineNumbers}
         />
         <Divider />
         <SwitchItem
           label={t("settings.appearance.forceDarkCodeTheme")}
-          icon={<SquareCode className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="default">
+              <SquareCode />
+            </SettingIcon>
+          }
           settingName="forceDarkCodeTheme"
           settingValue={forceDarkCodeTheme}
         />
@@ -124,7 +155,11 @@ export default function Appearance() {
       <ItemWrapper title={t("settings.appearance.motion")}>
         <SwitchItem
           label={t("settings.appearance.reduceMotion")}
-          icon={<CandyOff className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="cyan">
+              <CandyOff />
+            </SettingIcon>
+          }
           settingName="reduceMotion"
           settingValue={reduceMotion}
         />

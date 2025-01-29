@@ -17,6 +17,7 @@ import {
 } from "@heroui/react";
 import { setTheme, themes, themeState } from "@/stores/themeStore";
 import { useTranslation } from "react-i18next";
+import SettingIcon from "@/components/ui/SettingIcon";
 
 export default function Theme() {
   const { t } = useTranslation();
@@ -46,7 +47,9 @@ export default function Theme() {
     <ItemWrapper title={t("settings.appearance.theme")}>
       <div className={`flex justify-between items-center gap-2 ${bgColor} p-2`}>
         <div className="flex items-center gap-2">
-          <Paintbrush className="shrink-0 size-4 text-default-500" />
+          <SettingIcon variant="blue">
+            <Paintbrush />
+          </SettingIcon>
           <div className="text-sm text-foreground line-clamp-1">
             {t("settings.appearance.mode")}
           </div>
@@ -54,7 +57,7 @@ export default function Theme() {
         <Dropdown>
           <DropdownTrigger>
             <Button
-              className="capitalize"
+              className="capitalize gap-1 pr-1.5 shadow-custom"
               variant="flat"
               size="sm"
               endContent={<ChevronsUpDown className="size-4 shrink-0" />}
@@ -81,7 +84,9 @@ export default function Theme() {
       <Divider />
       <div className={`flex justify-between items-center gap-2 ${bgColor} p-2`}>
         <div className="flex items-center gap-2">
-          <Sun className="shrink-0 size-4 text-default-500" />
+          <SettingIcon variant="amber">
+            <Sun />
+          </SettingIcon>
           <div className="text-sm text-foreground line-clamp-1">
             {t("settings.appearance.lightTheme")}
           </div>
@@ -89,7 +94,7 @@ export default function Theme() {
         <Dropdown>
           <DropdownTrigger>
             <Button
-              className="capitalize"
+              className="capitalize gap-1 pr-1.5 shadow-custom"
               variant="flat"
               size="sm"
               endContent={<ChevronsUpDown className="size-4 shrink-0" />}
@@ -132,7 +137,9 @@ export default function Theme() {
       <Divider />
       <div className={`flex justify-between items-center gap-2 ${bgColor} p-2`}>
         <div className="flex items-center gap-2">
-          <MoonStar className="shrink-0 size-4 text-default-500" />
+          <SettingIcon variant="purple">
+            <MoonStar />
+          </SettingIcon>
           <div className="text-sm text-foreground line-clamp-1">
             {t("settings.appearance.darkTheme")}
           </div>
@@ -140,7 +147,7 @@ export default function Theme() {
         <Dropdown>
           <DropdownTrigger>
             <Button
-              className="capitalize"
+              className="capitalize gap-1 pr-1.5 shadow-custom"
               variant="flat"
               size="sm"
               endContent={<ChevronsUpDown className="size-4 shrink-0" />}

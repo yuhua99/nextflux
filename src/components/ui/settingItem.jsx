@@ -20,8 +20,12 @@ const bgColor = "bg-content1 dark:bg-content2/30";
 export const ItemWrapper = ({ title, children }) => {
   return (
     <div className="settings-group">
-      <div className="text-xs text-content2-foreground ml-2 mb-1">{title}</div>
-      <div className="rounded-lg overflow-hidden border">{children}</div>
+      <div className="text-xs text-default-400 font-medium ml-2 mb-1">
+        {title}
+      </div>
+      <div className="rounded-xl overflow-hidden border shadow-sm">
+        {children}
+      </div>
     </div>
   );
 };
@@ -98,7 +102,7 @@ export function SelItem({ label, icon, settingName, settingValue, options }) {
       <Dropdown>
         <DropdownTrigger>
           <Button
-            className="capitalize"
+            className="capitalize gap-1 pr-1.5 shadow-custom"
             variant="flat"
             size="sm"
             endContent={<ChevronsUpDown className="size-4 shrink-0" />}

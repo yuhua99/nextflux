@@ -17,6 +17,7 @@ import {
 import { Divider } from "@heroui/react";
 import Language from "@/components/Settings/components/Language.jsx";
 import { useTranslation } from "react-i18next";
+import SettingIcon from "@/components/ui/SettingIcon";
 
 export default function General() {
   const {
@@ -34,7 +35,11 @@ export default function General() {
       <ItemWrapper title={t("settings.general.sync")}>
         <SelItem
           label={t("settings.general.syncInterval")}
-          icon={<RefreshCw className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="default">
+              <RefreshCw />
+            </SettingIcon>
+          }
           settingName="syncInterval"
           settingValue={syncInterval}
           options={[
@@ -49,14 +54,22 @@ export default function General() {
       <ItemWrapper title={t("settings.general.feeds")}>
         <SwitchItem
           label={t("settings.general.showHiddenFeeds")}
-          icon={<Eye className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="purple">
+              <Eye />
+            </SettingIcon>
+          }
           settingName="showHiddenFeeds"
           settingValue={showHiddenFeeds}
         />
         <Divider />
         <SwitchItem
           label={t("settings.general.defaultExpandCategory")}
-          icon={<FolderOpen className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="blue">
+              <FolderOpen />
+            </SettingIcon>
+          }
           settingName="defaultExpandCategory"
           settingValue={defaultExpandCategory}
         />
@@ -65,11 +78,9 @@ export default function General() {
         <SelItem
           label={t("settings.general.sortItems")}
           icon={
-            sortDirection === "desc" ? (
-              <ClockArrowDown className="shrink-0 size-4 text-default-500" />
-            ) : (
-              <ClockArrowUp className="shrink-0 size-4 text-default-500" />
-            )
+            <SettingIcon variant="blue">
+              {sortDirection === "desc" ? <ClockArrowDown /> : <ClockArrowUp />}
+            </SettingIcon>
           }
           settingName="sortDirection"
           settingValue={sortDirection}
@@ -81,14 +92,22 @@ export default function General() {
         <Divider />
         <SwitchItem
           label={t("settings.general.showUnreadByDefault")}
-          icon={<CircleDot className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="amber">
+              <CircleDot className="p-1 fill-current" />
+            </SettingIcon>
+          }
           settingName="showUnreadByDefault"
           settingValue={showUnreadByDefault}
         />
         <Divider />
         <SwitchItem
           label={t("settings.general.markAsReadOnScroll")}
-          icon={<CircleCheck className="shrink-0 size-4 text-default-500" />}
+          icon={
+            <SettingIcon variant="red">
+              <CircleCheck />
+            </SettingIcon>
+          }
           settingName="markAsReadOnScroll"
           settingValue={markAsReadOnScroll}
         />

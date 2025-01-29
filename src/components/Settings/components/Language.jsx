@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { ItemWrapper } from "@/components/ui/settingItem.jsx";
-import { ChevronsUpDown, Earth } from "lucide-react";
+import { ChevronsUpDown, Globe } from "lucide-react";
 import {
   Button,
   Dropdown,
@@ -8,6 +8,7 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@heroui/react";
+import SettingIcon from "@/components/ui/SettingIcon";
 
 const languages = [
   { id: "zh-CN", name: "简体中文" },
@@ -21,7 +22,9 @@ export default function Language() {
     <ItemWrapper title={t("settings.general.language")}>
       <div className="flex justify-between items-center gap-2 bg-content1 dark:bg-content2/30 p-2">
         <div className="flex items-center gap-2">
-          <Earth className="shrink-0 size-4 text-default-500" />
+          <SettingIcon variant="blue">
+            <Globe />
+          </SettingIcon>
           <div className="text-sm text-foreground line-clamp-1">
             {t("settings.general.interfaceLanguage")}
           </div>
@@ -29,7 +32,7 @@ export default function Language() {
         <Dropdown>
           <DropdownTrigger>
             <Button
-              className="capitalize"
+              className="capitalize gap-1 pr-1.5 shadow-custom"
               variant="flat"
               size="sm"
               endContent={<ChevronsUpDown className="size-4 shrink-0" />}
