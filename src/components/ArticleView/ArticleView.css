@@ -54,6 +54,10 @@
   width: 1rem;
 }
 
+.article-content blockquote > p {
+  @apply before:content-none after:content-none
+}
+
 .article-content figure {
   @apply my-4 !w-auto
 }
@@ -75,11 +79,27 @@ figcaption {
   --plyr-audio-border: none;
   --plyr-audio-control-color: hsl(var(--heroui-content4-foreground));
   --plyr-audio-controls-background: hsl(var(--heroui-content1));
-  --plyr-color-main: hsl(var(--heroui-primary));
+  --plyr-color-main: rgba(255, 255, 255, 0.9);
   --plyr-tooltip-arrow-size: 0;
   --plyr-tooltip-background: hsl(var(--heroui-content1));
   --plyr-tooltip-color: hsl(var(--heroui-content1-foreground));
   --plyr-tooltip-shadow: var(--shadow-custom);
+}
+
+.plyr__controls {
+  @apply !py-1.5 !px-2.5 !m-4 !rounded-2xl !backdrop-blur-xl !bg-gray-600/50 !bg-none
+}
+
+.plyr__control--overlaid {
+  @apply !bg-white !shadow-custom !text-black/70
+}
+
+.plyr__controls__item {
+  @apply !bg-transparent
+}
+
+.plyr__slider__thumb {
+  @apply !shadow-custom !border
 }
 
 /*YouTube 播放器视觉修复*/

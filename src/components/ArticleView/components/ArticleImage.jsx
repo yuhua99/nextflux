@@ -47,7 +47,7 @@ export default function ArticleImage({ imgNode }) {
 
   if (error) {
     return (
-      <div className="!max-w-[calc(100%+40px)] -mx-5 h-full min-h-[200px] bg-content2 flex items-center justify-center">
+      <div className="!max-w-[calc(100%+2.5rem)] -mx-5 h-full min-h-[200px] bg-content2 flex items-center justify-center">
         <div className="flex flex-col items-center gap-2 text-default-500">
           <ImageOff className="size-5" />
           <span className="text-sm">{t("articleView.imageError")}</span>
@@ -62,7 +62,7 @@ export default function ArticleImage({ imgNode }) {
         ref={imgRef}
         disableAnimation
         classNames={{
-          wrapper: "!max-w-[calc(100%+40px)] -mx-5 flex justify-center my-1",
+          wrapper: "!max-w-[calc(100%+2.5rem)] -mx-5 flex justify-center my-1",
           img: "h-auto object-cover m-0",
         }}
         radius="none"
