@@ -70,7 +70,11 @@ export default function App() {
                     size="mini"
                     radius="sm"
                     fullWidth
-                    classNames={{ tab: "py-0 h-6", cursor: "bg-content1" }}
+                    classNames={{
+                      tabList: "shadow-custom-inner",
+                      tab: "py-0 h-6",
+                      cursor: "bg-content1",
+                    }}
                     selectedKey={activeTab}
                     onSelectionChange={(key) => {
                       setActiveTab(key);

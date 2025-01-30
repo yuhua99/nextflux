@@ -46,19 +46,25 @@ export const SliderItem = ({
         {icon}
         <Slider
           aria-label={label}
-          size="sm"
           value={[settingValue]}
+          size="sm"
           onChange={(value) => updateSettings({ [settingName]: value[0] })}
           maxValue={max}
           minValue={min}
           step={step}
+          renderThumb={(props) => (
+            <div
+              {...props}
+              className="group p-2 top-1/2 bg-white border shadow-custom-button rounded-full cursor-grab data-[dragging=true]:cursor-grabbing"
+            ></div>
+          )}
         />
         <Chip
           size="sm"
           variant="flat"
-          color="primary"
           classNames={{
-            content: "w-12 justify-center text-center",
+            base: "shadow-custom-inner",
+            content: "w-10 justify-center text-center",
           }}
         >
           {settingValue}
@@ -85,6 +91,7 @@ export const SwitchItem = ({
       </div>
       <Switch
         isSelected={settingValue}
+        classNames={{ wrapper: "shadow-custom-inner" }}
         isDisabled={disabled}
         onValueChange={(value) => updateSettings({ [settingName]: value })}
       />
@@ -144,7 +151,7 @@ export function GroupItem({ label, icon, settingName, settingValue, options }) {
         size="sm"
         variant="solid"
         classNames={{
-          tabList: "bg-default-100/90 backdrop-blur-md",
+          tabList: "bg-default-100/90 backdrop-blur-md shadow-custom-inner",
           tab: "py-0 h-6",
           cursor: "bg-content1",
         }}

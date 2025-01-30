@@ -64,15 +64,21 @@ export default function AlertDialog({
           </div>
         </ModalBody>
         <ModalFooter>
-          <Button color="default" variant="flat" onPress={onClose} size="sm">
+          <Button
+            color="default"
+            variant="flat"
+            onPress={onClose}
+            size="sm"
+            className="border"
+          >
             {cancelText}
           </Button>
           <Button
             color={confirmColor}
-            variant="flat"
             onPress={handleConfirm}
             isLoading={loading}
             size="sm"
+            className="border-danger border shadow-custom-button bg-transparent bg-gradient-to-b from-danger/90 to-danger"
           >
             {confirmText}
           </Button>

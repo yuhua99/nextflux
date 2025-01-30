@@ -69,13 +69,19 @@ export default function RenameModal() {
             color="primary"
             fullWidth
             type="submit"
-            variant="flat"
             isLoading={loading}
             size="sm"
+            className="border-primary border shadow-custom-button bg-transparent bg-gradient-to-b from-primary/90 to-primary"
           >
             {t("common.save")}
           </Button>
-          <Button fullWidth onPress={onClose} size="sm" variant="flat">
+          <Button
+            fullWidth
+            onPress={onClose}
+            size="sm"
+            variant="flat"
+            className="border"
+          >
             {t("common.cancel")}
           </Button>
         </div>

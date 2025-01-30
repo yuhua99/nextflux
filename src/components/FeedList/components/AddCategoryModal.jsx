@@ -60,7 +60,7 @@ export default function AddCategoryModal() {
           onValueChange={setTitle}
         />
         <Divider className="my-2" />
-        <div className="flex flex-wrap gap-2 p-3 bg-content2 rounded-lg">
+        <div className="flex flex-wrap gap-2 p-3 bg-content2 rounded-lg shadow-custom-inner">
           {$categories.map((category) => (
             <CategoryChip key={category.id} category={category} />
           ))}
@@ -71,12 +71,18 @@ export default function AddCategoryModal() {
             type="submit"
             isLoading={loading}
             size="sm"
-            variant="flat"
             fullWidth
+            className="border-primary border shadow-custom-button bg-transparent bg-gradient-to-b from-primary/90 to-primary"
           >
             {t("common.save")}
           </Button>
-          <Button fullWidth onPress={onClose} size="sm" variant="flat">
+          <Button
+            fullWidth
+            onPress={onClose}
+            size="sm"
+            variant="flat"
+            className="border"
+          >
             {t("common.cancel")}
           </Button>
         </div>
