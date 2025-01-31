@@ -55,7 +55,7 @@ export const SliderItem = ({
           renderThumb={(props) => (
             <div
               {...props}
-              className="group h-6 w-6 top-1/2 bg-white border shadow-md rounded-full cursor-grab data-[dragging=true]:cursor-grabbing"
+              className="group h-6 w-6 top-1/2 bg-white border border-[rgba(0,0,0,0.06)] shadow-custom-sm rounded-full cursor-grab data-[dragging=true]:cursor-grabbing"
             ></div>
           )}
         />
@@ -92,8 +92,8 @@ export const SwitchItem = ({
       <Switch
         isSelected={settingValue}
         classNames={{
-          wrapper: "shadow-custom-inner h-6 w-11 px-0 overflow-visible",
-          thumb: "absolute w-6 h-6 border shadow-md",
+          wrapper: "shadow-custom-inner h-6 w-11 px-0.5 overflow-visible",
+          thumb: "absolute w-5 h-5 shadow-md",
         }}
         isDisabled={disabled}
         onValueChange={(value) => updateSettings({ [settingName]: value })}

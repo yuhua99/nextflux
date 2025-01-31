@@ -207,7 +207,12 @@ const ArticleView = () => {
                     className="article-header"
                     style={{ textAlign: titleAlignType }}
                   >
-                    <div className="text-default-500 text-sm flex items-center gap-1">
+                    <div
+                      className={cn(
+                        "text-default-500 text-sm flex items-center gap-1",
+                        titleAlignType === "center" ? "justify-center" : "",
+                      )}
+                    >
                       <FeedIcon url={$activeArticle?.feed?.site_url} />
                       {$activeArticle?.feed?.title}
                     </div>

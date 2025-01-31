@@ -19,6 +19,7 @@ export default {
       },
       boxShadow: {
         custom: "var(--shadow-custom)",
+        "custom-sm": "var(--shadow-custom-sm)",
         "custom-button": "var(--shadow-custom-button)",
         "custom-inner": "var(--shadow-custom-inner)",
       },
