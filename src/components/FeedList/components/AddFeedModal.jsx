@@ -240,7 +240,7 @@ export default function AddFeedModal() {
               type="submit"
               isLoading={loading}
               size="sm"
-              className="border-primary border shadow-custom-button bg-transparent bg-gradient-to-b from-primary/90 to-primary"
+              className="border-primary border shadow-custom-button bg-primary bg-gradient-to-b from-white/15 to-transparent"
             >
               {t("common.save")}
             </Button>

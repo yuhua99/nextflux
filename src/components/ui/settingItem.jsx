@@ -55,7 +55,7 @@ export const SliderItem = ({
           renderThumb={(props) => (
             <div
               {...props}
-              className="group p-2 top-1/2 bg-white border shadow-custom-button rounded-full cursor-grab data-[dragging=true]:cursor-grabbing"
+              className="group h-6 w-6 top-1/2 bg-white border shadow-md rounded-full cursor-grab data-[dragging=true]:cursor-grabbing"
             ></div>
           )}
         />
@@ -83,7 +83,7 @@ export const SwitchItem = ({
 }) => {
   return (
     <div
-      className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-2.5`}
+      className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-3`}
     >
       <div className="flex items-center gap-2">
         {icon}
@@ -91,7 +91,10 @@ export const SwitchItem = ({
       </div>
       <Switch
         isSelected={settingValue}
-        classNames={{ wrapper: "shadow-custom-inner" }}
+        classNames={{
+          wrapper: "shadow-custom-inner h-6 w-11 px-0 overflow-visible",
+          thumb: "absolute w-6 h-6 border shadow-md",
+        }}
         isDisabled={disabled}
         onValueChange={(value) => updateSettings({ [settingName]: value })}
       />
@@ -151,9 +154,10 @@ export function GroupItem({ label, icon, settingName, settingValue, options }) {
         size="sm"
         variant="solid"
         classNames={{
-          tabList: "bg-default-100/90 backdrop-blur-md shadow-custom-inner",
-          tab: "py-0 h-6",
-          cursor: "bg-content1",
+          tabList:
+            "bg-default-100/90 backdrop-blur-md shadow-custom-inner p-0 gap-0 rounded-small overflow-visible",
+          tab: "py-1 h-8",
+          cursor: "bg-content1 shadow-sm border",
         }}
         selectedKey={settingValue}
         onSelectionChange={(value) => {

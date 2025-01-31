@@ -78,7 +78,7 @@ export default function AlertDialog({
             onPress={handleConfirm}
             isLoading={loading}
             size="sm"
-            className="border-danger border shadow-custom-button bg-transparent bg-gradient-to-b from-danger/90 to-danger"
+            className="border-danger border shadow-custom-button bg-danger bg-gradient-to-b from-white/15 to-transparent"
           >
             {confirmText}
           </Button>

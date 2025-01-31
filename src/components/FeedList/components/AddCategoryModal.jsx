@@ -72,7 +72,7 @@ export default function AddCategoryModal() {
             isLoading={loading}
             size="sm"
             fullWidth
-            className="border-primary border shadow-custom-button bg-transparent bg-gradient-to-b from-primary/90 to-primary"
+            className="border-primary border shadow-custom-button bg-primary bg-gradient-to-b from-white/15 to-transparent"
           >
             {t("common.save")}
           </Button>
