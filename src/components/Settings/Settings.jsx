@@ -72,9 +72,9 @@ export default function App() {
                     fullWidth
                     classNames={{
                       tabList:
-                        "bg-default-100/90 backdrop-blur-md shadow-custom-inner p-0 gap-0 rounded-small overflow-visible",
-                      tab: "py-1 h-8",
-                      cursor: "bg-content1 shadow-sm border",
+                        "bg-default-100/90 backdrop-blur-md shadow-custom-inner p-[1px] gap-0 rounded-small overflow-visible",
+                      tab: "py-1 h-7",
+                      cursor: "bg-content1 !shadow-custom-cursor rounded-small",
                     }}
                     selectedKey={activeTab}
                     onSelectionChange={(key) => {

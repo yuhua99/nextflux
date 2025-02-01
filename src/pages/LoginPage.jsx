@@ -101,7 +101,7 @@ export default function LoginPage() {
             </Link>
           </div>
           <Button
-            className="w-full"
+            className="w-full bg-primary bg-gradient-to-b from-white/15 to-transparent border-primary border shadow-custom-button"
             color="primary"
             type="submit"
             isLoading={loading}

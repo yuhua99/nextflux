@@ -69,7 +69,7 @@ export default function AlertDialog({
             variant="flat"
             onPress={onClose}
             size="sm"
-            className="border"
+            className="border text-sm"
           >
             {cancelText}
           </Button>
@@ -78,7 +78,7 @@ export default function AlertDialog({
             onPress={handleConfirm}
             isLoading={loading}
             size="sm"
-            className="border-danger border shadow-custom-button bg-danger bg-gradient-to-b from-white/15 to-transparent"
+            className="border-danger border shadow-custom-button bg-danger bg-gradient-to-b from-white/15 to-transparent text-sm"
           >
             {confirmText}
           </Button>

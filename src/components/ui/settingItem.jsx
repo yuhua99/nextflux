@@ -104,7 +104,9 @@ export const SwitchItem = ({
 
 export function SelItem({ label, icon, settingName, settingValue, options }) {
   return (
-    <div className={`flex justify-between items-center gap-2 ${bgColor} p-2`}>
+    <div
+      className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-2.5`}
+    >
       <div className="flex items-center gap-2">
         {icon}
         <div className="text-sm text-foreground line-clamp-1">{label}</div>
@@ -112,7 +114,7 @@ export function SelItem({ label, icon, settingName, settingValue, options }) {
       <Dropdown>
         <DropdownTrigger>
           <Button
-            className="capitalize gap-1 pr-1.5 shadow-custom"
+            className="capitalize gap-1 pr-1.5 shadow-custom h-7 rounded-md"
             variant="flat"
             size="sm"
             endContent={<ChevronsUpDown className="size-4 shrink-0" />}
@@ -144,7 +146,7 @@ export function SelItem({ label, icon, settingName, settingValue, options }) {
 
 export function GroupItem({ label, icon, settingName, settingValue, options }) {
   return (
-    <div className={`flex justify-between items-center gap-2 ${bgColor} p-2`}>
+    <div className={`flex justify-between items-center gap-2 ${bgColor} px-2 h-12`}>
       <div className="flex items-center gap-2">
         {icon}
         <div className="text-sm text-foreground">{label}</div>
@@ -155,9 +157,9 @@ export function GroupItem({ label, icon, settingName, settingValue, options }) {
         variant="solid"
         classNames={{
           tabList:
-            "bg-default-100/90 backdrop-blur-md shadow-custom-inner p-0 gap-0 rounded-small overflow-visible",
-          tab: "py-1 h-8",
-          cursor: "bg-content1 shadow-sm border",
+            "bg-default-100/90 backdrop-blur-md shadow-custom-inner p-[1px] gap-0 rounded-small overflow-visible",
+          tab: "py-1 h-7",
+          cursor: "bg-content1 !shadow-custom-cursor rounded-small",
         }}
         selectedKey={settingValue}
         onSelectionChange={(value) => {

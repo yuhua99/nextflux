@@ -71,7 +71,7 @@ export default function RenameModal() {
             type="submit"
             isLoading={loading}
             size="sm"
-            className="border-primary border shadow-custom-button bg-primary bg-gradient-to-b from-white/15 to-transparent"
+            className="border-primary border shadow-custom-button bg-primary bg-gradient-to-b from-white/15 to-transparent text-sm"
           >
             {t("common.save")}
           </Button>
@@ -80,7 +80,7 @@ export default function RenameModal() {
             onPress={onClose}
             size="sm"
             variant="flat"
-            className="border"
+            className="border text-sm"
           >
             {t("common.cancel")}
           </Button>

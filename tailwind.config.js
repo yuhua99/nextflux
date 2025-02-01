@@ -22,6 +22,7 @@ export default {
         "custom-sm": "var(--shadow-custom-sm)",
         "custom-button": "var(--shadow-custom-button)",
         "custom-inner": "var(--shadow-custom-inner)",
+        "custom-cursor": "var(--shadow-custom-cursor)",
       },
       keyframes: {
         "collapsible-down": {

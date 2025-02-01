@@ -23,10 +23,9 @@ export default function ErrorPage() {
           as="a"
           href="/"
           color="primary"
-          variant="shadow"
           size="sm"
           startContent={<House className="size-4" />}
-          className={"shadow-lg"}
+          className={"shadow-custom-button text-sm bg-primary bg-gradient-to-b from-white/15 to-transparent border-primary border"}
         >
           {t("error.backToHome")}
         </Button>
