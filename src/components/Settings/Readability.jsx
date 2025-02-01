@@ -5,7 +5,10 @@ import {
   AlignLeft,
   AlignStartVertical,
   CaseSensitive,
+  ListOrdered,
+  MonitorPlay,
   PanelTopDashed,
+  SquareCode,
   Type,
   UnfoldHorizontal,
   UnfoldVertical,
@@ -33,6 +36,9 @@ export default function Readability() {
     titleFontSize,
     titleAlignType,
     autoHideToolbar,
+    showLineNumbers,
+    forceDarkCodeTheme,
+    useNativeVideoPlayer,
   } = useStore(settingsState);
   const { t } = useTranslation();
   const fontOptions = [
@@ -69,6 +75,36 @@ export default function Readability() {
   ];
   return (
     <>
+      <ItemWrapper title={t("settings.readability.articleTitle")}>
+        <GroupItem
+          label={t("settings.readability.titleAlign")}
+          icon={
+            <SettingIcon variant="green">
+              <AlignStartVertical />
+            </SettingIcon>
+          }
+          settingName="titleAlignType"
+          settingValue={titleAlignType}
+          options={[
+            { value: "left", icon: <AlignLeft className="size-4" /> },
+            { value: "center", icon: <AlignCenter className="size-4" /> },
+          ]}
+        />
+        <Divider />
+        <SliderItem
+          label={t("settings.readability.titleFontSize")}
+          icon={
+            <SettingIcon variant="purple">
+              <CaseSensitive />
+            </SettingIcon>
+          }
+          settingName="titleFontSize"
+          settingValue={titleFontSize}
+          max={3.0}
+          min={1.0}
+          step={0.2}
+        />
+      </ItemWrapper>
       <ItemWrapper title={t("settings.readability.text")}>
         <SwitchItem
           label={t("settings.readability.autoHideToolbar")}
@@ -146,34 +182,39 @@ export default function Readability() {
           step={5}
         />
       </ItemWrapper>
-      <ItemWrapper title={t("settings.readability.articleTitle")}>
-        <GroupItem
-          label={t("settings.readability.titleAlign")}
+      <ItemWrapper title={t("settings.appearance.videoPlayer")}>
+        <SwitchItem
+          label={t("settings.appearance.useNativeVideoPlayer")}
           icon={
-            <SettingIcon variant="green">
-              <AlignStartVertical />
+            <SettingIcon variant="red">
+              <MonitorPlay />
             </SettingIcon>
           }
-          settingName="titleAlignType"
-          settingValue={titleAlignType}
-          options={[
-            { value: "left", icon: <AlignLeft className="size-4" /> },
-            { value: "center", icon: <AlignCenter className="size-4" /> },
-          ]}
+          settingName="useNativeVideoPlayer"
+          settingValue={useNativeVideoPlayer}
+        />
+      </ItemWrapper>
+      <ItemWrapper title={t("settings.appearance.codeBlock")}>
+        <SwitchItem
+          label={t("settings.appearance.showLineNumbers")}
+          icon={
+            <SettingIcon variant="default">
+              <ListOrdered />
+            </SettingIcon>
+          }
+          settingName="showLineNumbers"
+          settingValue={showLineNumbers}
         />
         <Divider />
-        <SliderItem
-          label={t("settings.readability.titleFontSize")}
+        <SwitchItem
+          label={t("settings.appearance.forceDarkCodeTheme")}
           icon={
-            <SettingIcon variant="purple">
-              <CaseSensitive />
+            <SettingIcon variant="default">
+              <SquareCode />
             </SettingIcon>
           }
-          settingName="titleFontSize"
-          settingValue={titleFontSize}
-          max={3.0}
-          min={1.0}
-          step={0.2}
+          settingName="forceDarkCodeTheme"
+          settingValue={forceDarkCodeTheme}
         />
       </ItemWrapper>
       <Button color="danger" variant="flat" onPress={resetSettings}>

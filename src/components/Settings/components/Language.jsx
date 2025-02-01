@@ -32,8 +32,8 @@ export default function Language() {
         <Dropdown>
           <DropdownTrigger>
             <Button
-              className="capitalize gap-1 pr-1.5 shadow-custom rounded-md h-7"
-              variant="flat"
+              className="capitalize gap-1 pr-1.5 rounded-md h-7 bg-content1 dark:bg-default !shadow-custom-cursor"
+              variant="solid"
               size="sm"
               endContent={<ChevronsUpDown className="size-4 shrink-0" />}
             >

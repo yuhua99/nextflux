@@ -59,6 +59,9 @@ export const resetSettings = () => {
     "titleFontSize",
     "titleAlignType",
     "autoHideToolbar",
+    "showLineNumbers",
+    "forceDarkCodeTheme",
+    "useNativeVideoPlayer",
   ];
   const currentSettings = settingsState.get();
   const newSettings = { ...currentSettings };

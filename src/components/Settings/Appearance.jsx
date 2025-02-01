@@ -12,11 +12,8 @@ import {
   CircleDashed,
   Clock,
   LayoutList,
-  ListOrdered,
-  MonitorPlay,
   Rss,
   Square,
-  SquareCode,
   Text,
 } from "lucide-react";
 import Theme from "./components/Theme";
@@ -31,10 +28,7 @@ export default function Appearance() {
     showFavicon,
     showTextPreview,
     showReadingTime,
-    showLineNumbers,
-    forceDarkCodeTheme,
     reduceMotion,
-    useNativeVideoPlayer,
   } = useStore(settingsState);
   const { t } = useTranslation();
   return (
@@ -117,41 +111,7 @@ export default function Appearance() {
           settingValue={showReadingTime}
         />
       </ItemWrapper>
-      <ItemWrapper title={t("settings.appearance.videoPlayer")}>
-        <SwitchItem
-          label={t("settings.appearance.useNativeVideoPlayer")}
-          icon={
-            <SettingIcon variant="red">
-              <MonitorPlay />
-            </SettingIcon>
-          }
-          settingName="useNativeVideoPlayer"
-          settingValue={useNativeVideoPlayer}
-        />
-      </ItemWrapper>
-      <ItemWrapper title={t("settings.appearance.codeBlock")}>
-        <SwitchItem
-          label={t("settings.appearance.showLineNumbers")}
-          icon={
-            <SettingIcon variant="default">
-              <ListOrdered />
-            </SettingIcon>
-          }
-          settingName="showLineNumbers"
-          settingValue={showLineNumbers}
-        />
-        <Divider />
-        <SwitchItem
-          label={t("settings.appearance.forceDarkCodeTheme")}
-          icon={
-            <SettingIcon variant="default">
-              <SquareCode />
-            </SettingIcon>
-          }
-          settingName="forceDarkCodeTheme"
-          settingValue={forceDarkCodeTheme}
-        />
-      </ItemWrapper>
+
       <ItemWrapper title={t("settings.appearance.motion")}>
         <SwitchItem
           label={t("settings.appearance.reduceMotion")}

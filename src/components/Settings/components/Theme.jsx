@@ -45,7 +45,9 @@ export default function Theme() {
 
   return (
     <ItemWrapper title={t("settings.appearance.theme")}>
-      <div className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-2.5`}>
+      <div
+        className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-2.5`}
+      >
         <div className="flex items-center gap-2">
           <SettingIcon variant="blue">
             <Paintbrush />
@@ -57,8 +59,8 @@ export default function Theme() {
         <Dropdown>
           <DropdownTrigger>
             <Button
-              className="capitalize gap-1 pr-1.5 shadow-custom rounded-md h-7"
-              variant="flat"
+              className="capitalize gap-1 pr-1.5 rounded-md h-7 bg-content1 dark:bg-default !shadow-custom-cursor"
+              variant="solid"
               size="sm"
               endContent={<ChevronsUpDown className="size-4 shrink-0" />}
             >
@@ -82,7 +84,9 @@ export default function Theme() {
         </Dropdown>
       </div>
       <Divider />
-      <div className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-2.5`}>
+      <div
+        className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-2.5`}
+      >
         <div className="flex items-center gap-2">
           <SettingIcon variant="amber">
             <Sun />
@@ -94,8 +98,8 @@ export default function Theme() {
         <Dropdown>
           <DropdownTrigger>
             <Button
-              className="capitalize gap-1 pr-1.5 shadow-custom rounded-md h-7"
-              variant="flat"
+              className="capitalize gap-1 pr-1.5 rounded-md h-7 bg-content1 dark:bg-default !shadow-custom-cursor"
+              variant="solid"
               size="sm"
               endContent={<ChevronsUpDown className="size-4 shrink-0" />}
             >
@@ -135,7 +139,9 @@ export default function Theme() {
         </Dropdown>
       </div>
       <Divider />
-      <div className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-2.5`}>
+      <div
+        className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-2.5`}
+      >
         <div className="flex items-center gap-2">
           <SettingIcon variant="purple">
             <MoonStar />
@@ -147,8 +153,8 @@ export default function Theme() {
         <Dropdown>
           <DropdownTrigger>
             <Button
-              className="capitalize gap-1 pr-1.5 shadow-custom rounded-md h-7"
-              variant="flat"
+              className="capitalize gap-1 pr-1.5 rounded-md h-7 bg-content1 dark:bg-default !shadow-custom-cursor"
+              variant="solid"
               size="sm"
               endContent={<ChevronsUpDown className="size-4 shrink-0" />}
             >

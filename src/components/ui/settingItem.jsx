@@ -114,8 +114,8 @@ export function SelItem({ label, icon, settingName, settingValue, options }) {
       <Dropdown>
         <DropdownTrigger>
           <Button
-            className="capitalize gap-1 pr-1.5 shadow-custom h-7 rounded-md"
-            variant="flat"
+            className="capitalize gap-1 pr-1.5 h-7 rounded-md bg-content1 dark:bg-default !shadow-custom-cursor"
+            variant="solid"
             size="sm"
             endContent={<ChevronsUpDown className="size-4 shrink-0" />}
           >
@@ -146,7 +146,9 @@ export function SelItem({ label, icon, settingName, settingValue, options }) {
 
 export function GroupItem({ label, icon, settingName, settingValue, options }) {
   return (
-    <div className={`flex justify-between items-center gap-2 ${bgColor} px-2 h-12`}>
+    <div
+      className={`flex justify-between items-center gap-2 ${bgColor} px-2 h-12`}
+    >
       <div className="flex items-center gap-2">
         {icon}
         <div className="text-sm text-foreground">{label}</div>
