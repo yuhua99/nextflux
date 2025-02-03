@@ -5,6 +5,7 @@ export default {
     save: "保存",
     delete: "删除",
     edit: "编辑",
+    refreshing: "刷新中...",
     copy: "复制",
     copied: "已复制",
     copyFailed: "复制失败",
@@ -99,6 +100,7 @@ export default {
     all: "全部",
     unsubscribe: "取消订阅",
     unsubscribeDescription: "取消订阅",
+    refreshFeed: "刷新订阅",
     editFeed: "编辑订阅",
     renameCategory: {
       title: "重命名分类",

@@ -5,6 +5,7 @@ export default {
     save: "Save",
     delete: "Delete",
     edit: "Edit",
+    refreshing: "Refreshing...",
     copy: "Copy",
     copied: "Copied",
     copyFailed: "Copy failed",
@@ -100,6 +101,7 @@ export default {
     all: "All",
     unsubscribe: "Unsubscribe",
     unsubscribeDescription: "Unsubscribe from",
+    refreshFeed: "Refresh feed",
     editFeed: "Edit feed",
     renameCategory: {
       title: "Rename category",

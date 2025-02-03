@@ -300,6 +300,15 @@ class miniFluxAPI {
       throw error;
     }
   }
+
+  async refreshFeed(feedId) {
+    try {
+      await this.client.put(`/v1/feeds/${feedId}/refresh`);
+    } catch (error) {
+      console.error("刷新订阅源失败:", error);
+      throw error;
+    }
+  }
 }
 
 export default new miniFluxAPI();
