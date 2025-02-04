@@ -13,6 +13,7 @@ import SettingIcon from "@/components/ui/SettingIcon";
 const languages = [
   { id: "zh-CN", name: "简体中文" },
   { id: "en-US", name: "English" },
+  { id: "tr-TR", name: "Türkçe" },
 ];
 
 export default function Language() {

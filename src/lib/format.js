@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn";
 import "dayjs/locale/en";
+import "dayjs/locale/tr";
 // 这里可以按需导入更多语言包
 import relativeTime from "dayjs/plugin/relativeTime";
 import calendar from "dayjs/plugin/calendar";
@@ -13,6 +14,7 @@ dayjs.extend(calendar);
 const DAYJS_LOCALE_MAP = {
   "zh-CN": "zh-cn",
   "en-US": "en",
+  "tr-TR": "tr",
   // 可以添加更多语言映射
   // 'ja-JP': 'ja',
   // 'ko-KR': 'ko',
@@ -38,7 +40,14 @@ const DATE_FORMAT_MAP = {
     },
     fullDate: "dddd, MMMM D, YYYY HH:mm",
   },
-  // 可以添加更多语言的日期格式
+  "tr-TR": {
+    calendar: {
+      sameDay: "[Bugün] HH:mm",
+      lastDay: "[Dün] HH:mm",
+      sameElse: "YYYY-MM-DD HH:mm",
+    },
+    fullDate: "dddd, MMMM D, YYYY HH:mm",
+  },
 };
 
 // 监听语言变化

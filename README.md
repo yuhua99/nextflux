@@ -11,7 +11,7 @@ A modern RSS reader client for [Miniflux](https://github.com/miniflux/v2) built 
 - 🔄 Automatic background sync with configurable intervals
 - 📱 Mobile-friendly with PWA support
 - 🌙 Light/Dark mode with multiple theme options
-- 🌍 i18n support (English & Chinese)
+- 🌍 i18n support (English & Chinese & Turkish)
 - 👀 Mark as read on scroll
 - 🎯 Rich reading experience
     - Custom font settings
@@ -173,9 +173,16 @@ Nope, sorry folks. For now, I’m all in on the Miniflux API—gotta pick my bat
 Reeder is a fantastic RSS reader. Since my design skills are about as good as a potato's, I took some "inspiration" from
 its UI style, slapped it on, and called it a day.
 
-### 4. I want some fancy AI features like article summarization and translation.
+### 4. Any plans to add AI features like article summarization and translation?
 
 There are so many chrome extensions that can do this. I'm not sure if I want to build this into the app. Tell me what you think by opening an issue.
+
+## 🌍 Translation
+
+### Contributor
+
+- 🇹🇷 Turkish: [@TaylanTatli](https://github.com/TaylanTatli)
+
 
 
 
