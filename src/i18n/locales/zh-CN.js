@@ -177,6 +177,11 @@ export default {
     usernamePlaceholder: "请输入用户名",
     passwordPlaceholder: "请输入密码",
     serverUrlPlaceholder: "请输入 Miniflux 服务器地址",
+    basicAuth: "用户名和密码",
+    tokenAuth: "API Token",
+    token: "API Token",
+    tokenPlaceholder: "请输入 API Token",
+    or: "或者使用",
   },
   settings: {
     title: "设置",

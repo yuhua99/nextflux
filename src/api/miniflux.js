@@ -8,11 +8,13 @@ class miniFluxAPI {
 
     this.client = axios.create({
       baseURL: auth?.serverUrl || "",
-      headers:
-        auth?.username && auth?.password
+      headers: auth?.authType === "token" 
+        ? {
+            "X-Auth-Token": auth.token
+          }
+        : auth?.username && auth?.password
           ? {
-              Authorization:
-                "Basic " + btoa(`${auth.username}:${auth.password}`),
+              Authorization: "Basic " + btoa(`${auth.username}:${auth.password}`)
             }
           : {},
     });
@@ -36,10 +38,16 @@ class miniFluxAPI {
     // 监听认证状态变化
     authState.listen((newAuth) => {
       this.client.defaults.baseURL = newAuth?.serverUrl || "";
-      this.client.defaults.headers["Authorization"] =
-        newAuth?.username && newAuth?.password
-          ? "Basic " + btoa(`${newAuth.username}:${newAuth.password}`)
-          : "";
+      if (newAuth?.authType === "token") {
+        this.client.defaults.headers["X-Auth-Token"] = newAuth.token;
+        delete this.client.defaults.headers["Authorization"];
+      } else {
+        this.client.defaults.headers["Authorization"] = 
+          newAuth?.username && newAuth?.password
+            ? "Basic " + btoa(`${newAuth.username}:${newAuth.password}`)
+            : "";
+        delete this.client.defaults.headers["X-Auth-Token"];
+      }
     });
   }
 

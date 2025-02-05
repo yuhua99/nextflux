@@ -178,6 +178,11 @@ export default {
     usernamePlaceholder: "Please enter username",
     passwordPlaceholder: "Please enter password",
     serverUrlPlaceholder: "Please enter Miniflux server URL",
+    basicAuth: "Basic Auth",
+    tokenAuth: "Token Auth",
+    token: "Token",
+    tokenPlaceholder: "Please enter token",
+    or: "Or continue with",
   },
   settings: {
     title: "Settings",

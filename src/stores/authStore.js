@@ -1,13 +1,13 @@
 import { persistentAtom } from "@nanostores/persistent";
-import { lastSync, stopAutoSync } from "./syncStore";
-import { feeds } from "./feedsStore";
-import { filter, filteredArticles } from "./articlesStore";
+import { stopAutoSync } from "./syncStore";
 
 const defaultValue = {
   serverUrl: "",
   username: "",
   password: "",
   userId: "",
+  token: "",
+  authType: "basic",
 };
 
 export const authState = persistentAtom("auth", defaultValue, {
@@ -19,17 +19,24 @@ export const authState = persistentAtom("auth", defaultValue, {
 });
 
 // 登录方法
-export async function login(serverUrl, username, password) {
+export async function login(serverUrl, username, password, token) {
   try {
-    // 验证用户名密码是否有效
+    let headers = {};
+    if (token) {
+      headers["X-Auth-Token"] = token;
+    } else {
+      headers["Authorization"] = "Basic " + btoa(`${username}:${password}`);
+    }
+
     const response = await fetch(`${serverUrl}/v1/me`, {
-      headers: {
-        "Authorization": "Basic " + btoa(`${username}:${password}`)
-      },
+      headers,
     });
 
     if (!response.ok) {
-      throw new Error("无效的服务器地址或用户名密码");
+      console.log(response);
+      throw new Error(
+        response.statusText || `HTTP error! status: ${response.status}`,
+      );
     }
 
     const user = await response.json();
@@ -37,8 +44,10 @@ export async function login(serverUrl, username, password) {
     // 保存认证信息
     authState.set({
       serverUrl,
-      username,
-      password,
+      username: user.username,
+      password: token ? "" : password,
+      token: token || "",
+      authType: token ? "token" : "basic",
       userId: user.id,
     });
 
@@ -57,11 +66,6 @@ export async function logout() {
 
     // 重置所有状态
     authState.set(defaultValue);
-    feeds.set([]);
-    filteredArticles.set([]);
-    filter.set("all");
-    lastSync.set(null);
-    // ... 重置其他状态
 
     // 异步清理存储
     await Promise.all([

@@ -178,6 +178,11 @@ export default {
       usernamePlaceholder: "Lütfen kullanıcı adınızı girin",
       passwordPlaceholder: "Lütfen parolanızı girin",
       serverUrlPlaceholder: "Lütfen Miniflux sunucu URL'sini girin",
+      basicAuth: "Kullanıcı adı ve parola",
+      tokenAuth: "API Token",
+      token: "API Token",
+      tokenPlaceholder: "Lütfen API Token'ınızı girin",
+      or: "Veya devam etmek için",
     },
     settings: {
       title: "Ayarlar",

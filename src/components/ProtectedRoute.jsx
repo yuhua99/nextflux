@@ -1,20 +1,21 @@
+import { Navigate, useLocation } from "react-router-dom";
 import { useStore } from "@nanostores/react";
-import { Navigate } from "react-router-dom";
-import { authState, logout } from "@/stores/authStore";
-import { useEffect } from "react";
+import { authState } from "@/stores/authStore";
 
-export default function ProtectedRoute({ children }) {
-  const $auth = useStore(authState);
+export default function AuthGuard({ children }) {
+  const auth = useStore(authState);
+  const location = useLocation();
 
-  useEffect(() => {
-    if (!$auth.serverUrl || !$auth.username || !$auth.password) {
-      logout();
-    }
-  }, [$auth.serverUrl, $auth.username, $auth.password]);
+  // 检查是否已认证 - 需要有服务器地址,并且有用户名密码或token其中之一
+  const isAuthenticated =
+    auth.serverUrl &&
+    ((auth.username && auth.password) ||
+      (auth.authType === "token" && auth.token));
 
-  if (!$auth.serverUrl || !$auth.username || !$auth.password) {
-    return <Navigate to="/login" replace />;
+  if (!isAuthenticated) {
+    // 如果未认证,重定向到登录页面,并记录原始访问路径
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   return children;
-} 
+}

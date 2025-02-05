@@ -21,7 +21,7 @@ function App() {
   useEffect(() => {
     // 检查认证状态并启动自动同步
     const auth = authState.get();
-    if (auth.serverUrl && auth.username && auth.password) {
+    if (auth.username) {
       startAutoSync();
     }
   }, [syncInterval]);

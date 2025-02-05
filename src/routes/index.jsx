@@ -12,48 +12,52 @@ const routerConfig = {
     v7_fetcherPersist: true,
     v7_normalizeFormMethod: true,
     v7_partialHydration: true,
-    v7_skipActionErrorRevalidation: true
-  }
+    v7_skipActionErrorRevalidation: true,
+  },
 };
 
-export const router = createBrowserRouter([
-  {
-    path: "/login",
-    element: <LoginPage />
-  },
-  {
-    path: "/",
-    element: (
-      <ProtectedRoute>
-        <App />
-      </ProtectedRoute>
-    ),
-    errorElement: <ErrorPage />,
-    children: [
-      {
-        path: "/",
-        element: <ArticleList />,
-      },
-      {
-        path: "feed/:feedId",
-        element: <ArticleList />
-      },
-      {
-        path: "feed/:feedId/article/:articleId",
-        element: <ArticleList />
-      },
-      {
-        path: "category/:categoryId",
-        element: <ArticleList />
-      },
-      {
-        path: "category/:categoryId/article/:articleId",
-        element: <ArticleList />
-      },
-      {
-        path: "article/:articleId",
-        element: <ArticleList />
-      }
-    ],
-  },
-], routerConfig);
+export const router = createBrowserRouter(
+  [
+    {
+      path: "/login",
+      element: <LoginPage />,
+      errorElement: <ErrorPage />,
+    },
+    {
+      path: "/",
+      element: (
+        <ProtectedRoute>
+          <App />
+        </ProtectedRoute>
+      ),
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          path: "/",
+          element: <ArticleList />,
+        },
+        {
+          path: "feed/:feedId",
+          element: <ArticleList />,
+        },
+        {
+          path: "feed/:feedId/article/:articleId",
+          element: <ArticleList />,
+        },
+        {
+          path: "category/:categoryId",
+          element: <ArticleList />,
+        },
+        {
+          path: "category/:categoryId/article/:articleId",
+          element: <ArticleList />,
+        },
+        {
+          path: "article/:articleId",
+          element: <ArticleList />,
+        },
+      ],
+    },
+  ],
+  routerConfig,
+);
