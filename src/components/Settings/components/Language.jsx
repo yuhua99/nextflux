@@ -21,7 +21,7 @@ export default function Language() {
 
   return (
     <ItemWrapper title={t("settings.general.language")}>
-      <div className="flex justify-between items-center gap-2 bg-content1 dark:bg-content2/30 px-2 py-2.5">
+      <div className="flex justify-between items-center gap-2 bg-content1/80 dark:bg-content2/30 px-2 py-2.5">
         <div className="flex items-center gap-2">
           <SettingIcon variant="blue">
             <Globe />

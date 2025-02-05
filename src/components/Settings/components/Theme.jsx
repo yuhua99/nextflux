@@ -41,7 +41,7 @@ export default function Theme() {
     },
   ];
 
-  const bgColor = "bg-content1 dark:bg-content2/30";
+  const bgColor = "bg-content1/80 dark:bg-content2/30";
 
   return (
     <ItemWrapper title={t("settings.appearance.theme")}>

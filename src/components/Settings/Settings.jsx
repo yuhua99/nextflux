@@ -8,18 +8,16 @@ import {
   Tabs,
 } from "@heroui/react";
 import { useState } from "react";
-import { settingsModalOpen, settingsState } from "@/stores/settingsStore.js";
+import { settingsModalOpen } from "@/stores/settingsStore.js";
 import { useStore } from "@nanostores/react";
 import General from "@/components/Settings/General.jsx";
 import Appearance from "@/components/Settings/Appearance.jsx";
 import Readability from "@/components/Settings/Readability.jsx";
 import { Cog, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { AnimatePresence, motion } from "framer-motion";
 
 export default function App() {
   const isOpen = useStore(settingsModalOpen);
-  const { reduceMotion } = useStore(settingsState);
   const [activeTab, setActiveTab] = useState("general");
   const { t } = useTranslation();
   return (
@@ -28,13 +26,14 @@ export default function App() {
         isOpen={isOpen}
         radius="md"
         scrollBehavior="inside"
+        disableAnimation
         onOpenChange={(value) => {
           settingsModalOpen.set(value);
           setActiveTab("general");
         }}
         classNames={{
-          base: "m-2 standalone:mb-safe-or-2 max-h-[80vh] h-[612px] overflow-hidden bg-content2 dark:bg-content1 dark:border",
-          header: "border-b flex flex-col gap-3 p-3 bg-content1",
+          base: "m-2 standalone:mb-safe-or-2 max-h-[80vh] h-[612px] overflow-hidden bg-content2/90 dark:bg-content1/90 dark:border backdrop-blur-lg",
+          header: "border-b flex flex-col gap-3 p-3 bg-content1/80",
           footer: "hidden",
           body: "modal-body p-0 !block",
           closeButton: "hidden",
@@ -72,7 +71,7 @@ export default function App() {
                     fullWidth
                     classNames={{
                       tabList:
-                        "bg-default-100/90 backdrop-blur-md shadow-custom-inner p-[1px] gap-0 rounded-small overflow-visible",
+                        "bg-default-100/90 shadow-custom-inner p-[1px] gap-0 rounded-small overflow-visible",
                       tab: "py-1 h-7",
                       cursor: "bg-content1 !shadow-custom-cursor rounded-small",
                     }}
@@ -81,10 +80,7 @@ export default function App() {
                       setActiveTab(key);
                       const modalBody = document.querySelector(".modal-body");
                       if (modalBody) {
-                        setTimeout(
-                          () => (modalBody.scrollTop = 0),
-                          reduceMotion ? 1 : 200,
-                        );
+                        modalBody.scrollTop = 0;
                       }
                     }}
                   >
@@ -101,20 +97,11 @@ export default function App() {
                 </div>
               </ModalHeader>
               <ModalBody>
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeTab}
-                    initial={reduceMotion ? false : { opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={reduceMotion ? false : { opacity: 0, y: -20 }}
-                    transition={{ duration: 0.2 }}
-                    className="p-3 overflow-y-auto flex flex-col gap-4"
-                  >
-                    {activeTab === "general" && <General />}
-                    {activeTab === "appearance" && <Appearance />}
-                    {activeTab === "readability" && <Readability />}
-                  </motion.div>
-                </AnimatePresence>
+                <div className="p-3 overflow-y-auto flex flex-col gap-4">
+                  {activeTab === "general" && <General />}
+                  {activeTab === "appearance" && <Appearance />}
+                  {activeTab === "readability" && <Readability />}
+                </div>
               </ModalBody>
             </>
           )}

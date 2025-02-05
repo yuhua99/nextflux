@@ -15,12 +15,12 @@ import {
 
 import { ChevronsUpDown } from "lucide-react";
 
-const bgColor = "bg-content1 dark:bg-content2/30";
+const bgColor = "bg-content1/80 dark:bg-content2/30";
 
 export const ItemWrapper = ({ title, children }) => {
   return (
     <div className="settings-group">
-      <div className="text-xs text-default-400 font-medium ml-2 mb-1">
+      <div className="text-xs text-default-500 font-medium ml-2 mb-1">
         {title}
       </div>
       <div className="rounded-xl overflow-hidden border shadow-sm">
