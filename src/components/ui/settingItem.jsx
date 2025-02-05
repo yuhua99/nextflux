@@ -47,15 +47,22 @@ export const SliderItem = ({
         <Slider
           aria-label={label}
           value={[settingValue]}
-          size="sm"
           onChange={(value) => updateSettings({ [settingName]: value[0] })}
           maxValue={max}
           minValue={min}
+          showSteps
           step={step}
+          classNames={{
+            trackWrapper: "rounded-full shadow-custom-inner bg-default/40",
+            track: "h-6 my-0 border-s-primary/20 bg-transparent",
+            filler:
+              "bg-primary/20 after:absolute after:-right-3 after:h-6 after:w-3 after:bg-primary/20 after:rounded-r-full",
+            step: "data-[in-range=true]:bg-primary data-[in-range=true]:shadow-md shadow-primary",
+          }}
           renderThumb={(props) => (
             <div
               {...props}
-              className="group h-6 w-6 top-1/2 bg-white border border-[rgba(0,0,0,0.06)] shadow-custom-sm rounded-full cursor-grab data-[dragging=true]:cursor-grabbing"
+              className="group h-5 w-5 top-1/2 bg-white shadow-custom-sm rounded-full cursor-grab data-[dragging=true]:cursor-grabbing"
             ></div>
           )}
         />
