@@ -5,7 +5,13 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@heroui/react";
-import { EllipsisVertical, FilePen, FolderPen, Trash2, RefreshCw } from "lucide-react";
+import {
+  EllipsisVertical,
+  FilePen,
+  FolderPen,
+  Trash2,
+  RefreshCw,
+} from "lucide-react";
 import { useParams } from "react-router-dom";
 import RenameModal from "./RenameModal";
 import UnsubscribeModal from "./UnsubscribeModal";
@@ -16,28 +22,11 @@ import {
   unsubscribeModalOpen,
 } from "@/stores/modalStore.js";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
-import minifluxAPI from "@/api/miniflux.js";
-import { forceSync } from "@/stores/syncStore.js";
+import { handleRefresh } from "@/handlers/feedHandlers";
 
 export default function MenuButton() {
   const { feedId, categoryId } = useParams();
   const { t } = useTranslation();
-  
-  const handleRefresh = () => {
-    if (!feedId) return;
-    
-    return toast.promise(
-      (async () => {
-        await minifluxAPI.refreshFeed(feedId);
-        await forceSync();
-      })(),
-      {
-        loading: t("common.refreshing"),
-        success: t("common.success"),
-      }
-    );
-  };
 
   return (
     <>
@@ -57,7 +46,7 @@ export default function MenuButton() {
           <DropdownMenu aria-label="Feed Actions">
             <DropdownItem
               key="refresh"
-              onPress={handleRefresh}
+              onPress={() => handleRefresh(feedId)}
               startContent={<RefreshCw className="size-4" />}
             >
               {t("articleList.refreshFeed")}

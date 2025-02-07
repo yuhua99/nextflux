@@ -317,6 +317,15 @@ class miniFluxAPI {
       throw error;
     }
   }
+
+  async refreshAllFeeds() {
+    try {
+      await this.client.put("/v1/feeds/refresh");
+    } catch (error) {
+      console.error("刷新所有订阅源失败:", error);
+      throw error;
+    }
+  }
 }
 
 export default new miniFluxAPI();

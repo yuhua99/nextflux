@@ -26,6 +26,7 @@ export default function AddFeedButton() {
     try {
       await minifluxAPI.importOPML(file);
       await forceSync(); // 重新加载订阅源列表以更新UI
+      await minifluxAPI.refreshAllFeeds(); // 触发所有订阅源的刷新
       toast.success(t("common.success"));
     } catch (error) {
       console.error("OPML导入失败:", error);
