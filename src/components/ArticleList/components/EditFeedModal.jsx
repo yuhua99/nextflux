@@ -12,9 +12,8 @@ import {
 } from "@heroui/react";
 import { useEffect, useState } from "react";
 import { useStore } from "@nanostores/react";
-import { categories, feeds } from "@/stores/feedsStore";
-import { editFeedModalOpen } from "@/stores/modalStore";
-import { useParams } from "react-router-dom";
+import { categories } from "@/stores/feedsStore";
+import { editFeedModalOpen, currentFeed } from "@/stores/modalStore";
 import minifluxAPI from "@/api/miniflux";
 import { forceSync } from "@/stores/syncStore";
 import { Check, Copy, Minus, Plus } from "lucide-react";
@@ -23,8 +22,7 @@ import CustomModal from "@/components/ui/CustomModal.jsx";
 
 export default function EditFeedModal() {
   const { t } = useTranslation();
-  const { feedId } = useParams();
-  const $feeds = useStore(feeds);
+  const $currentFeed = useStore(currentFeed);
   const $categories = useStore(categories);
   const $editFeedModalOpen = useStore(editFeedModalOpen);
   const [loading, setLoading] = useState(false);
@@ -41,43 +39,39 @@ export default function EditFeedModal() {
   });
 
   useEffect(() => {
-    if (feedId) {
-      const feed = $feeds.find((f) => f.id === parseInt(feedId));
-      if (feed) {
-        setFormData({
-          title: feed.title,
-          category_id: feed.categoryId,
-          hide_globally: feed.hide_globally,
-          crawler: feed.crawler,
-          keeplist_rules: feed.keeplist_rules,
-          blocklist_rules: feed.blocklist_rules,
-          rewrite_rules: feed.rewrite_rules,
-        });
-        setFeedUrl(feed.url);
-      }
+    if ($currentFeed) {
+      setFormData({
+        title: $currentFeed.title,
+        category_id: $currentFeed.categoryId,
+        hide_globally: $currentFeed.hide_globally,
+        crawler: $currentFeed.crawler,
+        keeplist_rules: $currentFeed.keeplist_rules,
+        blocklist_rules: $currentFeed.blocklist_rules,
+        rewrite_rules: $currentFeed.rewrite_rules,
+      });
+      setFeedUrl($currentFeed.url);
     }
-  }, [feedId, $feeds]);
+  }, [$currentFeed]);
 
   const onClose = () => {
     editFeedModalOpen.set(false);
-    const feed = $feeds.find((f) => f.id === parseInt(feedId));
     setFormData({
-      title: feed.title,
-      category_id: feed.categoryId,
-      hide_globally: feed.hide_globally,
-      crawler: feed.crawler,
-      keeplist_rules: feed.keeplist_rules,
-      blocklist_rules: feed.blocklist_rules,
-      rewrite_rules: feed.rewrite_rules,
+      title: $currentFeed.title,
+      category_id: $currentFeed.categoryId,
+      hide_globally: $currentFeed.hide_globally,
+      crawler: $currentFeed.crawler,
+      keeplist_rules: $currentFeed.keeplist_rules,
+      blocklist_rules: $currentFeed.blocklist_rules,
+      rewrite_rules: $currentFeed.rewrite_rules,
     });
-    setFeedUrl(feed.url);
+    setFeedUrl($currentFeed.url);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setLoading(true);
-      await minifluxAPI.updateFeed(feedId, formData);
+      await minifluxAPI.updateFeed($currentFeed.id, formData);
       await forceSync(); // 重新加载订阅源列表以更新UI
       onClose();
     } catch (error) {

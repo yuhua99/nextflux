@@ -15,6 +15,9 @@ import { useHotkeys } from "@/hooks/useHotkeys.js";
 import SearchModal from "@/components/Search/SearchModal.jsx";
 import LogoutModal from "@/components/FeedList/components/LogoutModal.jsx";
 import AboutModal from "@/components/About/AboutModal.jsx";
+import RenameModal from "@/components/ArticleList/components/RenameModal.jsx";
+import UnsubscribeModal from "@/components/ArticleList/components/UnsubscribeModal.jsx";
+import EditFeedModal from "@/components/ArticleList/components/EditFeedModal.jsx";
 
 function App() {
   const { syncInterval } = useStore(settingsState);
@@ -41,6 +44,9 @@ function App() {
       <SearchModal />
       <LogoutModal />
       <AboutModal />
+      <RenameModal />
+      <UnsubscribeModal />
+      <EditFeedModal />
     </SidebarProvider>
   );
 }

@@ -1,6 +1,7 @@
 import {
   Avatar,
   Button,
+  Divider,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -55,7 +56,7 @@ export default function ProfileButton() {
           <DropdownItem
             key="about"
             textValue="about"
-            startContent={<Info className="size-4" />}
+            startContent={<Info className="size-4 text-default-500" />}
             onPress={() => {
               aboutModalOpen.set(true);
               isMobile && setOpenMobile(false);
@@ -66,7 +67,7 @@ export default function ProfileButton() {
           <DropdownItem
             key="settings"
             textValue="settings"
-            startContent={<Cog className="size-4" />}
+            startContent={<Cog className="size-4 text-default-500" />}
             onPress={() => {
               settingsModalOpen.set(true);
               isMobile && setOpenMobile(false);
@@ -77,7 +78,7 @@ export default function ProfileButton() {
           <DropdownItem
             key="shortcuts"
             textValue="shortcuts"
-            startContent={<Keyboard className="size-4" />}
+            startContent={<Keyboard className="size-4 text-default-500" />}
             onPress={() => {
               shortcutsModalOpen.set(true);
               isMobile && setOpenMobile(false);
@@ -88,16 +89,21 @@ export default function ProfileButton() {
           <DropdownItem
             key="open_miniflux"
             textValue="open_miniflux"
-            startContent={<ExternalLink className="size-4" />}
+            startContent={<ExternalLink className="size-4 text-default-500" />}
             onPress={() => {
               window.open(serverUrl, "_blank");
             }}
           >
             {t("sidebar.profile.openMiniflux")}
           </DropdownItem>
+          <DropdownItem isDisabled classNames={{ base: "py-1.5" }}>
+            <Divider />
+          </DropdownItem>
           <DropdownItem
             key="logout"
             textValue="logout"
+            className="text-danger"
+            variant="flat"
             color="danger"
             startContent={<LogOut className="size-4" />}
             onPress={() => {

@@ -36,8 +36,8 @@ createRoot(document.getElementById("root")).render(
             "flex gap-1 items-center w-full bg-background border p-3 rounded-xl shadow-lg bg-gradient-to-b from-white/5 from-1% to-transparent to-20%",
           title: "text-sm font-medium",
           loading:
-            "text-default-500 bg-default-100 border-default-300 shadow-black/10",
-          info: "text-default-500 bg-default-100 border-default-300 shadow-black/10",
+            "text-blue-500 bg-blue-100 border-blue-300 shadow-blue-500/10",
+          info: "text-blue-500 bg-blue-100 border-blue-300 shadow-blue-500/10",
           success:
             "text-success bg-success-50 border-success-200 shadow-success/20",
           error: "text-danger bg-danger-50 border-danger-200 shadow-danger/20",

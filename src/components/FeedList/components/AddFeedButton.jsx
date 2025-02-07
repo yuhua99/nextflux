@@ -1,5 +1,6 @@
 import {
   Button,
+  Divider,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -56,7 +57,7 @@ export default function AddFeedButton() {
         <DropdownMenu aria-label="Static Actions">
           <DropdownItem
             key="newFeed"
-            startContent={<Rss className="size-4" />}
+            startContent={<Rss className="size-4 text-default-500" />}
             onPress={() => {
               addFeedModalOpen.set(true);
               isMobile && setOpenMobile(false);
@@ -66,7 +67,7 @@ export default function AddFeedButton() {
           </DropdownItem>
           <DropdownItem
             key="importOPML"
-            startContent={<Upload className="size-4" />}
+            startContent={<Upload className="size-4 text-default-500" />}
             onPress={() => {
               fileInputRef.current?.click();
               isMobile && setOpenMobile(false);
@@ -74,9 +75,12 @@ export default function AddFeedButton() {
           >
             {t("sidebar.importOPML")}
           </DropdownItem>
+          <DropdownItem isDisabled classNames={{ base: "py-1.5" }}>
+            <Divider />
+          </DropdownItem>
           <DropdownItem
             key="newCategory"
-            startContent={<FolderPlus className="size-4" />}
+            startContent={<FolderPlus className="size-4 text-default-500" />}
             onPress={() => {
               addCategoryModalOpen.set(true);
               isMobile && setOpenMobile(false);

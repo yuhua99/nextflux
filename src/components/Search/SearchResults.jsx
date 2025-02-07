@@ -101,9 +101,9 @@ export default function SearchResults({
           key={item.id}
           className={`flex items-center justify-between gap-2 px-2 py-2 text-sm rounded-lg cursor-pointer ${
             index === selectedIndex
-              ? "bg-default/90"
+              ? "bg-default/80"
               : hoverEffect
-                ? "hover:bg-default/80"
+                ? "hover:bg-default/70"
                 : ""
           }`}
           onClick={() => onSelect(item)}
