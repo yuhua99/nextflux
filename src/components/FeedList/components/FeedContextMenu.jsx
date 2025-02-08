@@ -1,6 +1,5 @@
 import {
   Dropdown,
-  DropdownTrigger,
   DropdownMenu,
   DropdownItem,
   DropdownSection,
@@ -19,29 +18,29 @@ export default function FeedContextMenu({ feed, children }) {
   const [isOpen, setIsOpen] = useState(false);
   const { isMedium } = useIsMobile();
   const { isMobile, setOpenMobile } = useSidebar();
+  const [position, setPosition] = useState({ x: 0, y: 0 });
 
   return (
     <Dropdown
       isOpen={isOpen}
       onOpenChange={(open) => setIsOpen(open)}
       triggerScaleOnOpen={false}
-      showArrow
       placement={isMedium ? "bottom-start" : "right"}
-      crossOffset={isMedium ? 24 : 0}
+      style={{
+        position: "fixed",
+        left: position.x,
+        top: position.y,
+      }}
     >
-      <DropdownTrigger>
-        <div
-          onContextMenu={(e) => {
-            e.preventDefault();
-            setIsOpen(true);
-          }}
-          onClick={() => {
-            setIsOpen(false);
-          }}
-        >
-          {children}
-        </div>
-      </DropdownTrigger>
+      <div
+        onContextMenu={(e) => {
+          e.preventDefault();
+          setPosition({ x: e.clientX, y: e.clientY });
+          setIsOpen(true);
+        }}
+      >
+        {children}
+      </div>
       <DropdownMenu aria-label="Feed Actions" onClose={() => setIsOpen(false)}>
         <DropdownSection
           showDivider={false}
