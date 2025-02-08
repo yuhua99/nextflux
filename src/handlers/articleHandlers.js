@@ -1,8 +1,11 @@
 import {
+  activeArticle,
   updateArticleStarred,
   updateArticleStatus,
   markAllAsRead,
+  loadingOriginContent,
 } from "../stores/articlesStore.js";
+import minifluxAPI from "@/api/miniflux";
 
 // 处理文章状态更新
 export const handleMarkStatus = async (article) => {
@@ -37,5 +40,27 @@ export const handleMarkAllRead = async (type, id) => {
     }
   } catch (err) {
     console.error("标记已读失败:", err);
+  }
+};
+
+// 处理内容切换
+export const handleToggleContent = async (article) => {
+  if (!article || loadingOriginContent.get()) return;
+
+  try {
+    loadingOriginContent.set(true);
+    const showOriginal = !article.shownOriginal;
+
+    activeArticle.set({
+      ...article,
+      content: showOriginal
+        ? await minifluxAPI.fetchEntryContent(article.id)
+        : article.originalContent,
+      shownOriginal: showOriginal,
+    });
+  } catch (error) {
+    console.error("切换内容失败:", error);
+  } finally {
+    loadingOriginContent.set(false);
   }
 };

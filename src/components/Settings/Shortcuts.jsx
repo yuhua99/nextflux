@@ -20,8 +20,9 @@ export default function Shortcuts() {
       { key: "K", desc: t("sidebar.shortcuts.previous") },
       { key: "M", desc: t("sidebar.shortcuts.toggleRead") },
       { key: "S", desc: t("sidebar.shortcuts.toggleStar") },
+      { key: "G", desc: t("sidebar.shortcuts.toggleReaderView") },
       { key: "ESC", desc: t("sidebar.shortcuts.close") },
-      { key: "V", desc: t("sidebar.shortcuts.viewInBrowser") },
+      { key: "B", desc: t("sidebar.shortcuts.viewInBrowser") },
     ],
     global: [
       {
@@ -29,17 +30,21 @@ export default function Shortcuts() {
         desc: t("sidebar.shortcuts.toggleSidebar"),
         kbdKey: ["ctrl"],
       },
-
       {
-        key: "/",
+        key: "?",
         desc: t("sidebar.shortcuts.toggleShortcuts"),
-        kbdKey: ["ctrl"],
       },
       { key: "R", desc: t("sidebar.shortcuts.refresh") },
       { key: "F", desc: t("sidebar.shortcuts.search") },
+      {
+        key: "N",
+        desc: t("sidebar.shortcuts.addFeed"),
+        kbdKey: ["shift"],
+      },
     ],
   };
   const isOpen = useStore(shortcutsModalOpen);
+
   return (
     <>
       <Modal

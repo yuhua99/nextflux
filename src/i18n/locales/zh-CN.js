@@ -81,6 +81,8 @@ export default {
       viewInBrowser: "在浏览器中查看",
       toggleSidebar: "切换侧边栏",
       toggleShortcuts: "查看/隐藏快捷键",
+      toggleReaderView: "阅读模式",
+      addFeed: "新增订阅",
       refresh: "刷新",
       search: "全局搜索",
       global: "全局",

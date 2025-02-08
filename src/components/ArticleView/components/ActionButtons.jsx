@@ -12,14 +12,19 @@ import {
 import {
   handleMarkStatus,
   handleToggleStar,
+  handleToggleContent,
 } from "@/handlers/articleHandlers.js";
 import { Button, Divider, Navbar, NavbarContent, Tooltip } from "@heroui/react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "@nanostores/react";
-import { activeArticle, filteredArticles } from "@/stores/articlesStore";
+import {
+  activeArticle,
+  filteredArticles,
+  loadingOriginContent,
+} from "@/stores/articlesStore";
 import Confetti from "@/components/ui/Confetti";
 import { settingsState } from "@/stores/settingsStore.js";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import minifluxAPI from "@/api/miniflux";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -32,15 +37,9 @@ export default function ActionButtons({ parentRef }) {
   const $activeArticle = useStore(activeArticle);
   const { autoHideToolbar } = useStore(settingsState);
   const buttonRef = useRef(null);
-  const [fetchLoading, setFetchLoading] = useState(false);
+  const fetchLoading = useStore(loadingOriginContent);
   const [saveLoading, setSaveLoading] = useState(false);
-  const [showOriginal, setShowOriginal] = useState(true);
   const $hasIntegrations = useStore(hasIntegrations);
-
-  // 每次切换文章时，恢复到原始内容
-  useEffect(() => {
-    setShowOriginal(true);
-  }, [$activeArticle?.id]);
 
   // 获取当前文章在列表中的索引
   const currentIndex = $articles.findIndex((a) => a.id === $activeArticle?.id);
@@ -91,34 +90,6 @@ export default function ActionButtons({ parentRef }) {
       }
     } catch (error) {
       console.error("分享失败:", error);
-    }
-  };
-
-  // 处理内容切换
-  const handleToggleContent = async () => {
-    if (!$activeArticle) return;
-
-    try {
-      setFetchLoading(true);
-      if (showOriginal) {
-        // 获取原始内容
-        const content = await minifluxAPI.fetchEntryContent($activeArticle.id);
-        activeArticle.set({
-          ...$activeArticle,
-          content: content,
-        });
-      } else {
-        // 恢复保存的内容
-        activeArticle.set({
-          ...$activeArticle,
-          content: $activeArticle.originalContent,
-        });
-      }
-      setShowOriginal(!showOriginal);
-    } catch (error) {
-      console.error("切换内容失败:", error);
-    } finally {
-      setFetchLoading(false);
     }
   };
 
@@ -259,24 +230,24 @@ export default function ActionButtons({ parentRef }) {
           )}
           <Tooltip
             content={
-              showOriginal
-                ? t("articleView.getFullText")
-                : t("articleView.showSummary")
+              $activeArticle?.shownOriginal
+                ? t("articleView.showSummary")
+                : t("articleView.getFullText")
             }
           >
             <Button
-              onPress={handleToggleContent}
+              onPress={() => handleToggleContent($activeArticle)}
               size="sm"
               radius="full"
-              variant={showOriginal ? "light" : "flat"}
+              variant={$activeArticle?.shownOriginal ? "flat" : "light"}
               isIconOnly
               isLoading={fetchLoading}
             >
               <FileText className="size-4 text-default-500" />
               <span className="sr-only">
-                {showOriginal
-                  ? t("articleView.getFullText")
-                  : t("articleView.showSummary")}
+                {$activeArticle?.shownOriginal
+                  ? t("articleView.showSummary")
+                  : t("articleView.getFullText")}
               </span>
             </Button>
           </Tooltip>

@@ -6,10 +6,15 @@ import {
   filteredArticles,
   imageGalleryActive,
 } from "@/stores/articlesStore";
-import { handleMarkStatus, handleToggleStar } from "@/handlers/articleHandlers";
+import {
+  handleMarkStatus,
+  handleToggleStar,
+  handleToggleContent,
+} from "@/handlers/articleHandlers";
 import { forceSync } from "@/stores/syncStore";
 import { shortcutsModalOpen } from "@/stores/modalStore";
 import { searchModalOpen } from "@/stores/searchStore";
+import { addFeedModalOpen } from "@/stores/modalStore";
 
 export function useHotkeys() {
   const navigate = useNavigate();
@@ -35,15 +40,25 @@ export function useHotkeys() {
         return;
       }
 
-      if (e.key === "/" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        shortcutsModalOpen.set(!shortcutsModalOpen.get());
-      }
+      switch (e.key) {
+        case "?": // 快捷键帮助
+          e.preventDefault();
+          shortcutsModalOpen.set(!shortcutsModalOpen.get());
+          break;
 
-      switch (e.key.toLowerCase()) {
         case "f": // 搜索
           e.preventDefault();
           searchModalOpen.set(true);
+          break;
+
+        case "N": // 新建订阅源
+          addFeedModalOpen.set(true);
+          break;
+
+        case "n": // 下一个订阅源
+          break;
+
+        case "p": // 上一个订阅源
           break;
 
         case "j": // 下一篇
@@ -78,6 +93,12 @@ export function useHotkeys() {
           }
           break;
 
+        case "g": // 原文/摘要切换
+          if (articleId) {
+            await handleToggleContent($activeArticle);
+          }
+          break;
+
         case "r": // 刷新
           if (!e.ctrlKey && !e.metaKey) {
             await forceSync();
@@ -92,7 +113,7 @@ export function useHotkeys() {
           }
           break;
 
-        case "v": // 在新标签页打开原文
+        case "b": // 在新标签页打开原文
           if (articleId) {
             window.open($activeArticle.url, "_blank");
           }
