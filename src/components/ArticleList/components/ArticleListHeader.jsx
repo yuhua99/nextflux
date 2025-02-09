@@ -9,7 +9,6 @@ import {
 import { feeds } from "@/stores/feedsStore.js";
 import MarkAllReadButton from "./MarkAllReadButton";
 import { isSyncing } from "@/stores/syncStore.js";
-import MenuButton from "./MenuButton";
 import { useTranslation } from "react-i18next";
 
 export default function ArticleListHeader() {
@@ -78,7 +77,6 @@ export default function ArticleListHeader() {
           <div className="ml-auto">
             <MarkAllReadButton />
           </div>
-          <MenuButton />
         </div>
       </div>
     </div>
