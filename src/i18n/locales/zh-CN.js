@@ -115,6 +115,7 @@ export default {
     stopPlay: "停止播放",
     getFullText: "阅读模式",
     showSummary: "隐藏阅读模式",
+    saveToThirdParty: "保存到第三方服务",
   },
   player: {
     "Current time": "当前时间",

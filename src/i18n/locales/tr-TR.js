@@ -116,6 +116,7 @@ export default {
       stopPlay: "DUR",
       getFullText: "Okuma görünümü",
       showSummary: "Okuma görünümünü gizle",
+      saveToThirdParty: "Üçüncü taraf hizmetlerine kaydet",
     },
     player: {
       "Current time": "Şimdiki zaman",

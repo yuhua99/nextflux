@@ -7,6 +7,7 @@ import {
   Reply,
   Share,
   Star,
+  CloudUpload,
 } from "lucide-react";
 import {
   handleMarkStatus,
@@ -21,6 +22,8 @@ import { settingsState } from "@/stores/settingsStore.js";
 import { useEffect, useRef, useState } from "react";
 import minifluxAPI from "@/api/miniflux";
 import { useTranslation } from "react-i18next";
+import { toast } from "sonner";
+import { hasIntegrations } from "@/stores/basicInfoStore.js";
 
 export default function ActionButtons({ parentRef }) {
   const { t } = useTranslation();
@@ -29,8 +32,10 @@ export default function ActionButtons({ parentRef }) {
   const $activeArticle = useStore(activeArticle);
   const { autoHideToolbar } = useStore(settingsState);
   const buttonRef = useRef(null);
-  const [loading, setLoading] = useState(false);
+  const [fetchLoading, setFetchLoading] = useState(false);
+  const [saveLoading, setSaveLoading] = useState(false);
   const [showOriginal, setShowOriginal] = useState(true);
+  const $hasIntegrations = useStore(hasIntegrations);
 
   // 每次切换文章时，恢复到原始内容
   useEffect(() => {
@@ -94,7 +99,7 @@ export default function ActionButtons({ parentRef }) {
     if (!$activeArticle) return;
 
     try {
-      setLoading(true);
+      setFetchLoading(true);
       if (showOriginal) {
         // 获取原始内容
         const content = await minifluxAPI.fetchEntryContent($activeArticle.id);
@@ -113,7 +118,21 @@ export default function ActionButtons({ parentRef }) {
     } catch (error) {
       console.error("切换内容失败:", error);
     } finally {
-      setLoading(false);
+      setFetchLoading(false);
+    }
+  };
+
+  // 处理保存到第三方服务
+  const handleSaveToThirdParty = async () => {
+    if (!$activeArticle) return;
+    setSaveLoading(true);
+    try {
+      await minifluxAPI.saveToThirdParty($activeArticle.id);
+      toast.success(t("common.success"));
+    } catch (error) {
+      console.error("保存到第三方服务失败:", error);
+    } finally {
+      setSaveLoading(false);
     }
   };
 
@@ -224,6 +243,20 @@ export default function ActionButtons({ parentRef }) {
               </span>
             </Button>
           </Tooltip>
+          {$hasIntegrations && (
+            <Tooltip content={t("articleView.saveToThirdParty")}>
+              <Button
+                size="sm"
+                radius="full"
+                variant="light"
+                isIconOnly
+                onPress={handleSaveToThirdParty}
+                isLoading={saveLoading}
+              >
+                <CloudUpload className="size-4 text-default-500" />
+              </Button>
+            </Tooltip>
+          )}
           <Tooltip
             content={
               showOriginal
@@ -237,7 +270,7 @@ export default function ActionButtons({ parentRef }) {
               radius="full"
               variant={showOriginal ? "light" : "flat"}
               isIconOnly
-              isLoading={loading}
+              isLoading={fetchLoading}
             >
               <FileText className="size-4 text-default-500" />
               <span className="sr-only">

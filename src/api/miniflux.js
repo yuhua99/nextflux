@@ -326,6 +326,27 @@ class miniFluxAPI {
       throw error;
     }
   }
+
+  // 检查是否启用了第三方集成
+  async checkIntegrations() {
+    try {
+      const response = await this.client.get("/v1/integrations/status");
+      return response.data.has_integrations;
+    } catch (error) {
+      console.error("检查第三方集成状态失败:", error);
+      throw error;
+    }
+  }
+
+  // 保存文章到第三方服务
+  async saveToThirdParty(entryId) {
+    try {
+      await this.client.post(`/v1/entries/${entryId}/save`);
+    } catch (error) {
+      console.error("保存到第三方服务失败:", error);
+      throw error;
+    }
+  }
 }
 
 export default new miniFluxAPI();

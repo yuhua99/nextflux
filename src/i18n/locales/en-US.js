@@ -116,6 +116,7 @@ export default {
     stopPlay: "STOP",
     getFullText: "Reader view",
     showSummary: "Hide reader view",
+    saveToThirdParty: "Save to third-party services",
   },
   player: {
     "Current time": "Current time",

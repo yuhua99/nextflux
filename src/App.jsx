@@ -18,7 +18,7 @@ import AboutModal from "@/components/About/AboutModal.jsx";
 import RenameModal from "@/components/ArticleList/components/RenameModal.jsx";
 import UnsubscribeModal from "@/components/ArticleList/components/UnsubscribeModal.jsx";
 import EditFeedModal from "@/components/ArticleList/components/EditFeedModal.jsx";
-
+import { checkIntegrations } from "@/stores/basicInfoStore.js";
 function App() {
   const { syncInterval } = useStore(settingsState);
   useEffect(() => {
@@ -28,6 +28,10 @@ function App() {
       startAutoSync();
     }
   }, [syncInterval]);
+  // 检查第三方集成状态
+  useEffect(() => {
+    checkIntegrations();
+  }, []);
 
   useHotkeys();
 
