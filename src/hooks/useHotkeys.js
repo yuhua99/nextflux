@@ -13,7 +13,6 @@ import {
 } from "@/handlers/articleHandlers";
 import { forceSync } from "@/stores/syncStore";
 import { shortcutsModalOpen } from "@/stores/modalStore";
-import { searchModalOpen } from "@/stores/searchStore";
 import { addFeedModalOpen } from "@/stores/modalStore";
 
 export function useHotkeys() {
@@ -44,11 +43,6 @@ export function useHotkeys() {
         case "?": // 快捷键帮助
           e.preventDefault();
           shortcutsModalOpen.set(!shortcutsModalOpen.get());
-          break;
-
-        case "f": // 搜索
-          e.preventDefault();
-          searchModalOpen.set(true);
           break;
 
         case "N": // 新建订阅源

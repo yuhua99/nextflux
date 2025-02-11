@@ -234,6 +234,79 @@ class Storage {
     const store = tx.objectStore("categories");
     await store.clear();
   }
+
+  // 获取文章总数
+  async getArticlesCount(feedIds, filter = "all") {
+    const tx = this.db.transaction("articles", "readonly");
+    const store = tx.objectStore("articles");
+    const index = store.index("feedId");
+
+    return new Promise((resolve, reject) => {
+      const request = index.getAll();
+      request.onsuccess = () => {
+        let articles = request.result.filter((article) =>
+          feedIds.includes(article.feedId),
+        );
+
+        // 根据筛选条件过滤
+        switch (filter) {
+          case "unread":
+            articles = articles.filter((article) => article.status !== "read");
+            break;
+          case "starred":
+            articles = articles.filter((article) => article.starred);
+            break;
+        }
+
+        resolve(articles.length);
+      };
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  // 分页获取文章
+  async getArticlesByPage(
+    feedIds,
+    filter = "all",
+    page = 1,
+    pageSize = 50,
+    sortDirection = "desc",
+  ) {
+    const tx = this.db.transaction("articles", "readonly");
+    const store = tx.objectStore("articles");
+    const index = store.index("feedId");
+
+    return new Promise((resolve, reject) => {
+      const request = index.getAll();
+      request.onsuccess = () => {
+        let articles = request.result.filter((article) =>
+          feedIds.includes(article.feedId),
+        );
+
+        // 根据筛选条件过滤
+        switch (filter) {
+          case "unread":
+            articles = articles.filter((article) => article.status !== "read");
+            break;
+          case "starred":
+            articles = articles.filter((article) => article.starred);
+            break;
+        }
+
+        // 排序
+        articles.sort((a, b) => {
+          const direction = sortDirection === "desc" ? 1 : -1;
+          return direction * (new Date(b.created_at) - new Date(a.created_at));
+        });
+
+        // 分页
+        const start = (page - 1) * pageSize;
+        const end = start + pageSize;
+        resolve(articles.slice(start, end));
+      };
+      request.onerror = () => reject(request.error);
+    });
+  }
 }
 
 export default new Storage();

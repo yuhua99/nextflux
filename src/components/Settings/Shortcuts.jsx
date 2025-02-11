@@ -35,7 +35,6 @@ export default function Shortcuts() {
         desc: t("sidebar.shortcuts.toggleShortcuts"),
       },
       { key: "R", desc: t("sidebar.shortcuts.refresh") },
-      { key: "F", desc: t("sidebar.shortcuts.search") },
       {
         key: "N",
         desc: t("sidebar.shortcuts.addFeed"),

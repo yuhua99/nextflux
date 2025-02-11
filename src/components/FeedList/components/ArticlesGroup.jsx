@@ -56,7 +56,6 @@ const ArticlesGroup = () => {
         >
           <SidebarMenuButton asChild>
             <Link to="/" onClick={() => isMobile && setOpenMobile(false)}>
-              {/*{icon}*/}
               <span className="font-semibold">{text}</span>
             </Link>
           </SidebarMenuButton>

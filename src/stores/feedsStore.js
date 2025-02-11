@@ -58,22 +58,29 @@ export const feedsByCategory = computed(
 );
 
 export const getCategoryCount = computed(
-  [filter, starredCounts, unreadCounts],
-  ($filter, $starredCounts, $unreadCounts) => (feeds) => {
+  [feeds, filter, starredCounts, unreadCounts],
+  ($feeds, $filter, $starredCounts, $unreadCounts) => (categoryId) => {
+    // 根据分类ID筛选出该分类下的所有订阅源
+    const categoryFeeds = $feeds.filter(feed => 
+      categoryId === 'uncategorized' 
+        ? !feed.categoryId 
+        : feed.categoryId === parseInt(categoryId)
+    );
+
     switch ($filter) {
       case "starred":
-        return feeds.reduce(
+        return categoryFeeds.reduce(
           (sum, feed) => sum + ($starredCounts[feed.id] || 0),
-          0,
+          0
         );
       case "unread":
       default:
-        return feeds.reduce(
+        return categoryFeeds.reduce(
           (sum, feed) => sum + ($unreadCounts[feed.id] || 0),
-          0,
+          0
         );
     }
-  },
+  }
 );
 
 export const getFeedCount = computed(

@@ -14,7 +14,7 @@ const defaultValue = {
   useGrayIcon: false,
   sortDirection: "desc", // asc, desc
   showHiddenFeeds: false,
-  markAsReadOnScroll: true,
+  markAsReadOnScroll: false,
   cardImageSize: "large", // none, small, large
   showFavicon: true,
   showTextPreview: true,

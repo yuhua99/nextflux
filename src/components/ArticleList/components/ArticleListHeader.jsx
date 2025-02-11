@@ -3,21 +3,22 @@ import { useStore } from "@nanostores/react";
 import { SidebarTrigger } from "@/components/ui/sidebar.jsx";
 import {
   filter,
-  filteredArticles,
-  unreadArticlesCount,
 } from "@/stores/articlesStore.js";
 import { feeds } from "@/stores/feedsStore.js";
 import MarkAllReadButton from "./MarkAllReadButton";
 import { isSyncing } from "@/stores/syncStore.js";
 import { useTranslation } from "react-i18next";
+import { totalStarredCount, totalUnreadCount, getCategoryCount, getFeedCount } from "@/stores/feedsStore.js";
 
 export default function ArticleListHeader() {
   const { feedId, categoryId } = useParams();
   const $filter = useStore(filter);
   const $feeds = useStore(feeds);
   const $isSyncing = useStore(isSyncing);
-  const $articles = useStore(filteredArticles);
-  const $unreadArticlesCount = useStore(unreadArticlesCount);
+  const $totalStarredCount = useStore(totalStarredCount);
+  const $totalUnreadCount = useStore(totalUnreadCount);
+  const $getCategoryCount = useStore(getCategoryCount);
+  const $getFeedCount = useStore(getFeedCount);
   const { t } = useTranslation();
   // 获取标题文本
   const getTitleText = () => {
@@ -41,21 +42,29 @@ export default function ArticleListHeader() {
     }
   };
 
-  // 获取当前筛选结果的计数
+  const getCountNumber = () => {
+    if (!feedId && !categoryId) {
+      return $filter === "starred" ? $totalStarredCount : $totalUnreadCount;
+    } else if (feedId) {
+      return $getFeedCount(feedId);
+    } else if (categoryId) {
+      return $getCategoryCount(categoryId);
+    }
+  };
+
   const getFilteredCount = () => {
     switch ($filter) {
       case "starred": {
-        const starredCount = $articles.filter(
-          (article) => article.starred,
-        ).length;
+        const starredCount = getCountNumber();
         return starredCount > 0
           ? `${starredCount} ${t("articleList.starredItems")}`
           : `${t("articleList.noStarred")}`;
       }
       case "unread":
       case "all": {
-        return $unreadArticlesCount > 0
-          ? `${$unreadArticlesCount} ${t("articleList.unreadItems")}`
+        const unreadCount = getCountNumber();
+        return unreadCount > 0
+          ? `${unreadCount} ${t("articleList.unreadItems")}`
           : `${t("articleList.noUnread")}`;
       }
       default:

@@ -92,8 +92,8 @@ const FeedsGroupContent = ({ category }) => {
             </SidebarMenuAction>
           </CollapsibleTrigger>
           <SidebarMenuBadge className="justify-end">
-            {$getCategoryCount(category.feeds) !== 0 &&
-              $getCategoryCount(category.feeds)}
+            {$getCategoryCount(category.id) !== 0 &&
+              $getCategoryCount(category.id)}
           </SidebarMenuBadge>
         </CategoryContextMenu>
         <CollapsibleContent>

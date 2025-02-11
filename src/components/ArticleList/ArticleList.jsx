@@ -24,6 +24,7 @@ const ArticleList = () => {
 
   useEffect(() => {
     const loadAndFilterArticles = () => {
+      filteredArticles.set([]);
       if (feedId) {
         loadArticles(feedId, "feed");
       } else if (categoryId) {
