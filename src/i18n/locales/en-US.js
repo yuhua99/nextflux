@@ -82,6 +82,8 @@ export default {
       viewInBrowser: "View in browser",
       toggleSidebar: "Toggle sidebar",
       toggleShortcuts: "Toggle shortcuts",
+      toggleReaderView: "Toggle reader view",
+      addFeed: "New Feed",
       refresh: "Refresh",
       search: "Global search",
       global: "GLOBAL",
