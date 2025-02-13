@@ -1,7 +1,7 @@
 class Storage {
   constructor() {
     this.dbName = "minifluxReader";
-    this.dbVersion = 2.1;
+    this.dbVersion = 3;
     this.db = null;
   }
 
