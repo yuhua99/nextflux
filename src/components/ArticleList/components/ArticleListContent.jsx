@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import ArticleCard from "./ArticleCard";
 import { useParams } from "react-router-dom";
 import {
@@ -15,10 +15,10 @@ import { useIsMobile } from "@/hooks/use-mobile.jsx";
 import { Button, CircularProgress } from "@heroui/react";
 import { CheckCheck, Loader2 } from "lucide-react";
 import { handleMarkAllRead } from "@/handlers/articleHandlers";
-import { isSyncing } from "@/stores/syncStore.js";
+import { isSyncing, lastSync } from "@/stores/syncStore.js";
 import { useTranslation } from "react-i18next";
 import { settingsState } from "@/stores/settingsStore.js";
-import { loadArticles } from "@/stores/articlesStore";
+import { loadArticles, filteredArticles } from "@/stores/articlesStore";
 
 const ArticleItem = memo(({ article, isLast }) => (
   <div className="mx-2">
@@ -44,6 +44,34 @@ export default function ArticleListContent({ articles }) {
   const $currentPage = useStore(currentPage);
   const $loading = useStore(loading);
   const $loadingMore = useStore(loadingMore);
+  const $lastSync = useStore(lastSync);
+  const { sortDirection, showHiddenFeeds } =
+    useStore(settingsState);
+    const [visibleRange, setVisibleRange] = useState({
+      startIndex: 0,
+      endIndex: 0,
+    })
+
+    const loadAndFilterArticles = () => {
+      filteredArticles.set([]);
+      if (feedId) {
+        loadArticles(feedId, "feed");
+      } else if (categoryId) {
+        loadArticles(categoryId, "category");
+      } else {
+        loadArticles();
+      }
+    };
+
+  useEffect(() => {
+      loadAndFilterArticles();
+  }, [feedId, categoryId, $filter, sortDirection, showHiddenFeeds]);
+
+  useEffect(() => {
+    if (visibleRange.startIndex === 0) {
+      loadAndFilterArticles();
+    }
+  }, [$lastSync]);
 
   useEffect(() => {
     if (isMedium) {
@@ -102,7 +130,8 @@ export default function ArticleListContent({ articles }) {
             <Virtuoso
               ref={listRef}
               className="v-list h-full"
-              increaseViewportBy={500}
+              rangeChanged={setVisibleRange}
+              increaseViewportBy={{top:0, bottom:500}}
               data={articles}
               context={{
                 feedId,

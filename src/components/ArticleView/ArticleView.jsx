@@ -243,10 +243,9 @@ const ArticleView = () => {
                   {audioEnclosure && <PlayAndPause source={audioEnclosure} />}
                   <PhotoProvider
                     bannerVisible={true}
-                    onVisibleChange={(visible) => {
-                      imageGalleryActive.set(visible);
-                      console.log(visible);
-                    }}
+                    onVisibleChange={(visible) =>
+                      imageGalleryActive.set(visible)
+                    }
                     maskOpacity={0.8}
                     loop={false}
                     speed={() => 300}

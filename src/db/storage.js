@@ -1,7 +1,7 @@
 class Storage {
   constructor() {
     this.dbName = "minifluxReader";
-    this.dbVersion = 2;
+    this.dbVersion = 2.1;
     this.db = null;
   }
 
@@ -36,6 +36,9 @@ class Storage {
           });
           articlesDb.createIndex("feedId", "feedId", { unique: false });
           articlesDb.createIndex("status", "status", { unique: false });
+          articlesDb.createIndex("status_feedId", ["status", "feedId"], {
+            unique: false,
+          });
         }
 
         // 创建订阅源存储
@@ -130,15 +133,12 @@ class Storage {
   async getUnreadCount(feedId) {
     const tx = this.db.transaction("articles", "readonly");
     const store = tx.objectStore("articles");
-    const index = store.index("feedId");
+    const index = store.index("status_feedId");
 
     return new Promise((resolve, reject) => {
-      const request = index.getAll(feedId);
+      const request = index.count(["unread", feedId]);
       request.onsuccess = () => {
-        const articles = request.result;
-        const unreadCount = articles.filter(
-          (article) => article.status !== "read",
-        ).length;
+        const unreadCount = request.result;
         resolve(unreadCount);
       };
       request.onerror = () => reject(request.error);

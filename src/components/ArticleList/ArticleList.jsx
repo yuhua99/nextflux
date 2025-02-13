@@ -1,10 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useStore } from "@nanostores/react";
-import { lastSync } from "@/stores/syncStore.js";
 import {
   filter,
   filteredArticles,
-  loadArticles,
 } from "@/stores/articlesStore.js";
 import { useParams } from "react-router-dom";
 import ArticleListHeader from "./components/ArticleListHeader";
@@ -16,26 +14,10 @@ import ArticleView from "@/components/ArticleView/ArticleView.jsx";
 const ArticleList = () => {
   const { feedId, categoryId } = useParams();
   const $filteredArticles = useStore(filteredArticles);
-  const $lastSync = useStore(lastSync);
-  const $filter = useStore(filter);
-  const { sortDirection, showHiddenFeeds, showUnreadByDefault } =
+  const { showUnreadByDefault } =
     useStore(settingsState);
-  const scrollAreaRef = useRef(null);
 
-  useEffect(() => {
-    const loadAndFilterArticles = () => {
-      filteredArticles.set([]);
-      if (feedId) {
-        loadArticles(feedId, "feed");
-      } else if (categoryId) {
-        loadArticles(categoryId, "category");
-      } else {
-        loadArticles();
-      }
-    };
 
-    loadAndFilterArticles();
-  }, [feedId, categoryId, $lastSync, $filter, sortDirection, showHiddenFeeds]);
 
   // 组件挂载时设置默认过滤器
   useEffect(() => {
@@ -47,7 +29,6 @@ const ArticleList = () => {
   return (
     <div className="main-content flex bg-content2">
       <div
-        ref={scrollAreaRef}
         className="w-full relative max-w-[100vw] md:w-[21rem] md:max-w-[30%] md:min-w-[18rem] h-[100dvh] bg-content2 flex flex-col"
       >
         <ArticleListHeader />
