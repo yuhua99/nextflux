@@ -6,11 +6,7 @@ import "react-photo-view/dist/react-photo-view.css";
 import "./ArticleView.css";
 import ActionButtons from "@/components/ArticleView/components/ActionButtons.jsx";
 import { generateReadableDate } from "@/lib/format.js";
-import {
-  activeArticle,
-  filteredArticles,
-  imageGalleryActive,
-} from "@/stores/articlesStore.js";
+import { activeArticle, imageGalleryActive } from "@/stores/articlesStore.js";
 import { Chip, Divider, ScrollShadow } from "@heroui/react";
 import EmptyPlaceholder from "@/components/ArticleList/components/EmptyPlaceholder";
 import { cleanTitle, getFontSizeClass } from "@/lib/utils";
@@ -27,13 +23,11 @@ import { ExternalLink } from "lucide-react";
 import { cn, getHostname } from "@/lib/utils.js";
 import { useIsMobile } from "@/hooks/use-mobile.jsx";
 import FeedIcon from "@/components/ui/FeedIcon.jsx";
-
+import storage from "@/db/storage";
 const ArticleView = () => {
   const { t } = useTranslation();
   const { articleId } = useParams();
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const $filteredArticles = useStore(filteredArticles);
   const $activeArticle = useStore(activeArticle);
   const {
     lineHeight,
@@ -80,13 +74,10 @@ const ArticleView = () => {
         return;
       }
 
-      if (articleId && $filteredArticles.length > 0) {
-        setLoading(true);
+      if (articleId) {
         setError(null);
         try {
-          const loadedArticle = $filteredArticles.find(
-            (article) => article.id === parseInt(articleId),
-          );
+          const loadedArticle = await storage.getArticleById(articleId);
           if (loadedArticle) {
             // 保存原始内容
             loadedArticle.originalContent = loadedArticle.content;
@@ -97,14 +88,12 @@ const ArticleView = () => {
         } catch (err) {
           console.error("加载文章失败:", err);
           setError(err.message);
-        } finally {
-          setLoading(false);
         }
       }
     };
 
     loadArticleByArticleId();
-  }, [$filteredArticles, articleId]);
+  }, [articleId]);
 
   const handleLinkWithImg = (domNode) => {
     const imgNode = domNode.children.find(
@@ -174,7 +163,7 @@ const ArticleView = () => {
             ease: "easeInOut",
           }}
         >
-          {loading || !$activeArticle || error ? (
+          {!$activeArticle || error ? (
             <EmptyPlaceholder />
           ) : (
             <ScrollShadow
@@ -183,6 +172,7 @@ const ArticleView = () => {
               className="article-scroll-area h-full bg-background rounded-none md:rounded-lg shadow-none md:shadow-custom"
             >
               <ActionButtons parentRef={scrollAreaRef} />
+
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={articleId}

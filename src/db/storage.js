@@ -350,6 +350,40 @@ class Storage {
       request.onerror = () => reject(request.error);
     });
   }
+
+  // 根据id获取文章
+  async getArticleById(id) {
+    await this.init();
+    const tx = this.db.transaction(["articles", "feeds"], "readonly");
+    const articlesStore = tx.objectStore("articles");
+    const feedsStore = tx.objectStore("feeds");
+
+    return new Promise((resolve, reject) => {
+      const articleRequest = articlesStore.get(parseInt(id));
+      
+      articleRequest.onsuccess = () => {
+        const article = articleRequest.result;
+        if (!article) {
+          resolve(null);
+          return;
+        }
+
+        const feedRequest = feedsStore.get(article.feedId);
+        feedRequest.onsuccess = () => {
+          const feed = feedRequest.result;
+          resolve({
+            ...article,
+            feed: {
+              ...feed,
+            },
+          });
+        };
+        feedRequest.onerror = () => reject(feedRequest.error);
+      };
+      
+      articleRequest.onerror = () => reject(articleRequest.error);
+    });
+  }
 }
 
 export default new Storage();
