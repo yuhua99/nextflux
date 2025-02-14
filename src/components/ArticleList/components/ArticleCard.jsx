@@ -119,9 +119,7 @@ export default function ArticleCard({ article }) {
       <div
         className={cn(
           "card-content flex flex-col gap-1 transition-opacity",
-          article.status === "read" &&
-            article.starred === false &&
-            "opacity-50",
+          article.status === "read" && article.starred === 0 && "opacity-50",
         )}
       >
         <div className="card-header flex flex-col gap-1">
@@ -138,7 +136,7 @@ export default function ArticleCard({ article }) {
               <span className="card-star">
                 <Star
                   className="size-3 fill-current"
-                  style={{ opacity: article.starred ? 1 : 0 }}
+                  style={{ opacity: article.starred === 1 ? 1 : 0 }}
                 />
               </span>
               <span className="card-time whitespace-nowrap">

@@ -14,7 +14,7 @@ export const filter = atom("all");
 export const imageGalleryActive = atom(false);
 export const hasMore = atom(true);
 export const currentPage = atom(1);
-export const pageSize = atom(50);
+export const pageSize = atom(30);
 
 // 加载文章列表
 export async function loadArticles(
@@ -151,7 +151,7 @@ export async function updateArticleStatus(article) {
 
 // 更新文章收藏状态
 export async function updateArticleStarred(article) {
-  const newStarred = !article.starred;
+  const newStarred = article.starred === 1 ? 0 : 1;
 
   // 乐观更新UI
   filteredArticles.set(

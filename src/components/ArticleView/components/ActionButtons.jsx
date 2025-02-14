@@ -189,7 +189,9 @@ export default function ActionButtons({ parentRef }) {
           </Tooltip>
           <Tooltip
             content={
-              $activeArticle?.starred ? t("common.unstar") : t("common.star")
+              $activeArticle?.starred === 1
+                ? t("common.unstar")
+                : t("common.star")
             }
           >
             <Button
@@ -199,16 +201,16 @@ export default function ActionButtons({ parentRef }) {
               variant="light"
               isIconOnly
               onPress={() => {
-                !$activeArticle?.starred && Confetti(buttonRef);
+                $activeArticle?.starred === 0 && Confetti(buttonRef);
                 handleToggleStar($activeArticle);
               }}
               className="relative"
             >
               <Star
-                className={`size-4 text-default-500 ${$activeArticle?.starred ? "fill-current" : ""}`}
+                className={`size-4 text-default-500 ${$activeArticle?.starred === 1 ? "fill-current" : ""}`}
               />
               <span className="sr-only">
-                {$activeArticle?.starred
+                {$activeArticle?.starred === 1
                   ? t("common.unstar")
                   : t("common.star")}
               </span>

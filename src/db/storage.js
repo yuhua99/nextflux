@@ -1,7 +1,7 @@
 class Storage {
   constructor() {
     this.dbName = "minifluxReader";
-    this.dbVersion = 4;
+    this.dbVersion = 5;
     this.db = null;
   }
 
@@ -52,8 +52,16 @@ class Storage {
         if (!articlesStore.indexNames.contains("status")) {
           articlesStore.createIndex("status", "status", { unique: false });
         }
+        if (!articlesStore.indexNames.contains("starred")) {
+          articlesStore.createIndex("starred", "starred", { unique: false });
+        }
         if (!articlesStore.indexNames.contains("status_feedId")) {
           articlesStore.createIndex("status_feedId", ["status", "feedId"], {
+            unique: false,
+          });
+        }
+        if (!articlesStore.indexNames.contains("starred_feedId")) {
+          articlesStore.createIndex("starred_feedId", ["starred", "feedId"], {
             unique: false,
           });
         }
@@ -214,15 +222,12 @@ class Storage {
   async getStarredCount(feedId) {
     const tx = this.db.transaction("articles", "readonly");
     const store = tx.objectStore("articles");
-    const index = store.index("feedId");
+    const index = store.index("starred_feedId");
 
     return new Promise((resolve, reject) => {
-      const request = index.getAll(feedId);
+      const request = index.count([1, feedId]);
       request.onsuccess = () => {
-        const articles = request.result;
-        const starredCount = articles.filter(
-          (article) => article.starred,
-        ).length;
+        const starredCount = request.result;
         resolve(starredCount);
       };
       request.onerror = () => reject(request.error);
@@ -264,28 +269,41 @@ class Storage {
   async getArticlesCount(feedIds, filter = "all") {
     const tx = this.db.transaction("articles", "readonly");
     const store = tx.objectStore("articles");
-    const index = store.index("feedId");
 
     return new Promise((resolve, reject) => {
-      const request = index.getAll();
-      request.onsuccess = () => {
-        let articles = request.result.filter((article) =>
-          feedIds.includes(article.feedId),
-        );
+      let totalCount = 0;
+      let completedQueries = 0;
 
-        // 根据筛选条件过滤
+      // 为每个 feedId 执行查询
+      feedIds.forEach((feedId) => {
+        let request;
+        const statusIndex = store.index("status_feedId");
+        const starredIndex = store.index("starred_feedId");
+        const feedIndex = store.index("feedId");
+
         switch (filter) {
           case "unread":
-            articles = articles.filter((article) => article.status !== "read");
+            request = statusIndex.count(["unread", feedId]);
             break;
           case "starred":
-            articles = articles.filter((article) => article.starred);
+            request = starredIndex.count([1, feedId]);
             break;
+          default:
+            request = feedIndex.count(feedId);
         }
 
-        resolve(articles.length);
-      };
-      request.onerror = () => reject(request.error);
+        request.onsuccess = () => {
+          totalCount += request.result;
+          completedQueries++;
+
+          // 当所有查询完成时返回总数
+          if (completedQueries === feedIds.length) {
+            resolve(totalCount);
+          }
+        };
+
+        request.onerror = () => reject(request.error);
+      });
     });
   }
 
@@ -294,7 +312,7 @@ class Storage {
     feedIds,
     filter = "all",
     page = 1,
-    pageSize = 50,
+    pageSize = 30,
     sortDirection = "desc",
   ) {
     const tx = this.db.transaction("articles", "readonly");
