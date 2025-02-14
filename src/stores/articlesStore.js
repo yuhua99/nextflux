@@ -111,11 +111,6 @@ export async function updateArticleStatus(article) {
       .map((a) => (a.id === article.id ? { ...a, status: newStatus } : a)),
   );
 
-  activeArticle.set({
-    ...article,
-    status: newStatus,
-  });
-
   try {
     // 并行执行在线和本地更新
     const updates = [
@@ -149,7 +144,6 @@ export async function updateArticleStatus(article) {
           a.id === article.id ? { ...a, status: article.status } : a,
         ),
     );
-    activeArticle.set(article);
     console.error("更新文章状态失败:", err);
     throw err;
   }
@@ -165,11 +159,6 @@ export async function updateArticleStarred(article) {
       .get()
       .map((a) => (a.id === article.id ? { ...a, starred: newStarred } : a)),
   );
-
-  activeArticle.set({
-    ...article,
-    starred: newStarred,
-  });
 
   try {
     // 并行执行在线和本地更新
@@ -204,7 +193,6 @@ export async function updateArticleStarred(article) {
           a.id === article.id ? { ...a, starred: article.starred } : a,
         ),
     );
-    activeArticle.set(article);
     console.error("更新文章星标状态失败:", err);
     throw err;
   }
@@ -237,9 +225,6 @@ export async function markAllAsRead(type = "all", id = null) {
       status: "read",
     })),
   );
-  if (activeArticle.get()) {
-    activeArticle.set({ ...activeArticle.get(), status: "read" });
-  }
 
   try {
     // 并行执行更新
@@ -281,9 +266,6 @@ export async function markAllAsRead(type = "all", id = null) {
   } catch (err) {
     // 发生错误时回滚UI状态
     filteredArticles.set(articles);
-    if (activeArticle.get()) {
-      activeArticle.set(activeArticle.get());
-    }
     console.error("标记已读失败:", err);
     throw err;
   }

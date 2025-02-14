@@ -6,7 +6,11 @@ import "react-photo-view/dist/react-photo-view.css";
 import "./ArticleView.css";
 import ActionButtons from "@/components/ArticleView/components/ActionButtons.jsx";
 import { generateReadableDate } from "@/lib/format.js";
-import { activeArticle, imageGalleryActive } from "@/stores/articlesStore.js";
+import {
+  activeArticle,
+  filteredArticles,
+  imageGalleryActive,
+} from "@/stores/articlesStore.js";
 import { Chip, Divider, ScrollShadow } from "@heroui/react";
 import EmptyPlaceholder from "@/components/ArticleList/components/EmptyPlaceholder";
 import { cleanTitle, getFontSizeClass } from "@/lib/utils";
@@ -29,6 +33,7 @@ const ArticleView = () => {
   const { articleId } = useParams();
   const [error, setError] = useState(null);
   const $activeArticle = useStore(activeArticle);
+  const $filteredArticles = useStore(filteredArticles);
   const {
     lineHeight,
     fontSize,
@@ -93,7 +98,7 @@ const ArticleView = () => {
     };
 
     loadArticleByArticleId();
-  }, [articleId]);
+  }, [articleId, $filteredArticles]);
 
   const handleLinkWithImg = (domNode) => {
     const imgNode = domNode.children.find(
