@@ -40,6 +40,10 @@ export default function Shortcuts() {
         desc: t("sidebar.shortcuts.addFeed"),
         kbdKey: ["shift"],
       },
+      {
+        key: "F",
+        desc: t("sidebar.shortcuts.search"),
+      },
     ],
   };
   const isOpen = useStore(shortcutsModalOpen);

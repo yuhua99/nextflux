@@ -14,7 +14,7 @@ import {
 import { forceSync } from "@/stores/syncStore";
 import { shortcutsModalOpen } from "@/stores/modalStore";
 import { addFeedModalOpen } from "@/stores/modalStore";
-
+import { searchDialogOpen } from "@/stores/modalStore";
 export function useHotkeys() {
   const navigate = useNavigate();
   const $articles = useStore(filteredArticles);
@@ -43,6 +43,11 @@ export function useHotkeys() {
         case "?": // 快捷键帮助
           e.preventDefault();
           shortcutsModalOpen.set(!shortcutsModalOpen.get());
+          break;
+
+          case "f": // 搜索
+          e.preventDefault();
+          searchDialogOpen.set(true);
           break;
 
         case "N": // 新建订阅源

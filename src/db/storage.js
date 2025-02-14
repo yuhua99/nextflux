@@ -339,7 +339,7 @@ class Storage {
         // 排序
         articles.sort((a, b) => {
           const direction = sortDirection === "desc" ? 1 : -1;
-          return direction * (new Date(b.created_at) - new Date(a.created_at));
+          return direction * (b.created_at.localeCompare(a.created_at));
         });
 
         // 分页
@@ -360,7 +360,7 @@ class Storage {
 
     return new Promise((resolve, reject) => {
       const articleRequest = articlesStore.get(parseInt(id));
-      
+
       articleRequest.onsuccess = () => {
         const article = articleRequest.result;
         if (!article) {
@@ -380,8 +380,54 @@ class Storage {
         };
         feedRequest.onerror = () => reject(feedRequest.error);
       };
-      
+
       articleRequest.onerror = () => reject(articleRequest.error);
+    });
+  }
+
+  async searchArticles(keyword, showHiddenFeeds = false) {
+    const tx = this.db.transaction(["articles", "feeds"], "readonly");
+    const articlesStore = tx.objectStore("articles");
+    const feedsStore = tx.objectStore("feeds");
+
+    return new Promise((resolve, reject) => {
+      const feedsRequest = feedsStore.getAll();
+      
+      feedsRequest.onsuccess = () => {
+        const feeds = feedsRequest.result;
+        // 获取未隐藏的订阅源ID列表
+        const visibleFeedIds = feeds
+          .filter(feed => showHiddenFeeds || !feed.hide_globally)
+          .map(feed => feed.id);
+
+        const articlesRequest = articlesStore.getAll();
+        
+        articlesRequest.onsuccess = () => {
+          const articles = articlesRequest.result;
+          const searchText = keyword.toLowerCase();
+
+          // 在标题和内容中搜索关键词,同时过滤隐藏的订阅源
+          const results = articles.filter(article => {
+            // 首先检查文章是否来自可见的订阅源
+            if (!visibleFeedIds.includes(article.feedId)) {
+              return false;
+            }
+            
+            const titleMatch = article.title?.toLowerCase().includes(searchText);
+            const contentMatch = article.plainContent?.toLowerCase().includes(searchText);
+            return titleMatch || contentMatch;
+          });
+
+          // 按时间倒序排序
+          results.sort((a, b) => b.created_at.localeCompare(a.created_at));
+          
+          resolve(results);
+        };
+        
+        articlesRequest.onerror = () => reject(articlesRequest.error);
+      };
+      
+      feedsRequest.onerror = () => reject(feedsRequest.error);
     });
   }
 }

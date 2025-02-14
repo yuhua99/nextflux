@@ -18,7 +18,7 @@ export default function CodeBlock({ code, language }) {
     useStore(settingsState);
   const { darkTheme } = useStore(themeState);
   const codeRef = useRef(null);
-  const isInView = useInView(codeRef, { once: true, margin: "200px" });
+  const isInView = useInView(codeRef, { once: true, margin: "-300px" });
 
   useEffect(() => {
     async function highlight() {

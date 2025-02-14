@@ -10,3 +10,4 @@ export const logoutModalOpen = atom(false);
 export const aboutModalOpen = atom(false);
 export const currentFeed = atom(null);
 export const currentCategory = atom(null);
+export const searchDialogOpen = atom(false);

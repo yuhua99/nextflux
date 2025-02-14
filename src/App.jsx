@@ -18,6 +18,8 @@ import RenameModal from "@/components/ArticleList/components/RenameModal.jsx";
 import UnsubscribeModal from "@/components/ArticleList/components/UnsubscribeModal.jsx";
 import EditFeedModal from "@/components/ArticleList/components/EditFeedModal.jsx";
 import { checkIntegrations } from "@/stores/basicInfoStore.js";
+import SearchModal from "@/components/Search/SearchModal.jsx";
+
 function App() {
   const { syncInterval } = useStore(settingsState);
   useEffect(() => {
@@ -49,6 +51,7 @@ function App() {
       <RenameModal />
       <UnsubscribeModal />
       <EditFeedModal />
+      <SearchModal />
     </SidebarProvider>
   );
 }
