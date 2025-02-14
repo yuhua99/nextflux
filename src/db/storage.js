@@ -1,7 +1,7 @@
 class Storage {
   constructor() {
     this.dbName = "minifluxReader";
-    this.dbVersion = 3;
+    this.dbVersion = 4;
     this.db = null;
   }
 
@@ -20,35 +20,60 @@ class Storage {
 
       request.onupgradeneeded = (event) => {
         const db = event.target.result;
+        const transaction = event.target.transaction;
 
-        // 创建分类存储
+        // 处理分类存储
+        let categoriesStore;
         if (!db.objectStoreNames.contains("categories")) {
-          const categoriesDb = db.createObjectStore("categories", {
+          categoriesStore = db.createObjectStore("categories", {
             keyPath: "id",
           });
-          categoriesDb.createIndex("title", "title", { unique: true });
+        } else {
+          categoriesStore = transaction.objectStore("categories");
+        }
+        // 确保索引存在
+        if (!categoriesStore.indexNames.contains("title")) {
+          categoriesStore.createIndex("title", "title", { unique: true });
         }
 
-        // 创建文章存储
+        // 处理文章存储
+        let articlesStore;
         if (!db.objectStoreNames.contains("articles")) {
-          const articlesDb = db.createObjectStore("articles", {
+          articlesStore = db.createObjectStore("articles", {
             keyPath: "id",
           });
-          articlesDb.createIndex("feedId", "feedId", { unique: false });
-          articlesDb.createIndex("status", "status", { unique: false });
-          articlesDb.createIndex("status_feedId", ["status", "feedId"], {
+        } else {
+          articlesStore = transaction.objectStore("articles");
+        }
+        // 确保所有需要的索引存在
+        if (!articlesStore.indexNames.contains("feedId")) {
+          articlesStore.createIndex("feedId", "feedId", { unique: false });
+        }
+        if (!articlesStore.indexNames.contains("status")) {
+          articlesStore.createIndex("status", "status", { unique: false });
+        }
+        if (!articlesStore.indexNames.contains("status_feedId")) {
+          articlesStore.createIndex("status_feedId", ["status", "feedId"], {
             unique: false,
           });
         }
 
-        // 创建订阅源存储
+        // 处理订阅源存储
+        let feedsStore;
         if (!db.objectStoreNames.contains("feeds")) {
-          const feedsDb = db.createObjectStore("feeds", {
+          feedsStore = db.createObjectStore("feeds", {
             keyPath: "id",
             autoIncrement: true,
           });
-          feedsDb.createIndex("url", "url", { unique: true });
-          feedsDb.createIndex("categoryName", "categoryName", {
+        } else {
+          feedsStore = transaction.objectStore("feeds");
+        }
+        // 确保所有需要的索引存在
+        if (!feedsStore.indexNames.contains("url")) {
+          feedsStore.createIndex("url", "url", { unique: true });
+        }
+        if (!feedsStore.indexNames.contains("categoryName")) {
+          feedsStore.createIndex("categoryName", "categoryName", {
             unique: false,
           });
         }

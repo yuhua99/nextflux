@@ -131,7 +131,7 @@ export default function ArticleListContent({ articles }) {
               ref={listRef}
               className="v-list h-full"
               rangeChanged={setVisibleRange}
-              increaseViewportBy={{top:0, bottom:500}}
+              overscan={{main:5, reverse:0}}
               data={articles}
               context={{
                 feedId,
