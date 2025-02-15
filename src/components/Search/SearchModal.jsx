@@ -112,7 +112,10 @@ export default function SearchModal() {
             startContent={<SearchIcon className="size-6 text-default-400" />}
             endContent={
               <Kbd
-                classNames={{ content: "font-mono text-xs text-default-400" }}
+                classNames={{
+                  base: "!shadow-custom",
+                  content: "font-mono text-xs text-default-400",
+                }}
               >
                 ESC
               </Kbd>
@@ -154,10 +157,19 @@ export default function SearchModal() {
             <Tab key="feeds" title={t("common.feed")} />
           </Tabs>
           <div className="flex items-center gap-1 px-1">
-            <Kbd keys="up" classNames={{ abbr: "text-xs text-default-500" }} />
+            <Kbd
+              keys="up"
+              classNames={{
+                base: "!shadow-custom",
+                abbr: "text-xs text-default-500",
+              }}
+            />
             <Kbd
               keys="down"
-              classNames={{ abbr: "text-xs text-default-500" }}
+              classNames={{
+                base: "!shadow-custom",
+                abbr: "text-xs text-default-500",
+              }}
             />
             <span className="text-xs text-default-500 font-semibold">
               {t("search.toggleItem")}
@@ -165,7 +177,10 @@ export default function SearchModal() {
             <Divider orientation="vertical" className="h-5 mx-1" />
             <Kbd
               keys="enter"
-              classNames={{ abbr: "text-xs text-default-500" }}
+              classNames={{
+                base: "!shadow-custom",
+                abbr: "text-xs text-default-500",
+              }}
             />
             <span className="text-xs text-default-500 font-semibold">
               {t("search.open")}

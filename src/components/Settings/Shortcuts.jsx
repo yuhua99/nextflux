@@ -22,7 +22,7 @@ export default function Shortcuts() {
       { key: "S", desc: t("sidebar.shortcuts.toggleStar") },
       { key: "G", desc: t("sidebar.shortcuts.toggleReaderView") },
       { key: "ESC", desc: t("sidebar.shortcuts.close") },
-      { key: "B", desc: t("sidebar.shortcuts.viewInBrowser") },
+      { key: "V", desc: t("sidebar.shortcuts.viewInBrowser") },
     ],
     global: [
       {

@@ -6,15 +6,10 @@ import {
   filteredArticles,
   imageGalleryActive,
 } from "@/stores/articlesStore";
-import {
-  handleMarkStatus,
-  handleToggleStar,
-  handleToggleContent,
-} from "@/handlers/articleHandlers";
+import { handleMarkStatus, handleToggleStar } from "@/handlers/articleHandlers";
 import { forceSync } from "@/stores/syncStore";
-import { shortcutsModalOpen } from "@/stores/modalStore";
-import { addFeedModalOpen } from "@/stores/modalStore";
-import { searchDialogOpen } from "@/stores/modalStore";
+import { searchDialogOpen, addFeedModalOpen, shortcutsModalOpen} from "@/stores/modalStore.js";
+
 export function useHotkeys() {
   const navigate = useNavigate();
   const $articles = useStore(filteredArticles);
@@ -39,25 +34,20 @@ export function useHotkeys() {
         return;
       }
 
-      switch (e.key) {
-        case "?": // 快捷键帮助
-          e.preventDefault();
-          shortcutsModalOpen.set(!shortcutsModalOpen.get());
-          break;
+      if (e.key === "?" && e.shiftKey) {
+        e.preventDefault();
+        shortcutsModalOpen.set(!shortcutsModalOpen.get());
+      }
 
-          case "f": // 搜索
+      if (e.key === "N" && e.shiftKey) {
+        e.preventDefault();
+        addFeedModalOpen.set(!addFeedModalOpen.get());
+      }
+
+      switch (e.key.toLowerCase()) {
+        case "f": // 搜索
           e.preventDefault();
           searchDialogOpen.set(true);
-          break;
-
-        case "N": // 新建订阅源
-          addFeedModalOpen.set(true);
-          break;
-
-        case "n": // 下一个订阅源
-          break;
-
-        case "p": // 上一个订阅源
           break;
 
         case "j": // 下一篇
@@ -92,12 +82,6 @@ export function useHotkeys() {
           }
           break;
 
-        case "g": // 原文/摘要切换
-          if (articleId) {
-            await handleToggleContent($activeArticle);
-          }
-          break;
-
         case "r": // 刷新
           if (!e.ctrlKey && !e.metaKey) {
             await forceSync();
@@ -112,7 +96,7 @@ export function useHotkeys() {
           }
           break;
 
-        case "b": // 在新标签页打开原文
+        case "v": // 在新标签页打开原文
           if (articleId) {
             window.open($activeArticle.url, "_blank");
           }
