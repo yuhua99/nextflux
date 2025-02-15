@@ -6,9 +6,17 @@ import {
   filteredArticles,
   imageGalleryActive,
 } from "@/stores/articlesStore";
-import { handleMarkStatus, handleToggleStar } from "@/handlers/articleHandlers";
+import {
+  handleMarkStatus,
+  handleToggleStar,
+  handleToggleContent,
+} from "@/handlers/articleHandlers";
 import { forceSync } from "@/stores/syncStore";
-import { searchDialogOpen, addFeedModalOpen, shortcutsModalOpen} from "@/stores/modalStore.js";
+import {
+  searchDialogOpen,
+  addFeedModalOpen,
+  shortcutsModalOpen,
+} from "@/stores/modalStore.js";
 
 export function useHotkeys() {
   const navigate = useNavigate();
@@ -99,6 +107,12 @@ export function useHotkeys() {
         case "v": // 在新标签页打开原文
           if (articleId) {
             window.open($activeArticle.url, "_blank");
+          }
+          break;
+
+        case "g": // 原文/摘要切换
+          if (articleId) {
+            await handleToggleContent($activeArticle);
           }
           break;
 
