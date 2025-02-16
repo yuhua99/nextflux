@@ -44,6 +44,7 @@ export default function Language() {
           <DropdownMenu
             disallowEmptySelection
             aria-label="language"
+            variant="flat"
             selectedKeys={new Set([i18n.language])}
             selectionMode="single"
             onSelectionChange={(keys) => {

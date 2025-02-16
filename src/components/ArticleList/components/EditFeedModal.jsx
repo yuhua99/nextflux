@@ -121,7 +121,7 @@ export default function EditFeedModal() {
             }
           >
             {$categories.map((category) => (
-              <SelectItem key={category.id} value={category.id}>
+              <SelectItem key={category.id} value={category.id} variant="flat">
                 {category.title}
               </SelectItem>
             ))}

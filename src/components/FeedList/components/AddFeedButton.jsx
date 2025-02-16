@@ -54,7 +54,7 @@ export default function AddFeedButton() {
             <CirclePlus className="size-4 text-default-500" />
           </Button>
         </DropdownTrigger>
-        <DropdownMenu aria-label="Static Actions">
+        <DropdownMenu aria-label="Static Actions" variant="flat">
           <DropdownItem
             key="newFeed"
             startContent={<Rss className="size-4 text-default-500" />}
