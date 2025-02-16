@@ -104,7 +104,7 @@ figcaption {
 
 /*YouTube 播放器视觉修复*/
 iframe.vds-youtube[data-no-controls] {
-  position: absolute;
+  @apply absolute !h-auto
 }
 
 /*代码主题跟随系统当前使用主题*/
