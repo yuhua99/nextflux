@@ -41,7 +41,7 @@ export default function AlertDialog({
       hideCloseButton
       onClose={onClose}
       classNames={{
-        base: "alert-dialog standalone:mb-safe-or-2 relative",
+        base: "alert-dialog standalone:mb-safe-or-2 relative !shadow-custom",
         body: "px-4 py-4 items-center sm:flex-row sm:items-start",
         footer: "px-4 py-4 flex flex-col-reverse sm:flex-row",
       }}

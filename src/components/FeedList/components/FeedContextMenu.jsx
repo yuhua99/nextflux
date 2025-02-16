@@ -9,7 +9,12 @@ import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useIsMobile } from "@/hooks/use-mobile.jsx";
 import { FilePen, Trash2, RefreshCw } from "lucide-react";
-import { currentFeed, currentCategory, editFeedModalOpen, unsubscribeModalOpen } from "@/stores/modalStore";
+import {
+  currentFeed,
+  currentCategory,
+  editFeedModalOpen,
+  unsubscribeModalOpen,
+} from "@/stores/modalStore";
 import { handleRefresh } from "@/handlers/feedHandlers";
 import { useSidebar } from "@/components/ui/sidebar.jsx";
 import { useStore } from "@nanostores/react";
@@ -50,7 +55,11 @@ export default function FeedContextMenu({ feed, children }) {
       >
         {children}
       </div>
-      <DropdownMenu aria-label="Feed Actions" onClose={() => setIsOpen(false)}>
+      <DropdownMenu
+        aria-label="Feed Actions"
+        variant="flat"
+        onClose={() => setIsOpen(false)}
+      >
         <DropdownSection
           showDivider={false}
           title={feed.title}

@@ -58,7 +58,7 @@ export default function Shortcuts() {
           shortcutsModalOpen.set(value);
         }}
         classNames={{
-          base: "m-2 standalone:mb-safe-or-2 max-h-[80vh] h-[612px] overflow-hidden bg-content2 dark:bg-content1",
+          base: "m-2 standalone:mb-safe-or-2 max-h-[80vh] h-[612px] overflow-hidden bg-content2 dark:bg-content1 !shadow-custom",
           header:
             "border-b flex flex-col gap-3 p-3 bg-content1 dark:bg-transparent",
           footer: "hidden",
