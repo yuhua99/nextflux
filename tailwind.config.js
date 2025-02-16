@@ -84,6 +84,19 @@ export default {
           },
         },
         dark: {
+          layout: {
+            boxShadow: {
+              // shadow-small
+              small:
+                "0px 0px 5px 0px rgb(0 0 0 / 0.05), 0px 2px 10px 0px rgb(0 0 0 / 0.2), inset 0px 0px 1px 0px rgb(255 255 255 / 0.6)",
+              // shadow-medium
+              medium:
+                "0px 0px 15px 0px rgb(0 0 0 / 0.06), 0px 2px 30px 0px rgb(0 0 0 / 0.22), inset 0px 0px 1px 0px rgb(255 255 255 / 0.6)",
+              // shadow-large
+              large:
+                "0px 0px 30px 0px rgb(0 0 0 / 0.07), 0px 30px 60px 0px rgb(0 0 0 / 0.26), inset 0px 0px 1px 0px rgb(255 255 255 / 0.6)",
+            },
+          },
           colors: {
             divider: "rgba(255,255,255,0.06)",
             background: "#1E1E1E",
@@ -105,6 +118,19 @@ export default {
         },
         "black-dark": {
           extend: "dark",
+          layout: {
+            boxShadow: {
+              // shadow-small
+              small:
+                "0px 0px 5px 0px rgb(0 0 0 / 0.05), 0px 2px 10px 0px rgb(0 0 0 / 0.2), inset 0px 0px 1px 0px rgb(255 255 255 / 0.4)",
+              // shadow-medium
+              medium:
+                "0px 0px 15px 0px rgb(0 0 0 / 0.06), 0px 2px 30px 0px rgb(0 0 0 / 0.22), inset 0px 0px 1px 0px rgb(255 255 255 / 0.4)",
+              // shadow-large
+              large:
+                "0px 0px 30px 0px rgb(0 0 0 / 0.07), 0px 30px 60px 0px rgb(0 0 0 / 0.26), inset 0px 0px 1px 0px rgb(255 255 255 / 0.4)",
+            },
+          },
           colors: {
             divider: "rgba(255,255,255,0.08)",
             background: "#000000",

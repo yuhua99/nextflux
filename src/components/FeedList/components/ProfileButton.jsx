@@ -96,7 +96,7 @@ export default function ProfileButton() {
           >
             {t("sidebar.profile.openMiniflux")}
           </DropdownItem>
-          <DropdownItem isDisabled classNames={{ base: "py-1.5" }}>
+          <DropdownItem isDisabled classNames={{ base: "py-1.5 opacity-100" }}>
             <Divider />
           </DropdownItem>
           <DropdownItem

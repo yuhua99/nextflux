@@ -6,7 +6,7 @@ export const FancyLogo = ({ since }) => {
   const boundingRef = useRef(null);
 
   return (
-    <div className="flex flex-col [perspective:800px] p-5 bg-content2">
+    <div className="flex flex-col [perspective:800px] p-5 bg-content2 dark:bg-transparent dark:border-b">
       <div
         onMouseLeave={() => {
           boundingRef.current = null;

@@ -32,8 +32,9 @@ export default function App() {
           setActiveTab("general");
         }}
         classNames={{
-          base: "m-2 standalone:mb-safe-or-2 max-h-[80vh] h-[612px] overflow-hidden bg-content2/90 dark:bg-content1/90 dark:border backdrop-blur-lg",
-          header: "border-b flex flex-col gap-3 p-3 bg-content1/80",
+          base: "m-2 standalone:mb-safe-or-2 max-h-[80vh] h-[612px] overflow-hidden bg-content2/90 dark:bg-content1/90 backdrop-blur-lg",
+          header:
+            "border-b flex flex-col gap-3 p-3 bg-content1/80 dark:bg-transparent",
           footer: "hidden",
           body: "modal-body p-0 !block",
           closeButton: "hidden",
