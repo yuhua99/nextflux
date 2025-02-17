@@ -36,6 +36,7 @@ export default {
     neverSync: "从未同步",
     minute: "分钟",
     lessThanAMinute: "不到 1 分钟",
+    add: "添加",
   },
   feed: {
     feedUrl: "订阅地址",
@@ -57,6 +58,13 @@ export default {
     feedKeeplistRulesPlaceholder: "请输入保留规则",
     feedRewriteRules: "重写规则",
     feedRewriteRulesPlaceholder: "请输入重写规则",
+    feedType: "类型",
+    feed: "订阅源或网址",
+    youtubeChannel: "Youtube 频道",
+    reddit: "Reddit 子版块",
+    searchQuery: "搜索订阅",
+    youtubeChannelPlaceholder: "频道名称",
+    redditPlaceholder: "子版块名称",
   },
   sidebar: {
     addCategory: "新增分类",

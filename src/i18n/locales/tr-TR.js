@@ -36,6 +36,7 @@ export default {
     neverSync: "Hiç senkronize edilmedi",
     minute: "dk",
     lessThanAMinute: "1 dakikadan az",
+    add: "Ekle",
   },
   feed: {
     feedUrl: "Besleme URL'si",
@@ -57,6 +58,13 @@ export default {
     feedKeeplistRulesPlaceholder: "Lütfen tutma kurallarını girin",
     feedRewriteRules: "Yeniden yazma kuralları",
     feedRewriteRulesPlaceholder: "Lütfen yeniden yazma kurallarını girin",
+    feedType: "Tür",
+    feed: "Besleme veya site URL'si",
+    youtubeChannel: "Youtube kanalı",
+    reddit: "Reddit alt forumu",
+    searchQuery: "Besleme için",
+    youtubeChannelPlaceholder: "Kanal adı",
+    redditPlaceholder: "Alt forum adı",
   },
   sidebar: {
     addFeed: "Yeni Besleme",

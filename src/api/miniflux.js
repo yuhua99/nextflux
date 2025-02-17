@@ -347,6 +347,18 @@ class miniFluxAPI {
       throw error;
     }
   }
+
+  async discoverFeeds(url) {
+    try {
+      const response = await this.client.post("/v1/discover", {
+        url: url
+      });
+      return response.data;
+    } catch (error) {
+      console.error("发现订阅源失败:", error);
+      throw error;
+    }
+  }
 }
 
 export default new miniFluxAPI();

@@ -36,6 +36,7 @@ export default {
     neverSync: "Never synced",
     minute: "min",
     lessThanAMinute: "less than 1 min",
+    add: "Add",
   },
   feed: {
     feedUrl: "Feed URL",
@@ -57,6 +58,13 @@ export default {
     feedKeeplistRulesPlaceholder: "Please enter keep rules",
     feedRewriteRules: "Rewrite rules",
     feedRewriteRulesPlaceholder: "Please enter rewrite rules",
+    feedType: "Type",
+    feed: "Feed or Site URL",
+    youtubeChannel: "Youtube channel",
+    reddit: "Subreddit",
+    searchQuery: "Feed for",
+    youtubeChannelPlaceholder: "Channel name",
+    redditPlaceholder: "Subreddit name",
   },
   sidebar: {
     addFeed: "New Feed",
