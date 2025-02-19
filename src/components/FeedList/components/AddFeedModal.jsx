@@ -26,6 +26,7 @@ import { SiYoutube, SiReddit } from "@icons-pack/react-simple-icons";
 import CustomModal from "@/components/ui/CustomModal.jsx";
 import FeedIcon from "@/components/ui/FeedIcon.jsx";
 import { cn } from "@/lib/utils.js";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function AddFeedModal() {
   const { t } = useTranslation();
@@ -88,6 +89,14 @@ export default function AddFeedModal() {
       const url = `${type.prefix}${searchQuery}${type.suffix}`;
       const feeds = await minifluxAPI.discoverFeeds(url);
       setResults(feeds);
+      // 如果搜索结果唯一，则自动添加
+      if (feeds.length === 1) {
+        setFormData({
+          ...formData,
+          feed_url: feeds[0].url,
+          rewrite_rules: type.rewrite_rules,
+        });
+      }
     } catch (error) {
       console.error("搜索订阅源失败:", error);
       setResults([]);
@@ -157,280 +166,122 @@ export default function AddFeedModal() {
       title={t("sidebar.addFeed")}
     >
       <ScrollShadow size={10} className="w-full overflow-y-auto px-4 pb-4">
-        {!formData.feed_url || formData.feed_url === "" ? (
-          <div className="flex flex-col gap-2">
-            <Select
-              isRequired
-              label={t("feed.feedType")}
-              labelPlacement="outside"
-              size="sm"
-              variant="faded"
-              placeholder={t("feed.feedTypePlaceholder")}
-              errorMessage={t("feed.feedTypeRequired")}
-              disallowEmptySelection
-              selectedKeys={[searchType]}
-              onChange={(e) => {
-                setSearchType(e.target.value);
-                setSearchQuery("");
-                setResults([]);
-                setSelectedKeys(new Set([]));
-              }}
-              classNames={{ helperWrapper: "!hidden" }}
+        <AnimatePresence initial={false} mode="wait">
+          {!formData.feed_url || formData.feed_url === "" ? (
+            <motion.div
+              key="discover"
+              className="flex flex-col gap-2"
+              initial={{ opacity: 0, x: "-100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ type: "spring", bounce: 0, duration: 0.2 }}
             >
-              {supportedTypes.map((type) => (
-                <SelectItem
-                  key={type.id}
-                  value={type.id}
-                  variant="flat"
-                  startContent={type.icon}
-                >
-                  {type.label}
-                </SelectItem>
-              ))}
-            </Select>
-            <Input
-              isRequired
-              label={t("feed.searchQuery")}
-              labelPlacement="outside"
-              size="sm"
-              variant="faded"
-              placeholder={
-                supportedTypes.find((type) => type.id === searchType)
-                  .placeholder
-              }
-              value={searchQuery}
-              onValueChange={(value) => {
-                setSearchQuery(value);
-                setResults([]);
-                setSelectedKeys(new Set([]));
-              }}
-              classNames={{ inputWrapper: "!pr-1", helperWrapper: "!hidden" }}
-              endContent={
-                <Button
-                  size="sm"
-                  radius="full"
-                  className="data-[hover=true]:bg-transparent"
-                  variant="light"
-                  color="primary"
-                  isIconOnly
-                  isLoading={searching}
-                  isDisabled={searchQuery === "" || searchType === ""}
-                  onPress={handleSearch}
-                >
-                  <Search className="size-4" />
-                </Button>
-              }
-            />
-            <Divider className="my-1" />
-            <ListboxWrapper>
-              <Listbox
+              <Select
+                isRequired
+                label={t("feed.feedType")}
+                labelPlacement="outside"
+                size="sm"
+                variant="faded"
+                placeholder={t("feed.feedTypePlaceholder")}
+                errorMessage={t("feed.feedTypeRequired")}
                 disallowEmptySelection
-                selectionMode="single"
-                variant="flat"
-                aria-label="results"
-                items={results}
-                hideEmptyContent
-                selectedKeys={selectedKeys}
-                onSelectionChange={setSelectedKeys}
-                itemClasses={{
-                  title: "line-clamp-1",
-                  description: "line-clamp-1",
+                selectedKeys={[searchType]}
+                onChange={(e) => {
+                  setSearchType(e.target.value);
+                  setSearchQuery("");
+                  setResults([]);
+                  setSelectedKeys(new Set([]));
                 }}
+                classNames={{ helperWrapper: "!hidden" }}
               >
-                {(item) => (
-                  <ListboxItem
-                    key={item.url}
-                    textValue={item.url}
-                    description={item.url}
-                    startContent={<FeedIcon url={item.url} />}
+                {supportedTypes.map((type) => (
+                  <SelectItem
+                    key={type.id}
+                    value={type.id}
+                    variant="flat"
+                    startContent={type.icon}
                   >
-                    {item.url}
-                  </ListboxItem>
-                )}
-              </Listbox>
-            </ListboxWrapper>
-            <Button
-              onPress={() => {
-                setFormData({
-                  ...formData,
-                  feed_url: Array.from(selectedKeys)[0],
-                  rewrite_rules: supportedTypes.find(
-                    (type) => type.id === searchType,
-                  ).rewrite_rules,
-                });
-              }}
-              isDisabled={selectedKeys.size === 0}
-              color="primary"
-              fullWidth
-              type="submit"
-              isLoading={loading}
-              size="sm"
-              className="border-primary border shadow-custom-button bg-primary bg-gradient-to-b from-white/15 to-transparent text-sm"
-            >
-              {t("common.add") + "..."}
-            </Button>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
-            <Input
-              isRequired
-              labelPlacement="outside"
-              size="sm"
-              label={t("feed.feedUrl")}
-              variant="faded"
-              isDisabled
-              name="feed_url"
-              placeholder={t("feed.feedUrlPlaceholder")}
-              errorMessage={t("feed.feedUrlRequired")}
-              value={formData.feed_url}
-              onValueChange={(value) =>
-                setFormData({ ...formData, feed_url: value })
-              }
-            />
-            <Select
-              isRequired
-              labelPlacement="outside"
-              size="sm"
-              label={t("feed.feedCategory")}
-              variant="faded"
-              name="category_id"
-              placeholder={t("feed.feedCategoryPlaceholder")}
-              errorMessage={t("feed.feedCategoryRequired")}
-              selectedKeys={[formData.category_id?.toString()]}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  category_id: parseInt(e.target.value),
-                })
-              }
-              classNames={{ helperWrapper: "!hidden" }}
-            >
-              {$categories.map((category) => (
-                <SelectItem
-                  key={category.id}
-                  value={category.id}
-                  variant="flat"
-                >
-                  {category.title}
-                </SelectItem>
-              ))}
-            </Select>
-            <Checkbox
-              name="crawler"
-              size="sm"
-              classNames={{
-                base: "w-full max-w-full p-0 mx-0 -mt-4 mb-1",
-                label: "mt-4",
-              }}
-              isSelected={formData.crawler}
-              onValueChange={(value) =>
-                setFormData({ ...formData, crawler: value })
-              }
-            >
-              <div className="line-clamp-1">{t("feed.feedCrawler")}</div>
-              <div className="text-xs text-default-400 line-clamp-1">
-                {t("feed.feedCrawlerDescription")}
-              </div>
-            </Checkbox>
-            <Accordion
-              isCompact
-              hideIndicator
-              className="p-0"
-              itemClasses={{
-                base: "p-0",
-                trigger: "p-0 gap-1 cursor-pointer group",
-                title: "text-default-500 text-sm",
-                content: "flex flex-col gap-4 pt-4 pb-0",
-              }}
-            >
-              <AccordionItem
-                key="advanced"
-                aria-label="advanced"
-                startContent={
-                  <>
-                    <Plus className="size-4 text-default-500 group-data-[open=true]:hidden" />
-                    <Minus className="size-4 text-default-500 hidden group-data-[open=true]:block" />
-                  </>
+                    {type.label}
+                  </SelectItem>
+                ))}
+              </Select>
+              <Input
+                isRequired
+                label={t("feed.searchQuery")}
+                labelPlacement="outside"
+                size="sm"
+                variant="faded"
+                placeholder={
+                  supportedTypes.find((type) => type.id === searchType)
+                    .placeholder
                 }
-                title={t("feed.advancedOptions")}
-              >
-                <Input
-                  labelPlacement="outside"
-                  size="sm"
-                  label={
-                    <Link
-                      isExternal
-                      showAnchorIcon
-                      color="foreground"
-                      href="https://miniflux.app/docs/rules.html#feed-filtering-rules"
-                      className="text-xs"
+                value={searchQuery}
+                onValueChange={(value) => {
+                  setSearchQuery(value);
+                  setResults([]);
+                  setSelectedKeys(new Set([]));
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    handleSearch();
+                  }
+                }}
+                classNames={{ inputWrapper: "!pr-1", helperWrapper: "!hidden" }}
+                endContent={
+                  <Button
+                    size="sm"
+                    radius="full"
+                    className="data-[hover=true]:bg-transparent"
+                    variant="light"
+                    color="primary"
+                    isIconOnly
+                    isLoading={searching}
+                    isDisabled={searchQuery === "" || searchType === ""}
+                    onPress={handleSearch}
+                  >
+                    <Search className="size-4" />
+                  </Button>
+                }
+              />
+              <Divider className="my-1" />
+              <ListboxWrapper>
+                <Listbox
+                  disallowEmptySelection
+                  selectionMode="single"
+                  variant="flat"
+                  aria-label="results"
+                  items={results}
+                  hideEmptyContent
+                  selectedKeys={selectedKeys}
+                  onSelectionChange={setSelectedKeys}
+                  itemClasses={{
+                    wrapper: "overflow-hidden",
+                    title: "max-w-full",
+                    description: "max-w-full",
+                  }}
+                >
+                  {(item) => (
+                    <ListboxItem
+                      key={item.url}
+                      textValue={item.url}
+                      description={item.url}
+                      startContent={<FeedIcon url={item.url} />}
                     >
-                      {t("feed.feedKeeplistRules")}
-                    </Link>
-                  }
-                  variant="faded"
-                  name="keeplist_rules"
-                  placeholder={t("feed.feedKeeplistRulesPlaceholder")}
-                  value={formData.keeplist_rules}
-                  onValueChange={(value) =>
-                    setFormData({
-                      ...formData,
-                      keeplist_rules: value,
-                    })
-                  }
-                />
-                <Input
-                  labelPlacement="outside"
-                  size="sm"
-                  label={
-                    <Link
-                      isExternal
-                      showAnchorIcon
-                      color="foreground"
-                      href="https://miniflux.app/docs/rules.html#feed-filtering-rules"
-                      className="text-xs"
-                    >
-                      {t("feed.feedBlocklistRules")}
-                    </Link>
-                  }
-                  variant="faded"
-                  name="blocklist_rules"
-                  placeholder={t("feed.feedBlocklistRulesPlaceholder")}
-                  value={formData.blocklist_rules}
-                  onValueChange={(value) =>
-                    setFormData({
-                      ...formData,
-                      blocklist_rules: value,
-                    })
-                  }
-                />
-                <Textarea
-                  labelPlacement="outside"
-                  size="sm"
-                  label={
-                    <Link
-                      isExternal
-                      showAnchorIcon
-                      color="foreground"
-                      href="https://miniflux.app/docs/rules.html#rewrite-rules"
-                      className="text-xs"
-                    >
-                      {t("feed.feedRewriteRules")}
-                    </Link>
-                  }
-                  isClearable
-                  variant="faded"
-                  name="rewrite_rules"
-                  placeholder={t("feed.feedRewriteRulesPlaceholder")}
-                  value={formData.rewrite_rules}
-                  onValueChange={(value) =>
-                    setFormData({ ...formData, rewrite_rules: value })
-                  }
-                />
-              </AccordionItem>
-            </Accordion>
-            <div className="flex flex-col md:flex-row-reverse gap-2">
+                      {item.url}
+                    </ListboxItem>
+                  )}
+                </Listbox>
+              </ListboxWrapper>
               <Button
+                onPress={() => {
+                  setFormData({
+                    ...formData,
+                    feed_url: Array.from(selectedKeys)[0],
+                    rewrite_rules: supportedTypes.find(
+                      (type) => type.id === searchType,
+                    ).rewrite_rules,
+                  });
+                }}
+                isDisabled={selectedKeys.size === 0}
                 color="primary"
                 fullWidth
                 type="submit"
@@ -438,29 +289,208 @@ export default function AddFeedModal() {
                 size="sm"
                 className="border-primary border shadow-custom-button bg-primary bg-gradient-to-b from-white/15 to-transparent text-sm"
               >
-                {t("common.save")}
+                {t("common.add") + "..."}
               </Button>
-              <Button
-                fullWidth
-                onPress={() => {
-                  setFormData({
-                    feed_url: "",
-                    category_id: "",
-                    crawler: false,
-                    keeplist_rules: "",
-                    blocklist_rules: "",
-                    rewrite_rules: "",
-                  });
-                }}
+            </motion.div>
+          ) : (
+            <motion.form
+              key="submit"
+              onSubmit={handleSubmit}
+              className="w-full flex flex-col gap-4"
+              initial={{ opacity: 0, x: "100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ type: "spring", bounce: 0, duration: 0.2 }}
+            >
+              <Input
+                isRequired
+                labelPlacement="outside"
                 size="sm"
-                variant="flat"
-                className="border text-sm"
+                label={t("feed.feedUrl")}
+                variant="faded"
+                isDisabled
+                name="feed_url"
+                placeholder={t("feed.feedUrlPlaceholder")}
+                errorMessage={t("feed.feedUrlRequired")}
+                value={formData.feed_url}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, feed_url: value })
+                }
+              />
+              <Select
+                isRequired
+                labelPlacement="outside"
+                size="sm"
+                label={t("feed.feedCategory")}
+                variant="faded"
+                name="category_id"
+                placeholder={t("feed.feedCategoryPlaceholder")}
+                errorMessage={t("feed.feedCategoryRequired")}
+                selectedKeys={[formData.category_id?.toString()]}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    category_id: parseInt(e.target.value),
+                  })
+                }
+                classNames={{ helperWrapper: "!hidden" }}
               >
-                {t("common.cancel")}
-              </Button>
-            </div>
-          </form>
-        )}
+                {$categories.map((category) => (
+                  <SelectItem
+                    key={category.id}
+                    value={category.id}
+                    variant="flat"
+                  >
+                    {category.title}
+                  </SelectItem>
+                ))}
+              </Select>
+              <Checkbox
+                name="crawler"
+                size="sm"
+                classNames={{
+                  base: "w-full max-w-full p-0 mx-0 -mt-4 mb-1",
+                  label: "mt-4",
+                }}
+                isSelected={formData.crawler}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, crawler: value })
+                }
+              >
+                <div className="line-clamp-1">{t("feed.feedCrawler")}</div>
+                <div className="text-xs text-default-400 line-clamp-1">
+                  {t("feed.feedCrawlerDescription")}
+                </div>
+              </Checkbox>
+              <Accordion
+                isCompact
+                hideIndicator
+                className="p-0"
+                itemClasses={{
+                  base: "p-0",
+                  trigger: "p-0 gap-1 cursor-pointer group",
+                  title: "text-default-500 text-sm",
+                  content: "flex flex-col gap-4 pt-4 pb-0",
+                }}
+              >
+                <AccordionItem
+                  key="advanced"
+                  aria-label="advanced"
+                  startContent={
+                    <>
+                      <Plus className="size-4 text-default-500 group-data-[open=true]:hidden" />
+                      <Minus className="size-4 text-default-500 hidden group-data-[open=true]:block" />
+                    </>
+                  }
+                  title={t("feed.advancedOptions")}
+                >
+                  <Input
+                    labelPlacement="outside"
+                    size="sm"
+                    label={
+                      <Link
+                        isExternal
+                        showAnchorIcon
+                        color="foreground"
+                        href="https://miniflux.app/docs/rules.html#feed-filtering-rules"
+                        className="text-xs"
+                      >
+                        {t("feed.feedKeeplistRules")}
+                      </Link>
+                    }
+                    variant="faded"
+                    name="keeplist_rules"
+                    placeholder={t("feed.feedKeeplistRulesPlaceholder")}
+                    value={formData.keeplist_rules}
+                    onValueChange={(value) =>
+                      setFormData({
+                        ...formData,
+                        keeplist_rules: value,
+                      })
+                    }
+                  />
+                  <Input
+                    labelPlacement="outside"
+                    size="sm"
+                    label={
+                      <Link
+                        isExternal
+                        showAnchorIcon
+                        color="foreground"
+                        href="https://miniflux.app/docs/rules.html#feed-filtering-rules"
+                        className="text-xs"
+                      >
+                        {t("feed.feedBlocklistRules")}
+                      </Link>
+                    }
+                    variant="faded"
+                    name="blocklist_rules"
+                    placeholder={t("feed.feedBlocklistRulesPlaceholder")}
+                    value={formData.blocklist_rules}
+                    onValueChange={(value) =>
+                      setFormData({
+                        ...formData,
+                        blocklist_rules: value,
+                      })
+                    }
+                  />
+                  <Textarea
+                    labelPlacement="outside"
+                    size="sm"
+                    label={
+                      <Link
+                        isExternal
+                        showAnchorIcon
+                        color="foreground"
+                        href="https://miniflux.app/docs/rules.html#rewrite-rules"
+                        className="text-xs"
+                      >
+                        {t("feed.feedRewriteRules")}
+                      </Link>
+                    }
+                    isClearable
+                    variant="faded"
+                    name="rewrite_rules"
+                    placeholder={t("feed.feedRewriteRulesPlaceholder")}
+                    value={formData.rewrite_rules}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, rewrite_rules: value })
+                    }
+                  />
+                </AccordionItem>
+              </Accordion>
+              <div className="flex flex-col md:flex-row-reverse gap-2">
+                <Button
+                  color="primary"
+                  fullWidth
+                  type="submit"
+                  isLoading={loading}
+                  size="sm"
+                  className="border-primary border shadow-custom-button bg-primary bg-gradient-to-b from-white/15 to-transparent text-sm"
+                >
+                  {t("common.save")}
+                </Button>
+                <Button
+                  fullWidth
+                  onPress={() => {
+                    setFormData({
+                      feed_url: "",
+                      category_id: "",
+                      crawler: false,
+                      keeplist_rules: "",
+                      blocklist_rules: "",
+                      rewrite_rules: "",
+                    });
+                  }}
+                  size="sm"
+                  variant="flat"
+                  className="border text-sm"
+                >
+                  {t("common.cancel")}
+                </Button>
+              </div>
+            </motion.form>
+          )}
+        </AnimatePresence>
       </ScrollShadow>
     </CustomModal>
   );
