@@ -3,8 +3,6 @@ import {
   AccordionItem,
   Button,
   Checkbox,
-  Listbox,
-  ListboxItem,
   Input,
   Link,
   ScrollShadow,
@@ -12,7 +10,6 @@ import {
   SelectItem,
   Textarea,
   Divider,
-  Image,
 } from "@heroui/react";
 import { useState } from "react";
 import { useStore } from "@nanostores/react";
@@ -22,14 +19,12 @@ import minifluxAPI from "@/api/miniflux";
 import { forceSync } from "@/stores/syncStore";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Minus, Plus, Search, Rss } from "lucide-react";
+import { Minus, Plus, Search, Rss, Loader2 } from "lucide-react";
 import { SiYoutube, SiReddit } from "@icons-pack/react-simple-icons";
 import CustomModal from "@/components/ui/CustomModal.jsx";
-import FeedIcon from "@/components/ui/FeedIcon.jsx";
-import { cn } from "@/lib/utils.js";
 import { motion, AnimatePresence } from "framer-motion";
 import { Podcast } from "lucide-react";
-
+import ResultListbox from "./ResultListbox";
 export default function AddFeedModal() {
   const { t } = useTranslation();
   const $categories = useStore(categories);
@@ -39,7 +34,6 @@ export default function AddFeedModal() {
   const [searchType, setSearchType] = useState("feed"); // 搜索类型
   const [searchQuery, setSearchQuery] = useState(""); // 搜索关键字
   const [searching, setSearching] = useState(false); // 调用搜索接口加载状态
-  const [selectedKeys, setSelectedKeys] = useState(new Set([])); // 选中的搜索结果
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     feed_url: "",
@@ -130,8 +124,16 @@ export default function AddFeedModal() {
       setResults([]);
     } finally {
       setSearching(false);
-      setSelectedKeys(new Set([]));
     }
+  };
+
+  const handleSelect = (key) => {
+    setFormData({
+      ...formData,
+      feed_url: Array.from(key)[0],
+      rewrite_rules: supportedTypes.find((type) => type.id === searchType)
+        .rewrite_rules,
+    });
   };
 
   const onClose = () => {
@@ -139,7 +141,6 @@ export default function AddFeedModal() {
     setSearchType("feed");
     setSearchQuery("");
     setResults([]);
-    setSelectedKeys(new Set([]));
     setFormData({
       feed_url: "",
       category_id: "",
@@ -176,17 +177,6 @@ export default function AddFeedModal() {
     }
   };
 
-  const ListboxWrapper = ({ children }) => (
-    <div
-      className={cn(
-        "w-full border-small bg-content2 h-56 overflow-y-auto p-1 mb-1 rounded-small shadow-custom-inner",
-        results.length === 0 ? "opacity-0" : "opacity-100",
-      )}
-    >
-      {children}
-    </div>
-  );
-
   return (
     <CustomModal
       open={$addFeedModalOpen}
@@ -217,7 +207,6 @@ export default function AddFeedModal() {
                   setSearchType(e.target.value);
                   setSearchQuery("");
                   setResults([]);
-                  setSelectedKeys(new Set([]));
                 }}
                 classNames={{ helperWrapper: "!hidden" }}
               >
@@ -246,93 +235,33 @@ export default function AddFeedModal() {
                 onValueChange={(value) => {
                   setSearchQuery(value);
                   setResults([]);
-                  setSelectedKeys(new Set([]));
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleSearch();
-                  }
                 }}
                 classNames={{ inputWrapper: "!pr-1", helperWrapper: "!hidden" }}
-                endContent={
-                  <Button
-                    size="sm"
-                    radius="full"
-                    className="data-[hover=true]:bg-transparent"
-                    variant="light"
-                    color="primary"
-                    isIconOnly
-                    isLoading={searching}
-                    isDisabled={searchQuery === "" || searchType === ""}
-                    onPress={handleSearch}
-                  >
-                    <Search className="size-4" />
-                  </Button>
-                }
               />
-              <Divider className="my-1" />
-              <ListboxWrapper>
-                <Listbox
-                  disallowEmptySelection
-                  selectionMode="single"
-                  variant="flat"
-                  aria-label="results"
-                  items={results}
-                  hideEmptyContent
-                  selectedKeys={selectedKeys}
-                  onSelectionChange={setSelectedKeys}
-                  itemClasses={{
-                    wrapper: "overflow-hidden",
-                    title: "max-w-full",
-                    description: "max-w-full",
-                  }}
-                >
-                  {(item) => (
-                    <ListboxItem
-                      key={item.url}
-                      textValue={item.url}
-                      description={item.url}
-                      startContent={
-                        searchType === "podcast" ? (
-                          <Image
-                            src={item.icon_url}
-                            alt={item.title}
-                            classNames={{
-                              wrapper:
-                                "size-5 rounded shadow-small shrink-0 overflow-hidden",
-                              img: "size-5 rounded-none",
-                            }}
-                          />
-                        ) : (
-                          <FeedIcon url={item.url} />
-                        )
-                      }
-                    >
-                      {item.title || item.url}
-                    </ListboxItem>
-                  )}
-                </Listbox>
-              </ListboxWrapper>
               <Button
-                onPress={() => {
-                  setFormData({
-                    ...formData,
-                    feed_url: Array.from(selectedKeys)[0],
-                    rewrite_rules: supportedTypes.find(
-                      (type) => type.id === searchType,
-                    ).rewrite_rules,
-                  });
-                }}
-                isDisabled={selectedKeys.size === 0}
-                color="primary"
-                fullWidth
-                type="submit"
-                isLoading={loading}
                 size="sm"
-                className="border-primary border shadow-custom-button bg-primary bg-gradient-to-b from-white/15 to-transparent text-sm"
+                color="primary"
+                className="border-primary border shadow-custom-button bg-primary bg-gradient-to-b from-white/15 to-transparent text-sm mt-1"
+                isDisabled={
+                  searchQuery === "" || searchType === "" || searching
+                }
+                onPress={handleSearch}
+                startContent={
+                  searching ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Search className="size-4" />
+                  )
+                }
               >
-                {t("common.add") + "..."}
+                {t("common.search")}
               </Button>
+              <Divider className="my-1" />
+              <ResultListbox
+                results={results}
+                searchType={searchType}
+                handleSelect={handleSelect}
+              />
             </motion.div>
           ) : (
             <motion.form
@@ -527,7 +456,7 @@ export default function AddFeedModal() {
                   variant="flat"
                   className="border text-sm"
                 >
-                  {t("common.cancel")}
+                  {t("common.back")}
                 </Button>
               </div>
             </motion.form>
