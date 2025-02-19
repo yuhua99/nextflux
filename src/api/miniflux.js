@@ -1,6 +1,6 @@
 import axios from "axios";
 import { authState, logout } from "@/stores/authStore";
-import { toast } from "sonner";
+import { addToast } from "@heroui/react";
 
 class miniFluxAPI {
   constructor() {
@@ -8,15 +8,17 @@ class miniFluxAPI {
 
     this.client = axios.create({
       baseURL: auth?.serverUrl || "",
-      headers: auth?.authType === "token" 
-        ? {
-            "X-Auth-Token": auth.token
-          }
-        : auth?.username && auth?.password
+      headers:
+        auth?.authType === "token"
           ? {
-              Authorization: "Basic " + btoa(`${auth.username}:${auth.password}`)
+              "X-Auth-Token": auth.token,
             }
-          : {},
+          : auth?.username && auth?.password
+            ? {
+                Authorization:
+                  "Basic " + btoa(`${auth.username}:${auth.password}`),
+              }
+            : {},
     });
 
     // 添加响应拦截器
@@ -29,7 +31,7 @@ class miniFluxAPI {
         }
         const errorMessage = error.response?.data?.error_message;
         if (errorMessage) {
-          toast.error(errorMessage);
+          addToast({ title: errorMessage, color: "danger" });
         }
         return Promise.reject(error);
       },
@@ -42,7 +44,7 @@ class miniFluxAPI {
         this.client.defaults.headers["X-Auth-Token"] = newAuth.token;
         delete this.client.defaults.headers["Authorization"];
       } else {
-        this.client.defaults.headers["Authorization"] = 
+        this.client.defaults.headers["Authorization"] =
           newAuth?.username && newAuth?.password
             ? "Basic " + btoa(`${newAuth.username}:${newAuth.password}`)
             : "";
@@ -351,7 +353,7 @@ class miniFluxAPI {
   async discoverFeeds(url) {
     try {
       const response = await this.client.post("/v1/discover", {
-        url: url
+        url: url,
       });
       return response.data;
     } catch (error) {

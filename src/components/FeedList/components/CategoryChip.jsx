@@ -6,7 +6,7 @@ import { useStore } from "@nanostores/react";
 import { useState } from "react";
 import minifluxAPI from "@/api/miniflux.js";
 import { forceSync } from "@/stores/syncStore.js";
-import { toast } from "sonner";
+import { addToast } from "@heroui/react";
 import { useTranslation } from "react-i18next";
 
 export default function CategoryChip({ category }) {
@@ -20,7 +20,7 @@ export default function CategoryChip({ category }) {
       setLoading(true);
       await minifluxAPI.deleteCategory(categoryId);
       await forceSync();
-      toast.success(t("common.success"));
+      addToast({ title: t("common.success"), color: "success" });
     } catch (error) {
       console.error("删除分类失败:", error);
     } finally {

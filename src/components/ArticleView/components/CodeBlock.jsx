@@ -2,7 +2,6 @@ import { codeToHtml } from "shiki";
 import { useEffect, useRef, useState } from "react";
 import { Button, Tooltip } from "@heroui/react";
 import { Check, Copy } from "lucide-react";
-import { toast } from "sonner";
 import { settingsState } from "@/stores/settingsStore.js";
 import { useStore } from "@nanostores/react";
 import { cn } from "@/lib/utils.js";
@@ -44,7 +43,6 @@ export default function CodeBlock({ code, language }) {
       setTimeout(() => setIsCopied(false), 3000);
     } catch (err) {
       console.error("复制失败:", err);
-      toast.error(t("common.copyFailed"));
     }
   };
 

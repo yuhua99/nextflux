@@ -5,7 +5,7 @@ import { useStore } from "@nanostores/react";
 import minifluxAPI from "@/api/miniflux";
 import { forceSync } from "@/stores/syncStore";
 import { categories } from "@/stores/feedsStore";
-import { toast } from "sonner";
+import { addToast } from "@heroui/react";
 import CategoryChip from "./CategoryChip.jsx";
 import { useTranslation } from "react-i18next";
 import CustomModal from "@/components/ui/CustomModal.jsx";
@@ -29,7 +29,7 @@ export default function AddCategoryModal() {
       await minifluxAPI.createCategory(title);
       await forceSync();
       onClose();
-      toast.success(t("common.success"));
+      addToast({ title: t("common.success"), color: "success" });
     } catch (error) {
       console.error("添加分类失败:", error);
     } finally {

@@ -11,7 +11,7 @@ import { addCategoryModalOpen, addFeedModalOpen } from "@/stores/modalStore";
 import { useSidebar } from "@/components/ui/sidebar.jsx";
 import { useRef } from "react";
 import minifluxAPI from "@/api/miniflux";
-import { toast } from "sonner";
+import { addToast } from "@heroui/react";
 import { forceSync } from "@/stores/syncStore";
 import { useTranslation } from "react-i18next";
 
@@ -28,10 +28,10 @@ export default function AddFeedButton() {
       await minifluxAPI.importOPML(file);
       await forceSync(); // 重新加载订阅源列表以更新UI
       await minifluxAPI.refreshAllFeeds(); // 触发所有订阅源的刷新
-      toast.success(t("common.success"));
+      addToast({ title: t("common.success"), color: "success" });
     } catch (error) {
       console.error("OPML导入失败:", error);
-      toast.error(t("common.error"));
+      addToast({ title: t("common.error"), color: "danger" });
     } finally {
       // 清空文件输入框,以便重复选择同一文件
       e.target.value = "";
