@@ -44,8 +44,8 @@ export default function ResultListbox({ results, searchType, handleSelect }) {
                   alt={item.title}
                   classNames={{
                     wrapper:
-                      "size-5 rounded shadow-small shrink-0 overflow-hidden",
-                    img: "size-5 rounded-none",
+                      "size-8 rounded shadow-small shrink-0 overflow-hidden",
+                    img: "size-8 rounded-none",
                   }}
                 />
               ) : (
