@@ -65,6 +65,8 @@ export default {
     searchQuery: "Besleme için",
     youtubeChannelPlaceholder: "Kanal adı",
     redditPlaceholder: "Alt forum adı",
+    podcast: "Podcast",
+    podcastPlaceholder: "Podcast adı",
   },
   sidebar: {
     addFeed: "Yeni Besleme",

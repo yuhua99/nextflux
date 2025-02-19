@@ -65,6 +65,8 @@ export default {
     searchQuery: "搜索订阅",
     youtubeChannelPlaceholder: "频道名称",
     redditPlaceholder: "子版块名称",
+    podcast: "播客",
+    podcastPlaceholder: "播客名称",
   },
   sidebar: {
     addCategory: "新增分类",

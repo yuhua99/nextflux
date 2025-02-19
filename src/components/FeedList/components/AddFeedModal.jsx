@@ -12,6 +12,7 @@ import {
   SelectItem,
   Textarea,
   Divider,
+  Image,
 } from "@heroui/react";
 import { useState } from "react";
 import { useStore } from "@nanostores/react";
@@ -27,6 +28,7 @@ import CustomModal from "@/components/ui/CustomModal.jsx";
 import FeedIcon from "@/components/ui/FeedIcon.jsx";
 import { cn } from "@/lib/utils.js";
 import { motion, AnimatePresence } from "framer-motion";
+import { Podcast } from "lucide-react";
 
 export default function AddFeedModal() {
   const { t } = useTranslation();
@@ -76,6 +78,15 @@ export default function AddFeedModal() {
       icon: <SiReddit className="size-4 text-default-500" />,
       placeholder: t("feed.redditPlaceholder"),
     },
+    {
+      id: "podcast",
+      label: t("feed.podcast"),
+      prefix: "",
+      suffix: "",
+      rewrite_rules: "",
+      icon: <Podcast className="size-4 text-default-500" />,
+      placeholder: t("feed.podcastPlaceholder"),
+    },
   ];
 
   const handleSearch = async () => {
@@ -86,8 +97,25 @@ export default function AddFeedModal() {
       const type = supportedTypes.find((type) => type.id === searchType);
       if (!type) return;
 
-      const url = `${type.prefix}${searchQuery}${type.suffix}`;
-      const feeds = await minifluxAPI.discoverFeeds(url);
+      let feeds;
+      if (searchType === "podcast") {
+        // 调用播客搜索API
+        const response = await fetch(
+          `https://api.podcastindex.org/search?term=${encodeURIComponent(searchQuery)}`,
+        );
+        const data = await response.json();
+
+        // 将播客搜索结果转换为feed格式
+        feeds = data.results.map((podcast) => ({
+          url: podcast.feedUrl,
+          title: podcast.collectionName,
+          icon_url: podcast.artworkUrl100,
+        }));
+      } else {
+        const url = `${type.prefix}${searchQuery}${type.suffix}`;
+        feeds = await minifluxAPI.discoverFeeds(url);
+      }
+
       setResults(feeds);
       // 如果搜索结果唯一，则自动添加
       if (feeds.length === 1) {
@@ -98,7 +126,7 @@ export default function AddFeedModal() {
         });
       }
     } catch (error) {
-      console.error("搜索订阅源失败:", error);
+      console.error("搜索失败:", error);
       setResults([]);
     } finally {
       setSearching(false);
@@ -264,9 +292,23 @@ export default function AddFeedModal() {
                       key={item.url}
                       textValue={item.url}
                       description={item.url}
-                      startContent={<FeedIcon url={item.url} />}
+                      startContent={
+                        searchType === "podcast" ? (
+                          <Image
+                            src={item.icon_url}
+                            alt={item.title}
+                            classNames={{
+                              wrapper:
+                                "size-5 rounded shadow-small shrink-0 overflow-hidden",
+                              img: "size-5 rounded-none",
+                            }}
+                          />
+                        ) : (
+                          <FeedIcon url={item.url} />
+                        )
+                      }
                     >
-                      {item.url}
+                      {item.title || item.url}
                     </ListboxItem>
                   )}
                 </Listbox>

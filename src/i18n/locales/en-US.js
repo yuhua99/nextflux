@@ -65,6 +65,8 @@ export default {
     searchQuery: "Feed for",
     youtubeChannelPlaceholder: "Channel name",
     redditPlaceholder: "Subreddit name",
+    podcast: "Podcast",
+    podcastPlaceholder: "Podcast name",
   },
   sidebar: {
     addFeed: "New Feed",
