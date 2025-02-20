@@ -20,7 +20,7 @@ import { forceSync } from "@/stores/syncStore";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Minus, Plus, Search, Rss, Loader2 } from "lucide-react";
-import { SiYoutube, SiReddit } from "@icons-pack/react-simple-icons";
+import { SiYoutube, SiReddit, SiMastodon } from "@icons-pack/react-simple-icons";
 import CustomModal from "@/components/ui/CustomModal.jsx";
 import { motion, AnimatePresence } from "framer-motion";
 import { Podcast } from "lucide-react";
@@ -80,6 +80,15 @@ export default function AddFeedModal() {
       rewrite_rules: "",
       icon: <Podcast className="size-4 text-default-500" />,
       placeholder: t("feed.podcastPlaceholder"),
+    },
+    {
+      id: "mastodon",
+      label: t("feed.mastodon"),
+      prefix: "",
+      suffix: "",
+      rewrite_rules: "",
+      icon: <SiMastodon className="size-4 text-default-500" />,
+      placeholder: t("feed.mastodonPlaceholder"),
     },
   ];
 

@@ -28,6 +28,7 @@ import { cn, getHostname } from "@/lib/utils.js";
 import { useIsMobile } from "@/hooks/use-mobile.jsx";
 import FeedIcon from "@/components/ui/FeedIcon.jsx";
 import storage from "@/db/storage";
+import Attachments from "@/components/ArticleView/components/Attachments.jsx";
 const ArticleView = () => {
   const { t } = useTranslation();
   const { articleId } = useParams();
@@ -416,6 +417,7 @@ const ArticleView = () => {
                           }
                         },
                       })}
+                      <Attachments article={$activeArticle} />
                     </div>
                   </PhotoProvider>
                 </motion.div>

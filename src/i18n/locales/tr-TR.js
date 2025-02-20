@@ -67,6 +67,8 @@ export default {
     redditPlaceholder: "Alt forum adı",
     podcast: "Podcast",
     podcastPlaceholder: "Podcast adı",
+    mastodon: "Mastodon",
+    mastodonPlaceholder: "https://mastodon.social/@Mastodon",
   },
   sidebar: {
     addFeed: "Yeni Besleme",
@@ -129,6 +131,7 @@ export default {
     getFullText: "Okuma görünümü",
     showSummary: "Okuma görünümünü gizle",
     saveToThirdParty: "Üçüncü taraf hizmetlerine kaydet",
+    attachments: "Ekler",
   },
   player: {
     "Current time": "Şimdiki zaman",

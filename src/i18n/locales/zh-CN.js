@@ -67,6 +67,8 @@ export default {
     redditPlaceholder: "子版块名称",
     podcast: "播客",
     podcastPlaceholder: "播客名称",
+    mastodon: "Mastodon",
+    mastodonPlaceholder: "https://mastodon.social/@Mastodon",
   },
   sidebar: {
     addCategory: "新增分类",
@@ -128,6 +130,7 @@ export default {
     getFullText: "阅读模式",
     showSummary: "隐藏阅读模式",
     saveToThirdParty: "保存到第三方服务",
+    attachments: "附件",
   },
   player: {
     "Current time": "当前时间",

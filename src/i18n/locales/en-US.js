@@ -67,6 +67,8 @@ export default {
     redditPlaceholder: "Subreddit name",
     podcast: "Podcast",
     podcastPlaceholder: "Podcast name",
+    mastodon: "Mastodon",
+    mastodonPlaceholder: "https://mastodon.social/@Mastodon",
   },
   sidebar: {
     addFeed: "New Feed",
@@ -129,6 +131,7 @@ export default {
     getFullText: "Reader view",
     showSummary: "Hide reader view",
     saveToThirdParty: "Save to third-party services",
+    attachments: "Attachments",
   },
   player: {
     "Current time": "Current time",
