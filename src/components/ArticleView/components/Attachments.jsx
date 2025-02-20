@@ -16,7 +16,7 @@ export default function Attachments({ article }) {
   );
 
   // 定义黑名单域名列表
-  const blacklist = ["youtube.com", "youtu.be"];
+  const blacklist = ["youtube.com", "youtu.be", "reddit.com"];
 
   // 检查文章的URL是否在黑名单中
   const isBlacklisted = blacklist.some((domain) =>
@@ -32,7 +32,7 @@ export default function Attachments({ article }) {
   }
 
   return (
-    <div className="flex flex-col gap-2 rounded-xl shadow-medium bg-content2 p-5">
+    <div className="flex flex-col gap-2 rounded-xl shadow-medium bg-content2 p-5 mt-2">
       <div>
         <Chip color="primary" variant="flat" size="sm">
           {t("articleView.attachments")}
