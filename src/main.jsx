@@ -13,7 +13,11 @@ initTheme();
 
 createRoot(document.getElementById("root")).render(
   <HeroUIProvider>
-    <ToastProvider placement="bottom-center" toastOffset={20} />
+    <ToastProvider
+      placement="bottom-center"
+      toastOffset={20}
+      toastProps={{ timeout: 3000 }}
+    />
     <SplashScreen />
     <RouterProvider
       router={router}

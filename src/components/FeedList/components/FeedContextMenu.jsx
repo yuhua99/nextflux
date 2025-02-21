@@ -15,7 +15,7 @@ import {
   editFeedModalOpen,
   unsubscribeModalOpen,
 } from "@/stores/modalStore";
-import { handleRefresh } from "@/handlers/feedHandlers";
+import { handleRefresh } from "@/handlers/feedHandlers.jsx";
 import { useSidebar } from "@/components/ui/sidebar.jsx";
 import { useStore } from "@nanostores/react";
 export default function FeedContextMenu({ feed, children }) {
