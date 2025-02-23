@@ -15,6 +15,7 @@ import {
   Rss,
   Square,
   Text,
+  MonitorCog,
 } from "lucide-react";
 import Theme from "./components/Theme";
 import { useTranslation } from "react-i18next";
@@ -29,11 +30,29 @@ export default function Appearance() {
     showTextPreview,
     showReadingTime,
     reduceMotion,
+    interfaceFontSize,
   } = useStore(settingsState);
   const { t } = useTranslation();
   return (
     <>
       <Theme />
+      <ItemWrapper title={t("settings.appearance.display")}>
+        <SelItem
+          label={t("settings.appearance.interfaceDisplay")}
+          icon={
+            <SettingIcon variant="green">
+              <MonitorCog />
+            </SettingIcon>
+          }
+          settingName="interfaceFontSize"
+          settingValue={interfaceFontSize}
+          options={[
+            { value: "14", label: t("settings.appearance.moreSpace") },
+            { value: "16", label: t("settings.appearance.normal") },
+            { value: "18", label: t("settings.appearance.LargerText") },
+          ]}
+        />
+      </ItemWrapper>
       <ItemWrapper title={t("settings.appearance.favicons")}>
         <SelItem
           label={t("settings.appearance.shape")}

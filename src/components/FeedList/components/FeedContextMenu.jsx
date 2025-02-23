@@ -85,7 +85,11 @@ export default function FeedContextMenu({ feed, children }) {
           >
             {t("articleList.editFeed")}
           </DropdownItem>
-          <DropdownItem isDisabled classNames={{ base: "py-1.5" }}>
+          <DropdownItem
+            isDisabled
+            classNames={{ base: "py-1.5" }}
+            textValue="divider"
+          >
             <Divider />
           </DropdownItem>
           <DropdownItem

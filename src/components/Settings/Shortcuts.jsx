@@ -94,7 +94,7 @@ export default function Shortcuts() {
                 <div className="p-3 overflow-y-auto flex flex-col gap-4">
                   <ItemWrapper title={t("sidebar.shortcuts.global")}>
                     {shortcuts.global.map((shortcut, index) => (
-                      <>
+                      <div key={shortcut.key}>
                         <KeyboardItem
                           key={shortcut.key}
                           keyStr={shortcut.key}
@@ -102,19 +102,19 @@ export default function Shortcuts() {
                           desc={shortcut.desc}
                         />
                         {index !== shortcuts.global.length - 1 && <Divider />}
-                      </>
+                      </div>
                     ))}
                   </ItemWrapper>
                   <ItemWrapper title={t("sidebar.shortcuts.article")}>
                     {shortcuts.article.map((shortcut, index) => (
-                      <>
+                      <div key={shortcut.key}>
                         <KeyboardItem
                           key={shortcut.key}
                           keyStr={shortcut.key}
                           desc={shortcut.desc}
                         />
                         {index !== shortcuts.article.length - 1 && <Divider />}
-                      </>
+                      </div>
                     ))}
                   </ItemWrapper>
                 </div>

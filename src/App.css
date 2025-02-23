@@ -5,6 +5,7 @@ body {
   overflow: hidden;
   overscroll-behavior: none !important;
   padding: 0;
+  font-size: var(--interface-font-size);
 }
 
 #root {
@@ -17,6 +18,8 @@ body {
   overflow: hidden;
   padding-left: env(safe-area-inset-left) !important;
   padding-right: env(safe-area-inset-right) !important;
+  transform-origin: top left;
+  transition: transform 0.2s ease;
 }
 
 /* 重置默认样式 */
