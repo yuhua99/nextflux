@@ -1,29 +1,10 @@
 import { atom, computed } from "nanostores";
-import { persistentAtom } from "@nanostores/persistent";
 import storage from "../db/storage";
 import { filter } from "@/stores/articlesStore.js";
 import { settingsState } from "@/stores/settingsStore.js";
 
-await storage.init();
-
 export const feeds = atom([]);
-export const categories = atom(await storage.getCategories());
-const defaultValue = Object.fromEntries(
-  categories
-    .get()
-    .map((item) => [item.id, settingsState.get().defaultExpandCategory])
-);
-export const categoriesExpandStates = persistentAtom(
-  "categoryExpanded",
-  defaultValue,
-  {
-    encode: JSON.stringify,
-    decode: (str) => {
-      const storedValue = JSON.parse(str);
-      return { ...defaultValue, ...storedValue };
-    },
-  }
-);
+export const categories = atom([]);
 export const error = atom(null);
 export const unreadCounts = atom({});
 export const starredCounts = atom({});
@@ -44,12 +25,12 @@ export const filteredFeeds = computed(
           return true;
       }
     });
-  }
+  },
 );
 
 export const feedsByCategory = computed(
-  [categoriesExpandStates, filteredFeeds, unreadCounts, starredCounts],
-  ($categoriesExpandStates, $filteredFeeds, $unreadCounts, $starredCounts) => {
+  [filteredFeeds, unreadCounts, starredCounts],
+  ($filteredFeeds, $unreadCounts, $starredCounts) => {
     return Object.entries(
       $filteredFeeds.reduce((acc, feed) => {
         const categoryName = feed.categoryName || "未分类";
@@ -62,32 +43,18 @@ export const feedsByCategory = computed(
         }
         acc[categoryId].feeds.push(feed);
         return acc;
-      }, {})
+      }, {}),
     ).map(([id, category]) => ({
       id,
       title: category.name,
       isActive: false,
-      expanded: $categoriesExpandStates[id],
       feeds: category.feeds.map((feed) => ({
         ...feed,
         unreadCount: $unreadCounts[feed.id] || 0,
         starredCount: $starredCounts[feed.id] || 0,
       })),
     }));
-  }
-);
-
-// flatten categories and feeds which reactive to categoriesExpandStates
-export const categoriesAndFeeds = computed(
-  [feedsByCategory],
-  ($feedsByCategory) => {
-    return $feedsByCategory.flatMap((category) => [
-      { cid: category.id, fid: undefined },
-      ...(category.expanded
-        ? category.feeds.map((feed) => ({ cid: category.id, fid: feed.id }))
-        : []),
-    ]);
-  }
+  },
 );
 
 export const getCategoryCount = computed(
@@ -97,23 +64,23 @@ export const getCategoryCount = computed(
     const categoryFeeds = $feeds.filter((feed) =>
       categoryId === "uncategorized"
         ? !feed.categoryId
-        : feed.categoryId === parseInt(categoryId)
+        : feed.categoryId === parseInt(categoryId),
     );
 
     switch ($filter) {
       case "starred":
         return categoryFeeds.reduce(
           (sum, feed) => sum + ($starredCounts[feed.id] || 0),
-          0
+          0,
         );
       case "unread":
       default:
         return categoryFeeds.reduce(
           (sum, feed) => sum + ($unreadCounts[feed.id] || 0),
-          0
+          0,
         );
     }
-  }
+  },
 );
 
 export const getFeedCount = computed(
@@ -126,7 +93,7 @@ export const getFeedCount = computed(
       default:
         return $unreadCounts[feedId] || 0;
     }
-  }
+  },
 );
 
 export const totalUnreadCount = computed([unreadCounts], ($unreadCounts) => {
@@ -142,8 +109,8 @@ export async function loadFeeds() {
     await storage.init();
     const storedFeeds = await storage.getFeeds();
     feeds.set(storedFeeds || []);
-    // const storedCategories = await storage.getCategories();
-    // categories.set(storedCategories || []);
+    const storedCategories = await storage.getCategories();
+    categories.set(storedCategories || []);
     const filteredFeeds = settingsState.get().showHiddenFeeds
       ? storedFeeds
       : storedFeeds.filter((feed) => !feed.hide_globally);
