@@ -19,6 +19,7 @@ import UnsubscribeModal from "@/components/ArticleList/components/UnsubscribeMod
 import EditFeedModal from "@/components/ArticleList/components/EditFeedModal.jsx";
 import { checkIntegrations } from "@/stores/basicInfoStore.js";
 import SearchModal from "@/components/Search/SearchModal.jsx";
+import { useZoom } from "@/hooks/useZoom.js";
 
 function App() {
   const { syncInterval } = useStore(settingsState);
@@ -35,7 +36,7 @@ function App() {
   }, []);
 
   useHotkeys();
-
+  useZoom();
   return (
     <SidebarProvider>
       <FeedListSidebar />

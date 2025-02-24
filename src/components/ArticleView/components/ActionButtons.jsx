@@ -109,15 +109,15 @@ export default function ActionButtons({ parentRef }) {
 
   return (
     <Navbar
-      className="action-buttons py-2.5 standalone:pt-safe-or-2.5"
+      className="action-buttons py-2 standalone:pt-safe-or-2.5"
       maxWidth="full"
       isBordered
       shouldHideOnScroll={autoHideToolbar}
       parentRef={parentRef}
-      classNames={{ wrapper: "px-3 h-auto" }}
+      classNames={{ wrapper: "px-2 h-auto", content: "gap-0" }}
     >
       <NavbarContent className="flex items-center space-between">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1">
           <Tooltip content={t("common.close")}>
             <Button
               onPress={handleClose}
@@ -160,7 +160,7 @@ export default function ActionButtons({ parentRef }) {
             </Button>
           </Tooltip>
         </div>
-        <div className="ml-auto flex items-center gap-3">
+        <div className="ml-auto flex items-center gap-1">
           <Tooltip
             content={
               $activeArticle?.status === "read"
