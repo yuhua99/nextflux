@@ -209,7 +209,7 @@ const ArticleView = () => {
                         titleAlignType === "center" ? "justify-center" : "",
                       )}
                     >
-                      <FeedIcon url={$activeArticle?.feed?.site_url} />
+                      <FeedIcon feedId={$activeArticle?.feed?.id} />
                       {$activeArticle?.feed?.title}
                     </div>
                     <h1

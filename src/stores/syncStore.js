@@ -101,7 +101,6 @@ async function syncEntries() {
       // 首次同步时分页获取所有未读文章
       let offset = 0;
       const limit = 5000; // 每页5000条
-      let unreadEntries = [];
 
       // 先获取总数
       const initialResponse = await minifluxAPI.getUnreadEntriesByPage(0, 1);
@@ -113,29 +112,8 @@ async function syncEntries() {
           offset,
           limit,
         );
-        unreadEntries = [...unreadEntries, ...response.entries];
-        offset += limit;
-
-        // 更新同步进度
-        const progress = Math.min(100, Math.round((offset / total) * 100));
-        console.log(`同步进度: ${progress}%`);
-      }
-
-      // 获取所有星标文章
-      const starredEntries = await minifluxAPI.getAllStarredEntries();
-
-      // 合并去重
-      const allEntries = [...unreadEntries];
-      for (const entry of starredEntries) {
-        if (!allEntries.find((e) => e.id === entry.id)) {
-          allEntries.push(entry);
-        }
-      }
-
-      // 批量保存到数据库
-      if (allEntries.length > 0) {
         await addArticles(
-          allEntries.map((entry) => ({
+          response.entries.map((entry) => ({
             id: entry.id,
             feedId: entry.feed.id,
             title: entry.title,
@@ -151,7 +129,33 @@ async function syncEntries() {
             enclosures: entry.enclosures || [],
           })),
         );
+        offset += limit;
+
+        // 更新同步进度
+        const progress = Math.min(100, Math.round((offset / total) * 100));
+        console.log(`同步进度: ${progress}%`);
       }
+
+      // 获取所有已读星标文章
+      const starredEntries = await minifluxAPI.getAllStarredEntries();
+
+      await addArticles(
+        starredEntries.map((entry) => ({
+          id: entry.id,
+          feedId: entry.feed.id,
+          title: entry.title,
+          author: entry.author,
+          url: entry.url,
+          content: entry.content,
+          plainContent: extractTextFromHtml(entry.content),
+          status: entry.status,
+          starred: entry.starred ? 1 : 0,
+          published_at: entry.published_at,
+          created_at: entry.created_at,
+          reading_time: entry.reading_time,
+          enclosures: entry.enclosures || [],
+        })),
+      );
     } else {
       // 增量同步 - 并行获取变更和新文章
       const [changedEntries, newEntries] = await Promise.all([

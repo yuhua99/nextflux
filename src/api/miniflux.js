@@ -30,7 +30,7 @@ class miniFluxAPI {
           logout();
         }
         const errorMessage = error.response?.data?.error_message;
-        if (errorMessage) {
+        if (errorMessage && error.response?.status !== 404) {
           addToast({ title: errorMessage, color: "danger" });
         }
         return Promise.reject(error);
@@ -171,6 +171,7 @@ class miniFluxAPI {
       const response = await this.client.get("/v1/entries", {
         params: {
           starred: true,
+          status: "read",
           direction: "desc",
           limit: 0, // 不限制数量
         },
@@ -360,6 +361,18 @@ class miniFluxAPI {
     } catch (error) {
       console.error("发现订阅源失败:", error);
       throw error;
+    }
+  }
+
+  async getIconByFeedId(feedId) {
+    try {
+      const response = await this.client.get(`/v1/feeds/${feedId}/icon`);
+      return response.data;
+    } catch (error) {
+      if (error.response?.status === 404) {
+        return null;
+      }
+      console.error("获取订阅源图标失败:", error);
     }
   }
 }

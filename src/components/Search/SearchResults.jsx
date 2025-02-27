@@ -122,7 +122,7 @@ export default function SearchResults({
           onMouseMove={() => setHoverEffect(true)}
         >
           <div className="flex items-center gap-2">
-            <FeedIcon url={type === "articles" ? item.url : item.site_url} />
+            <FeedIcon feedId={type === "articles" ? item.feedId : item.id} />
             <div className="flex-1 line-clamp-1">{item.title}</div>
           </div>
           <div className="shrink-0 line-clamp-1 text-xs text-default-400 font-mono">

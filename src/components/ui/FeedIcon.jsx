@@ -1,26 +1,50 @@
-import { useMemo, useState } from "react";
+import { useState, useEffect } from "react";
 import { Image } from "@heroui/react";
 import { Rss } from "lucide-react";
 import { settingsState } from "@/stores/settingsStore";
 import { useStore } from "@nanostores/react";
 import { cn } from "@/lib/utils";
+import { getFeedIcon, setFeedIcon } from "@/db/storage";
+import minifluxAPI from "@/api/miniflux";
 
-const FeedIcon = ({ url }) => {
+const FeedIcon = ({ feedId }) => {
   const { feedIconShape, useGrayIcon } = useStore(settingsState);
   const [error, setError] = useState(false);
   const [isBlurry, setIsBlurry] = useState(false);
+  const [iconData, setIconData] = useState(null);
 
-  const getDomain = useMemo(() => {
-    try {
-      return new URL(url).hostname;
-    } catch {
-      return "";
+  useEffect(() => {
+    const loadIcon = async () => {
+      try {
+        let icon = await getFeedIcon(feedId);
+
+        if (!icon || Date.now() - icon.updatedAt > 7 * 24 * 60 * 60 * 1000) {
+          const newIcon = await minifluxAPI.getIconByFeedId(feedId);
+          if (newIcon) {
+            await setFeedIcon({
+              feedId,
+              mime_type: newIcon.mime_type,
+              data: newIcon.data,
+            });
+            icon = newIcon;
+          }
+        }
+
+        if (icon) {
+          setIconData(`data:${icon.data}`);
+        } else {
+          setError(true);
+        }
+      } catch (err) {
+        console.error("加载订阅源图标失败:", err);
+        setError(true);
+      }
+    };
+
+    if (feedId) {
+      loadIcon();
     }
-  }, [url]);
-
-  const faviconUrl = useMemo(() => {
-    return `https://www.google.com/s2/favicons?sz=64&domain_url=${getDomain}`;
-  }, [getDomain]);
+  }, [feedId]);
 
   // 处理图片加载错误
   const handleError = () => {
@@ -37,7 +61,7 @@ const FeedIcon = ({ url }) => {
   };
 
   // 如果URL无效、图片加载失败或图片模糊，显示默认图标
-  if (!url || error || isBlurry) {
+  if (error || isBlurry) {
     return (
       <span
         className={cn(
@@ -53,7 +77,7 @@ const FeedIcon = ({ url }) => {
   return (
     <Image
       alt="Feed icon"
-      src={faviconUrl}
+      src={iconData}
       className="size-5 p-0.5 bg-white shadow-small"
       classNames={{
         wrapper: "shrink-0",

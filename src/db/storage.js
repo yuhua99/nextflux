@@ -4,11 +4,12 @@ import Dexie from "dexie";
 const db = new Dexie("minifluxReader");
 
 // 创建表及索引
-db.version(7).stores({
+db.version(9).stores({
   articles:
     "id, feedId, status, starred, created_at, [status+feedId], [starred+feedId]",
   categories: "id, title",
   feeds: "id, url, categoryName",
+  feedIcons: "feedId",
 });
 
 db.open().catch((err) => {
@@ -212,6 +213,19 @@ async function searchArticles(keyword, showHiddenFeeds = false) {
   }
 }
 
+// 获取订阅源图标
+async function getFeedIcon(feedId) {
+  return db.feedIcons.get(feedId);
+}
+
+// 存储订阅源图标
+async function setFeedIcon(feedIcon) {
+  return db.feedIcons.put({
+    ...feedIcon,
+    updated_at: new Date().toISOString(),
+  });
+}
+
 export {
   addFeed,
   getFeeds,
@@ -229,4 +243,6 @@ export {
   getArticlesByPage,
   getArticleById,
   searchArticles,
+  getFeedIcon,
+  setFeedIcon,
 };

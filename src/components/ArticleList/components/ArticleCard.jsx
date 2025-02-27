@@ -126,7 +126,7 @@ export default function ArticleCard({ article }) {
           <div className="card-meta flex items-start justify-between gap-1">
             <div className="card-source flex items-center flex-1 gap-1 min-w-0">
               <div className="card-source-content flex gap-1 items-center min-w-0">
-                {showFavicon && <FeedIcon url={article.feed?.site_url} />}
+                {showFavicon && <FeedIcon feedId={article.feedId} />}
                 <span className="card-source-title text-default-500 font-bold text-xs line-clamp-1">
                   {article.feed?.title}
                 </span>
