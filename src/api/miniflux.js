@@ -294,17 +294,18 @@ class miniFluxAPI {
     }
   }
 
-  // 获取所有未读文章
-  async getAllUnreadEntries() {
+  // 分页获取未读文章
+  async getUnreadEntriesByPage(offset = 0, limit = 100) {
     try {
       const response = await this.client.get("/v1/entries", {
         params: {
           status: "unread",
           direction: "desc",
-          limit: 0,
+          offset,
+          limit,
         },
       });
-      return response.data.entries;
+      return response.data;
     } catch (error) {
       console.error("获取未读文章失败:", error);
       throw error;

@@ -1,6 +1,16 @@
 import { atom } from "nanostores";
 import minifluxAPI from "../api/miniflux";
-import { getFeeds, addArticles, deleteArticlesByFeedId, getLastSyncTime, setLastSyncTime, addFeed, addCategory, deleteAllFeeds, deleteAllCategory } from "../db/storage";
+import {
+  getFeeds,
+  addArticles,
+  deleteArticlesByFeedId,
+  getLastSyncTime,
+  setLastSyncTime,
+  addFeed,
+  addCategory,
+  deleteAllFeeds,
+  deleteAllCategory,
+} from "../db/storage";
 import { extractTextFromHtml } from "@/lib/utils.js";
 import { settingsState } from "./settingsStore";
 
@@ -45,10 +55,7 @@ async function syncFeeds() {
     }
 
     // 清空本地订阅源和分类数据
-    await Promise.all([
-      deleteAllFeeds(),
-      deleteAllCategory(),
-    ]);
+    await Promise.all([deleteAllFeeds(), deleteAllCategory()]);
 
     // 同步分类数据
     for (const category of serverCategories) {
@@ -91,15 +98,28 @@ async function syncEntries() {
     oneDayAgo.setHours(oneDayAgo.getHours() - 24);
 
     if (!lastSyncTime) {
-      // 首次同步时一次性获取所有未读文章
-      const response = await minifluxAPI.client.get("/v1/entries", {
-        params: {
-          status: "unread",
-          direction: "desc",
-          limit: 0,
-        },
-      });
-      const unreadEntries = response.data.entries;
+      // 首次同步时分页获取所有未读文章
+      let offset = 0;
+      const limit = 5000; // 每页5000条
+      let unreadEntries = [];
+
+      // 先获取总数
+      const initialResponse = await minifluxAPI.getUnreadEntriesByPage(0, 1);
+      const total = initialResponse.total;
+
+      // 分页获取所有未读文章
+      while (offset < total) {
+        const response = await minifluxAPI.getUnreadEntriesByPage(
+          offset,
+          limit,
+        );
+        unreadEntries = [...unreadEntries, ...response.entries];
+        offset += limit;
+
+        // 更新同步进度
+        const progress = Math.min(100, Math.round((offset / total) * 100));
+        console.log(`同步进度: ${progress}%`);
+      }
 
       // 获取所有星标文章
       const starredEntries = await minifluxAPI.getAllStarredEntries();
@@ -114,7 +134,7 @@ async function syncEntries() {
 
       // 批量保存到数据库
       if (allEntries.length > 0) {
-          await addArticles(
+        await addArticles(
           allEntries.map((entry) => ({
             id: entry.id,
             feedId: entry.feed.id,
