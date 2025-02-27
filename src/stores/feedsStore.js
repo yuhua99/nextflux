@@ -1,5 +1,5 @@
 import { atom, computed } from "nanostores";
-import storage from "../db/storage";
+import { getFeeds, getCategories, getUnreadCount, getStarredCount } from "../db/storage";
 import { filter } from "@/stores/articlesStore.js";
 import { settingsState } from "@/stores/settingsStore.js";
 
@@ -106,10 +106,9 @@ export const totalStarredCount = computed([starredCounts], ($starredCounts) => {
 
 export async function loadFeeds() {
   try {
-    await storage.init();
-    const storedFeeds = await storage.getFeeds();
+    const storedFeeds = await getFeeds();
     feeds.set(storedFeeds || []);
-    const storedCategories = await storage.getCategories();
+    const storedCategories = await getCategories();
     categories.set(storedCategories || []);
     const filteredFeeds = settingsState.get().showHiddenFeeds
       ? storedFeeds
@@ -119,8 +118,8 @@ export async function loadFeeds() {
     const unreadCount = {};
     const starredCount = {};
     for (const feed of filteredFeeds) {
-      unreadCount[feed.id] = await storage.getUnreadCount(feed.id);
-      starredCount[feed.id] = await storage.getStarredCount(feed.id);
+      unreadCount[feed.id] = await getUnreadCount(feed.id);
+      starredCount[feed.id] = await getStarredCount(feed.id);
     }
     unreadCounts.set(unreadCount);
     starredCounts.set(starredCount);

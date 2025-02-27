@@ -27,7 +27,7 @@ import { ExternalLink } from "lucide-react";
 import { cn, getHostname } from "@/lib/utils.js";
 import { useIsMobile } from "@/hooks/use-mobile.jsx";
 import FeedIcon from "@/components/ui/FeedIcon.jsx";
-import storage from "@/db/storage";
+import { getArticleById } from "@/db/storage";
 import Attachments from "@/components/ArticleView/components/Attachments.jsx";
 const ArticleView = () => {
   const { t } = useTranslation();
@@ -83,7 +83,7 @@ const ArticleView = () => {
       if (articleId) {
         setError(null);
         try {
-          const loadedArticle = await storage.getArticleById(articleId);
+          const loadedArticle = await getArticleById(articleId);
           if (loadedArticle) {
             // 保存原始内容
             loadedArticle.originalContent = loadedArticle.content;

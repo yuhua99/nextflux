@@ -18,7 +18,7 @@ import FeedsGroup from "@/components/FeedList/components/FeedsGroup.jsx";
 import SyncButton from "@/components/FeedList/components/SyncButton.jsx";
 import ProfileButton from "@/components/FeedList/components/ProfileButton.jsx";
 import logo from "@/assets/logo.png";
-import storage from "@/db/storage.js";
+import { getLastSyncTime } from "@/db/storage.js";
 import AddFeedButton from "@/components/FeedList/components/AddFeedButton.jsx";
 import { useTranslation } from "react-i18next";
 
@@ -29,7 +29,7 @@ const FeedListSidebar = () => {
   const { showHiddenFeeds } = useStore(settingsState);
 
   useEffect(() => {
-    lastSync.set(storage.getLastSyncTime());
+    lastSync.set(getLastSyncTime());
   }, []);
 
   useEffect(() => {

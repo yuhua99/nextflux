@@ -1,435 +1,232 @@
-class Storage {
-  constructor() {
-    this.dbName = "minifluxReader";
-    this.dbVersion = 5;
-    this.db = null;
-  }
+import Dexie from "dexie";
 
-  async init() {
-    return new Promise((resolve, reject) => {
-      const request = indexedDB.open(this.dbName, this.dbVersion);
+// 创建数据库
+const db = new Dexie("minifluxReader");
 
-      request.onerror = () => {
-        reject(new Error("无法打开数据库"));
-      };
+// 创建表及索引
+db.version(7).stores({
+  articles:
+    "id, feedId, status, starred, created_at, [status+feedId], [starred+feedId]",
+  categories: "id, title",
+  feeds: "id, url, categoryName",
+});
 
-      request.onsuccess = (event) => {
-        this.db = event.target.result;
-        resolve(this.db);
-      };
-
-      request.onupgradeneeded = (event) => {
-        const db = event.target.result;
-        const transaction = event.target.transaction;
-
-        // 处理分类存储
-        let categoriesStore;
-        if (!db.objectStoreNames.contains("categories")) {
-          categoriesStore = db.createObjectStore("categories", {
-            keyPath: "id",
-          });
-        } else {
-          categoriesStore = transaction.objectStore("categories");
-        }
-        // 确保索引存在
-        if (!categoriesStore.indexNames.contains("title")) {
-          categoriesStore.createIndex("title", "title", { unique: true });
-        }
-
-        // 处理文章存储
-        let articlesStore;
-        if (!db.objectStoreNames.contains("articles")) {
-          articlesStore = db.createObjectStore("articles", {
-            keyPath: "id",
-          });
-        } else {
-          articlesStore = transaction.objectStore("articles");
-        }
-        // 确保所有需要的索引存在
-        if (!articlesStore.indexNames.contains("feedId")) {
-          articlesStore.createIndex("feedId", "feedId", { unique: false });
-        }
-        if (!articlesStore.indexNames.contains("status")) {
-          articlesStore.createIndex("status", "status", { unique: false });
-        }
-        if (!articlesStore.indexNames.contains("starred")) {
-          articlesStore.createIndex("starred", "starred", { unique: false });
-        }
-        if (!articlesStore.indexNames.contains("status_feedId")) {
-          articlesStore.createIndex("status_feedId", ["status", "feedId"], {
-            unique: false,
-          });
-        }
-        if (!articlesStore.indexNames.contains("starred_feedId")) {
-          articlesStore.createIndex("starred_feedId", ["starred", "feedId"], {
-            unique: false,
-          });
-        }
-
-        // 处理订阅源存储
-        let feedsStore;
-        if (!db.objectStoreNames.contains("feeds")) {
-          feedsStore = db.createObjectStore("feeds", {
-            keyPath: "id",
-            autoIncrement: true,
-          });
-        } else {
-          feedsStore = transaction.objectStore("feeds");
-        }
-        // 确保所有需要的索引存在
-        if (!feedsStore.indexNames.contains("url")) {
-          feedsStore.createIndex("url", "url", { unique: true });
-        }
-        if (!feedsStore.indexNames.contains("categoryName")) {
-          feedsStore.createIndex("categoryName", "categoryName", {
-            unique: false,
-          });
-        }
-      };
+db.open().catch((err) => {
+  console.error("打开数据库失败:", err);
+  // 如果是版本升级错误，尝试删除数据库并重新创建
+  if (err.name === "VersionError" || err.name === "UpgradeError") {
+    return db.delete().then(() => {
+      console.log("数据库已重置");
+      window.location.reload(); // 刷新页面重新初始化数据库
     });
   }
+});
 
-  // 添加文章
-  async addArticles(articles) {
-    const tx = this.db.transaction("articles", "readwrite");
-    const store = tx.objectStore("articles");
+// 添加订阅源
+async function addFeed(feed) {
+  return db.feeds.put(feed);
+}
 
-    for (const article of articles) {
-      await store.put(article);
-    }
+// 获取所有订阅源
+async function getFeeds() {
+  return db.feeds.toArray();
+}
 
-    return new Promise((resolve, reject) => {
-      tx.oncomplete = () => resolve();
-      tx.onerror = () => reject(tx.error);
-    });
+// 清空全部订阅源
+async function deleteAllFeeds() {
+  return db.feeds.clear();
+}
+
+// 添加分类
+async function addCategory(category) {
+  return db.categories.put(category);
+}
+
+// 获取所有分类
+async function getCategories() {
+  return db.categories.toArray();
+}
+
+// 删除分类
+async function deleteAllCategory() {
+  return db.categories.clear();
+}
+
+// 存储上次同步时间
+function setLastSyncTime(time) {
+  localStorage.setItem("lastSyncTime", time.toISOString());
+}
+
+// 获取上次同步时间
+function getLastSyncTime() {
+  const time = localStorage.getItem("lastSyncTime");
+  return time ? new Date(time) : null;
+}
+
+// 批量添加文章
+async function addArticles(articles) {
+  return db.articles.bulkPut(articles);
+}
+
+// 删除指定源的全部文章
+async function deleteArticlesByFeedId(feedId) {
+  return db.articles.where("feedId").equals(feedId).delete();
+}
+
+// 获取订阅源未读文章数量
+async function getUnreadCount(feedId) {
+  return db.articles
+    .where(["status", "feedId"])
+    .equals(["unread", feedId])
+    .count();
+}
+
+// 获取订阅源收藏文章数量
+async function getStarredCount(feedId) {
+  return db.articles.where(["starred", "feedId"]).equals([1, feedId]).count();
+}
+
+// 获取文章总数
+async function getArticlesCount(feedIds, filter = "all") {
+  let query;
+
+  switch (filter) {
+    case "unread":
+      query = db.articles
+        .where("feedId")
+        .anyOf(feedIds)
+        .and((article) => article.status === "unread");
+      break;
+    case "starred":
+      query = db.articles
+        .where("feedId")
+        .anyOf(feedIds)
+        .and((article) => article.starred === 1);
+      break;
+    default:
+      query = db.articles
+        .where("feedId")
+        .anyOf(feedIds)
+        .and((article) => article.status !== "removed");
+      break;
   }
 
-  // 获取文章列表
-  async getArticles(feedId = null, status = null) {
-    const tx = this.db.transaction("articles", "readonly");
-    const store = tx.objectStore("articles");
+  return query.count();
+}
 
-    return new Promise((resolve, reject) => {
-      let request;
+// 分页获取文章
+async function getArticlesByPage(
+  feedIds,
+  filter = "all",
+  page = 1,
+  pageSize = 30,
+  sortDirection = "desc",
+) {
+  const offset = (page - 1) * pageSize;
 
-      if (feedId) {
-        const index = store.index("feedId");
-        request = index.getAll(feedId);
-      } else if (status) {
-        const index = store.index("status");
-        request = index.getAll(status);
-      } else {
-        request = store.getAll();
+  // 创建基础查询
+  let collection;
+
+  // 先应用过滤条件
+  switch (filter) {
+    case "unread":
+      collection = db.articles
+        .where("status")
+        .equals("unread")
+        .and((article) => feedIds.includes(article.feedId));
+      break;
+    case "starred":
+      collection = db.articles
+        .where("starred")
+        .equals(1)
+        .and((article) => feedIds.includes(article.feedId));
+      break;
+    default:
+      collection = db.articles
+        .where("feedId")
+        .anyOf(feedIds)
+        .and((article) => article.status !== "removed");
+  }
+
+  // 在过滤后的结果上进行排序
+  collection = collection.sortBy("created_at");
+
+  // 如果需要倒序，则反转结果
+  return sortDirection === "desc"
+    ? (await collection).reverse().slice(offset, offset + pageSize)
+    : (await collection).slice(offset, offset + pageSize);
+}
+
+// 获取文章详情
+async function getArticleById(id) {
+  const article = await db.articles.get(parseInt(id));
+
+  if (!article) {
+    return null;
+  }
+
+  // 获取文章对应的订阅源
+  const feed = await db.feeds.get(article.feedId);
+
+  return {
+    ...article,
+    feed: feed,
+  };
+}
+
+async function searchArticles(keyword, showHiddenFeeds = false) {
+  try {
+    // 获取所有订阅源
+    const feeds = await db.feeds.toArray();
+
+    // 获取未隐藏的订阅源ID列表
+    const visibleFeedIds = feeds
+      .filter((feed) => showHiddenFeeds || !feed.hide_globally)
+      .map((feed) => feed.id);
+
+    // 获取所有文章
+    const articles = await db.articles.toArray();
+    const searchText = keyword.toLowerCase();
+
+    // 在标题和内容中搜索关键词,同时过滤隐藏的订阅源
+    const results = articles.filter((article) => {
+      // 首先检查文章是否来自可见的订阅源
+      if (!visibleFeedIds.includes(article.feedId)) {
+        return false;
       }
 
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
+      const titleMatch = article.title?.toLowerCase().includes(searchText);
+      const contentMatch = article.plainContent
+        ?.toLowerCase()
+        .includes(searchText);
+      return titleMatch || contentMatch;
     });
-  }
 
-  // 添加订阅源
-  async addFeed(feed) {
-    const tx = this.db.transaction("feeds", "readwrite");
-    const store = tx.objectStore("feeds");
+    // 按时间倒序排序
+    results.sort((a, b) => b.created_at.localeCompare(a.created_at));
 
-    return new Promise((resolve, reject) => {
-      const request = store.put(feed);
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
-    });
-  }
-
-  // 获取所有订阅源
-  async getFeeds() {
-    const tx = this.db.transaction("feeds", "readonly");
-    const store = tx.objectStore("feeds");
-
-    return new Promise((resolve, reject) => {
-      const request = store.getAll();
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
-    });
-  }
-
-  // 存储上次同步时间
-  setLastSyncTime(time) {
-    localStorage.setItem("lastSyncTime", time.toISOString());
-  }
-
-  // 获取上次同步时间
-  getLastSyncTime() {
-    const time = localStorage.getItem("lastSyncTime");
-    return time ? new Date(time) : null;
-  }
-
-  // 获取订阅源未读文章数量
-  async getUnreadCount(feedId) {
-    const tx = this.db.transaction("articles", "readonly");
-    const store = tx.objectStore("articles");
-    const index = store.index("status_feedId");
-
-    return new Promise((resolve, reject) => {
-      const request = index.count(["unread", feedId]);
-      request.onsuccess = () => {
-        const unreadCount = request.result;
-        resolve(unreadCount);
-      };
-      request.onerror = () => reject(request.error);
-    });
-  }
-
-  // 删除数据库中的订阅源
-  async deleteFeed(feedId) {
-    const tx = this.db.transaction("feeds", "readwrite");
-    const store = tx.objectStore("feeds");
-
-    return new Promise((resolve, reject) => {
-      const request = store.delete(feedId);
-      request.onsuccess = () => resolve();
-      request.onerror = () => reject(request.error);
-    });
-  }
-
-  // 删除全部订阅源
-  async deleteAllFeeds() {
-    const tx = this.db.transaction("feeds", "readwrite");
-    const store = tx.objectStore("feeds");
-    await store.clear();
-  }
-
-  // 删除数据库中指定订阅源的所有文章
-  async deleteArticlesByFeedId(feedId) {
-    const tx = this.db.transaction("articles", "readwrite");
-    const store = tx.objectStore("articles");
-    const index = store.index("feedId");
-
-    return new Promise((resolve, reject) => {
-      const request = index.getAllKeys(feedId);
-
-      request.onsuccess = async () => {
-        const articleIds = request.result;
-        for (const articleId of articleIds) {
-          await store.delete(articleId);
-        }
-        resolve();
-      };
-
-      request.onerror = () => reject(request.error);
-    });
-  }
-
-  // 获取订阅源收藏文章数量
-  async getStarredCount(feedId) {
-    const tx = this.db.transaction("articles", "readonly");
-    const store = tx.objectStore("articles");
-    const index = store.index("starred_feedId");
-
-    return new Promise((resolve, reject) => {
-      const request = index.count([1, feedId]);
-      request.onsuccess = () => {
-        const starredCount = request.result;
-        resolve(starredCount);
-      };
-      request.onerror = () => reject(request.error);
-    });
-  }
-
-  // 添加分类
-  async addCategory(category) {
-    const tx = this.db.transaction("categories", "readwrite");
-    const store = tx.objectStore("categories");
-
-    return new Promise((resolve, reject) => {
-      const request = store.put(category);
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
-    });
-  }
-
-  // 获取所有分类
-  async getCategories() {
-    const tx = this.db.transaction("categories", "readonly");
-    const store = tx.objectStore("categories");
-
-    return new Promise((resolve, reject) => {
-      const request = store.getAll();
-      request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error);
-    });
-  }
-
-  // 删除全部分类
-  async deleteAllCategories() {
-    const tx = this.db.transaction("categories", "readwrite");
-    const store = tx.objectStore("categories");
-    await store.clear();
-  }
-
-  // 获取文章总数
-  async getArticlesCount(feedIds, filter = "all") {
-    const tx = this.db.transaction("articles", "readonly");
-    const store = tx.objectStore("articles");
-
-    return new Promise((resolve, reject) => {
-      let totalCount = 0;
-      let completedQueries = 0;
-
-      // 为每个 feedId 执行查询
-      feedIds.forEach((feedId) => {
-        let request;
-        const statusIndex = store.index("status_feedId");
-        const starredIndex = store.index("starred_feedId");
-        const feedIndex = store.index("feedId");
-
-        switch (filter) {
-          case "unread":
-            request = statusIndex.count(["unread", feedId]);
-            break;
-          case "starred":
-            request = starredIndex.count([1, feedId]);
-            break;
-          default:
-            request = feedIndex.count(feedId);
-        }
-
-        request.onsuccess = () => {
-          totalCount += request.result;
-          completedQueries++;
-
-          // 当所有查询完成时返回总数
-          if (completedQueries === feedIds.length) {
-            resolve(totalCount);
-          }
-        };
-
-        request.onerror = () => reject(request.error);
-      });
-    });
-  }
-
-  // 分页获取文章
-  async getArticlesByPage(
-    feedIds,
-    filter = "all",
-    page = 1,
-    pageSize = 30,
-    sortDirection = "desc",
-  ) {
-    const tx = this.db.transaction("articles", "readonly");
-    const store = tx.objectStore("articles");
-    const index = store.index("feedId");
-
-    return new Promise((resolve, reject) => {
-      const request = index.getAll();
-      request.onsuccess = () => {
-        let articles = request.result.filter((article) =>
-          feedIds.includes(article.feedId),
-        );
-
-        // 根据筛选条件过滤
-        switch (filter) {
-          case "unread":
-            articles = articles.filter((article) => article.status !== "read");
-            break;
-          case "starred":
-            articles = articles.filter((article) => article.starred);
-            break;
-        }
-
-        // 排序
-        articles.sort((a, b) => {
-          const direction = sortDirection === "desc" ? 1 : -1;
-          return direction * (b.created_at.localeCompare(a.created_at));
-        });
-
-        // 分页
-        const start = (page - 1) * pageSize;
-        const end = start + pageSize;
-        resolve(articles.slice(start, end));
-      };
-      request.onerror = () => reject(request.error);
-    });
-  }
-
-  // 根据id获取文章
-  async getArticleById(id) {
-    await this.init();
-    const tx = this.db.transaction(["articles", "feeds"], "readonly");
-    const articlesStore = tx.objectStore("articles");
-    const feedsStore = tx.objectStore("feeds");
-
-    return new Promise((resolve, reject) => {
-      const articleRequest = articlesStore.get(parseInt(id));
-
-      articleRequest.onsuccess = () => {
-        const article = articleRequest.result;
-        if (!article) {
-          resolve(null);
-          return;
-        }
-
-        const feedRequest = feedsStore.get(article.feedId);
-        feedRequest.onsuccess = () => {
-          const feed = feedRequest.result;
-          resolve({
-            ...article,
-            feed: {
-              ...feed,
-            },
-          });
-        };
-        feedRequest.onerror = () => reject(feedRequest.error);
-      };
-
-      articleRequest.onerror = () => reject(articleRequest.error);
-    });
-  }
-
-  async searchArticles(keyword, showHiddenFeeds = false) {
-    const tx = this.db.transaction(["articles", "feeds"], "readonly");
-    const articlesStore = tx.objectStore("articles");
-    const feedsStore = tx.objectStore("feeds");
-
-    return new Promise((resolve, reject) => {
-      const feedsRequest = feedsStore.getAll();
-      
-      feedsRequest.onsuccess = () => {
-        const feeds = feedsRequest.result;
-        // 获取未隐藏的订阅源ID列表
-        const visibleFeedIds = feeds
-          .filter(feed => showHiddenFeeds || !feed.hide_globally)
-          .map(feed => feed.id);
-
-        const articlesRequest = articlesStore.getAll();
-        
-        articlesRequest.onsuccess = () => {
-          const articles = articlesRequest.result;
-          const searchText = keyword.toLowerCase();
-
-          // 在标题和内容中搜索关键词,同时过滤隐藏的订阅源
-          const results = articles.filter(article => {
-            // 首先检查文章是否来自可见的订阅源
-            if (!visibleFeedIds.includes(article.feedId)) {
-              return false;
-            }
-            
-            const titleMatch = article.title?.toLowerCase().includes(searchText);
-            const contentMatch = article.plainContent?.toLowerCase().includes(searchText);
-            return titleMatch || contentMatch;
-          });
-
-          // 按时间倒序排序
-          results.sort((a, b) => b.created_at.localeCompare(a.created_at));
-          
-          resolve(results);
-        };
-        
-        articlesRequest.onerror = () => reject(articlesRequest.error);
-      };
-      
-      feedsRequest.onerror = () => reject(feedsRequest.error);
-    });
+    return results;
+  } catch (error) {
+    console.error("搜索文章失败:", error);
+    throw error;
   }
 }
 
-export default new Storage();
+export {
+  addFeed,
+  getFeeds,
+  deleteAllFeeds,
+  addCategory,
+  getCategories,
+  deleteAllCategory,
+  setLastSyncTime,
+  getLastSyncTime,
+  addArticles,
+  deleteArticlesByFeedId,
+  getUnreadCount,
+  getStarredCount,
+  getArticlesCount,
+  getArticlesByPage,
+  getArticleById,
+  searchArticles,
+};

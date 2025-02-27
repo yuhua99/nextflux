@@ -1,6 +1,6 @@
 import { atom } from "nanostores";
 import minifluxAPI from "../api/miniflux";
-import storage from "../db/storage";
+import { getFeeds, addArticles, deleteArticlesByFeedId, getLastSyncTime, setLastSyncTime, addFeed, addCategory, deleteAllFeeds, deleteAllCategory } from "../db/storage";
 import { extractTextFromHtml } from "@/lib/utils.js";
 import { settingsState } from "./settingsStore";
 
@@ -29,10 +29,9 @@ async function syncFeeds() {
       minifluxAPI.getFeeds(),
       minifluxAPI.getCategories(),
     ]);
-    await storage.init();
 
     // 获取本地数据库中的所有订阅源
-    const localFeeds = await storage.getFeeds();
+    const localFeeds = await getFeeds();
 
     // 找出需要删除的订阅源（在本地存在但服务器上已不存在）
     const serverFeedIds = new Set(serverFeeds.map((feed) => feed.id));
@@ -42,18 +41,18 @@ async function syncFeeds() {
 
     // 删除该订阅源的所有文章
     for (const feed of feedsToDelete) {
-      await storage.deleteArticlesByFeedId(feed.id);
+      await deleteArticlesByFeedId(feed.id);
     }
 
     // 清空本地订阅源和分类数据
     await Promise.all([
-      storage.deleteAllFeeds(),
-      storage.deleteAllCategories(),
+      deleteAllFeeds(),
+      deleteAllCategory(),
     ]);
 
     // 同步分类数据
     for (const category of serverCategories) {
-      await storage.addCategory({
+      await addCategory({
         id: category.id,
         title: category.title,
       });
@@ -61,7 +60,7 @@ async function syncFeeds() {
 
     // 重置现有订阅源
     for (const feed of serverFeeds) {
-      await storage.addFeed({
+      await addFeed({
         id: feed.id,
         title: feed.title,
         url: feed.feed_url,
@@ -87,7 +86,7 @@ async function syncFeeds() {
 // 从miniflux同步文章并保存到数据库
 async function syncEntries() {
   try {
-    const lastSyncTime = storage.getLastSyncTime();
+    const lastSyncTime = getLastSyncTime();
     const oneDayAgo = new Date(lastSyncTime);
     oneDayAgo.setHours(oneDayAgo.getHours() - 24);
 
@@ -115,7 +114,7 @@ async function syncEntries() {
 
       // 批量保存到数据库
       if (allEntries.length > 0) {
-        await storage.addArticles(
+          await addArticles(
           allEntries.map((entry) => ({
             id: entry.id,
             feedId: entry.feed.id,
@@ -150,7 +149,7 @@ async function syncEntries() {
 
       // 批量保存到数据库
       if (allEntries.length > 0) {
-        await storage.addArticles(
+        await addArticles(
           allEntries.map((entry) => ({
             id: entry.id,
             feedId: entry.feed.id,
@@ -192,7 +191,7 @@ export async function sync() {
     await syncEntries();
     // 设置最后同步时间
     const now = new Date();
-    storage.setLastSyncTime(now);
+    setLastSyncTime(now);
     lastSync.set(now);
   } catch (err) {
     error.set(err);
@@ -246,7 +245,7 @@ export function stopAutoSync() {
 async function performSync() {
   if (isOnline.get() && !isSyncing.get()) {
     try {
-      const lastSyncTime = storage.getLastSyncTime();
+      const lastSyncTime = getLastSyncTime();
       const now = new Date();
       const interval = parseInt(settingsState.get().syncInterval);
 

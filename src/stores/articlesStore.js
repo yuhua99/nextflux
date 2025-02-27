@@ -1,5 +1,5 @@
 import { atom } from "nanostores";
-import storage from "../db/storage";
+import { getFeeds, getArticlesCount, getArticlesByPage, addArticles, getUnreadCount, getStarredCount } from "../db/storage";
 import minifluxAPI from "../api/miniflux";
 import { starredCounts, unreadCounts } from "./feedsStore.js";
 import { settingsState } from "./settingsStore";
@@ -29,8 +29,7 @@ export async function loadArticles(
   error.set(null);
 
   try {
-    await storage.init();
-    const feeds = await storage.getFeeds();
+    const feeds = await getFeeds();
     const showHiddenFeeds = settingsState.get().showHiddenFeeds;
     let targetFeeds;
 
@@ -54,13 +53,13 @@ export async function loadArticles(
     }
 
     // 获取目标订阅源的文章总数
-    const total = await storage.getArticlesCount(
+    const total = await getArticlesCount(
       targetFeeds.map((feed) => feed.id),
       filter.get(),
     );
 
     // 分页获取文章
-    const articles = await storage.getArticlesByPage(
+    const articles = await getArticlesByPage(
       targetFeeds.map((feed) => feed.id),
       filter.get(),
       page,
@@ -117,7 +116,7 @@ export async function updateArticleStatus(article) {
       // 如果在线则更新服务器
       navigator.onLine && minifluxAPI.updateEntryStatus(article),
       // 更新本地数据库
-      storage.addArticles([
+      addArticles([
         {
           ...article,
           status: newStatus,
@@ -125,7 +124,7 @@ export async function updateArticleStatus(article) {
       ]),
       // 更新未读计数
       (async () => {
-        const count = await storage.getUnreadCount(article.feedId);
+        const count = await getUnreadCount(article.feedId);
         const currentCounts = unreadCounts.get();
         unreadCounts.set({
           ...currentCounts,
@@ -166,7 +165,7 @@ export async function updateArticleStarred(article) {
       // 如果在线则更新服务器
       navigator.onLine && minifluxAPI.updateEntryStarred(article),
       // 更新本地数据库
-      storage.addArticles([
+      addArticles([
         {
           ...article,
           starred: newStarred,
@@ -174,7 +173,7 @@ export async function updateArticleStarred(article) {
       ]),
       // 更新收藏计数
       (async () => {
-        const count = await storage.getStarredCount(article.feedId);
+        const count = await getStarredCount(article.feedId);
         const currentCounts = starredCounts.get();
         starredCounts.set({
           ...currentCounts,
@@ -234,7 +233,7 @@ export async function markAllAsRead(type = "all", id = null) {
         navigator.onLine && minifluxAPI.markAllAsRead(type, id),
 
         // 更新本地数据库
-        storage.addArticles(
+        addArticles(
           affectedArticles.map((article) => ({
             ...article,
             status: "read",
@@ -248,7 +247,7 @@ export async function markAllAsRead(type = "all", id = null) {
 
           // 并行获取所有订阅源的未读计数
           const unreadCountsArray = await Promise.all(
-            feedIds.map((feedId) => storage.getUnreadCount(feedId)),
+            feedIds.map((feedId) => getUnreadCount(feedId)),
           );
 
           // 组装未读计数对象
