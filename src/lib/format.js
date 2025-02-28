@@ -15,6 +15,7 @@ const DAYJS_LOCALE_MAP = {
   "zh-CN": "zh-cn",
   "en-US": "en",
   "tr-TR": "tr",
+  "fr-FR": "fr",
   // 可以添加更多语言映射
   // 'ja-JP': 'ja',
   // 'ko-KR': 'ko',
@@ -47,6 +48,14 @@ const DATE_FORMAT_MAP = {
       sameElse: "YYYY-MM-DD HH:mm",
     },
     fullDate: "dddd, MMMM D, YYYY HH:mm",
+  },
+  "fr-FR": {
+    calendar: {
+      sameDay: "[Aujourd'hui à] HH:mm",
+      lastDay: "[Hier à] HH:mm",
+      sameElse: "YYYY-MM-DD HH:mm",
+    },
+    fullDate: "dddd D MMMM YYYY HH:mm",
   },
 };
 

@@ -11,7 +11,7 @@ A modern RSS reader client for [Miniflux](https://github.com/miniflux/v2) built 
 - 🔄 Automatic background sync with configurable intervals
 - 📱 Mobile-friendly with PWA support
 - 🌙 Light/Dark mode with multiple theme options
-- 🌍 i18n support (English & Chinese & Turkish)
+- 🌍 i18n support (English & Chinese & Turkish & French)
 - 👀 Mark as read on scroll
 - 🎯 Rich reading experience
     - Custom font settings
@@ -182,6 +182,8 @@ There are so many chrome extensions that can do this. I'm not sure if I want to 
 ### Contributor
 
 - 🇹🇷 Turkish: [@TaylanTatli](https://github.com/TaylanTatli)
+
+- 🇫🇷 French: [@quent1-fr](https://github.com/quent1-fr)
 
 
 
