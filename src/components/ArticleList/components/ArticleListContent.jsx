@@ -7,6 +7,7 @@ import {
   currentPage,
   loadingMore,
   loading,
+  filteredArticles,
 } from "@/stores/articlesStore.js";
 import { useStore } from "@nanostores/react";
 import { Virtuoso } from "react-virtuoso";
@@ -18,7 +19,7 @@ import { handleMarkAllRead } from "@/handlers/articleHandlers";
 import { isSyncing, lastSync } from "@/stores/syncStore.js";
 import { useTranslation } from "react-i18next";
 import { settingsState } from "@/stores/settingsStore.js";
-import { loadArticles, filteredArticles } from "@/stores/articlesStore";
+import { loadArticles } from "@/stores/articlesStore";
 
 const ArticleItem = memo(({ article, isLast }) => (
   <div className="mx-2">
@@ -45,31 +46,32 @@ export default function ArticleListContent({ articles }) {
   const $loading = useStore(loading);
   const $loadingMore = useStore(loadingMore);
   const $lastSync = useStore(lastSync);
-  const { sortDirection, showHiddenFeeds } =
-    useStore(settingsState);
-    const [visibleRange, setVisibleRange] = useState({
-      startIndex: 0,
-      endIndex: 0,
-    })
 
-    const loadAndFilterArticles = () => {
+  const [visibleRange, setVisibleRange] = useState({
+    startIndex: 0,
+    endIndex: 0,
+  });
+
+  useEffect(() => {
+    const handleFetchArticles = async () => {
       filteredArticles.set([]);
-      if (feedId) {
-        loadArticles(feedId, "feed");
-      } else if (categoryId) {
-        loadArticles(categoryId, "category");
-      } else {
-        loadArticles();
+      loading.set(true);
+      try {
+        const res = await loadArticles(
+          feedId || categoryId,
+          feedId ? "feed" : categoryId ? "category" : null,
+        );
+        filteredArticles.set(res.articles);
+        hasMore.set(res.isMore);
+        currentPage.set(1);
+        loading.set(false);
+      } catch {
+        console.error("加载文章失败");
+        loading.set(false);
       }
     };
-
-  useEffect(() => {
-      loadAndFilterArticles();
-  }, [feedId, categoryId, $filter, sortDirection, showHiddenFeeds]);
-
-  useEffect(() => {
     if (visibleRange.startIndex === 0) {
-      loadAndFilterArticles();
+      handleFetchArticles();
     }
   }, [$lastSync]);
 
@@ -131,7 +133,7 @@ export default function ArticleListContent({ articles }) {
               ref={listRef}
               className="v-list h-full"
               rangeChanged={setVisibleRange}
-              overscan={{main:5, reverse:0}}
+              overscan={{ main: 5, reverse: 0 }}
               data={articles}
               context={{
                 feedId,

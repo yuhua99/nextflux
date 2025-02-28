@@ -1,5 +1,12 @@
 import { atom } from "nanostores";
-import { getFeeds, getArticlesCount, getArticlesByPage, addArticles, getUnreadCount, getStarredCount } from "../db/storage";
+import {
+  getFeeds,
+  getArticlesCount,
+  getArticlesByPage,
+  addArticles,
+  getUnreadCount,
+  getStarredCount,
+} from "../db/storage";
 import minifluxAPI from "../api/miniflux";
 import { starredCounts, unreadCounts } from "./feedsStore.js";
 import { settingsState } from "./settingsStore";
@@ -23,9 +30,6 @@ export async function loadArticles(
   page = 1,
   append = false,
 ) {
-  if (!append) {
-    loading.set(true); // 仅在非追加模式时设置loading
-  }
   error.set(null);
 
   try {
@@ -79,23 +83,20 @@ export async function loadArticles(
       };
     });
 
-    // 更新分页状态
-    hasMore.set(articles.length === pageSize.get());
-    currentPage.set(page);
+    // 计算分页状态
+    const isMore = articles.length === pageSize.get();
 
     // 根据是否追加来更新文章列表
     if (append) {
       filteredArticles.set([...filteredArticles.get(), ...articlesWithFeed]);
-    } else {
-      filteredArticles.set(articlesWithFeed);
+      hasMore.set(isMore);
+      currentPage.set(page);
     }
 
-    return { articles: articlesWithFeed, total };
+    return { articles: articlesWithFeed, total, isMore };
   } catch (err) {
     console.error("加载文章失败:", err);
     error.set("加载文章失败");
-  } finally {
-    loading.set(false);
   }
 }
 
