@@ -113,7 +113,7 @@ const FeedsGroupContent = ({ category }) => {
                       to={`/feed/${feed.id}`}
                       onClick={() => isMobile && setOpenMobile(false)}
                     >
-                      <FeedIcon url={feed.site_url} />
+                      <FeedIcon feedId={feed.id} />
                       <span className="flex-1 flex items-center gap-1">
                         {feed.parsing_error_count > 0 && (
                           <span className="text-warning">

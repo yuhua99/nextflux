@@ -2,7 +2,7 @@ import { atom } from "nanostores";
 import { debounce } from "lodash";
 import { feeds } from "@/stores/feedsStore";
 import { settingsState } from "@/stores/settingsStore";
-import storage from "@/db/storage";
+import { searchArticles } from "@/db/storage";
 
 export const searchResults = atom([]);
 export const feedSearchResults = atom([]);
@@ -20,7 +20,7 @@ export const debouncedSearch = debounce(
     try {
       searching.set(true);
       searchError.set(null);
-      const articles = await storage.searchArticles(query, settingsState.get().showHiddenFeeds);
+      const articles = await searchArticles(query, settingsState.get().showHiddenFeeds);
 
       searchResults.set(articles);
     } catch (error) {

@@ -1,6 +1,16 @@
 import { atom } from "nanostores";
 import minifluxAPI from "../api/miniflux";
-import storage from "../db/storage";
+import {
+  getFeeds,
+  addArticles,
+  deleteArticlesByFeedId,
+  getLastSyncTime,
+  setLastSyncTime,
+  addFeed,
+  addCategory,
+  deleteAllFeeds,
+  deleteAllCategory,
+} from "../db/storage";
 import { extractTextFromHtml } from "@/lib/utils.js";
 import { settingsState } from "./settingsStore";
 
@@ -29,10 +39,9 @@ async function syncFeeds() {
       minifluxAPI.getFeeds(),
       minifluxAPI.getCategories(),
     ]);
-    await storage.init();
 
     // 获取本地数据库中的所有订阅源
-    const localFeeds = await storage.getFeeds();
+    const localFeeds = await getFeeds();
 
     // 找出需要删除的订阅源（在本地存在但服务器上已不存在）
     const serverFeedIds = new Set(serverFeeds.map((feed) => feed.id));
@@ -42,18 +51,15 @@ async function syncFeeds() {
 
     // 删除该订阅源的所有文章
     for (const feed of feedsToDelete) {
-      await storage.deleteArticlesByFeedId(feed.id);
+      await deleteArticlesByFeedId(feed.id);
     }
 
     // 清空本地订阅源和分类数据
-    await Promise.all([
-      storage.deleteAllFeeds(),
-      storage.deleteAllCategories(),
-    ]);
+    await Promise.all([deleteAllFeeds(), deleteAllCategory()]);
 
     // 同步分类数据
     for (const category of serverCategories) {
-      await storage.addCategory({
+      await addCategory({
         id: category.id,
         title: category.title,
       });
@@ -61,7 +67,7 @@ async function syncFeeds() {
 
     // 重置现有订阅源
     for (const feed of serverFeeds) {
-      await storage.addFeed({
+      await addFeed({
         id: feed.id,
         title: feed.title,
         url: feed.feed_url,
@@ -87,36 +93,27 @@ async function syncFeeds() {
 // 从miniflux同步文章并保存到数据库
 async function syncEntries() {
   try {
-    const lastSyncTime = storage.getLastSyncTime();
+    const lastSyncTime = getLastSyncTime();
     const oneDayAgo = new Date(lastSyncTime);
     oneDayAgo.setHours(oneDayAgo.getHours() - 24);
 
     if (!lastSyncTime) {
-      // 首次同步时一次性获取所有未读文章
-      const response = await minifluxAPI.client.get("/v1/entries", {
-        params: {
-          status: "unread",
-          direction: "desc",
-          limit: 0,
-        },
-      });
-      const unreadEntries = response.data.entries;
+      // 首次同步时分页获取所有未读文章
+      let offset = 0;
+      const limit = 5000; // 每页5000条
 
-      // 获取所有星标文章
-      const starredEntries = await minifluxAPI.getAllStarredEntries();
+      // 先获取总数
+      const initialResponse = await minifluxAPI.getUnreadEntriesByPage(0, 1);
+      const total = initialResponse.total;
 
-      // 合并去重
-      const allEntries = [...unreadEntries];
-      for (const entry of starredEntries) {
-        if (!allEntries.find((e) => e.id === entry.id)) {
-          allEntries.push(entry);
-        }
-      }
-
-      // 批量保存到数据库
-      if (allEntries.length > 0) {
-        await storage.addArticles(
-          allEntries.map((entry) => ({
+      // 分页获取所有未读文章
+      while (offset < total) {
+        const response = await minifluxAPI.getUnreadEntriesByPage(
+          offset,
+          limit,
+        );
+        await addArticles(
+          response.entries.map((entry) => ({
             id: entry.id,
             feedId: entry.feed.id,
             title: entry.title,
@@ -132,7 +129,33 @@ async function syncEntries() {
             enclosures: entry.enclosures || [],
           })),
         );
+        offset += limit;
+
+        // 更新同步进度
+        const progress = Math.min(100, Math.round((offset / total) * 100));
+        console.log(`同步进度: ${progress}%`);
       }
+
+      // 获取所有已读星标文章
+      const starredEntries = await minifluxAPI.getAllStarredEntries();
+
+      await addArticles(
+        starredEntries.map((entry) => ({
+          id: entry.id,
+          feedId: entry.feed.id,
+          title: entry.title,
+          author: entry.author,
+          url: entry.url,
+          content: entry.content,
+          plainContent: extractTextFromHtml(entry.content),
+          status: entry.status,
+          starred: entry.starred ? 1 : 0,
+          published_at: entry.published_at,
+          created_at: entry.created_at,
+          reading_time: entry.reading_time,
+          enclosures: entry.enclosures || [],
+        })),
+      );
     } else {
       // 增量同步 - 并行获取变更和新文章
       const [changedEntries, newEntries] = await Promise.all([
@@ -150,7 +173,7 @@ async function syncEntries() {
 
       // 批量保存到数据库
       if (allEntries.length > 0) {
-        await storage.addArticles(
+        await addArticles(
           allEntries.map((entry) => ({
             id: entry.id,
             feedId: entry.feed.id,
@@ -192,7 +215,7 @@ export async function sync() {
     await syncEntries();
     // 设置最后同步时间
     const now = new Date();
-    storage.setLastSyncTime(now);
+    setLastSyncTime(now);
     lastSync.set(now);
   } catch (err) {
     error.set(err);
@@ -246,7 +269,7 @@ export function stopAutoSync() {
 async function performSync() {
   if (isOnline.get() && !isSyncing.get()) {
     try {
-      const lastSyncTime = storage.getLastSyncTime();
+      const lastSyncTime = getLastSyncTime();
       const now = new Date();
       const interval = parseInt(settingsState.get().syncInterval);
 
