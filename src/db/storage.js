@@ -24,8 +24,8 @@ db.open().catch((err) => {
 });
 
 // 添加订阅源
-async function addFeed(feed) {
-  return db.feeds.put(feed);
+async function addFeeds(feeds) {
+  return db.feeds.bulkPut(feeds);
 }
 
 // 获取所有订阅源
@@ -177,36 +177,23 @@ async function getArticleById(id) {
 
 async function searchArticles(keyword, showHiddenFeeds = false) {
   try {
-    // 获取所有订阅源
+    // 获取可见的订阅源ID
     const feeds = await db.feeds.toArray();
-
-    // 获取未隐藏的订阅源ID列表
     const visibleFeedIds = feeds
       .filter((feed) => showHiddenFeeds || !feed.hide_globally)
       .map((feed) => feed.id);
 
-    // 获取所有文章
-    const articles = await db.articles.toArray();
-    const searchText = keyword.toLowerCase();
+    const articles = await db.articles
+      .where("feedId")
+      .anyOf(visibleFeedIds)
+      .filter(
+        (article) =>
+          article.title &&
+          article.title.toLowerCase().includes(keyword.toLowerCase()),
+      )
+      .sortBy("created_at");
 
-    // 在标题和内容中搜索关键词,同时过滤隐藏的订阅源
-    const results = articles.filter((article) => {
-      // 首先检查文章是否来自可见的订阅源
-      if (!visibleFeedIds.includes(article.feedId)) {
-        return false;
-      }
-
-      const titleMatch = article.title?.toLowerCase().includes(searchText);
-      const contentMatch = article.plainContent
-        ?.toLowerCase()
-        .includes(searchText);
-      return titleMatch || contentMatch;
-    });
-
-    // 按时间倒序排序
-    results.sort((a, b) => b.created_at.localeCompare(a.created_at));
-
-    return results;
+    return articles.reverse();
   } catch (error) {
     console.error("搜索文章失败:", error);
     throw error;
@@ -227,7 +214,7 @@ async function setFeedIcon(feedIcon) {
 }
 
 export {
-  addFeed,
+  addFeeds,
   getFeeds,
   deleteAllFeeds,
   addCategory,

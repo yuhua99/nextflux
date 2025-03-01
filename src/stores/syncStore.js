@@ -6,7 +6,7 @@ import {
   deleteArticlesByFeedId,
   getLastSyncTime,
   setLastSyncTime,
-  addFeed,
+  addFeeds,
   addCategory,
   deleteAllFeeds,
   deleteAllCategory,
@@ -24,6 +24,11 @@ export const error = atom(null);
 
 // 全局定时器变量
 let syncInterval = null;
+
+const SYNC_CONFIG = {
+  BATCH_SIZE: 5000,
+  HISTORY_WINDOW: 24, // 历史同步窗口（小时）
+};
 
 // 监听在线状态
 if (typeof window !== "undefined") {
@@ -65,9 +70,8 @@ async function syncFeeds() {
       });
     }
 
-    // 重置现有订阅源
-    for (const feed of serverFeeds) {
-      await addFeed({
+    await addFeeds(
+      serverFeeds.map((feed) => ({
         id: feed.id,
         title: feed.title,
         url: feed.feed_url,
@@ -80,121 +84,87 @@ async function syncFeeds() {
         keeplist_rules: feed.keeplist_rules,
         blocklist_rules: feed.blocklist_rules,
         rewrite_rules: feed.rewrite_rules,
-      });
-    }
-
-    return serverFeeds;
+      })),
+    );
   } catch (error) {
     console.error("同步订阅源失败:", error);
     throw error;
   }
 }
 
-// 从miniflux同步文章并保存到数据库
+// 文章映射逻辑
+const mapEntryToArticle = (entry) => ({
+  id: entry.id,
+  feedId: entry.feed?.id,
+  title: entry.title,
+  author: entry.author,
+  url: entry.url,
+  content: entry.content,
+  plainContent: extractTextFromHtml(entry.content.slice(0, 300)),
+  status: entry.status,
+  starred: entry.starred ? 1 : 0,
+  published_at: entry.published_at,
+  created_at: entry.created_at,
+  reading_time: entry.reading_time,
+  enclosures: entry.enclosures || [],
+});
+
+// 同步文章
 async function syncEntries() {
   try {
     const lastSyncTime = getLastSyncTime();
     const oneDayAgo = new Date(lastSyncTime);
-    oneDayAgo.setHours(oneDayAgo.getHours() - 24);
+    oneDayAgo.setHours(oneDayAgo.getHours() - SYNC_CONFIG.HISTORY_WINDOW);
 
     if (!lastSyncTime) {
-      // 首次同步时分页获取所有未读文章
-      let offset = 0;
-      const limit = 5000; // 每页5000条
-
-      // 先获取总数
-      const initialResponse = await minifluxAPI.getUnreadEntriesByPage(0, 1);
-      const total = initialResponse.total;
-
-      // 分页获取所有未读文章
-      while (offset < total) {
-        const response = await minifluxAPI.getUnreadEntriesByPage(
-          offset,
-          limit,
-        );
-        await addArticles(
-          response.entries.map((entry) => ({
-            id: entry.id,
-            feedId: entry.feed.id,
-            title: entry.title,
-            author: entry.author,
-            url: entry.url,
-            content: entry.content,
-            plainContent: extractTextFromHtml(entry.content),
-            status: entry.status,
-            starred: entry.starred ? 1 : 0,
-            published_at: entry.published_at,
-            created_at: entry.created_at,
-            reading_time: entry.reading_time,
-            enclosures: entry.enclosures || [],
-          })),
-        );
-        offset += limit;
-
-        // 更新同步进度
-        const progress = Math.min(100, Math.round((offset / total) * 100));
-        console.log(`同步进度: ${progress}%`);
-      }
-
-      // 获取所有已读星标文章
-      const starredEntries = await minifluxAPI.getAllStarredEntries();
-
-      await addArticles(
-        starredEntries.map((entry) => ({
-          id: entry.id,
-          feedId: entry.feed.id,
-          title: entry.title,
-          author: entry.author,
-          url: entry.url,
-          content: entry.content,
-          plainContent: extractTextFromHtml(entry.content),
-          status: entry.status,
-          starred: entry.starred ? 1 : 0,
-          published_at: entry.published_at,
-          created_at: entry.created_at,
-          reading_time: entry.reading_time,
-          enclosures: entry.enclosures || [],
-        })),
-      );
+      await handleInitialSync();
     } else {
-      // 增量同步 - 并行获取变更和新文章
-      const [changedEntries, newEntries] = await Promise.all([
-        minifluxAPI.getChangedEntries(oneDayAgo),
-        minifluxAPI.getNewEntries(oneDayAgo),
-      ]);
-
-      // 合并去重
-      const allEntries = [...changedEntries];
-      for (const entry of newEntries) {
-        if (!allEntries.find((e) => e.id === entry.id)) {
-          allEntries.push(entry);
-        }
-      }
-
-      // 批量保存到数据库
-      if (allEntries.length > 0) {
-        await addArticles(
-          allEntries.map((entry) => ({
-            id: entry.id,
-            feedId: entry.feed.id,
-            title: entry.title,
-            author: entry.author,
-            url: entry.url,
-            content: entry.content,
-            plainContent: extractTextFromHtml(entry.content),
-            status: entry.status,
-            starred: entry.starred ? 1 : 0,
-            published_at: entry.published_at,
-            created_at: entry.created_at,
-            reading_time: entry.reading_time,
-            enclosures: entry.enclosures || [],
-          })),
-        );
-      }
+      await handleIncrementalSync(oneDayAgo);
     }
   } catch (error) {
     console.error("同步文章失败:", error);
-    throw error;
+  }
+}
+
+// 文章全量同步
+async function handleInitialSync() {
+  let offset = 0;
+  const { total } = await minifluxAPI.getUnreadEntriesByPage(0, 1);
+
+  while (offset < total) {
+    const { entries } = await minifluxAPI.getUnreadEntriesByPage(
+      offset,
+      SYNC_CONFIG.BATCH_SIZE,
+    );
+    await addArticles(entries.map(mapEntryToArticle));
+    offset += SYNC_CONFIG.BATCH_SIZE;
+  }
+
+  const starredEntries = await minifluxAPI.getAllStarredEntries();
+  await addArticles(starredEntries.map(mapEntryToArticle));
+}
+
+// 文章增量同步
+async function handleIncrementalSync(since) {
+  const [changedEntries, newEntries] = await Promise.all([
+    minifluxAPI.getChangedEntries(since),
+    minifluxAPI.getNewEntries(since),
+  ]);
+
+  const map = new Map();
+  for (const entry of changedEntries) {
+    map.set(entry.id, entry);
+  }
+
+  for (const entry of newEntries) {
+    map.set(entry.id, entry);
+  }
+
+  // 提取去重后的值
+  const uniqueEntries = Array.from(map.values());
+
+  if (uniqueEntries.length > 0) {
+    await addArticles(uniqueEntries.map(mapEntryToArticle));
   }
 }
 
@@ -265,20 +235,24 @@ export function stopAutoSync() {
   window.removeEventListener("beforeunload", stopAutoSync);
 }
 
-// 同步函数
 async function performSync() {
-  if (isOnline.get() && !isSyncing.get()) {
-    try {
-      const lastSyncTime = getLastSyncTime();
-      const now = new Date();
-      const interval = parseInt(settingsState.get().syncInterval);
+  if (!isOnline.get() || isSyncing.get()) return;
 
-      if (!lastSyncTime || now - lastSyncTime > interval * 60 * 1000) {
-        await sync();
-      }
-    } catch (error) {
-      console.error("自动同步失败:", error);
+  try {
+    const lastSyncTime = getLastSyncTime();
+    const now = new Date();
+    const interval = parseInt(settingsState.get().syncInterval);
+
+    if (!interval) {
+      return;
     }
+
+    if (!lastSyncTime || now - lastSyncTime > interval * 60 * 1000) {
+      await sync();
+    }
+  } catch (error) {
+    console.error("自动同步失败:", error);
+    error.set(error);
   }
 }
 
