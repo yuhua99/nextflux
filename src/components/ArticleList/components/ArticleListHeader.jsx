@@ -9,7 +9,7 @@ import MarkAllReadButton from "./MarkAllReadButton";
 import { isSyncing } from "@/stores/syncStore.js";
 import { useTranslation } from "react-i18next";
 import { totalStarredCount, totalUnreadCount, getCategoryCount, getFeedCount } from "@/stores/feedsStore.js";
-
+import MenuButton from "./MenuButton";
 export default function ArticleListHeader() {
   const { feedId, categoryId } = useParams();
   const $filter = useStore(filter);
@@ -85,6 +85,7 @@ export default function ArticleListHeader() {
           </div>
           <div className="ml-auto">
             <MarkAllReadButton />
+            <MenuButton />
           </div>
         </div>
       </div>
