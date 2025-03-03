@@ -10,6 +10,7 @@ import {
   SelectItem,
   Textarea,
   Divider,
+  addToast
 } from "@heroui/react";
 import { useState } from "react";
 import { useStore } from "@nanostores/react";
@@ -132,8 +133,11 @@ export default function AddFeedModal() {
           rewrite_rules: type.rewrite_rules,
         });
       }
-    } catch (error) {
-      console.error("搜索失败:", error);
+    } catch {
+      addToast({
+        title: t("search.searchResultsPlaceholder"),
+        color: "danger",
+      });
       setResults([]);
     } finally {
       setSearching(false);
