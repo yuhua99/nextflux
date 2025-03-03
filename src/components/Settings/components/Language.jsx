@@ -14,6 +14,7 @@ const languages = [
   { id: "zh-CN", name: "简体中文" },
   { id: "en-US", name: "English" },
   { id: "tr-TR", name: "Türkçe" },
+  { id: "fr-FR", name: "Français" },
 ];
 
 export default function Language() {

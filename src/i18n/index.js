@@ -4,6 +4,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import zhCN from "./locales/zh-CN";
 import enUS from "./locales/en-US";
 import trTR from "./locales/tr-TR";
+import frFR from "./locales/fr-FR";
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -17,6 +18,9 @@ i18n
       },
       "tr-TR": {
         translation: trTR,
+      },
+      "fr-FR": {
+        translation: frFR,
       },
     },
     fallbackLng: "en-US",
