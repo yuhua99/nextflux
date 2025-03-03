@@ -1,6 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { Clock, Star } from "lucide-react";
-import { cleanTitle, cn, extractFirstImage } from "@/lib/utils";
+import {
+  cleanTitle,
+  cn,
+  extractFirstImage,
+  extractTextFromHtml,
+} from "@/lib/utils";
 import { formatPublishDate } from "@/lib/format";
 import ArticleCardCover from "./ArticleCardCover.jsx";
 import { handleMarkStatus } from "@/handlers/articleHandlers.js";
@@ -18,15 +23,21 @@ export default function ArticleCard({ article }) {
   const cardRef = useRef(null);
   const {
     markAsReadOnScroll,
-    showTextPreview,
     cardImageSize,
     showFavicon,
     showReadingTime,
+    textPreviewLines,
+    titleLines,
   } = useStore(settingsState);
   const hasBeenVisible = useRef(false);
   const { ripples, onClear, onPress } = useRipple();
 
   const imageUrl = useMemo(() => extractFirstImage(article), [article]);
+
+  const previewContent = useMemo(
+    () => extractTextFromHtml(article.content).slice(0, 300),
+    [article.content],
+  );
 
   useEffect(() => {
     // 如果文章已读或未启用滚动标记已读,则不需要观察
@@ -148,11 +159,18 @@ export default function ArticleCard({ article }) {
             <div className="flex flex-col gap-1 flex-1">
               <h3
                 className={cn(
-                  "card-title text-base font-semibold line-clamp-2 text-wrap break-words break-all",
+                  "card-title text-base font-semibold text-wrap break-words",
                   article.status === "read"
                     ? "text-content2-foreground"
                     : "text-foreground",
                 )}
+                style={{
+                  wordBreak: "break-word",
+                  overflow: "hidden",
+                  display: "-webkit-box",
+                  WebkitBoxOrient: "vertical",
+                  WebkitLineClamp: titleLines === 0 ? "none" : titleLines,
+                }}
               >
                 {cleanTitle(article.title)}
               </h3>
@@ -166,15 +184,20 @@ export default function ArticleCard({ article }) {
                   </span>
                 </div>
               )}
-              {showTextPreview && (
+              {textPreviewLines !== 0 && (
                 <span
                   className={cn(
                     "text-sm text-default-500 text-wrap break-words w-full max-w-full overflow-hidden",
-                    showReadingTime ? "line-clamp-1" : "line-clamp-2",
                   )}
-                  style={{ wordBreak: "break-word" }}
+                  style={{
+                    wordBreak: "break-word",
+                    overflow: "hidden",
+                    display: "-webkit-box",
+                    WebkitBoxOrient: "vertical",
+                    WebkitLineClamp: textPreviewLines,
+                  }}
                 >
-                  {article.plainContent}
+                  {previewContent}
                 </span>
               )}
               {cardImageSize === "large" && (
