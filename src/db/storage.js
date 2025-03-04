@@ -38,6 +38,16 @@ async function deleteAllFeeds() {
   return db.feeds.clear();
 }
 
+// 删除指定的订阅源
+async function deleteFeed(feedId) {
+  return db.feeds.delete(feedId);
+}
+
+// 删除指定的订阅源图标
+async function deleteFeedIcon(feedId) {
+  return db.feedIcons.delete(feedId);
+}
+
 // 添加分类
 async function addCategory(category) {
   return db.categories.put(category);
@@ -227,6 +237,8 @@ export {
   addFeeds,
   getFeeds,
   deleteAllFeeds,
+  deleteFeed,
+  deleteFeedIcon,
   addCategory,
   getCategories,
   deleteAllCategory,

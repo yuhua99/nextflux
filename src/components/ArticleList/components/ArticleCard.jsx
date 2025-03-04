@@ -12,6 +12,7 @@ import { handleMarkStatus } from "@/handlers/articleHandlers.js";
 import { useEffect, useMemo, useRef } from "react";
 import { useStore } from "@nanostores/react";
 import { settingsState } from "@/stores/settingsStore";
+import { feeds } from "@/stores/feedsStore";
 import { Ripple, useRipple } from "@heroui/react";
 import FeedIcon from "@/components/ui/FeedIcon.jsx";
 import { useTranslation } from "react-i18next";
@@ -21,6 +22,7 @@ export default function ArticleCard({ article }) {
   const navigate = useNavigate();
   const { articleId } = useParams();
   const cardRef = useRef(null);
+  const $feeds = useStore(feeds);
   const {
     markAsReadOnScroll,
     cardImageSize,
@@ -33,6 +35,10 @@ export default function ArticleCard({ article }) {
   const { ripples, onClear, onPress } = useRipple();
 
   const imageUrl = useMemo(() => extractFirstImage(article), [article]);
+  const feedTitle = useMemo(() => {
+    const feed = $feeds.find(f => f.id === article.feedId);
+    return feed?.title || article.feedId;
+  }, [article.feedId, $feeds]);
 
   const previewContent = useMemo(
     () => extractTextFromHtml(article.content).slice(0, 300),
@@ -139,7 +145,7 @@ export default function ArticleCard({ article }) {
               <div className="card-source-content flex gap-1 items-center min-w-0">
                 {showFavicon && <FeedIcon feedId={article.feedId} />}
                 <span className="card-source-title text-default-500 font-bold text-xs line-clamp-1">
-                  {article.feed?.title}
+                  {feedTitle}
                 </span>
               </div>
             </div>
