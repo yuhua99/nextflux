@@ -1,14 +1,17 @@
 import { useParams } from "react-router-dom";
 import { useStore } from "@nanostores/react";
 import { SidebarTrigger } from "@/components/ui/sidebar.jsx";
-import {
-  filter,
-} from "@/stores/articlesStore.js";
+import { filter } from "@/stores/articlesStore.js";
 import { feeds } from "@/stores/feedsStore.js";
 import MarkAllReadButton from "./MarkAllReadButton";
 import { isSyncing } from "@/stores/syncStore.js";
 import { useTranslation } from "react-i18next";
-import { totalStarredCount, totalUnreadCount, getCategoryCount, getFeedCount } from "@/stores/feedsStore.js";
+import {
+  totalStarredCount,
+  totalUnreadCount,
+  getCategoryCount,
+  getFeedCount,
+} from "@/stores/feedsStore.js";
 import MenuButton from "./MenuButton";
 export default function ArticleListHeader() {
   const { feedId, categoryId } = useParams();
@@ -83,7 +86,7 @@ export default function ArticleListHeader() {
               {$isSyncing ? t("common.syncing") : getFilteredCount()}
             </span>
           </div>
-          <div className="ml-auto">
+          <div className="ml-auto flex gap-1">
             <MarkAllReadButton />
             <MenuButton />
           </div>

@@ -102,7 +102,7 @@ export default function ArticleListContent({ articles }) {
             <Virtuoso
               ref={listRef}
               className="v-list h-full"
-              overscan={{ main: 5, reverse: 0 }}
+              overscan={{ main: 2, reverse: 0 }}
               data={articles}
               context={{
                 feedId,
