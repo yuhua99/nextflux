@@ -1,13 +1,13 @@
 import { Button, Form, Input } from "@heroui/react";
 import { useEffect, useState } from "react";
 import minifluxAPI from "@/api/miniflux";
-import { forceSync } from "@/stores/syncStore";
 import { renameModalOpen } from "@/stores/modalStore.js";
 import { useStore } from "@nanostores/react";
 import { useParams } from "react-router-dom";
 import { categories } from "@/stores/feedsStore";
 import { useTranslation } from "react-i18next";
 import CustomModal from "@/components/ui/CustomModal.jsx";
+import { updateCategory } from "@/db/storage";
 
 export default function RenameModal() {
   const { t } = useTranslation();
@@ -31,7 +31,14 @@ export default function RenameModal() {
     try {
       setLoading(true);
       await minifluxAPI.updateCategory(categoryId, newTitle);
-      await forceSync(); // 重新加载订阅源列表以更新UI
+      // 更新本地数据库
+      await updateCategory(parseInt(categoryId), newTitle);
+      // 更新内存中的 store
+      categories.set(
+        $categories.map((c) =>
+          c.id === parseInt(categoryId) ? { ...c, title: newTitle } : c,
+        ),
+      );
       onClose();
     } catch (error) {
       console.error("重命名分类失败:", error);
