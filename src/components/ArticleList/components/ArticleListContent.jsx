@@ -28,7 +28,7 @@ const ArticleItem = memo(({ article, isLast }) => (
 ));
 ArticleItem.displayName = "ArticleItem";
 
-export default function ArticleListContent({ articles }) {
+export default function ArticleListContent({ articles, setVisibleRange }) {
   const { t } = useTranslation();
   const { feedId, categoryId, articleId } = useParams();
   const $filter = useStore(filter);
@@ -104,6 +104,7 @@ export default function ArticleListContent({ articles }) {
               className="v-list h-full"
               overscan={{ main: 2, reverse: 0 }}
               data={articles}
+              rangeChanged={setVisibleRange}
               context={{
                 feedId,
                 categoryId,
