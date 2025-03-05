@@ -29,8 +29,17 @@ const ArticleList = () => {
     endIndex: 0,
   });
 
+  const lastSyncTime = useRef(null);
+
   useEffect(() => {
-    // if (index.current.startIndex !== 0) return;
+    // 如果为同步触发刷新且当前文章列表不在顶部，则暂时不刷新列表，防止位置发生位移
+    if ($lastSync !== lastSyncTime.current && index.current.startIndex !== 0) {
+      // 记录上一次同步时间
+      lastSyncTime.current = $lastSync;
+      return;
+    }
+    // 记录上一次同步时间
+    lastSyncTime.current = $lastSync;
     let ignore = false;
     const handleFetchArticles = async () => {
       filteredArticles.set([]);
