@@ -10,7 +10,7 @@ import {
   SelectItem,
   Textarea,
   Divider,
-  addToast
+  addToast,
 } from "@heroui/react";
 import { useState } from "react";
 import { useStore } from "@nanostores/react";
@@ -133,11 +133,13 @@ export default function AddFeedModal() {
           rewrite_rules: type.rewrite_rules,
         });
       }
-    } catch {
-      addToast({
-        title: t("search.searchResultsPlaceholder"),
-        color: "danger",
-      });
+    } catch (e) {
+      if (e.response?.status === 404) {
+        addToast({
+          title: t("search.searchResultsPlaceholder"),
+          color: "danger",
+        });
+      }
       setResults([]);
     } finally {
       setSearching(false);
