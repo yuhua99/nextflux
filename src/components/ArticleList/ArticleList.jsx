@@ -30,7 +30,7 @@ const ArticleList = () => {
   });
 
   useEffect(() => {
-    if (index.current.startIndex !== 0) return;
+    // if (index.current.startIndex !== 0) return;
     let ignore = false;
     const handleFetchArticles = async () => {
       filteredArticles.set([]);
