@@ -74,7 +74,9 @@ export default function SearchModal() {
       500,
       { leading: false, trailing: true },
     );
-    handleSearch(ignore);
+    if (!isComposing) {
+      handleSearch();
+    }
     return () => {
       ignore = true;
     };
