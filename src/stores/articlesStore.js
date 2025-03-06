@@ -22,6 +22,10 @@ export const imageGalleryActive = atom(false);
 export const hasMore = atom(true);
 export const currentPage = atom(1);
 export const pageSize = atom(30);
+export const visibleRange = atom({
+  startIndex: 0,
+  endIndex: 0,
+});
 
 // 加载文章列表
 export async function loadArticles(

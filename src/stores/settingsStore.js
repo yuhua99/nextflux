@@ -29,6 +29,7 @@ const defaultValue = {
   reduceMotion: false,
   useNativeVideoPlayer: false,
   interfaceFontSize: "16",
+  showIndicator: true,
 };
 
 export const settingsState = persistentAtom("settings", defaultValue, {

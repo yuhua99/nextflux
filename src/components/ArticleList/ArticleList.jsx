@@ -7,6 +7,7 @@ import {
   hasMore,
   currentPage,
   loading,
+  visibleRange,
 } from "@/stores/articlesStore.js";
 import { lastSync } from "@/stores/syncStore.js";
 import { useParams } from "react-router-dom";
@@ -15,25 +16,23 @@ import ArticleListContent from "./components/ArticleListContent";
 import ArticleListFooter from "./components/ArticleListFooter";
 import { settingsState } from "@/stores/settingsStore.js";
 import ArticleView from "@/components/ArticleView/ArticleView.jsx";
+import Indicator from "@/components/ArticleList/components/Indicator.jsx";
 
 const ArticleList = () => {
   const { feedId, categoryId } = useParams();
   const $filteredArticles = useStore(filteredArticles);
   const $filter = useStore(filter);
   const $lastSync = useStore(lastSync);
-  const { showUnreadByDefault, sortDirection, showHiddenFeeds } =
+  const $visibleRange = useStore(visibleRange);
+  const { showUnreadByDefault, sortDirection, showHiddenFeeds, showIndicator } =
     useStore(settingsState);
-
-  const index = useRef({
-    startIndex: 0,
-    endIndex: 0,
-  });
+  const virtuosoRef = useRef(null);
 
   const lastSyncTime = useRef(null);
 
   useEffect(() => {
     // 如果为同步触发刷新且当前文章列表不在顶部，则暂时不刷新列表，防止位置发生位移
-    if ($lastSync !== lastSyncTime.current && index.current.startIndex !== 0) {
+    if ($lastSync !== lastSyncTime.current && $visibleRange.startIndex !== 0) {
       // 记录上一次同步时间
       lastSyncTime.current = $lastSync;
       return;
@@ -81,10 +80,12 @@ const ArticleList = () => {
     <div className="main-content flex bg-content2">
       <div className="w-full relative max-w-[100vw] md:w-[21rem] md:max-w-[30%] md:min-w-[18rem] h-[100dvh] bg-content2 flex flex-col">
         <ArticleListHeader />
+        {showIndicator && <Indicator virtuosoRef={virtuosoRef} />}
         <ArticleListContent
           articles={$filteredArticles}
+          virtuosoRef={virtuosoRef}
           setVisibleRange={(range) => {
-            index.current = range;
+            visibleRange.set(range);
           }}
         />
         <ArticleListFooter />

@@ -254,6 +254,7 @@ export default {
       small: "Small",
       large: "Large",
       showFavicon: "Display favicons",
+      showIndicator: "Show scroll indicator",
       titleLines: "Title lines",
       textPreviewLines: "Summary lines",
       showReadingTime: "Estimated reading time",

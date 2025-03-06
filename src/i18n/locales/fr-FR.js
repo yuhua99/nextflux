@@ -253,6 +253,7 @@ export default {
       small: "Petit",
       large: "Grand",
       showFavicon: "Afficher les favicons",
+      showIndicator: "Afficher le curseur de défilement",
       titleLines: "Lignes de titre",
       textPreviewLines: "Lignes d'aperçu du texte",
       showReadingTime: "Temps de lecture estimé",

@@ -254,6 +254,7 @@ export default {
       small: "Küçük",
       large: "Büyük",
       showFavicon: "Faviconları göster",
+      showIndicator: "Kaydırma çubuğunu göster",
       titleLines: "Başlık satırları",
       textPreviewLines: "Metin satırları",
       showReadingTime: "Tahmini okuma süresi",
