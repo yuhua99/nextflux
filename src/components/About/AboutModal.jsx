@@ -10,6 +10,7 @@ import {
   ModalHeader,
 } from "@heroui/react";
 import { Heart, Info, X } from "lucide-react";
+import { popUpVariants } from "@/lib/motion";
 
 export default function AboutModal() {
   const { t } = useTranslation();
@@ -20,6 +21,9 @@ export default function AboutModal() {
       <Modal
         isOpen={$aboutModalOpen}
         radius="md"
+        motionProps={{
+          variants: popUpVariants,
+        }}
         scrollBehavior="inside"
         onOpenChange={(value) => {
           aboutModalOpen.set(value);

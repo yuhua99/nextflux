@@ -22,13 +22,17 @@ export const FancyLogo = ({ since }) => {
           const yPercentage = y / boundingRef.current.height;
           const xRotation = (xPercentage - 0.5) * 20;
           const yRotation = (0.5 - yPercentage) * 20;
+          const XBackground = 40 + 20 * xPercentage;
+          const YBackground = 40 + 20 * yPercentage;
 
-          ev.currentTarget.style.setProperty("--x-rotation", `${yRotation}deg`);
-          ev.currentTarget.style.setProperty("--y-rotation", `${xRotation}deg`);
+          ev.currentTarget.style.setProperty("--r-x", `${yRotation}deg`);
+          ev.currentTarget.style.setProperty("--r-y", `${xRotation}deg`);
           ev.currentTarget.style.setProperty("--x", `${xPercentage * 100}%`);
           ev.currentTarget.style.setProperty("--y", `${yPercentage * 100}%`);
+          ev.currentTarget.style.setProperty("--bg-x", `${XBackground}%`);
+          ev.currentTarget.style.setProperty("--bg-y", `${YBackground}%`);
         }}
-        className="group relative w-full flex flex-col gap-6 py-6 items-center overflow-hidden rounded-lg bg-gradient-to-b from-[#EAFFED] to-[#C6F7C9] p-4 text-[#01A977] transition-transform ease-out hover:[transform:rotateX(var(--x-rotation))_rotateY(var(--y-rotation))_scale(1.05)]"
+        className="group relative w-full flex flex-col gap-6 py-6 items-center overflow-hidden rounded-lg bg-gradient-to-b from-green-100 to-green-200 dark:from-green-900 dark:to-green-950 p-2 text-[#01A977] transition-transform ease-out hover:[transform:rotateX(var(--r-x,0deg))_rotateY(var(--r-y,0deg))_scale(1.05)] shadow-custom [--x:50%] [--y:50%] [--bg-x:50%] [--bg-y:50%]"
       >
         <Image
           src={logo}
@@ -42,7 +46,44 @@ export const FancyLogo = ({ since }) => {
             {since}
           </span>
         </footer>
-        <div className="z-10 pointer-events-none absolute inset-0 group-hover:bg-[radial-gradient(at_var(--x)_var(--y),rgba(255,255,255,0.3)_20%,transparent_80%)]" />
+        <div
+          className="absolute inset-0 z-20 mix-blend-soft-light"
+          style={{
+            background: `radial-gradient(
+              farthest-corner circle at var(--x) var(--y),
+              rgba(255, 255, 255, 0.8) 10%,
+              rgba(255, 255, 255, 0.65) 20%,
+              rgba(255, 255, 255, 0) 90%
+            )`,
+          }}
+        />
+        <div
+          className="absolute inset-0 z-10 mix-blend-color-dodge transition-opacity opacity-30"
+          style={{
+            backgroundBlendMode: "hue, hue, hard-light",
+            background: ` 
+              repeating-linear-gradient( 
+                0deg,
+                rgb(255, 119, 115) 5%,
+                rgba(255, 237, 95, 1) 10%,
+                rgba(168, 255, 95, 1) 15%,
+                rgba(131, 255, 247, 1) 20%,
+                rgba(120, 148, 255, 1) 25%, 
+                rgb(216, 117, 255) 30%,
+                rgb(255, 119, 115) 35%
+              ) 0% var(--bg-y) / 200% 700%,
+              repeating-linear-gradient(
+                128deg,
+                #0e152e 0%,
+                hsl(180, 10%, 60%) 3.8%,
+                hsl(180, 10%, 60%) 4.5%,
+                hsl(180, 10%, 60%) 5.2%,
+                #0e152e 10%,
+                #0e152e 12%
+              ) var(--bg-x) var(--bg-y) / 300%
+            `,
+          }}
+        />
       </div>
     </div>
   );

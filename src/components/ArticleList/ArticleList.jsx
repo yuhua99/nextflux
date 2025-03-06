@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useStore } from "@nanostores/react";
 import {
   filter,
@@ -24,7 +24,22 @@ const ArticleList = () => {
   const { showUnreadByDefault, sortDirection, showHiddenFeeds } =
     useStore(settingsState);
 
+  const index = useRef({
+    startIndex: 0,
+    endIndex: 0,
+  });
+
+  const lastSyncTime = useRef(null);
+
   useEffect(() => {
+    // 如果为同步触发刷新且当前文章列表不在顶部，则暂时不刷新列表，防止位置发生位移
+    if ($lastSync !== lastSyncTime.current && index.current.startIndex !== 0) {
+      // 记录上一次同步时间
+      lastSyncTime.current = $lastSync;
+      return;
+    }
+    // 记录上一次同步时间
+    lastSyncTime.current = $lastSync;
     let ignore = false;
     const handleFetchArticles = async () => {
       filteredArticles.set([]);
@@ -66,7 +81,12 @@ const ArticleList = () => {
     <div className="main-content flex bg-content2">
       <div className="w-full relative max-w-[100vw] md:w-[21rem] md:max-w-[30%] md:min-w-[18rem] h-[100dvh] bg-content2 flex flex-col">
         <ArticleListHeader />
-        <ArticleListContent articles={$filteredArticles} />
+        <ArticleListContent
+          articles={$filteredArticles}
+          setVisibleRange={(range) => {
+            index.current = range;
+          }}
+        />
         <ArticleListFooter />
       </div>
       <ArticleView />

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useStore } from "@nanostores/react";
 import {
   Divider,
@@ -12,8 +12,9 @@ import {
 import { Search as SearchIcon } from "lucide-react";
 import {
   feedSearchResults,
-  debouncedSearch,
+  search,
   searchFeeds,
+  searching,
   searchResults,
 } from "@/stores/searchStore";
 import { searchDialogOpen } from "@/stores/modalStore.js";
@@ -23,7 +24,7 @@ import { settingsState } from "@/stores/settingsStore";
 import { useTranslation } from "react-i18next";
 import { filter } from "@/stores/articlesStore.js";
 import { handleMarkStatus } from "@/handlers/articleHandlers";
-
+import { debounce } from "lodash";
 export default function SearchModal() {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -35,23 +36,51 @@ export default function SearchModal() {
   const [searchType, setSearchType] = useState("articles");
   const [isComposing, setIsComposing] = useState(false);
   const inputRef = useRef(null);
-  // 处理搜索
-  const handleSearch = useCallback(
-    async (value) => {
-      if (searchType === "articles") {
-        await debouncedSearch(value);
-      } else {
-        await searchFeeds(value);
-      }
-    },
-    [searchType],
-  );
 
   useEffect(() => {
+    let ignore = false;
+    searching.set(true);
+
+    const handleSearch = debounce(
+      async () => {
+        if (!keyword) {
+          searchResults.set([]);
+          feedSearchResults.set([]);
+          return;
+        }
+
+        searchType === "articles"
+          ? searchResults.set([])
+          : feedSearchResults.set([]);
+        try {
+          const res =
+            searchType === "articles"
+              ? await search(keyword)
+              : await searchFeeds(keyword);
+
+          if (ignore) {
+            return;
+          }
+
+          searchType === "articles"
+            ? searchResults.set(res)
+            : feedSearchResults.set(res);
+          searching.set(false);
+        } catch {
+          console.error("搜索失败");
+          searching.set(false);
+        }
+      },
+      500,
+      { leading: false, trailing: true },
+    );
     if (!isComposing) {
-      handleSearch(keyword);
+      handleSearch();
     }
-  }, [keyword, searchType, handleSearch, showHiddenFeeds, isComposing]);
+    return () => {
+      ignore = true;
+    };
+  }, [keyword, searchType, showHiddenFeeds, isComposing]);
 
   // 处理选择结果
   const handleSelect = (item) => {
