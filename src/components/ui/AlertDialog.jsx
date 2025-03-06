@@ -8,7 +8,7 @@ import {
 import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
 import { TriangleAlert } from "lucide-react";
 import { useState } from "react";
-
+import { popUpVariants } from "@/lib/motion";
 export default function AlertDialog({
   title,
   content,
@@ -37,6 +37,9 @@ export default function AlertDialog({
     <Modal
       radius="md"
       size="sm"
+      motionProps={{
+        variants: popUpVariants,
+      }}
       isOpen={isOpen}
       hideCloseButton
       onClose={onClose}

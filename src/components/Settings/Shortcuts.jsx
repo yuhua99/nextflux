@@ -11,7 +11,7 @@ import { shortcutsModalOpen } from "@/stores/modalStore.js";
 import { useStore } from "@nanostores/react";
 import { Keyboard, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
-
+import { popUpVariants } from "@/lib/motion";
 export default function Shortcuts() {
   const { t } = useTranslation();
   const shortcuts = {
@@ -54,6 +54,9 @@ export default function Shortcuts() {
         isOpen={isOpen}
         radius="md"
         scrollBehavior="inside"
+        motionProps={{
+          variants: popUpVariants,
+        }}
         onOpenChange={(value) => {
           shortcutsModalOpen.set(value);
         }}

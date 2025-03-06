@@ -9,6 +9,7 @@ import {
   ModalHeader,
 } from "@heroui/react";
 import { MiniCloseButton } from "@/components/ui/MiniCloseButton.jsx";
+import { popUpVariants } from "@/lib/motion";
 
 export default function CustomModal({ open, onOpenChange, title, children }) {
   const { isMedium } = useIsMobile();
@@ -55,6 +56,9 @@ export default function CustomModal({ open, onOpenChange, title, children }) {
     <Modal
       isOpen={open}
       onClose={onOpenChange}
+      motionProps={{
+        variants: popUpVariants,
+      }}
       placement="center"
       scrollBehavior="inside"
       radius="md"

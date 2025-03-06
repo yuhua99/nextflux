@@ -32,7 +32,7 @@ export const FancyLogo = ({ since }) => {
           ev.currentTarget.style.setProperty("--bg-x", `${XBackground}%`);
           ev.currentTarget.style.setProperty("--bg-y", `${YBackground}%`);
         }}
-        className="group relative w-full flex flex-col gap-6 py-6 items-center overflow-hidden rounded-lg bg-gradient-to-b from-green-100 to-green-200 p-2 text-[#01A977] transition-transform ease-out hover:[transform:rotateX(var(--r-x,0deg))_rotateY(var(--r-y,0deg))_scale(1.05)] shadow-custom [--x:50%] [--y:50%] [--bg-x:50%] [--bg-y:50%]"
+        className="group relative w-full flex flex-col gap-6 py-6 items-center overflow-hidden rounded-lg bg-gradient-to-b from-green-100 to-green-200 dark:from-green-900 dark:to-green-950 p-2 text-[#01A977] transition-transform ease-out hover:[transform:rotateX(var(--r-x,0deg))_rotateY(var(--r-y,0deg))_scale(1.05)] shadow-custom [--x:50%] [--y:50%] [--bg-x:50%] [--bg-y:50%]"
       >
         <Image
           src={logo}
