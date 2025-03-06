@@ -16,13 +16,16 @@ A modern RSS reader client for [Miniflux](https://github.com/miniflux/v2) built 
 - 🎯 Rich reading experience
     - Custom font settings
     - Image gallery with touch gestures support
-    - Podcast support
-    - Video player support
+    - Podcast player with speed control and background playback support
+    - Video player with beautiful UI
+    - save article to 3rd party services
 - ⌨️ Keyboard shortcuts
 - 📊 Feed management
     - OPML import
     - Category organization
     - Feed hiding
+    - Feed discovery and search
+    - Advanced options for feed management
 
 ## 📸 Screenshot Galleries
 
@@ -48,7 +51,7 @@ A modern RSS reader client for [Miniflux](https://github.com/miniflux/v2) built 
         <td><img src=images/images.png width=600/></td>
     </tr>
      <tr>
-        <td>Feed Management
+        <td>Feed Discovery
         </td>
         <td>Settings
         </td>
@@ -78,13 +81,13 @@ A modern RSS reader client for [Miniflux](https://github.com/miniflux/v2) built 
         <td><img src=images/dark.png width=600/></td>
     </tr>
     <tr>
-        <td>Mobile
+        <td>Advanced Options
         </td>
         <td>Windows
         </td>
     </tr>
     <tr>
-        <td><img src=images/mobile.png width=600/></td>
+        <td><img src=images/edit.png width=600/></td>
         <td><img src=images/windows.png width=600/></td>
     </tr>
 </table>
@@ -133,8 +136,7 @@ docker compose up -d
 The app requires a Miniflux server to function. You'll need to provide:
 
 - Server URL
-- Username
-- Password
+- API Token / Username and Password
 
 ## 🌍 Browser Support
 
