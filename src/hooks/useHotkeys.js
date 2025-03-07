@@ -17,6 +17,7 @@ import {
   addFeedModalOpen,
   shortcutsModalOpen,
 } from "@/stores/modalStore.js";
+import { useSidebarNavigation } from "@/hooks/useSidebarNavigation";
 
 export function useHotkeys() {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ export function useHotkeys() {
   const $activeArticle = useStore(activeArticle);
   const $imageGalleryActive = useStore(imageGalleryActive);
   const { articleId } = useParams();
+  const { navigateToPrevious, navigateToNext, toggleCurrentCategory } = useSidebarNavigation();
 
   // 获取当前文章在列表中的索引
   const currentIndex = $articles.findIndex((a) => a.id === $activeArticle?.id);
@@ -45,11 +47,13 @@ export function useHotkeys() {
       if (e.key === "?" && e.shiftKey) {
         e.preventDefault();
         shortcutsModalOpen.set(!shortcutsModalOpen.get());
+        return;
       }
 
       if (e.key === "N" && e.shiftKey) {
         e.preventDefault();
         addFeedModalOpen.set(!addFeedModalOpen.get());
+        return;
       }
 
       switch (e.key.toLowerCase()) {
@@ -59,7 +63,16 @@ export function useHotkeys() {
           break;
 
         case "j": // 下一篇
-          if (articleId && currentIndex < $articles.length - 1) {
+          if (!articleId) {
+            if ($articles.length === 0) {
+              return;
+            }
+            const nextArticle = $articles[0];
+            navigate(`${basePath}/article/${nextArticle.id}`);
+            if (nextArticle.status !== "read") {
+              await handleMarkStatus(nextArticle);
+            }
+          } else if (currentIndex < $articles.length - 1) {
             const nextArticle = $articles[currentIndex + 1];
             navigate(`${basePath}/article/${nextArticle.id}`);
             if (nextArticle.status !== "read") {
@@ -116,6 +129,21 @@ export function useHotkeys() {
           }
           break;
 
+        case "p": // 上一个订阅或分组
+          e.preventDefault();
+          navigateToPrevious();
+          break;
+
+        case "n": // 下一个订阅或分组
+          e.preventDefault();
+          navigateToNext();
+          break;
+
+        case "x": // 切换分组展开状态
+          e.preventDefault();
+          toggleCurrentCategory();
+          break;
+
         default:
           break;
       }
@@ -135,5 +163,8 @@ export function useHotkeys() {
     navigate,
     articleId,
     $imageGalleryActive,
+    navigateToPrevious,
+    navigateToNext,
+    toggleCurrentCategory,
   ]);
 }
