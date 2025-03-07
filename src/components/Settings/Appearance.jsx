@@ -18,6 +18,7 @@ import {
   MonitorCog,
   WrapText,
   LetterText,
+  SquareArrowUp,
 } from "lucide-react";
 import Theme from "./components/Theme";
 import { useTranslation } from "react-i18next";
@@ -34,6 +35,7 @@ export default function Appearance() {
     interfaceFontSize,
     textPreviewLines,
     titleLines,
+    showIndicator,
   } = useStore(settingsState);
   const { t } = useTranslation();
   return (
@@ -84,6 +86,17 @@ export default function Appearance() {
         />
       </ItemWrapper>
       <ItemWrapper title={t("settings.appearance.articleList")}>
+        <SwitchItem
+          label={t("settings.appearance.showIndicator")}
+          icon={
+            <SettingIcon variant="amber">
+              <SquareArrowUp />
+            </SettingIcon>
+          }
+          settingName="showIndicator"
+          settingValue={showIndicator}
+        />
+        <Divider />
         <SliderItem
           label={t("settings.appearance.titleLines")}
           icon={

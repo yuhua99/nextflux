@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef } from "react";
+import { memo, useEffect } from "react";
 import ArticleCard from "./ArticleCard";
 import { useParams } from "react-router-dom";
 import {
@@ -28,14 +28,17 @@ const ArticleItem = memo(({ article, isLast }) => (
 ));
 ArticleItem.displayName = "ArticleItem";
 
-export default function ArticleListContent({ articles, setVisibleRange }) {
+export default function ArticleListContent({
+  articles,
+  setVisibleRange,
+  virtuosoRef,
+}) {
   const { t } = useTranslation();
   const { feedId, categoryId, articleId } = useParams();
   const $filter = useStore(filter);
   const $isSyncing = useStore(isSyncing);
   const { isMedium } = useIsMobile();
   let info = [feedId, categoryId, $filter].filter(Boolean).join("-");
-  const listRef = useRef(null);
   const { reduceMotion } = useStore(settingsState);
   const index = articles.findIndex(
     (article) => article.id === parseInt(articleId),
@@ -50,7 +53,7 @@ export default function ArticleListContent({ articles, setVisibleRange }) {
       return;
     }
     if (index >= 0) {
-      listRef.current?.scrollIntoView({
+      virtuosoRef.current?.scrollIntoView({
         index: index,
         behavior: "smooth",
       });
@@ -100,7 +103,7 @@ export default function ArticleListContent({ articles, setVisibleRange }) {
             className="article-list-content flex-1"
           >
             <Virtuoso
-              ref={listRef}
+              ref={virtuosoRef}
               className="v-list h-full"
               overscan={{ main: 2, reverse: 0 }}
               data={articles}

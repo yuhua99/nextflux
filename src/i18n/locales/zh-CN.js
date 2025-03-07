@@ -253,6 +253,7 @@ export default {
       small: "小图",
       large: "大图",
       showFavicon: "显示订阅图标",
+      showIndicator: "显示滚动指示器",
       titleLines: "标题行数",
       textPreviewLines: "摘要行数",
       showReadingTime: "估计阅读时间",
