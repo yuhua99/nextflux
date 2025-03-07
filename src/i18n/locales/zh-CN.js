@@ -69,6 +69,8 @@ export default {
     podcastPlaceholder: "播客名称",
     mastodon: "Mastodon",
     mastodonPlaceholder: "https://mastodon.social/@Mastodon",
+    glass: "Glass",
+    glassPlaceholder: "https://glass.photo/username",
   },
   sidebar: {
     addCategory: "新增分类",

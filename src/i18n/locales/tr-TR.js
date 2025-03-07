@@ -69,6 +69,8 @@ export default {
     podcastPlaceholder: "Podcast adı",
     mastodon: "Mastodon",
     mastodonPlaceholder: "https://mastodon.social/@Mastodon",
+    glass: "Glass",
+    glassPlaceholder: "https://glass.photo/username",
   },
   sidebar: {
     addFeed: "Yeni Besleme",

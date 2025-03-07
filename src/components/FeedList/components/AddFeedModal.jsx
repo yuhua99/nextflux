@@ -21,6 +21,7 @@ import { forceSync } from "@/stores/syncStore";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Minus, Plus, Search, Rss, Loader2 } from "lucide-react";
+import GlassYellow from "@/assets/glass-yellow.svg";
 import {
   SiYoutube,
   SiReddit,
@@ -94,6 +95,15 @@ export default function AddFeedModal() {
       rewrite_rules: "",
       icon: <SiMastodon className="size-4 text-[#6364FF]" />,
       placeholder: t("feed.mastodonPlaceholder"),
+    },
+    {
+      id: "glass",
+      label: t("feed.glass"),
+      prefix: "",
+      suffix: "",
+      rewrite_rules: "",
+      icon: <img src={GlassYellow} className="size-4" alt="glass" />,
+      placeholder: t("feed.glassPlaceholder"),
     },
   ];
 

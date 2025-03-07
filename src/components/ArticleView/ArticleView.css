@@ -8,6 +8,10 @@
   @apply max-w-full;
 }
 
+.article-content audio {
+  @apply hidden;
+}
+
 .article-content li,
 .article-content p {
   @apply !my-4

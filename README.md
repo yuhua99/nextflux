@@ -18,7 +18,7 @@ A modern RSS reader client for [Miniflux](https://github.com/miniflux/v2) built 
     - Image gallery with touch gestures support
     - Podcast player with speed control and background playback support
     - Video player with beautiful UI
-    - save article to 3rd party services
+    - Save article to 3rd party services
 - ⌨️ Keyboard shortcuts
 - 📊 Feed management
     - OPML import
