@@ -2,6 +2,7 @@ import i18next from "i18next";
 import { addToast, Spinner } from "@heroui/react";
 import minifluxAPI from "@/api/miniflux.js";
 import { forceSync } from "@/stores/syncStore.js";
+
 export const handleRefresh = (feedId) => {
   if (!feedId) return;
 
