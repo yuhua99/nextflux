@@ -1,5 +1,11 @@
 import { atom, computed } from "nanostores";
-import { getFeeds, getCategories, getUnreadCount, getStarredCount } from "../db/storage";
+import { persistentAtom } from "@nanostores/persistent";
+import {
+  getFeeds,
+  getCategories,
+  getUnreadCount,
+  getStarredCount,
+} from "../db/storage";
 import { filter } from "@/stores/articlesStore.js";
 import { settingsState } from "@/stores/settingsStore.js";
 
@@ -8,6 +14,24 @@ export const categories = atom([]);
 export const error = atom(null);
 export const unreadCounts = atom({});
 export const starredCounts = atom({});
+
+export const categoryExpandedState = persistentAtom(
+  "categoryExpanded",
+  {},
+  {
+    encode: (value) => JSON.stringify(value),
+    decode: (str) => JSON.parse(str),
+  },
+);
+
+// 更新分类展开状态
+export const updateCategoryExpandState = (categoryId, isExpanded) => {
+  const currentState = categoryExpandedState.get();
+  categoryExpandedState.set({
+    ...currentState,
+    [categoryId]: isExpanded,
+  });
+};
 
 export const filteredFeeds = computed(
   [feeds, filter, starredCounts, unreadCounts, settingsState],
@@ -34,9 +58,9 @@ export const feedsByCategory = computed(
     return Object.entries(
       $filteredFeeds.reduce((acc, feed) => {
         const categoryId = feed.categoryId || "uncategorized";
-        const category = $categories.find(c => c.id === feed.categoryId);
+        const category = $categories.find((c) => c.id === feed.categoryId);
         const categoryName = category ? category.title : "未分类";
-        
+
         if (!acc[categoryId]) {
           acc[categoryId] = {
             name: categoryName,
