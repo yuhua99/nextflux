@@ -4,8 +4,9 @@ import { ImageOff } from "lucide-react";
 import { Image } from "@heroui/react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils.js";
+import { memo } from "react";
 
-export default function ArticleImage({ imgNode, type = "article" }) {
+function ArticleImage({ imgNode, type = "article" }) {
   const { t } = useTranslation();
   const [error, setError] = useState(false);
   const imgRef = useRef(null);
@@ -87,3 +88,12 @@ export default function ArticleImage({ imgNode, type = "article" }) {
     </PhotoView>
   );
 }
+
+const arePropsEqual = (prevProps, nextProps) => {
+  return (
+    prevProps.imgNode.attribs.src === nextProps.imgNode.attribs.src &&
+    prevProps.type === nextProps.type
+  );
+};
+
+export default memo(ArticleImage, arePropsEqual);

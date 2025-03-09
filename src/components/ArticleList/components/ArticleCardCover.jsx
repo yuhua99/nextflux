@@ -5,8 +5,9 @@ import { settingsState } from "@/stores/settingsStore";
 import { useStore } from "@nanostores/react";
 import { useInView } from "framer-motion";
 import { ImageOff } from "lucide-react";
+import { memo } from "react";
 
-export default function ArticleCardCover({ imageUrl }) {
+function ArticleCardCover({ imageUrl }) {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const imgRef = useRef(null);
@@ -67,3 +68,9 @@ export default function ArticleCardCover({ imageUrl }) {
     </div>
   );
 }
+
+const arePropsEqual = (prevProps, nextProps) => {
+  return prevProps.imageUrl === nextProps.imageUrl;
+};
+
+export default memo(ArticleCardCover, arePropsEqual);
