@@ -53,7 +53,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-content2 p-4">
+    <div className="flex min-h-screen items-center justify-center p-4">
       <div className="w-full max-w-sm flex flex-col gap-6 p-6 bg-content1 rounded-lg shadow-custom">
         <h1 className="text-2xl font-semibold tracking-tight">
           {t("auth.login")}
