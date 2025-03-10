@@ -12,7 +12,6 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar.jsx";
 import { Link, useParams } from "react-router-dom";
-import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 
 const ArticlesGroup = () => {
@@ -51,10 +50,8 @@ const ArticlesGroup = () => {
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>{t("common.article")}</SidebarGroupLabel>
       <SidebarMenu>
-        <SidebarMenuItem
-          className={cn(!feedId && !categoryId && "bg-default rounded-md")}
-        >
-          <SidebarMenuButton asChild>
+        <SidebarMenuItem>
+          <SidebarMenuButton asChild isActive={!feedId && !categoryId}>
             <Link to="/" onClick={() => isMobile && setOpenMobile(false)}>
               <span className="font-semibold">{text}</span>
             </Link>

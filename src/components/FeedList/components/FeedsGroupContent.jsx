@@ -60,7 +60,9 @@ const FeedsGroupContent = ({ category }) => {
     >
       <SidebarMenuItem key={`menu-${category.id}`}>
         <SidebarMenuButton
-          className={cn(categoryId === category.id && "bg-default rounded-md")}
+          className={cn(
+            categoryId === category.id && "bg-default/60 rounded-md",
+          )}
           asChild
         >
           <Link
@@ -72,7 +74,7 @@ const FeedsGroupContent = ({ category }) => {
         </SidebarMenuButton>
 
         <CollapsibleTrigger asChild>
-          <SidebarMenuAction className="left-2 hover:bg-default text-default-500 data-[state=open]:rotate-90">
+          <SidebarMenuAction className="left-2 hover:bg-default/60 text-default-500 data-[state=open]:rotate-90">
             <ChevronRight />
           </SidebarMenuAction>
         </CollapsibleTrigger>
@@ -89,7 +91,7 @@ const FeedsGroupContent = ({ category }) => {
                   className={cn(
                     "pl-8 pr-2 h-8",
                     parseInt(feedId) === feed.id &&
-                      "active-feed bg-default rounded-md",
+                      "active-feed bg-default/60 rounded-md",
                   )}
                 >
                   <Link
