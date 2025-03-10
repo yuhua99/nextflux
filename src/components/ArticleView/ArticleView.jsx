@@ -250,11 +250,6 @@ const ArticleView = () => {
                     maskOpacity={0.8}
                     loop={false}
                     speed={() => 300}
-                    easing={(type) =>
-                      type !== 2
-                        ? "cubic-bezier(0.34, 1.3, 0.64, 1)"
-                        : "cubic-bezier(0.25, 0.8, 0.25, 1)"
-                    }
                   >
                     <div
                       className={cn(

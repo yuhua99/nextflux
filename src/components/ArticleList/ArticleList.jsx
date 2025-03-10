@@ -23,7 +23,6 @@ const ArticleList = () => {
   const $filteredArticles = useStore(filteredArticles);
   const $filter = useStore(filter);
   const $lastSync = useStore(lastSync);
-  const $visibleRange = useStore(visibleRange);
   const { showUnreadByDefault, sortDirection, showHiddenFeeds, showIndicator } =
     useStore(settingsState);
   const virtuosoRef = useRef(null);
@@ -32,7 +31,10 @@ const ArticleList = () => {
 
   useEffect(() => {
     // 如果为同步触发刷新且当前文章列表不在顶部，则暂时不刷新列表，防止位置发生位移
-    if ($lastSync !== lastSyncTime.current && $visibleRange.startIndex !== 0) {
+    if (
+      $lastSync !== lastSyncTime.current &&
+      visibleRange.get().startIndex !== 0
+    ) {
       // 记录上一次同步时间
       lastSyncTime.current = $lastSync;
       return;
