@@ -220,7 +220,7 @@ const Sidebar = React.forwardRef(
         >
           <div
             data-sidebar="sidebar"
-            className="flex h-full w-full flex-col bg-content2 group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-divider group-data-[variant=floating]:shadow"
+            className="flex h-full w-full flex-col group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-divider group-data-[variant=floating]:shadow"
           >
             {children}
           </div>
@@ -286,7 +286,7 @@ const SidebarInset = React.forwardRef(({ className, ...props }, ref) => {
     <main
       ref={ref}
       className={cn(
-        "relative flex min-h-svh flex-1 flex-col bg-content1",
+        "relative flex min-h-svh flex-1 flex-col",
         "peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow",
         className,
       )}
@@ -403,7 +403,7 @@ const SidebarGroupAction = React.forwardRef(
         ref={ref}
         data-sidebar="group-action"
         className={cn(
-          "absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-content2-foreground outline-none ring-primary transition-transform hover:bg-default hover:text-content2-foreground focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
+          "absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-content2-foreground outline-none ring-primary transition-transform hover:bg-default/60 hover:text-content2-foreground focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
           // Increases the hit area of the button on mobile.
           "after:absolute after:-inset-2 after:md:hidden",
           "group-data-[collapsible=icon]:hidden",
@@ -447,11 +447,11 @@ const SidebarMenuItem = React.forwardRef(({ className, ...props }, ref) => (
 SidebarMenuItem.displayName = "SidebarMenuItem";
 
 const sidebarMenuButtonVariants = cva(
-  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-none ring-primary transition-[width,height,padding] hover:bg-default hover:text-content2-foreground focus-visible:ring-2 active:bg-default active:text-content2-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-default data-[active=true]:font-medium data-[active=true]:text-content2-foreground data-[state=open]:hover:bg-default data-[state=open]:hover:text-content2-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
+  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-none ring-primary transition-[width,height,padding] hover:bg-default/60 hover:text-content2-foreground focus-visible:ring-2 active:bg-default/60 active:text-content2-foreground disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-default/60 data-[active=true]:font-medium data-[active=true]:text-content2-foreground data-[state=open]:hover:bg-default/60 data-[state=open]:hover:text-content2-foreground group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "hover:bg-default hover:text-content2-foreground",
+        default: "hover:bg-default/60 hover:text-content2-foreground",
       },
       size: {
         default: "h-8 text-sm",
@@ -503,7 +503,7 @@ const SidebarMenuAction = React.forwardRef(
         ref={ref}
         data-sidebar="menu-action"
         className={cn(
-          "absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-full p-0 text-default-500 outline-none ring-primary transition-transform hover:bg-default hover:text-default-500 focus-visible:ring-2 peer-hover/menu-button:text-default-500 [&>svg]:size-4 [&>svg]:shrink-0",
+          "absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-full p-0 text-default-500 outline-none ring-primary transition-transform hover:bg-default/60 hover:text-default-500 focus-visible:ring-2 peer-hover/menu-button:text-default-500 [&>svg]:size-4 [&>svg]:shrink-0",
           // Increases the hit area of the button on mobile.
           "after:absolute after:-inset-2 after:md:hidden",
           "peer-data-[size=sm]/menu-button:top-1",
@@ -569,8 +569,8 @@ const SidebarMenuSubButton = React.forwardRef(
         data-size={size}
         data-active={isActive}
         className={cn(
-          "flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-content2-foreground outline-none ring-primary hover:bg-default hover:text-content2-foreground focus-visible:ring-2 active:bg-default active:text-content2-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-content2-foreground",
-          "data-[active=true]:bg-default data-[active=true]:text-content2-foreground",
+          "flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-content2-foreground outline-none ring-primary hover:bg-default/60 hover:text-content2-foreground focus-visible:ring-2 active:bg-default/60 active:text-content2-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-content2-foreground",
+          "data-[active=true]:bg-default/60 data-[active=true]:text-content2-foreground",
           size === "sm" && "text-xs",
           size === "md" && "text-sm",
           "group-data-[collapsible=icon]:hidden",

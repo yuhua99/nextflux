@@ -9,7 +9,7 @@ export default function ErrorPage() {
   const is404 = error?.status === 404;
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-content2 p-6">
+    <div className="flex min-h-screen flex-col items-center justify-center p-6">
       <div className="w-full max-w-sm flex flex-col items-center justify-center gap-4 rounded-lg bg-content1 p-6 text-center shadow-custom">
         <h1 className="text-4xl font-semibold tracking-tight">
           {is404 ? "404" : "500"}
@@ -25,7 +25,9 @@ export default function ErrorPage() {
           color="primary"
           size="sm"
           startContent={<House className="size-4" />}
-          className={"shadow-custom-button text-sm bg-primary bg-gradient-to-b from-white/15 to-transparent border-primary border"}
+          className={
+            "shadow-custom-button text-sm bg-primary bg-gradient-to-b from-white/15 to-transparent border-primary border"
+          }
         >
           {t("error.backToHome")}
         </Button>

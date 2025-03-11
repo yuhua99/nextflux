@@ -66,7 +66,7 @@ export default {
           colors: {
             divider: "rgba(17, 17, 17, 0.08)",
             default: {
-              DEFAULT: "#e4e4e7",
+              DEFAULT: "#d4d4d8",
             },
             primary: {
               50: "#E8FFEA",
