@@ -23,8 +23,9 @@ import { getLastSyncTime } from "@/db/storage.js";
 import AddFeedButton from "@/components/FeedList/components/AddFeedButton.jsx";
 import { useTranslation } from "react-i18next";
 import { useSwipeGesture } from "@/hooks/useSwipeGesture";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
+
 const FeedListSidebar = () => {
   const { t } = useTranslation();
   const $lastSync = useStore(lastSync);
@@ -33,11 +34,15 @@ const FeedListSidebar = () => {
   const { setOpenMobile } = useSidebar();
   const { articleId } = useParams();
   const { isMobile } = useIsMobile();
-
+  const navigate = useNavigate();
+  const basePath = window.location.pathname.split("/article/")[0];
   useSwipeGesture({
     onSwipeRight: () => {
       if (!articleId && isMobile) {
         setOpenMobile(true);
+      }
+      if (articleId && isMobile) {
+        navigate(basePath || "/");
       }
     },
   });
