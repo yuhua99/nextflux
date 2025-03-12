@@ -93,7 +93,7 @@ export default function ArticleListContent({
             "article-list-content flex-1 h-full",
             reduceMotion
               ? ""
-              : " animate-in duration-300 fade-in slide-in-from-bottom-5",
+              : " animate-in duration-400 fade-in slide-in-from-bottom-12 ease-in-out",
           )}
         >
           <Virtuoso

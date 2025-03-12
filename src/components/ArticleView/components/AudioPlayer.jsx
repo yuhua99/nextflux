@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { audioState, resetAudio } from "@/stores/audioStore.js";
 import { useStore } from "@nanostores/react";
 import * as Buttons from "./shared/buttons";
-import { Button, Card, Image } from "@heroui/react";
+import { Button, Card, Image, Tooltip } from "@heroui/react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils.js";
 import { Time } from "./shared/sliders.jsx";
@@ -21,11 +21,11 @@ const transitionConfig = {
 };
 
 export default function AudioPlayer({ source }) {
-  const { t } = useTranslation();
   const location = useLocation();
   const [time, setTime] = useState(0);
   const [expand, setExpand] = useState(false);
   const { title, artist, artwork, playbackRate, paused } = useStore(audioState);
+  const { t } = useTranslation();
   useEffect(() => {
     const hash = location.hash;
     const timeMatch = hash.match(/#t=(?:(\d+):)?(\d+):(\d+)/);
@@ -82,7 +82,7 @@ export default function AudioPlayer({ source }) {
               layout
               transition={transitionConfig}
               className={cn(
-                "flex items-center shadow-custom w-full bg-content1/80 backdrop-blur-lg dark:bg-content2/80 gap-2",
+                "audio-player-controls flex items-center shadow-custom w-full bg-content1/80 backdrop-blur-lg dark:bg-content2/80 gap-2",
                 expand ? "flex-col p-6" : "p-2",
               )}
               style={{ borderRadius: "12px" }}
@@ -115,20 +115,6 @@ export default function AudioPlayer({ source }) {
                   transition={transitionConfig}
                   className="flex flex-col items-center gap-2 w-full"
                 >
-                  <Button
-                    color="danger"
-                    radius="full"
-                    size="sm"
-                    startContent={<Square className="size-3 fill-current" />}
-                    variant="flat"
-                    onPress={() => {
-                      setExpand(false);
-                      setTime(0);
-                      resetAudio();
-                    }}
-                  >
-                    {t("articleView.stopPlay")}
-                  </Button>
                   <div className="w-full text-center">
                     <div className="font-semibold text-sm line-clamp-1">
                       {title}
@@ -163,7 +149,35 @@ export default function AudioPlayer({ source }) {
                     </div>
                   </div>
                   <Buttons.Play variant="light" size="sm" />
-                  <Buttons.SeekForward variant="light" size="sm" />
+                  {paused ? (
+                    <Tooltip
+                      showArrow
+                      closeDelay={0}
+                      content={t("articleView.stopPlay")}
+                      classNames={{ content: "!shadow-custom" }}
+                    >
+                      <Button
+                        color="danger"
+                        isIconOnly
+                        radius="full"
+                        size="sm"
+                        variant="light"
+                        className="animate-in fade-in slide-in-from-left-2"
+                        onPress={() => {
+                          setTime(0);
+                          resetAudio();
+                        }}
+                      >
+                        {<Square className="size-3 fill-current" />}
+                      </Button>
+                    </Tooltip>
+                  ) : (
+                    <Buttons.SeekForward
+                      variant="light"
+                      size="sm"
+                      className="animate-in fade-in slide-in-from-left-2"
+                    />
+                  )}
                 </motion.div>
               )}
             </motion.div>
