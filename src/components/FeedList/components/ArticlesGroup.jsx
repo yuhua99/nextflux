@@ -56,7 +56,9 @@ const ArticlesGroup = () => {
               <span className="font-semibold">{text}</span>
             </Link>
           </SidebarMenuButton>
-          <SidebarMenuBadge>{count !== 0 && count}</SidebarMenuBadge>
+          <SidebarMenuBadge className="!text-default-400">
+            {count !== 0 && count}
+          </SidebarMenuBadge>
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>
