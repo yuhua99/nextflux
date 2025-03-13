@@ -8,7 +8,7 @@ import { Button, Card, Image, Tooltip } from "@heroui/react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils.js";
 import { Time } from "./shared/sliders.jsx";
-import { Square } from "lucide-react";
+import { X } from "lucide-react";
 import cover from "@/assets/cover.jpg";
 import SpeedSubmenu from "@/components/ArticleView/components/shared/speed.jsx";
 import { useTranslation } from "react-i18next";
@@ -157,18 +157,17 @@ export default function AudioPlayer({ source }) {
                       classNames={{ content: "!shadow-custom" }}
                     >
                       <Button
-                        color="danger"
                         isIconOnly
                         radius="full"
                         size="sm"
-                        variant="light"
+                        variant="flat"
                         className="animate-in fade-in slide-in-from-left-2"
                         onPress={() => {
                           setTime(0);
                           resetAudio();
                         }}
                       >
-                        {<Square className="size-3 fill-current" />}
+                        {<X className="size-4 text-default-500" />}
                       </Button>
                     </Tooltip>
                   ) : (
