@@ -25,7 +25,6 @@ import CodeBlock from "@/components/ArticleView/components/CodeBlock.jsx";
 import { useTranslation } from "react-i18next";
 import { ExternalLink } from "lucide-react";
 import { cn, getHostname } from "@/lib/utils.js";
-import { useIsMobile } from "@/hooks/use-mobile.jsx";
 import FeedIcon from "@/components/ui/FeedIcon.jsx";
 import { getArticleById } from "@/db/storage";
 import Attachments from "@/components/ArticleView/components/Attachments.jsx";
@@ -49,7 +48,6 @@ const ArticleView = () => {
   const { lightTheme } = useStore(themeState);
   const $currentThemeMode = useStore(currentThemeMode);
   const scrollAreaRef = useRef(null);
-  const { isMedium } = useIsMobile();
   // 判断当前是否实际使用了stone主题
   const isStoneTheme = () => {
     return lightTheme === "stone" && $currentThemeMode === "light";
@@ -156,11 +154,9 @@ const ArticleView = () => {
           }
           animate={{ opacity: 1, x: 0, scale: 1 }}
           exit={
-            isMedium
-              ? {}
-              : articleId
-                ? { opacity: 0, x: "100%", scale: 1 }
-                : { opacity: 0, x: 0, scale: 0.8 }
+            articleId
+              ? { opacity: 0, x: "100%", scale: 1 }
+              : { opacity: 0, x: 0, scale: 0.8 }
           }
           transition={{
             duration: 0.5,

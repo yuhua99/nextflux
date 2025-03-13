@@ -9,6 +9,7 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { Image, ScrollShadow } from "@heroui/react";
 import { formatLastSync } from "@/lib/format";
@@ -21,12 +22,30 @@ import logo from "@/assets/logo.png";
 import { getLastSyncTime } from "@/db/storage.js";
 import AddFeedButton from "@/components/FeedList/components/AddFeedButton.jsx";
 import { useTranslation } from "react-i18next";
+import { useSwipeGesture } from "@/hooks/useSwipeGesture";
+import { useParams, useNavigate } from "react-router-dom";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const FeedListSidebar = () => {
   const { t } = useTranslation();
   const $lastSync = useStore(lastSync);
   const $isSyncing = useStore(isSyncing);
   const { showHiddenFeeds } = useStore(settingsState);
+  const { setOpenMobile } = useSidebar();
+  const { articleId } = useParams();
+  const { isMobile } = useIsMobile();
+  const navigate = useNavigate();
+  const basePath = window.location.pathname.split("/article/")[0];
+  useSwipeGesture({
+    onSwipeRight: () => {
+      if (!articleId && isMobile) {
+        setOpenMobile(true);
+      }
+      if (articleId && isMobile) {
+        navigate(basePath || "/");
+      }
+    },
+  });
 
   useEffect(() => {
     lastSync.set(getLastSyncTime());

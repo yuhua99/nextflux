@@ -5,6 +5,7 @@ import { activeAudio } from "@/stores/audioStore.js";
 import { useStore } from "@nanostores/react";
 import { useNavigate } from "react-router-dom";
 import { plyrLayoutIcons } from "@vidstack/react/player/layouts/plyr";
+import { cn } from "@/lib/utils";
 
 export function Play({ variant, size }) {
   const isPaused = useMediaState("paused");
@@ -28,7 +29,7 @@ export function Play({ variant, size }) {
   );
 }
 
-export function SeekBackward({ variant, size }) {
+export function SeekBackward({ variant, size, className = "" }) {
   return (
     <SeekButton seconds={-15} asChild>
       <Button
@@ -36,7 +37,7 @@ export function SeekBackward({ variant, size }) {
         variant={variant}
         size={size}
         radius="full"
-        className="text-default-500"
+        className={cn("text-default-500", className)}
       >
         <UndoDot className="size-4" />
       </Button>
@@ -44,7 +45,7 @@ export function SeekBackward({ variant, size }) {
   );
 }
 
-export function SeekForward({ variant, size }) {
+export function SeekForward({ variant, size, className = "" }) {
   return (
     <SeekButton seconds={30} asChild>
       <Button
@@ -52,7 +53,7 @@ export function SeekForward({ variant, size }) {
         variant={variant}
         size={size}
         radius="full"
-        className="text-default-500"
+        className={cn("text-default-500", className)}
       >
         <RedoDot className="size-4" />
       </Button>

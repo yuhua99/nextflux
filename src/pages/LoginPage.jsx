@@ -32,6 +32,29 @@ export default function LoginPage() {
     }
   }, []);
 
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    const {
+      serverUrl: urlServerUrl,
+      token: urlToken,
+      username: urlUsername,
+      password: urlPassword,
+    } = Object.fromEntries(url.searchParams);
+
+    if (urlServerUrl) {
+      setServerUrl(urlServerUrl);
+
+      if (urlUsername && urlPassword) {
+        setAuthType("basic");
+        setUsername(urlUsername);
+        setPassword(urlPassword);
+      } else if (urlToken) {
+        setAuthType("token");
+        setToken(urlToken);
+      }
+    }
+  }, [navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
