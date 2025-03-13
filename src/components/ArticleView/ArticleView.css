@@ -38,7 +38,7 @@
 }
 
 .article-content pre code {
-  @apply whitespace-pre md:whitespace-pre-wrap;
+  @apply whitespace-pre-wrap;
 }
 
 

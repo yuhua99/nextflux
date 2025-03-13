@@ -25,7 +25,7 @@ import { useTranslation } from "react-i18next";
 import { useSwipeGesture } from "@/hooks/useSwipeGesture";
 import { useParams, useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
-
+import { isModalOpen } from "@/stores/modalStore";
 const FeedListSidebar = () => {
   const { t } = useTranslation();
   const $lastSync = useStore(lastSync);
@@ -38,7 +38,7 @@ const FeedListSidebar = () => {
   const basePath = window.location.pathname.split("/article/")[0];
   useSwipeGesture({
     onSwipeRight: () => {
-      if (!articleId && isMobile) {
+      if (!articleId && isMobile && !isModalOpen.get()) {
         setOpenMobile(true);
       }
       if (articleId && isMobile) {

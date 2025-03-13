@@ -1,7 +1,5 @@
 import { persistentAtom } from "@nanostores/persistent";
-import { atom } from "nanostores";
 
-export const settingsModalOpen = atom(false);
 const defaultValue = {
   lineHeight: 1.8,
   fontSize: 16,
