@@ -183,12 +183,11 @@ const ArticleView = () => {
                     y: 0,
                     opacity: 1,
                     transition: {
-                      type: "spring",
-                      bounce: 0.3,
                       opacity: { delay: 0.05 },
                     },
                   }}
                   exit={reduceMotion ? {} : { y: -50, opacity: 0 }}
+                  transition={{ bounce: 0, ease: "easeInOut" }}
                   className="article-view-content px-5 pt-5 pb-20 w-full mx-auto"
                   style={{
                     maxWidth: `${maxWidth}ch`,
