@@ -16,7 +16,7 @@ import {
   LogOut,
 } from "lucide-react";
 import { authState } from "@/stores/authStore.js";
-import { settingsModalOpen } from "@/stores/settingsStore.js";
+import { settingsModalOpen } from "@/stores/modalStore.js";
 import {
   aboutModalOpen,
   logoutModalOpen,

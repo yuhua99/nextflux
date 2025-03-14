@@ -8,7 +8,7 @@ import {
   Tabs,
 } from "@heroui/react";
 import { useState } from "react";
-import { settingsModalOpen } from "@/stores/settingsStore.js";
+import { settingsModalOpen } from "@/stores/modalStore.js";
 import { useStore } from "@nanostores/react";
 import General from "@/components/Settings/General.jsx";
 import Appearance from "@/components/Settings/Appearance.jsx";

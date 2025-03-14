@@ -38,7 +38,7 @@ export default function VideoPlayer({ videoTitle, src, provider }) {
   return (
     <div className="mb-4">
         <MediaPlayer
-          className="rounded-lg shadow-custom overflow-hidden bg-black"
+          className="video-player rounded-lg shadow-custom overflow-hidden bg-black"
           src={videoSrc}
           title={videoTitle}
           preload="none"

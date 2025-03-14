@@ -6,7 +6,7 @@ import {
 
 export function Time() {
   return (
-    <div className="w-full">
+    <div className="audio-player-slider w-full">
       <TimeSlider.Root className="group relative inline-flex w-full cursor-pointer touch-none select-none items-center outline-none aria-hidden:hidden">
         <TimeSlider.Track className="relative ring-primary z-0 h-2 w-full rounded-full bg-content3 group-data-[focus]:ring-[3px]">
           <TimeSlider.TrackFill className="bg-primary z-20 absolute h-full w-[var(--slider-fill)] rounded-full will-change-[width]" />
