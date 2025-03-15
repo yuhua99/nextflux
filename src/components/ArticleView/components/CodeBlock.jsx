@@ -7,14 +7,13 @@ import { useStore } from "@nanostores/react";
 import { cn } from "@/lib/utils.js";
 import { themeState } from "@/stores/themeStore.js";
 import { useTranslation } from "react-i18next";
-import { motion, useInView } from "framer-motion";
+import { useInView } from "framer-motion";
 
 export default function CodeBlock({ code, language }) {
   const { t } = useTranslation();
   const [html, setHtml] = useState("");
   const [isCopied, setIsCopied] = useState(false);
-  const { showLineNumbers, forceDarkCodeTheme, reduceMotion } =
-    useStore(settingsState);
+  const { showLineNumbers, forceDarkCodeTheme } = useStore(settingsState);
   const { darkTheme } = useStore(themeState);
   const codeRef = useRef(null);
   const isInView = useInView(codeRef, { once: true });
@@ -85,13 +84,8 @@ export default function CodeBlock({ code, language }) {
         </Button>
       </Tooltip>
       {isInView && (
-        <motion.div
-          initial={reduceMotion ? {} : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{
-            duration: 0.5,
-            ease: "easeInOut",
-          }}
+        <div
+          className="animate-in fade-in duration-300"
           dangerouslySetInnerHTML={{ __html: html }}
         />
       )}

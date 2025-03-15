@@ -11,6 +11,7 @@ export function useSwipeGesture({ onSwipeRight, threshold = 50 }) {
     const excludeSelectors = [
       ".audio-player-slider", // 音频播放器进度条
       ".video-player", // 视频播放器
+      ".code-block", // code
       "iframe", // 所有iframe元素
     ];
 
