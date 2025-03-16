@@ -4,8 +4,13 @@ import { useStore } from "@nanostores/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { feeds } from "@/stores/feedsStore";
 import AlertDialog from "@/components/ui/AlertDialog.jsx";
-import { useTranslation } from "react-i18next"; 
-import { deleteArticlesByFeedId, deleteFeed, deleteFeedIcon } from "@/db/storage";
+import { useTranslation } from "react-i18next";
+import {
+  deleteArticlesByFeedId,
+  deleteFeed,
+  deleteFeedIcon,
+} from "@/db/storage";
+import { starredCounts, unreadCounts } from "@/stores/feedsStore";
 
 export default function UnsubscribeModal() {
   const { t } = useTranslation();
@@ -29,10 +34,19 @@ export default function UnsubscribeModal() {
       await Promise.all([
         deleteArticlesByFeedId(feedIdInt),
         deleteFeed(feedIdInt),
-        deleteFeedIcon(feedIdInt)
+        deleteFeedIcon(feedIdInt),
       ]);
       // 更新本地状态
-      feeds.set($feeds.filter(feed => feed.id !== feedIdInt));
+      feeds.set($feeds.filter((feed) => feed.id !== feedIdInt));
+      unreadCounts.set({
+        ...unreadCounts.get(),
+        [feedIdInt]: 0,
+      });
+      starredCounts.set({
+        ...starredCounts.get(),
+        [feedIdInt]: 0,
+      });
+
       navigate("/"); // 取消订阅后返回首页
     } catch (error) {
       console.error("取消订阅失败:", error);
