@@ -164,20 +164,20 @@ const Sidebar = React.forwardRef(
       return (
         <>
           {/* 侧边栏遮罩层 - 点击时关闭侧边栏 */}
-          <div 
+          <div
             className={cn(
               "fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ease-in-out",
-              openMobile ? "opacity-100" : "opacity-0 pointer-events-none"
+              openMobile ? "opacity-100" : "opacity-0 pointer-events-none",
             )}
             onClick={() => setOpenMobile(false)}
             aria-hidden="true"
           />
-          
+
           {/* 侧边栏内容 */}
           <div
             className={cn(
-              "fixed inset-y-0 left-0 z-50 w-[--sidebar-width] bg-content2 text-content2-foreground transform transition-all duration-300 ease-in-out",
-              openMobile ? "translate-x-0" : "-translate-x-full"
+              "pl-safe fixed inset-y-0 left-0 z-50 w-[--sidebar-width] bg-content2 text-content2-foreground transform transition-all duration-300 ease-in-out",
+              openMobile ? "translate-x-0" : "-translate-x-full",
             )}
             style={{
               "--sidebar-width": SIDEBAR_WIDTH_MOBILE,
@@ -189,9 +189,7 @@ const Sidebar = React.forwardRef(
             tabIndex={openMobile ? 0 : -1}
             {...props}
           >
-            <div 
-              className="flex h-full w-full flex-col overflow-y-auto touch-pan-y"
-            >
+            <div className="flex h-full w-full flex-col overflow-y-auto touch-pan-y">
               {children}
             </div>
           </div>
