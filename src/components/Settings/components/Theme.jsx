@@ -46,7 +46,7 @@ export default function Theme() {
   return (
     <ItemWrapper title={t("settings.appearance.theme")}>
       <div
-        className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-2.5`}
+        className={`flex justify-between items-center gap-2 ${bgColor} p-2.5`}
       >
         <div className="flex items-center gap-2">
           <SettingIcon variant="blue">
@@ -87,7 +87,7 @@ export default function Theme() {
       </div>
       <Divider />
       <div
-        className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-2.5`}
+        className={`flex justify-between items-center gap-2 ${bgColor} p-2.5`}
       >
         <div className="flex items-center gap-2">
           <SettingIcon variant="amber">
@@ -144,7 +144,7 @@ export default function Theme() {
       </div>
       <Divider />
       <div
-        className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-2.5`}
+        className={`flex justify-between items-center gap-2 ${bgColor} p-2.5`}
       >
         <div className="flex items-center gap-2">
           <SettingIcon variant="purple">
