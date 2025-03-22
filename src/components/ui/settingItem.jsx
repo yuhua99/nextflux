@@ -20,7 +20,7 @@ const bgColor = "bg-content1/80 dark:bg-content2/30";
 export const ItemWrapper = ({ title, children }) => {
   return (
     <div className="settings-group">
-      <div className="text-xs text-default-500 font-medium ml-2 mb-1">
+      <div className="text-xs text-default-500 font-medium ml-2.5 mb-1">
         {title}
       </div>
       <div className="rounded-xl overflow-hidden border shadow-sm">
@@ -40,7 +40,7 @@ export const SliderItem = ({
   step,
 }) => {
   return (
-    <div className={`grid gap-2 ${bgColor} p-2`}>
+    <div className={`grid gap-2 ${bgColor} p-2.5`}>
       <div className="text-xs text-content2-foreground">{label}</div>
       <div className="flex items-center gap-2">
         {icon}
@@ -90,7 +90,7 @@ export const SwitchItem = ({
 }) => {
   return (
     <div
-      className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-3`}
+      className={`flex justify-between items-center gap-2 ${bgColor} px-2.5 py-3`}
     >
       <div className="flex items-center gap-2">
         {icon}
@@ -111,9 +111,7 @@ export const SwitchItem = ({
 
 export function SelItem({ label, icon, settingName, settingValue, options }) {
   return (
-    <div
-      className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-2.5`}
-    >
+    <div className={`flex justify-between items-center gap-2 ${bgColor} p-2.5`}>
       <div className="flex items-center gap-2">
         {icon}
         <div className="text-sm text-foreground line-clamp-1">{label}</div>
@@ -156,7 +154,7 @@ export function SelItem({ label, icon, settingName, settingValue, options }) {
 export function GroupItem({ label, icon, settingName, settingValue, options }) {
   return (
     <div
-      className={`flex justify-between items-center gap-2 ${bgColor} px-2 h-12`}
+      className={`flex justify-between items-center gap-2 ${bgColor} px-2.5 h-12`}
     >
       <div className="flex items-center gap-2">
         {icon}
@@ -196,7 +194,7 @@ export function GroupItem({ label, icon, settingName, settingValue, options }) {
 export function KeyboardItem({ desc, kbdKey, keyStr }) {
   return (
     <div
-      className={`flex justify-between items-center gap-2 ${bgColor} px-2 py-3`}
+      className={`flex justify-between items-center gap-2 ${bgColor} px-2.5 py-3`}
     >
       <div className="flex items-center gap-2">
         <div className="text-sm text-foreground">{desc}</div>
