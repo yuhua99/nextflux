@@ -10,7 +10,7 @@ export const searching = atom(false);
 // 执行本地文章搜索
 export async function search(keyword) {
   try {
-    return await searchArticles(keyword, settingsState.get().showHiddenFeeds);
+    return await searchArticles(keyword, settingsState.get().showHiddenFeeds, settingsState.get().sortField);
   } catch (error) {
     console.error("搜索失败:", error);
   }

@@ -142,6 +142,7 @@ async function getArticlesByPage(
   page = 1,
   pageSize = 30,
   sortDirection = "desc",
+  sortField = "published_at",
 ) {
   const offset = (page - 1) * pageSize;
 
@@ -170,7 +171,7 @@ async function getArticlesByPage(
   }
 
   // 在过滤后的结果上进行排序
-  collection = collection.sortBy("created_at");
+  collection = collection.sortBy(sortField);
 
   // 如果需要倒序，则反转结果
   return sortDirection === "desc"
@@ -195,7 +196,7 @@ async function getArticleById(id) {
   };
 }
 
-async function searchArticles(keyword, showHiddenFeeds = false) {
+async function searchArticles(keyword, showHiddenFeeds = false, sortField = "published_at") {
   try {
     // 获取可见的订阅源ID
     const feeds = await db.feeds.toArray();
@@ -211,7 +212,7 @@ async function searchArticles(keyword, showHiddenFeeds = false) {
           article.title &&
           article.title.toLowerCase().includes(keyword.toLowerCase()),
       )
-      .sortBy("created_at");
+      .sortBy(sortField);
 
     return articles.reverse();
   } catch (error) {

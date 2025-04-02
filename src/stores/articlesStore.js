@@ -38,7 +38,8 @@ export async function loadArticles(
 
   try {
     const feeds = await getFeeds();
-    const showHiddenFeeds = settingsState.get().showHiddenFeeds;
+    const settings = settingsState.get();
+    const showHiddenFeeds = settings.showHiddenFeeds;
     let targetFeeds;
 
     // 根据类型确定要加载的订阅源
@@ -72,7 +73,8 @@ export async function loadArticles(
       filter.get(),
       page,
       pageSize.get(),
-      settingsState.get().sortDirection,
+      settings.sortDirection,
+      settings.sortField,
     );
 
     // 计算分页状态
