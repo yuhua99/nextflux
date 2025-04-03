@@ -7,6 +7,7 @@ import {
   Eye,
   FolderOpen,
   RefreshCw,
+  CalendarDays
 } from "lucide-react";
 import { useStore } from "@nanostores/react";
 import {
@@ -22,6 +23,7 @@ import SettingIcon from "@/components/ui/SettingIcon";
 export default function General() {
   const {
     sortDirection,
+    sortField,
     showHiddenFeeds,
     markAsReadOnScroll,
     syncInterval,
@@ -87,6 +89,21 @@ export default function General() {
           options={[
             { value: "desc", label: t("settings.general.sortDesc") },
             { value: "asc", label: t("settings.general.sortAsc") },
+          ]}
+        />
+        <Divider />
+        <SelItem
+          label={t("settings.general.sortField")}
+          icon={
+            <SettingIcon variant="blue">
+              <CalendarDays />
+            </SettingIcon>
+          }
+          settingName="sortField"
+          settingValue={sortField}
+          options={[
+            { value: "published_at", label: t("settings.general.sortByPublishDate") },
+            { value: "created_at", label: t("settings.general.sortByCreateDate") },
           ]}
         />
         <Divider />

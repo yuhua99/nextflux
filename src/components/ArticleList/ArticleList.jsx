@@ -23,7 +23,7 @@ const ArticleList = () => {
   const $filteredArticles = useStore(filteredArticles);
   const $filter = useStore(filter);
   const $lastSync = useStore(lastSync);
-  const { showUnreadByDefault, sortDirection, showHiddenFeeds, showIndicator } =
+  const { showUnreadByDefault, sortDirection, sortField, showHiddenFeeds, showIndicator } =
     useStore(settingsState);
   const virtuosoRef = useRef(null);
 
@@ -69,7 +69,7 @@ const ArticleList = () => {
     return () => {
       ignore = true;
     };
-  }, [feedId, categoryId, $filter, sortDirection, showHiddenFeeds, $lastSync]);
+  }, [feedId, categoryId, $filter, sortDirection, sortField, showHiddenFeeds, $lastSync]);
 
   // 组件挂载时设置默认过滤器
   useEffect(() => {

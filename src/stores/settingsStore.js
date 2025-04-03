@@ -11,6 +11,7 @@ const defaultValue = {
   feedIconShape: "square", // circle, square
   useGrayIcon: false,
   sortDirection: "desc", // asc, desc
+  sortField: "published_at", // published_at, created_at
   showHiddenFeeds: false,
   markAsReadOnScroll: false,
   cardImageSize: "large", // none, small, large
