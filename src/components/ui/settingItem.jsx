@@ -54,7 +54,8 @@ export const SliderItem = ({
           step={step}
           classNames={{
             trackWrapper: "rounded-full shadow-custom-inner bg-default/40",
-            track: "h-6 my-0 border-s-primary/20 bg-transparent",
+            track:
+              "h-6 my-0 !border-s-primary/20 !border-e-transparent bg-transparent",
             filler:
               "bg-primary/20 after:absolute after:-right-3 after:h-6 after:w-3 after:bg-primary/20 after:rounded-r-full",
             step: "data-[in-range=true]:bg-primary data-[in-range=true]:shadow-md shadow-primary",
