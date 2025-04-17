@@ -81,7 +81,7 @@ function ArticleImage({ imgNode, type = "article" }) {
         radius="none"
         src={src}
         alt={alt}
-        loading="lazy"
+        loading="eager"
         onError={() => setError(true)}
         onClick={handleImageClick}
       />

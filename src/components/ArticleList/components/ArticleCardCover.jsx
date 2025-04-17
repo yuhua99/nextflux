@@ -50,7 +50,7 @@ function ArticleCardCover({ imageUrl }) {
         onLoad={() => setLoading(false)}
         onError={() => setError(true)}
         radius="none"
-        loading="lazy"
+        loading="eager"
         removeWrapper
         classNames={{
           img: cn(
