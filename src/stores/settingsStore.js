@@ -26,7 +26,6 @@ const defaultValue = {
   defaultExpandCategory: false, // 默认展开分类
   showUnreadByDefault: false,
   reduceMotion: false,
-  useNativeVideoPlayer: false,
   interfaceFontSize: "16",
   showIndicator: true,
 };
@@ -63,7 +62,6 @@ export const resetSettings = () => {
     "autoHideToolbar",
     "showLineNumbers",
     "forceDarkCodeTheme",
-    "useNativeVideoPlayer",
   ];
   const currentSettings = settingsState.get();
   const newSettings = { ...currentSettings };

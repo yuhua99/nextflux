@@ -1,6 +1,5 @@
 import { Chip } from "@heroui/react";
 import ArticleImage from "./ArticleImage";
-import VideoPlayer from "./VideoPlayer";
 import { useTranslation } from "react-i18next";
 
 export default function Attachments({ article }) {
@@ -48,14 +47,6 @@ export default function Attachments({ article }) {
               alt: enclosure.title,
             },
           }}
-        />
-      ))}
-      {videoEnclosures.map((enclosure) => (
-        <VideoPlayer
-          key={enclosure.url}
-          videoTitle={article?.title}
-          src={enclosure.url}
-          provider="video"
         />
       ))}
     </div>

@@ -18,7 +18,6 @@ import ArticleImage from "@/components/ArticleView/components/ArticleImage.jsx";
 import parse from "html-react-parser";
 import { settingsState } from "@/stores/settingsStore";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
-import VideoPlayer from "@/components/ArticleView/components/VideoPlayer.jsx";
 import PlayAndPause from "@/components/ArticleView/components/PlayAndPause.jsx";
 import { currentThemeMode, themeState } from "@/stores/themeStore.js";
 import CodeBlock from "@/components/ArticleView/components/CodeBlock.jsx";
@@ -43,7 +42,6 @@ const ArticleView = () => {
     titleFontSize,
     titleAlignType,
     reduceMotion,
-    useNativeVideoPlayer,
   } = useStore(settingsState);
   const { lightTheme } = useStore(themeState);
   const $currentThemeMode = useStore(currentThemeMode);
@@ -274,49 +272,19 @@ const ArticleView = () => {
                           }
                           if (
                             domNode.type === "tag" &&
-                            domNode.name === "video"
-                          ) {
-                            // 获取视频的 src 属性
-                            const videoSrc =
-                              domNode.attribs?.src ||
-                              domNode.children?.find(
-                                (child) =>
-                                  child.type === "tag" &&
-                                  child.name === "source",
-                              )?.attribs?.src;
-
-                            if (videoSrc && !useNativeVideoPlayer) {
-                              return (
-                                <VideoPlayer src={videoSrc} provider="video" />
-                              );
-                            }
-                            return domNode;
-                          }
-                          if (
-                            domNode.type === "tag" &&
                             domNode.name === "iframe"
                           ) {
                             const { src } = domNode.attribs;
-
-                            // 判断是否为 YouTube iframe
-                            const isYouTube =
-                              src &&
-                              (src.includes("youtube.com/embed") ||
-                                src.includes("youtu.be") ||
-                                src.includes("youtube-nocookie.com/embed"));
 
                             // 判断是否为 Bilibili iframe
                             const isBilibili = src && src.includes("bilibili");
 
                             // 如果不是 YouTube iframe,直接返回原始节点
-                            if (
-                              (!isYouTube && !isBilibili) ||
-                              useNativeVideoPlayer
-                            ) {
+                            if (!isBilibili) {
                               return domNode;
                             }
 
-                            // 如果是 Bilibili iframe, 组装新的iframe，不使用VideoPlayer组件
+                            // 如果是 Bilibili iframe, 组装新的iframe
                             if (isBilibili) {
                               // 获取bilibili视频 bvid
                               const bvid = src.match(/bvid=([^&]+)/)?.[1];
@@ -330,9 +298,6 @@ const ArticleView = () => {
                               }
                               return domNode;
                             }
-
-                            // YouTube iframe 显示打开链接的按钮
-                            return <VideoPlayer src={src} provider="youtube" />;
                           }
                           if (
                             domNode.type === "tag" &&

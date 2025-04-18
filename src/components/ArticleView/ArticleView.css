@@ -67,7 +67,7 @@
 }
 
 iframe {
-  @apply aspect-video !border-none rounded-lg h-auto w-full shadow-custom
+  @apply aspect-video !border-none h-auto !w-[calc(100%+2.5rem)] !max-w-[calc(100%+2.5rem)] -mx-5
 }
 
 blockquote {
@@ -76,39 +76,6 @@ blockquote {
 
 figcaption {
   @apply !italic
-}
-
-/*Plyr 自定义样式*/
-.plyr {
-  --plyr-audio-border: none;
-  --plyr-audio-control-color: hsl(var(--heroui-content4-foreground));
-  --plyr-audio-controls-background: hsl(var(--heroui-content1));
-  --plyr-color-main: rgba(255, 255, 255, 0.9);
-  --plyr-tooltip-arrow-size: 0;
-  --plyr-tooltip-background: hsl(var(--heroui-content1));
-  --plyr-tooltip-color: hsl(var(--heroui-content1-foreground));
-  --plyr-tooltip-shadow: var(--shadow-custom);
-}
-
-.plyr__controls {
-  @apply !py-1.5 !px-2.5 !m-4 !rounded-2xl !backdrop-blur-xl !bg-gray-600/50 !bg-none
-}
-
-.plyr__control--overlaid {
-  @apply !bg-white !shadow-custom !text-black/70
-}
-
-.plyr__controls__item {
-  @apply !bg-transparent
-}
-
-.plyr__slider__thumb {
-  @apply !shadow-custom !border
-}
-
-/*YouTube 播放器视觉修复*/
-iframe.vds-youtube[data-no-controls] {
-  @apply absolute !h-auto
 }
 
 /*代码主题跟随系统当前使用主题*/
