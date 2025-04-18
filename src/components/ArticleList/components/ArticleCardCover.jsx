@@ -3,7 +3,6 @@ import { Image } from "@heroui/react";
 import { cn } from "@/lib/utils.js";
 import { settingsState } from "@/stores/settingsStore";
 import { useStore } from "@nanostores/react";
-import { useInView } from "framer-motion";
 import { ImageOff } from "lucide-react";
 import { memo } from "react";
 
@@ -12,7 +11,6 @@ function ArticleCardCover({ imageUrl }) {
   const [loading, setLoading] = useState(true);
   const imgRef = useRef(null);
   const { cardImageSize } = useStore(settingsState);
-  const isInView = useInView(imgRef);
 
   if (!imageUrl) {
     return null;
@@ -46,25 +44,23 @@ function ArticleCardCover({ imageUrl }) {
           : "w-20 h-20 shrink-0",
       )}
     >
-      {isInView && (
-        <Image
-          alt=""
-          src={imageUrl}
-          onLoad={() => setLoading(false)}
-          onError={() => setError(true)}
-          radius="none"
-          loading="lazy"
-          removeWrapper
-          classNames={{
-            img: cn(
-              "object-cover",
-              cardImageSize === "large"
-                ? "aspect-video w-full"
-                : "aspect-square w-20",
-            ),
-          }}
-        />
-      )}
+      <Image
+        alt=""
+        src={imageUrl}
+        onLoad={() => setLoading(false)}
+        onError={() => setError(true)}
+        radius="none"
+        loading="eager"
+        removeWrapper
+        classNames={{
+          img: cn(
+            "object-cover",
+            cardImageSize === "large"
+              ? "aspect-video w-full"
+              : "aspect-square w-20",
+          ),
+        }}
+      />
     </div>
   );
 }

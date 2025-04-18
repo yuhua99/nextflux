@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Button,
   Divider,
   Dropdown,
@@ -14,6 +13,7 @@ import {
   Info,
   Keyboard,
   LogOut,
+  CircleUser,
 } from "lucide-react";
 import { authState } from "@/stores/authStore.js";
 import { settingsModalOpen } from "@/stores/modalStore.js";
@@ -39,15 +39,16 @@ export default function ProfileButton() {
             radius="sm"
             variant="light"
             className="h-auto p-2 w-full"
+            startContent={<CircleUser className="size-4 text-default-500" />}
             endContent={<ChevronsUpDown className="size-4 text-default-500" />}
           >
             <div className="flex items-center w-full gap-2">
-              <Avatar name={username} radius="sm" size="sm" />
+              {/*<Avatar name={username} radius="sm" size="sm" />*/}
               <div className="flex flex-col items-start">
                 <div className="font-semibold">{username}</div>
-                <div className="text-xs text-default-400 line-clamp-1">
-                  {serverUrl}
-                </div>
+                {/*<div className="text-xs text-default-400 line-clamp-1">*/}
+                {/*  {serverUrl}*/}
+                {/*</div>*/}
               </div>
             </div>
           </Button>
