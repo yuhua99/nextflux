@@ -6,7 +6,6 @@ import {
   AlignStartVertical,
   CaseSensitive,
   ListOrdered,
-  MonitorPlay,
   PanelTopDashed,
   SquareCode,
   Type,
@@ -38,7 +37,6 @@ export default function Readability() {
     autoHideToolbar,
     showLineNumbers,
     forceDarkCodeTheme,
-    useNativeVideoPlayer,
   } = useStore(settingsState);
   const { t } = useTranslation();
   const fontOptions = [
@@ -180,18 +178,6 @@ export default function Readability() {
           max={80}
           min={50}
           step={5}
-        />
-      </ItemWrapper>
-      <ItemWrapper title={t("settings.appearance.videoPlayer")}>
-        <SwitchItem
-          label={t("settings.appearance.useNativeVideoPlayer")}
-          icon={
-            <SettingIcon variant="red">
-              <MonitorPlay />
-            </SettingIcon>
-          }
-          settingName="useNativeVideoPlayer"
-          settingValue={useNativeVideoPlayer}
         />
       </ItemWrapper>
       <ItemWrapper title={t("settings.appearance.codeBlock")}>
